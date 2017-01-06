@@ -373,7 +373,7 @@ getDiffMeth <- function(stateInfo,rateDiff, minRate, propInherite, c=0.2, b=-2e-
 # Identify the pos where the case are Diff meth and which one are heritable
 # stateInfo contient en start les position des CpG (peut-etre le data.frame de getStateData)
 
-simPed <- function(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id, generation, res,
+simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id, generation, res,
                    rateDiff ,minRate, propInherite, diffValue, propDiff,
                    propDiffsd, propInheritance, propHetero, diffRes = NULL){
     
@@ -431,3 +431,133 @@ simPed <- function(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id, gener
     saveRDS(myDiff,file = paste0(pathOut, "/methDiff_", pref , "_", k,".rds"))
     
 }
+
+#' @title TODO
+#'
+#' @description TODO
+#'
+#' @param pathOut
+#'
+#' @param pref
+#'
+#' @param k
+#'
+#' @param nbCtrl
+#'
+#' @param nbCase
+#'
+#' @param treatment
+#'
+#' @param sample.id
+#'
+#' @param generation
+#'
+#' @param res
+#'
+#' @param rateDiff
+#'
+#' @param minRate
+#'
+#' @param propInherite
+#'
+#' @param diffValue
+#'
+#' @param propDiff
+#'
+#' @param propDiffsd
+#'
+#' @param propInheritance
+#'
+#' @param propHetero
+#'
+#' @param diffRes (default \code{NULL})
+#'
+#' @return TODO
+#'
+#' @examples
+#'
+#' ## TODO
+#' 
+#' @author Pascal Belleau
+#' @importFrom methylKit read filterByCoverage normalizeCoverage unite calculateDiffMeth get.methylDiff getData tileMethylCounts methRead
+#' @keywords internal
+# Identify the pos where the case are Diff meth and which one are heritable
+# stateInfo contient en start les position des CpG (peut-etre le data.frame de getStateData)
+
+restartSim <- function(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id, generation, res,
+                   rateDiff ,minRate, propInherite, diffValue, propDiff,
+                   propDiffsd, propInheritance, propHetero, diffRes = NULL){
+    
+    # Hard coded for the moment
+    context="CpG"
+    assembly="Rnor_5.0"
+    meanCov <- 80
+    if( file.exists(paste0(pathOut, "/stateDiff_", pref , "_", k,".rds"))){
+        if( is.null(diffRes)){
+            diffRes <- readRDS(paste0(pathOut, "/stateDiff_", pref , "_", k,".rds"))
+        }
+    } else{
+        if( is.null(diffRes)){
+            diffRes <- getDiffMeth(stateInfo=res,
+                                   rateDiff=rateDiff, minRate=minRate,
+                                   propInherite=propInherite)
+        }
+        saveRDS(diffRes,file = paste0(pathOut, "/stateDiff_", pref , "_", k,".rds"))
+    }
+    simV0.1 <- list()
+    if( file.exists(paste0(pathOut, "/simV0.1_", pref , "_", k,".rds"))){
+        simV0.1 <- readRDS(paste0(pathOut, "/simV0.1_", pref , "_", k,".rds"))
+    } else{
+        simV0.1 <- getSim(nbCtrl=nbCtrl, nbCase=nbCase, generation=generation,
+                          stateInfo=res, stateDiff=diffRes , diffValue=diffValue,
+                          propDiff=propDiff, propDiffsd=propDiffsd,
+                          propInheritance=propInheritance, propHetero = propHetero)
+        
+        
+        saveRDS(simV0.1,file = paste0(pathOut, "/simV0.1_", pref , "_", k,".rds"))
+    }
+    
+    
+    
+    if(!(file.exists( paste0(pathOut, "/methylObj_", pref , "_", k,".rds")))
+       | !(file.exists( paste0(pathOut, "/meth_", pref , "_", k,".rds"))) 
+       | !(file.exists( paste0(pathOut, "/methDiff_", pref , "_", k,".rds"))) ){
+        
+        myobj <- list()
+        myMat <- list()
+        myTr <- list()
+        meth <- list()
+        myDiff <- list()
+        
+        for(i in 1:generation){
+            outList=list()
+            for(j in 1:(nbCtrl+nbCase)){
+                coverage <- rpois(length(res[,3]), meanCov)+1
+                testM <- data.frame(chr=res[,1],start=res[,2],end=res[,3]
+                                    ,strand=rep("+",length(res[,3]))
+                                    ,coverage=coverage,numCs=round(coverage * simV0.1[[i]][,3+j]),numTs=round(coverage * (1-simV0.1[[i]][,3+j])))
+                obj<-new("methylRaw",testM,sample.id=sample.id[[i]][[j]],assembly=assembly,
+                         context=context,resolution='base')
+                
+                outList[[j]]<-obj
+            }
+            myMat[[i]] <- outList
+            myTr[[i]] <- treatment
+            myobj[[i]] <- new("methylRawList",outList,treatment=treatment)
+            
+            #meth=unite(myobj, destrand=FALSE)
+            filtered.myobj <- filterByCoverage(myobj[[i]],lo.count=10,lo.perc=NULL,
+                                               hi.count=NULL,hi.perc=99.9)
+            filtered.myobj <- normalizeCoverage(filtered.myobj, "median")
+            meth[[i]] <- unite(filtered.myobj, destrand=FALSE)
+            myDiff[[i]] <- calculateDiffMeth(meth[[i]])
+        }
+        
+        saveRDS(myobj,file = paste0(pathOut, "/methylObj_", pref , "_", k,".rds"))
+        saveRDS(meth,file = paste0(pathOut, "/meth_", pref , "_", k,".rds"))
+        saveRDS(myDiff,file = paste0(pathOut, "/methDiff_", pref , "_", k,".rds"))
+    }
+}
+
+
+
