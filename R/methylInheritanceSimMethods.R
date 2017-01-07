@@ -183,12 +183,11 @@ reRunSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
         res <- NULL
         diffRes <- NULL
         # get the synthetic chr
-        
+        adPref <- paste0(fileGen, "_", s)
         if( file.exists(paste0(pathOut, "/stateInfo_", adPref, ".rds"))){
             res <- readRDS(paste0(pathOut, "/stateInfo_", adPref, ".rds"))
         } else{
             res <- getStateData(methInfo=methData, m=nbBlock, block=lBlock)
-            adPref <- paste0(fileGen, "_", s)
             saveRDS(res, file=paste0(pathOut, "/stateInfo_", adPref, ".rds"))
         }
         
