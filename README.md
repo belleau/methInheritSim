@@ -16,7 +16,7 @@ website.
 
 ## License ##
 
-This package and the underlying methylInheritance code are distributed under the 
+This package and the underlying methylInheritanceSim code are distributed under the 
 Artistic license 2.0. You are free to use and redistribute this software. 
 
 For more information on Artistic 2.0 License see
