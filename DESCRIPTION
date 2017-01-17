@@ -1,9 +1,17 @@
 Package: methylInheritanceSim
 Type: Package
-Title: What the package does (short line)
+Title: Simulating Whole-Genome Inherited Bisulphite Sequencing Data
+Description: More about what it does (maybe more than one line - TODO).
 Version: 0.99.0
 Date: 2016-09-09
-Author: Pascal Belleau
+Author: Pascal Belleau, Astrid Deschênes and Arnaud Droit
+Author@R: c(person("Pascal", "Belleau",
+    email="pascal.belleau@crchuq.ulaval.ca", role=c("cre", "aut")),
+    person("Astrid", "Deschênes",
+    email="Astrid-Louise.Deschenes@crchudequebec.ulaval.ca",
+    role=c("aut")),
+    person("Arnaud", "Droit",
+    email="arnaud.droit@crchuq.ulaval.ca", role=c("aut")))
 Depends:
     R (>= 3.3)
 Imports:
@@ -23,7 +31,6 @@ License: Artistic-2.0
 VignetteBuilder: knitr
 biocViews: BiologicalQuestion, Epigenetics,
     Software, StatisticalMethod, Simulation
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
+Maintainer: Pascal Belleau <pascal.belleau@crchuq.ulaval.ca>
 License: Artistic-2.0
 RoxygenNote: 5.0.1
