@@ -2,7 +2,7 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{getDiffCase}
 \alias{getDiffCase}
-\title{TODO}
+\title{get a proportion c/t for a case at a differentially}
 \usage{
 getDiffCase(x, nb, sDiff, diffCase, propDiffsd)
 }
@@ -25,7 +25,7 @@ getDiffCase(x, nb, sDiff, diffCase, propDiffsd)
 TODO
 }
 \description{
-TODO
+
 }
 \examples{
 

@@ -1,18 +1,21 @@
-#' @title TODO
+#' @title Estime the alpha parameter of a Beta distribution
 #'
-#' @description Estime the paramater alpha from the mean and the variance
+#' @description Estime the alpha parameter from the mean and the variance
 #' of a beta distribution
 #'
 #' @param valCtrl array with first value mean
-#' and second
+#' and second the variance of the CTRL at a specific CpG.
 #'
-#' @param minVal float (default 1e-06)
+#' @param minVal, float (default 1e-06), the minimum value of the mu 
+#' (valCtrl[1]) and if valCtrl[2] is smaller than mu/1000 or minVal
+#' and mu must < 1 by minus min(0.001, sigma2 * 10^(-log10(minVal)/2)
 #'
 #' @return The alpha parameter of a Beta distribution
 #'
 #' @examples
 #'
-#' ## TODO
+#' ## Estimate alpha parameters with mean = 0.5, variance = 0.1
+#' methylInheritanceSim:::estBetaAlpha(c(0.5,0.1))
 #'
 #'
 #' @author Pascal Belleau
@@ -21,62 +24,76 @@ estBetaAlpha <- function(valCtrl, minVal=1e-06){
     mu <- max(valCtrl[1], minVal)
     
     sigma2 <- max(valCtrl[2], ifelse(mu < 0.01, min(minVal, mu/1000), minVal))
+    # mu must be smaller than 1. 
     mu <- min(mu, 1-min(0.001, sigma2 * 10^(-log10(minVal)/2)))
     
-    max(0, -mu * (sigma2 + mu^2 - mu) / sigma2)
+    return(max(0, -mu * (sigma2 + mu^2 - mu) / sigma2))
 }
 
 
-#' @title TODO
+#' @title Estime the beta paramater of a beta distribution
 #'
-#' @description Estime the paramater beta from the mean and the variance
+#' @description Estime the beta paramater from the mean and the variance
 #' of a beta distribution
 #'
 #' @param valCtrl array with first value mean
 #' and second
 #'
-#' @param minVal float (default 1e-06)
+#' @param minVal, float (default 1e-06), the minimum value of the mu 
+#' (valCtrl[1]) and if valCtrl[2] is smaller than mu/1000 or minVal
+#' and mu must < 1 by minus min(0.001, sigma2 * 10^(-log10(minVal)/2)
 #'
 #' @return The beta parameter of a Beta distribution
 #'
 #' @examples
 #'
-#' ## TODO
-#'
+#' ## Estimate beta parameters with mean = 0.5, variance = 0.1
+#' methylInheritanceSim:::estBetaBeta(c(0.5,0.1))
 #'
 #' @author Pascal Belleau
 #' @keywords internal
 estBetaBeta <- function(valCtrl, minVal=1e-06){
+    
     mu <- max(valCtrl[1], minVal)
+    # variance is at least minVal or mu / 1000
     
     sigma2 <- max(valCtrl[2], ifelse(mu < 0.01,min(minVal, mu/1000), minVal))
-    #mu <- min(mu, 1-min(0.05, 100*sigma2))
+    # mu must be smaller than 1. 
     mu <- min(mu, 1-min(0.001, sigma2 * 10^(-log10(minVal)/2)))
-    max(0, (sigma2 + mu^2 - mu) * (mu -1) / sigma2)
+    
+    return(max(0, (sigma2 + mu^2 - mu) * (mu -1) / sigma2))
 }
 
 
-#' @title TODO
+#' @title Create a synthetic chromosome with the CTRL genome
 #'
-#' @description TODO
+#' @description Create a synthetic chromosome with the sampling of m blocks 
+#' with nbCpG consecutive CpG 
 #'
-#' @param methInfo is methylKitList from CTRL data.
+#' @param methInfo is methylKitList of the CTRL data.
 #'
-#' @param m blocks
+#' @param m \code{integer} the number of blocks 
 #'
-#' @param block a \code{integer} consecutive position from methInfo
+#' @param nbCpG a \code{integer} consecutive CpG position from methInfo
 #'
 #' @return TODO
 #'
 #' @examples
 #'
+#' ## Load methyl information
+#' data(samplesForChrSynthetic)
+#' set.seed(32)
+#' methylInheritanceSim:::getSyntheticChr(methInfo=samplesForChrSynthetic, m = 10, nbCpG = 20)
+#' 
+#' 
 #' ## TODO
 #'
 #'
 #' @author Pascal Belleau
+#' @importFrom stats runif var
 #' @keywords internal
 
-getStateData <- function(methInfo, m, block){
+getSyntheticChr <- function(methInfo, m, nbCpG){
     
     seqChr <- unique(methInfo$chr) # list of Chr
     # Sample m chromosome could be the same
@@ -86,39 +103,46 @@ getStateData <- function(methInfo, m, block){
     posCTRL <- which(methInfo@treatment==0)
     
     # Init the data.frame
-    res <- data.frame(chr=rep("S",m*block), start=rep(0,m*block), end=rep(0,m*block),
-                      meanCTRL=rep(0,m*block), varCTRL=rep(0,m*block),
-                      alphaCTRL=rep(0,m*block), betaCTRL=rep(0,m*block),
-                      chrOri=rep(0, m*block), startOri=rep(0,m*block))
+    res <- data.frame(chr=rep("S", m*nbCpG), start=rep(0,m*nbCpG), end=rep(0,m*nbCpG),
+                      meanCTRL=rep(0,m*nbCpG), varCTRL=rep(0,m*nbCpG),
+                      alphaCTRL=rep(0,m*nbCpG), betaCTRL=rep(0,m*nbCpG),
+                      chrOri=rep(0, m*nbCpG), startOri=rep(0,m*nbCpG))
     
     # First position
     l <- 1000
     
     for(i in 1:m){ # For each block of CpG
         
-        # Select a position of block
+        # Select a position in the block
         v <- round(runif(1,0,1) *
-                       (length(methInfo$start[methInfo$chr==chr[i]]) - block))
+                       (length(methInfo$start[methInfo$chr==chr[i]]) - nbCpG))
         
-        methBlock <- getData(methInfo[methInfo$chr==chr[i]][(v+1):(v+block)])
+        methBlock <- getData(methInfo[methInfo$chr==chr[i]][(v+1):(v+nbCpG)])
         matProp <- sapply(posCTRL, function(x,methCur){unname(unlist(methCur[3*(x-1)+2]/methCur[3*(x-1)+1]))}, methCur=methBlock[5:length(methBlock)])
-        res$chrOri[((i-1)*block + 1):(i*block)] <- rep(chr[i], block)
-        res$startOri[((i-1)*block + 1):(i*block)] <- unname(unlist(methBlock[2]))
-        res$start[((i-1)*block + 1):(i*block)] <- unname(unlist(methBlock[2])) - unname(unlist(methBlock[2]))[1] + l
-        res$end[((i-1)*block + 1):(i*block)] <- res$start[((i-1)*block + 1):(i*block)]
-        res$meanCTRL[((i-1)*block + 1):(i*block)] <- rowMeans(matProp)
-        res$varCTRL[((i-1)*block + 1):(i*block)] <- apply(matProp, 1, var)
-        l <- res$start[i*block] + 10000
+        res$chrOri[((i-1)*nbCpG + 1):(i*nbCpG)] <- rep(chr[i], nbCpG)
+        res$startOri[((i-1)*nbCpG + 1):(i*nbCpG)] <- unname(unlist(methBlock[2]))
+        res$start[((i-1)*nbCpG + 1):(i*nbCpG)] <- unname(unlist(methBlock[2])) - unname(unlist(methBlock[2]))[1] + l
+        res$end[((i-1)*nbCpG + 1):(i*nbCpG)] <- res$start[((i-1)*nbCpG + 1):(i*nbCpG)]
+        res$meanCTRL[((i-1)*nbCpG + 1):(i*nbCpG)] <- rowMeans(matProp)
+        res$varCTRL[((i-1)*nbCpG + 1):(i*nbCpG)] <- apply(matProp, 1, var)
+        l <- res$start[i*nbCpG] + 10000
     }
     res$alphaCTRL <- apply(res[,c(4,5)], 1, estBetaAlpha)
     res$betaCTRL <- apply(res[,c(4,5)], 1, estBetaBeta)
-    res
+    # res <- GRanges(seqnames = res$chr, ranges = 
+    #                     IRanges(start = res$start, end = res$end), 
+    #                 strand = rep("+", m*nbCpG), chrOri = res$chrOri, 
+    #                 startOri = res$startOri, meanCTRL = res$meanCTRL, 
+    #                varCTRL = res$varCTRL) 
+    return(res)
 }
 
 
-#' @title TODO
+#' @title get a proportion c/t for a case at a differentially 
+#' 
 #'
-#' @description TODO
+#' @description 
+#' 
 #'
 #' @param x
 #'
@@ -144,7 +168,7 @@ getStateData <- function(methInfo, m, block){
 #'
 #' @author Pascal Belleau
 #' @keywords internal
-# Identify the pos where the case are Diff meth and which one are heritable
+# 
 # stateInfo contient en start les position des CpG (peut-etre le data.frame de getStateData)
 
 
@@ -270,6 +294,7 @@ getSim <- function(nbCtrl,nbCase, generation, stateInfo, stateDiff, diffValue, p
 #' ## TODO
 #' 
 #' @author Pascal Belleau
+#' @importFrom stats rbeta rexp runif rpois
 #' @keywords internal
 
 getDiffMeth <- function(stateInfo,rateDiff, minRate, propInherite, c=0.2, b=-2e-01, endLength=1000){
@@ -369,6 +394,7 @@ getDiffMeth <- function(stateInfo,rateDiff, minRate, propInherite, c=0.2, b=-2e-
 #' 
 #' @author Pascal Belleau
 #' @importFrom methylKit read filterByCoverage normalizeCoverage unite calculateDiffMeth get.methylDiff getData tileMethylCounts methRead
+#' @importFrom stats rpois
 #' @keywords internal
 # Identify the pos where the case are Diff meth and which one are heritable
 # stateInfo contient en start les position des CpG (peut-etre le data.frame de getStateData)
@@ -480,6 +506,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.i
 #' 
 #' @author Pascal Belleau
 #' @importFrom methylKit read filterByCoverage normalizeCoverage unite calculateDiffMeth get.methylDiff getData tileMethylCounts methRead
+#' @importFrom stats rpois
 #' @keywords internal
 # Identify the pos where the case are Diff meth and which one are heritable
 # stateInfo contient en start les position des CpG (peut-etre le data.frame de getStateData)

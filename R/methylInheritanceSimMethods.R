@@ -35,6 +35,12 @@
 #' @param propHetero
 #' 
 #' @param nbCores
+#' 
+#' @param keepDiff
+#' 
+#' @param vSeed a \code{integer}, a seed used when reproducible results are
+#' needed. When a value inferior or equal to zero is given, a random integer
+#' is used. Default: \code{-1}.
 #'
 #' @return TODO
 #'
@@ -52,11 +58,18 @@
 runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
                    nbC, nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance,
                    propInherite ,rateDiff, minRate, propHetero, n, 
-                   nbCores, keepDiff = FALSE){
+                   nbCores, keepDiff = FALSE, vSeed = -1){
+    
+    if (vSeed <= -1) {
+        tSeed <- as.numeric(Sys.time())
+        vSeed <- 1e8 * (tSeed - floor(tSeed))
+    }
+    set.seed(vSeed)
+    
     for(s in 1:nbSynCHR){
         
         # get the synthetic chr
-        res <- getStateData(methInfo=methData, m=nbBlock, block=lBlock)
+        res <- getSyntheticChr(methInfo=methData, m=nbBlock, nbCpG=lBlock)
         adPref <- paste0(fileGen, "_", s)
         saveRDS(res, file=paste0(pathOut, "/stateInfo_", adPref, ".rds"))
         
@@ -100,7 +113,7 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
                         propInheritance <- ifelse(vInheritance[i]>=0, vInheritance[i], vpDiff[j])
                         prefBase <- paste0(adPrefSample , "_", propDiff, "_", diffValue, "_", propInheritance)
                             
-                        a <- mclapply(1:n, FUN = simPed, pathOut=pathOut, 
+                        a <- mclapply(1:n, FUN = simInheritance, pathOut=pathOut, 
                                       pref=prefBase, nbCtrl=nbCtrl,
                                       nbCase=nbCase, treatment=treatment, 
                                       sample.id=sample.id, 
@@ -160,6 +173,10 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
 #' 
 #' @param nbCores
 #'
+#' @param vSeed a \code{integer}, a seed used when reproducible results are
+#' needed. When a value inferior or equal to zero is given, a random integer
+#' is used. Default: \code{-1}.
+#' 
 #' @return TODO
 #'
 #' @examples
@@ -174,9 +191,13 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
 reRunSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
                    nbC, nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance,
                    propInherite ,rateDiff, minRate, propHetero, n, 
-                   nbCores, keepDiff = FALSE){
+                   nbCores, keepDiff = FALSE, vSeed = -1){
     
-    
+    if (vSeed <= -1) {
+        tSeed <- as.numeric(Sys.time())
+        vSeed <- 1e8 * (tSeed - floor(tSeed))
+    }
+    set.seed(vSeed)
     
     for(s in 1:nbSynCHR){
         
@@ -187,7 +208,7 @@ reRunSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
         if( file.exists(paste0(pathOut, "/stateInfo_", adPref, ".rds"))){
             res <- readRDS(paste0(pathOut, "/stateInfo_", adPref, ".rds"))
         } else{
-            res <- getStateData(methInfo=methData, m=nbBlock, block=lBlock)
+            res <- getSyntheticChr(methInfo=methData, m=nbBlock, nbCpG=lBlock)
             saveRDS(res, file=paste0(pathOut, "/stateInfo_", adPref, ".rds"))
         }
         

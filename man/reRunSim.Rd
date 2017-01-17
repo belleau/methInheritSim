@@ -6,7 +6,7 @@
 \usage{
 reRunSim(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock, nbC,
   nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance, propInherite, rateDiff,
-  minRate, propHetero, n, nbCores, keepDiff = FALSE)
+  minRate, propHetero, n, nbCores, keepDiff = FALSE, vSeed = -1)
 }
 \arguments{
 \item{pathOut}{}
@@ -42,6 +42,10 @@ reRunSim(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock, nbC,
 \item{propHetero}{}
 
 \item{nbCores}{}
+
+\item{vSeed}{a \code{integer}, a seed used when reproducible results are
+needed. When a value inferior or equal to zero is given, a random integer
+is used. Default: \code{-1}.}
 }
 \value{
 TODO

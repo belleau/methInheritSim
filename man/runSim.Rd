@@ -6,7 +6,7 @@
 \usage{
 runSim(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock, nbC, nbGeneration,
   vpDiff, vpDiffsd, vDiff, vInheritance, propInherite, rateDiff, minRate,
-  propHetero, n, nbCores, keepDiff = FALSE)
+  propHetero, n, nbCores, keepDiff = FALSE, vSeed = -1)
 }
 \arguments{
 \item{pathOut}{}
@@ -42,6 +42,12 @@ runSim(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock, nbC, nbGeneration,
 \item{propHetero}{}
 
 \item{nbCores}{}
+
+\item{keepDiff}{}
+
+\item{vSeed}{a \code{integer}, a seed used when reproducible results are
+needed. When a value inferior or equal to zero is given, a random integer
+is used. Default: \code{-1}.}
 }
 \value{
 TODO

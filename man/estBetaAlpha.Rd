@@ -2,26 +2,29 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{estBetaAlpha}
 \alias{estBetaAlpha}
-\title{TODO}
+\title{Estime the alpha parameter of a Beta distribution}
 \usage{
 estBetaAlpha(valCtrl, minVal = 1e-06)
 }
 \arguments{
 \item{valCtrl}{array with first value mean
-and second}
+and second the variance of the CTRL at a specific CpG.}
 
-\item{minVal}{float (default 1e-06)}
+\item{minVal, }{float (default 1e-06), the minimum value of the mu 
+(valCtrl[1]) and if valCtrl[2] is smaller than mu/1000 or minVal
+and mu must < 1 by minus min(0.001, sigma2 * 10^(-log10(minVal)/2)}
 }
 \value{
 The alpha parameter of a Beta distribution
 }
 \description{
-Estime the paramater alpha from the mean and the variance
+Estime the alpha parameter from the mean and the variance
 of a beta distribution
 }
 \examples{
 
-## TODO
+## Estimate alpha parameters with mean = 0.5, variance = 0.1
+methylInheritanceSim:::estBetaAlpha(c(0.5,0.1))
 
 
 }
