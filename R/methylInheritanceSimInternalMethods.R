@@ -318,7 +318,7 @@ getSim <- function(nbCtrl,nbCase, generation, stateInfo, stateDiff, diffValue, p
 #' @importFrom stats rbeta rexp runif rpois
 #' @keywords internal
 
-getDiffMeth <- function(stateInfo,rateDiff, minRate, propInherite, c=0.2, b=-2e-01, endLength=1000){
+getDiffMeth <- function(stateInfo,rateDiff, minRate, propInherite, c=1.0, b = -1e-01, endLength=1000){
     
     nbPos <- length(stateInfo)
     nbTry <- 1
@@ -341,7 +341,7 @@ getDiffMeth <- function(stateInfo,rateDiff, minRate, propInherite, c=0.2, b=-2e-
             m <- m+1
             while(m <= nbPos && 
                   (start(stateInfo)[m] - start(stateInfo)[m-1]) <= endLength){
-                cutOff <- -c * 
+                cutOff <- c * 
                     exp(b*log(start(stateInfo)[m] - start(stateInfo)[m-1]))
                 u <- runif(1,0,1)
                 if(u < cutOff){
@@ -352,15 +352,20 @@ getDiffMeth <- function(stateInfo,rateDiff, minRate, propInherite, c=0.2, b=-2e-
                 }
                 m <- m + 1
             }
+            i <- i+1
             m <- m + round(vExp[i])
         }
+        length(which(stateDiff == 1))
         if(length(which(stateDiff == 1))>= minRate * nbPos){
             flag <- FALSE
+        } else{
+            warning(paste0("Nb: ", length(which(stateDiff == 1))))
         }
         nbTry <- nbTry + 1
     }
     if(flag){
         stateDiff <- NULL
+        warning("Enable to generate the differentially methyyleted proportion fin\n")
     }
     list(stateDiff=stateDiff, stateInherite=stateInherite)
 }

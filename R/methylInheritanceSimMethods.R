@@ -100,9 +100,9 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
                 }
             }
             if(keepDiff == TRUE){
-                diffRes <- getDiffMeth(stateInfo=res,
-                                       rateDiff=rateDiff, minRate=minRate,
-                                       propInherite=propInherite)
+                diffRes <- getDiffMeth(stateInfo = res,
+                                       rateDiff = rateDiff, minRate = minRate,
+                                       propInherite = propInherite)
             } else{
                 diffRes <- NULL
             }
@@ -134,6 +134,7 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
                                       context = context, 
                                       assembly = assembly,
                                       meanCov = meanCov, diffRes = diffRes,
+                                      anaMethylKit = FALSE, 
                                       mc.cores = nbCores,
                                       mc.preschedule = FALSE)
                     }
