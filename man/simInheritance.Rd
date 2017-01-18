@@ -5,8 +5,11 @@
 \title{TODO}
 \usage{
 simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
-  generation, res, rateDiff, minRate, propInherite, diffValue, propDiff,
-  propDiffsd, propInheritance, propHetero, diffRes = NULL)
+  generation, stateInfo, rateDiff, minRate, propInherite, diffValue, propDiff,
+  propDiffsd, propInheritance, propHetero, minReads = 10,
+  maxPercReads = 99.9, context = "CpG", assembly = "Rnor_5.0",
+  meanCov = 80, diffRes = NULL, saveGRanges = TRUE,
+  saveMethylKit = TRUE, anaMethylKit = TRUE)
 }
 \arguments{
 \item{pathOut}{}
@@ -25,8 +28,6 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 
 \item{generation}{}
 
-\item{res}{}
-
 \item{rateDiff}{}
 
 \item{minRate}{}
@@ -44,6 +45,8 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 \item{propHetero}{}
 
 \item{diffRes}{(default \code{NULL})}
+
+\item{res}{}
 }
 \value{
 TODO

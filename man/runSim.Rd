@@ -6,7 +6,9 @@
 \usage{
 runSim(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock, nbC, nbGeneration,
   vpDiff, vpDiffsd, vDiff, vInheritance, propInherite, rateDiff, minRate,
-  propHetero, n, nbCores, keepDiff = FALSE, vSeed = -1)
+  propHetero, minReads = 10, maxPercReads = 99.9, context = "CpG",
+  assembly = "Rnor_5.0", meanCov = 80, n, nbCores = 1, keepDiff = FALSE,
+  vSeed = -1)
 }
 \arguments{
 \item{pathOut}{}
