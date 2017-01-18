@@ -4,7 +4,7 @@
 \alias{getDiffMeth}
 \title{TODO}
 \usage{
-getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 0.2, b = -0.2,
+getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 1, b = -0.1,
   endLength = 1000)
 }
 \arguments{
