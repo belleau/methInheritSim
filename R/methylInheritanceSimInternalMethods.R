@@ -228,9 +228,9 @@ getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
 #'
 #' @description TODO
 #'
-#' @param nbCtrl TODO
+#' @param nbCtrl a non-negative \code{integer}, the number of controls
 #'
-#' @param nbCase TODO
+#' @param nbCase a non-negative \code{integer}, the number of cases
 #'
 #' @param generation TODO
 #'
@@ -242,7 +242,7 @@ getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
 #'
 #' @param propDiff
 #'
-#' @param propDiffsd=0.1
+#' @param propDiffsd Default: \code{0.1}
 #'
 #' @param propInheritance
 #'
@@ -264,8 +264,8 @@ getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
 #' @importFrom S4Vectors mcols
 #' @keywords internal
 getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff, 
-                   diffValue, propDiff, propDiffsd = 0.1, propInheritance, 
-                   propHetero) {
+                    diffValue, propDiff, propDiffsd = 0.1, propInheritance, 
+                    propHetero) {
     inR <- propDiff
     #res<-list()
     res <- GRangesList()
@@ -273,55 +273,56 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
         diffCase <- round(nbCase * inR)
     } else{
         diffCase <- round(nbCase * rtnorm(1, mean = inR, sd = propDiffsd, 
-                                            lower = 0,upper = 1))
+                                            lower = 0, upper = 1))
     }
-    ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x,nb){rbeta(nb,estBetaAlpha(x), estBetaBeta(x))}, nb=nbCtrl))
+    
+    ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x, nb){
+            rbeta(nb, estBetaAlpha(x), estBetaBeta(x))}, nb = nbCtrl))
+    
     case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
                             stateDiff$stateDiff), 1, getDiffCase, nb=nbCase, 
-                            sDiff=diffValue, diffCase=diffCase, 
-                            propDiffsd=propDiffsd))
+                            sDiff = diffValue, diffCase = diffCase, 
+                            propDiffsd = propDiffsd))
     
-    #res[[1]] <- cbind(case[,c(1:3)], ctrl, case[,4:length(case[1,])])
     res[[1]] <- GRanges(seqnames = seqnames(stateInfo),
                         ranges = ranges(stateInfo),
                         strand =  strand(stateInfo),
                         meanDiff = case[, 1], meanCTRL = mcols(stateInfo)[3],
                         partitionCase = case[, 2], partitionCtrl = case[, 3],
-                        ctrl = ctrl, case = case[,4:length(case[1,])])
+                        ctrl = ctrl, case = case[, 4:length(case[1,])])
 
-    # # values(res[[1]]) <- cbind( values(res[[1]]),
-    # #             DataFrame( meanDiff = case[, 1], partitionDiff = case[, 2:3], 
-    # #                 ctrl = ctrl, case = case[,4:length(case[1,])]) )
     for(i in 2:generation)
     {
-        rm(case,ctrl)
-        inR <- propDiff * propInheritance^(i-2) # Ici decale d'une generation
+        rm(case, ctrl)
+        inR <- propDiff * propInheritance^(i - 2) # One generation move
         diffCur <- diffValue * propHetero       # Change diffValue
-        if(propDiffsd < 0.0000001){
+        if(propDiffsd < 0.0000001) {
             diffCase <- round(nbCase * inR)
         } else{
-            diffCase <- round(nbCase * rtnorm(1,mean = inR,sd = propDiffsd, lower=0,upper=1))
+            diffCase <- round(nbCase * rtnorm(1, mean = inR, 
+                                        sd = propDiffsd, lower = 0, upper = 1))
         }
 
         # Note mcols(stateInfo)[3:4] is a matrix with foreach position a row 
         # meanCTRL, varianceCTRL
-        ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x,nb){
-            rbeta(nb,estBetaAlpha(x), estBetaBeta(x))}, nb=nbCtrl))
+        ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x, nb) {
+            rbeta(nb, estBetaAlpha(x), estBetaBeta(x))}, nb = nbCtrl))
         
         # matrix(unlist(mcols(stateInfo)[3:4]), nc = 2) is a matrix with 
         # foreach position a row with meanCTRL, varianceCTRL 
         case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]), ncol = 2),
                         stateDiff$stateInherite), 1,
-                        getDiffCase, nb=nbCase, sDiff=diffCur, diffCase=diffCase,
-                        propDiffsd=propDiffsd))
+                        getDiffCase, nb = nbCase, sDiff = diffCur, 
+                        diffCase = diffCase, propDiffsd = propDiffsd))
         
         res[[i]] <- GRanges(seqnames = seqnames(stateInfo),
-                           ranges = ranges(stateInfo),
-                           strand =  strand(stateInfo),
-                           meanDiff = case[, 1], meanCTRL = mcols(stateInfo)[3],
-                           partitionCase = case[, 2], partitionCtrl = case[, 3],
-                           ctrl = ctrl, case = case[,4:length(case[1,])])
+                        ranges = ranges(stateInfo),
+                        strand =  strand(stateInfo),
+                        meanDiff = case[, 1], meanCTRL = mcols(stateInfo)[3],
+                        partitionCase = case[, 2], partitionCtrl = case[, 3],
+                        ctrl = ctrl, case = case[,4:length(case[1,])])
     }
+    
     return(res)
 }
 
@@ -352,13 +353,14 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #' @author Pascal Belleau
 #' @importFrom stats rbeta rexp runif rpois
 #' @keywords internal
-getDiffMeth <- function(stateInfo,rateDiff, minRate, propInherite, c=1.0, b = -1e-01, endLength=1000){
+getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite, 
+                            c = 1.0, b = -1e-01, endLength=1000) {
     
     nbPos <- length(stateInfo)
     nbTry <- 1
-    flag <-  TRUE
+    flag  <-  TRUE
     
-    while(nbTry < 1000 & flag){
+    while(nbTry < 1000 & flag) {
         stateDiff <- rep(0, nbPos)
         stateInherite <- rep(0, nbPos)
         vExp <- rexp(nbPos, rateDiff)
@@ -401,9 +403,9 @@ getDiffMeth <- function(stateInfo,rateDiff, minRate, propInherite, c=1.0, b = -1
         stateDiff <- NULL
         warning("Enable to generate the differentially methyyleted proportion fin\n")
     }
-    list(stateDiff=stateDiff, stateInherite=stateInherite)
+    
+    return(list(stateDiff = stateDiff, stateInherite = stateInherite))
 }
-
 
 
 #' @title TODO
