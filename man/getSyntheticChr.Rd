@@ -9,27 +9,27 @@ getSyntheticChr(methInfo, m, nbCpG)
 \arguments{
 \item{methInfo}{is methylKitList of the CTRL data.}
 
-\item{m}{\code{integer} the number of blocks}
+\item{m}{\code{integer}, the number of blocks used for sampling.}
 
-\item{nbCpG}{a \code{integer} consecutive CpG position from methInfo}
+\item{nbCpG}{a \code{integer}, the number of consecutive CpG positions used
+for sampling from \code{methInfo}.}
 }
 \value{
-TODO
+a \code{GRanges} object, the senthetic chromosome TODO
 }
 \description{
-Create a synthetic chromosome with the sampling of m blocks 
-with nbCpG consecutive CpG
+Create a synthetic chromosome with the sampling of a specified 
+number of blocks and a specified number of consecutive CpG.
 }
 \examples{
 
 ## Load methyl information
 data(samplesForChrSynthetic)
+
+## Ensure results are reproducible
 set.seed(32)
-methylInheritanceSim:::getSyntheticChr(methInfo=samplesForChrSynthetic, m = 10, nbCpG = 20)
-
-
-## TODO
-
+methylInheritanceSim:::getSyntheticChr(methInfo=samplesForChrSynthetic, 
+m = 10, nbCpG = 20)
 
 }
 \author{
