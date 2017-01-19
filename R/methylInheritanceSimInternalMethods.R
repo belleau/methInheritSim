@@ -7,10 +7,10 @@
 #' and the second value is the variance of the controls (CTRL) at a specific 
 #' CpG site.
 #'
-#' @param minVal a \code{double}, the minimum value accepted for the mu
-#' parameter. If the first entry of \code{valCrtl} is smaller than 
+#' @param minVal a \code{double}, the minimum value accepted for the mean
+#' value. If the first entry of \code{valCrtl} is smaller than 
 #' \code{minVal}, then \code{minVal} is used in the calculation of the alpha
-#' paramter. 
+#' parameter. 
 #' Default: \code{1e-06}.
 #'
 #' @return a \code{double}, the alpha parameter of a Beta distribution.
@@ -44,8 +44,8 @@ estBetaAlpha <- function(valCtrl, minVal = 1e-06){
 #' and the second value is the variance of the controls (CTRL) at a specific 
 #' CpG site.
 #'
-#' @param minVal a \code{double}, the minimum value accepted for the mu
-#' parameter. If the first entry of \code{valCrtl} is smaller than 
+#' @param minVal a \code{double}, the minimum value accepted for the mean
+#' value. If the first entry of \code{valCrtl} is smaller than 
 #' \code{minVal}, then \code{minVal} is used in the calculation of the beta
 #' paramter. 
 #' Default: \code{1e-06}.
@@ -78,14 +78,17 @@ estBetaBeta <- function(valCtrl, minVal = 1e-06){
 #' @description Create a synthetic chromosome with the sampling of a specified 
 #' number of blocks and a specified number of consecutive CpG.
 #'
-#' @param methInfo is methylKitList of the CTRL data.
+#' @param methInfo is object of class \code{methylBase}, the CpG information
+#' from controls (CTRL) that will be used to create the sythetic chromosome. 
+#' The object can also contain information from cases but onl the controls will
+#' be used.
 #'
-#' @param m \code{integer}, the number of blocks used for sampling.
+#' @param nbBlock \code{integer}, the number of blocks used for sampling.
 #'
 #' @param nbCpG a \code{integer}, the number of consecutive CpG positions used
 #' for sampling from \code{methInfo}.
 #'
-#' @return a \code{GRanges} object, the senthetic chromosome TODO
+#' @return a \code{GRanges} object, the synthetic chromosome
 #'
 #' @examples
 #'
@@ -94,45 +97,53 @@ estBetaBeta <- function(valCtrl, minVal = 1e-06){
 #' 
 #' ## Ensure results are reproducible
 #' set.seed(32)
-#' methylInheritanceSim:::getSyntheticChr(methInfo=samplesForChrSynthetic, 
-#' m = 10, nbCpG = 20)
+#' 
+#' ## Create synthetic chromosome
+#' methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+#' nbBlock = 10, nbCpG = 20)
 #'
 #' @author Pascal Belleau
 #' @importFrom stats runif var
+#' @importFrom methylKit getData
+#' @importFrom GenomicRanges GRanges
+#' @importFrom IRanges IRanges
 #' @keywords internal
-getSyntheticChr <- function(methInfo, m, nbCpG) {
+getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
     
     seqChr <- unique(methInfo$chr) # list of Chr
     
     # Sample m chromosomes, the same can be sample more than once
-    chr <- seqChr[sample(1:length(seqChr),m,replace=TRUE)]
+    chr <- seqChr[sample(1:length(seqChr), nbBlock, replace=TRUE)]
     
     # The position of the CTRL
     posCTRL <- which(methInfo@treatment == 0)
     
     # Init the data.frame
-    res <- data.frame(chr = rep("S", m * nbCpG), start=rep(0, m * nbCpG), 
-                        end = rep(0, m * nbCpG),
-                        meanCTRL = rep(0, m * nbCpG), 
-                        varCTRL = rep(0, m * nbCpG),
-                        alphaCTRL = rep(0,m * nbCpG), 
-                        betaCTRL = rep(0, m * nbCpG),
-                        chrOri = rep(0, m * nbCpG), 
-                        startOri = rep(0, m * nbCpG))
+    total <- nbBlock * nbCpG
+    res <- data.frame(chr = rep("S", total), start=rep(0, total), 
+                        end = rep(0, total),
+                        meanCTRL = rep(0, total), 
+                        varCTRL = rep(0, total),
+                        alphaCTRL = rep(0, total), 
+                        betaCTRL = rep(0, total),
+                        chrOri = rep(0, total), 
+                        startOri = rep(0, total))
     
     # First position
     l <- 1000
     
-    for(i in 1:m){ # For each block of CpG
+    for(i in 1:nbBlock){ # For each block of CpG
         
         # Select a position in the block
-        v <- round(runif(1,0,1) *
+        v <- round(runif(1, 0, 1) *
                     (length(methInfo$start[methInfo$chr == chr[i]]) - nbCpG))
         
-        methBlock <- getData(methInfo[methInfo$chr == chr[i]][(v+1):(v+nbCpG)])
+        methBlock <- getData(methInfo[methInfo$chr == 
+                                            chr[i]][(v + 1):(v + nbCpG)])
         matProp <- sapply(posCTRL, function(x, methCur) {
-                unname(unlist(methCur[3*(x - 1) + 2]/methCur[3*(x - 1) + 1]))}, 
+                unname(unlist(methCur[3*(x - 1) + 2]/methCur[3*(x - 1) + 1]))},
                 methCur = methBlock[5:length(methBlock)])
+        
         res$chrOri[((i - 1) * nbCpG + 1):(i * nbCpG)] <- rep(chr[i], nbCpG)
         res$startOri[((i - 1) * nbCpG + 1):(i * nbCpG)] <- 
                 unname(unlist(methBlock[2]))
@@ -151,7 +162,7 @@ getSyntheticChr <- function(methInfo, m, nbCpG) {
     res$betaCTRL  <- apply(res[, c(4,5)], 1, estBetaBeta)
     res <- GRanges(seqnames = res$chr, 
                     ranges = IRanges(start = res$start, end = res$end),
-                    strand = rep("+", m * nbCpG), chrOri = res$chrOri,
+                    strand = rep("+", total), chrOri = res$chrOri,
                     startOri = res$startOri, meanCTRL = res$meanCTRL,
                     varCTRL = res$varCTRL)
     
@@ -162,16 +173,16 @@ getSyntheticChr <- function(methInfo, m, nbCpG) {
 #' @title get a proportion c/t for a case at a differentially 
 #' 
 #'
-#' @description 
+#' @description TODO
 #' 
 #'
-#' @param x
+#' @param x TODO
 #'
-#' @param nb
+#' @param nb TODO
 #'
-#' @param sDiff
+#' @param sDiff TODO
 #'
-#' @param diffCase
+#' @param diffCase TODO
 #'
 #' @param propDiffsd
 #' -c * exp(b * log(distance between two CpG))
@@ -189,10 +200,6 @@ getSyntheticChr <- function(methInfo, m, nbCpG) {
 #'
 #' @author Pascal Belleau
 #' @keywords internal
-# 
-# stateInfo contient en start les position des CpG (peut-etre le data.frame de getStateData)
-
-
 getDiffCase <- function(x,nb, sDiff, diffCase, propDiffsd){
     meanDiff <- 0
     if(x[3] == 0){
@@ -221,13 +228,13 @@ getDiffCase <- function(x,nb, sDiff, diffCase, propDiffsd){
 #'
 #' @description TODO
 #'
-#' @param nbCtrl
+#' @param nbCtrl TODO
 #'
-#' @param nbCase
+#' @param nbCase TODO
 #'
-#' @param generation
+#' @param generation TODO
 #'
-#' @param stateInfo
+#' @param stateInfo TODO
 #'
 #' @param stateDiff
 #'
@@ -250,22 +257,29 @@ getDiffCase <- function(x,nb, sDiff, diffCase, propDiffsd){
 #'
 #' @author Pascal Belleau
 #' @importFrom msm rtnorm
+#' @importFrom GenomicRanges GRangesList GRanges
+#' @importFrom GenomeInfoDb seqnames
+#' @importFrom IRanges ranges
+#' @importFrom BiocGenerics strand
+#' @importFrom S4Vectors mcols
 #' @keywords internal
-# Identify the pos where the case are Diff meth and which one are heritable
-# stateInfo contient en start les position des CpG (peut-etre le data.frame de getStateData)
-
-
-getSim <- function(nbCtrl,nbCase, generation, stateInfo, stateDiff, diffValue, propDiff, propDiffsd=0.1, propInheritance, propHetero){
+getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff, 
+                   diffValue, propDiff, propDiffsd = 0.1, propInheritance, 
+                   propHetero) {
     inR <- propDiff
     #res<-list()
     res <- GRangesList()
     if(propDiffsd < 0.0000001){
         diffCase <- round(nbCase * inR)
     } else{
-        diffCase <- round(nbCase * rtnorm(1,mean = inR,sd = propDiffsd, lower=0,upper=1))
+        diffCase <- round(nbCase * rtnorm(1, mean = inR, sd = propDiffsd, 
+                                            lower = 0,upper = 1))
     }
     ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x,nb){rbeta(nb,estBetaAlpha(x), estBetaBeta(x))}, nb=nbCtrl))
-    case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , nc = 2), stateDiff$stateDiff), 1, getDiffCase, nb=nbCase, sDiff=diffValue, diffCase=diffCase, propDiffsd=propDiffsd))
+    case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
+                            stateDiff$stateDiff), 1, getDiffCase, nb=nbCase, 
+                            sDiff=diffValue, diffCase=diffCase, 
+                            propDiffsd=propDiffsd))
     
     #res[[1]] <- cbind(case[,c(1:3)], ctrl, case[,4:length(case[1,])])
     res[[1]] <- GRanges(seqnames = seqnames(stateInfo),
@@ -296,7 +310,7 @@ getSim <- function(nbCtrl,nbCase, generation, stateInfo, stateDiff, diffValue, p
         
         # matrix(unlist(mcols(stateInfo)[3:4]), nc = 2) is a matrix with 
         # foreach position a row with meanCTRL, varianceCTRL 
-        case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]), nc = 2),
+        case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]), ncol = 2),
                         stateDiff$stateInherite), 1,
                         getDiffCase, nb=nbCase, sDiff=diffCur, diffCase=diffCase,
                         propDiffsd=propDiffsd))
@@ -338,7 +352,6 @@ getSim <- function(nbCtrl,nbCase, generation, stateInfo, stateDiff, diffValue, p
 #' @author Pascal Belleau
 #' @importFrom stats rbeta rexp runif rpois
 #' @keywords internal
-
 getDiffMeth <- function(stateInfo,rateDiff, minRate, propInherite, c=1.0, b = -1e-01, endLength=1000){
     
     nbPos <- length(stateInfo)
@@ -444,10 +457,9 @@ getDiffMeth <- function(stateInfo,rateDiff, minRate, propInherite, c=1.0, b = -1
 #' @importFrom GenomicRanges GRanges
 #' @importFrom IRanges IRanges
 #' @importFrom stats rpois
+#' @importFrom methods new
+#' @importFrom stats start end
 #' @keywords internal
-# Identify the pos where the case are Diff meth and which one are heritable
-# stateInfo contient en start les position des CpG (peut-etre le data.frame de getStateData)
-
 simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment, 
                     sample.id, generation, stateInfo,
                     rateDiff ,minRate, propInherite, diffValue, propDiff,

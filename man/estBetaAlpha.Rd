@@ -11,10 +11,10 @@ estBetaAlpha(valCtrl, minVal = 1e-06)
 and the second value is the variance of the controls (CTRL) at a specific 
 CpG site.}
 
-\item{minVal}{a \code{double}, the minimum value accepted for the mu
-parameter. If the first entry of \code{valCrtl} is smaller than 
+\item{minVal}{a \code{double}, the minimum value accepted for the mean
+value. If the first entry of \code{valCrtl} is smaller than 
 \code{minVal}, then \code{minVal} is used in the calculation of the alpha
-paramter. 
+parameter. 
 Default: \code{1e-06}.}
 }
 \value{

@@ -113,7 +113,7 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
     for(s in 1:nbSynCHR){
         
         # get the synthetic chr
-        res <- getSyntheticChr(methInfo=methData, m=nbBlock, nbCpG=lBlock)
+        res <- getSyntheticChr(methInfo=methData, nbBlock=nbBlock, nbCpG=lBlock)
         adPref <- paste0(fileGen, "_", s)
         saveRDS(res, file=paste0(pathOut, "/stateInfo_", adPref, ".rds"))
         

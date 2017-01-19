@@ -8,13 +8,13 @@ getSim(nbCtrl, nbCase, generation, stateInfo, stateDiff, diffValue, propDiff,
   propDiffsd = 0.1, propInheritance, propHetero)
 }
 \arguments{
-\item{nbCtrl}{}
+\item{nbCtrl}{TODO}
 
-\item{nbCase}{}
+\item{nbCase}{TODO}
 
-\item{generation}{}
+\item{generation}{TODO}
 
-\item{stateInfo}{}
+\item{stateInfo}{TODO}
 
 \item{stateDiff}{}
 

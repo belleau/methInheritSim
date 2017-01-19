@@ -4,18 +4,21 @@
 \alias{getSyntheticChr}
 \title{Create a synthetic chromosome with the CTRL genome}
 \usage{
-getSyntheticChr(methInfo, m, nbCpG)
+getSyntheticChr(methInfo, nbBlock, nbCpG)
 }
 \arguments{
-\item{methInfo}{is methylKitList of the CTRL data.}
+\item{methInfo}{is object of class \code{methylBase}, the CpG information
+from controls (CTRL) that will be used to create the sythetic chromosome. 
+The object can also contain information from cases but onl the controls will
+be used.}
 
-\item{m}{\code{integer}, the number of blocks used for sampling.}
+\item{nbBlock}{\code{integer}, the number of blocks used for sampling.}
 
 \item{nbCpG}{a \code{integer}, the number of consecutive CpG positions used
 for sampling from \code{methInfo}.}
 }
 \value{
-a \code{GRanges} object, the senthetic chromosome TODO
+a \code{GRanges} object, the synthetic chromosome
 }
 \description{
 Create a synthetic chromosome with the sampling of a specified 
@@ -28,8 +31,10 @@ data(samplesForChrSynthetic)
 
 ## Ensure results are reproducible
 set.seed(32)
-methylInheritanceSim:::getSyntheticChr(methInfo=samplesForChrSynthetic, 
-m = 10, nbCpG = 20)
+
+## Create synthetic chromosome
+methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+nbBlock = 10, nbCpG = 20)
 
 }
 \author{
