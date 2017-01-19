@@ -18,7 +18,7 @@ paramter.
 Default: \code{1e-06}.}
 }
 \value{
-a \code{double}, the alpha parameter of a Beta distribution
+a \code{double}, the alpha parameter of a Beta distribution.
 }
 \description{
 Estimate the alpha parameter from the mean and the variance
