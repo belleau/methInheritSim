@@ -7,45 +7,86 @@
 runSim(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock, nbC, nbGeneration,
   vpDiff, vpDiffsd, vDiff, vInheritance, propInherite, rateDiff, minRate,
   propHetero, minReads = 10, maxPercReads = 99.9, context = "CpG",
-  assembly = "Rnor_5.0", meanCov = 80, n, nbCores = 1, keepDiff = FALSE,
-  vSeed = -1)
+  assembly = "Rnor_5.0", meanCov = 80, n, keepDiff = FALSE,
+  saveGRanges = TRUE, saveMethylKit = TRUE, anaMethylKit = TRUE,
+  nbCores = 1, vSeed = -1)
 }
 \arguments{
-\item{pathOut}{}
+\item{pathOut}{the path where the the out put file is seved}
 
-\item{fileGen}{}
+\item{fileGen}{a string include each output file. Each output file are 
+composed with a type name (methylGR, methylObj, ...), _, fileGen (F1),
+ parameters of the simulation, .rds}
 
-\item{nbSynCHR}{}
+\item{nbSynCHR}{Number of distinct synthetics chromosomes generate}
 
-\item{methData}{}
+\item{methData}{A real dataset where the program sampling to create 
+the synthetic chromosome}
 
-\item{nbBlock}{}
+\item{nbBlock}{the number of blocks sample from methData genome to create
+the synthetic chromosome}
 
-\item{lBlock}{}
+\item{lBlock}{the number of the CpG in each block sampled}
 
-\item{nbC}{}
+\item{nbC}{the number of CTRL and case in the the simulation dataset. In 
+the simulation dataset the number of CTRL equal the number of Case. 
+The number of CTRL do not need to be equal to the number of Case in
+the real dataset}
 
-\item{nbGeneration}{}
+\item{nbGeneration}{The number of generation simulate}
 
-\item{vpDiff}{}
+\item{vpDiff}{The proportion of case simulate as differentially methylated 
+when the site is selected as differentially methylated (this like the penetrance)
+at each differentially methylated site a number is sampled from a normal
+distribution with a truncated normal (between 0 and 1) vpDiff and variance 
+vpDIff this number will be the penetrance at the site}
 
-\item{vpDiffsd}{}
+\item{vpDiffsd}{the variance of the parameter vpDIff}
 
-\item{vDiff}{}
+\item{vDiff}{in the case of a differentially methylated site a case 
+differentially methylated the proportion of C/T follow a beta distribution 
+where the mean is shifted of vDiff from the CTRL distribution}
 
-\item{vInheritance}{}
+\item{vInheritance}{the proportion of case inherite the inherited sites.}
 
-\item{propInherite}{}
+\item{propInherite}{proportion of differentially methylated site
+are inherated}
 
-\item{rateDiff}{}
+\item{rateDiff}{the mean of the chance that a site is differentially 
+methylated}
 
-\item{minRate}{}
+\item{minRate}{the minimum number of diferentially methylated site}
 
-\item{propHetero}{}
+\item{propHetero}{the reduction vDiff for the intergeneration}
 
-\item{nbCores}{}
+\item{minReads}{a positive \code{integer} Bases and regions having lower
+coverage than this count are discarded. The parameter
+correspond to the \code{lo.count} parameter in the  \code{methylKit} package.}
 
-\item{keepDiff}{}
+\item{maxPercReads}{a \code{double} between [0,100], the percentile of read
+counts that is going to be used as upper cutoff. Bases ore regions
+having higher
+coverage than this percentile are discarded. Parameter used for both CpG
+sites and tiles analysis. The parameter
+correspond to the \code{hi.perc} parameter in the  \code{methylKit} package.}
+
+\item{context}{Default: \code{"CpG"}}
+
+\item{assembly}{Default: \code{"Rnor_5.0"}}
+
+\item{meanCov}{Default: \code{80}}
+
+\item{keepDiff}{Default: \code{FALSE}}
+
+\item{saveGRanges}{Default: \code{TRUE}}
+
+\item{saveMethylKit}{Default: \code{TRUE}}
+
+\item{anaMethylKit}{Default: \code{TRUE}}
+
+\item{nbCores}{Default: \code{1}.}
+
+\item{vSeed}{Default: \code{-1}.}
 
 \item{vSeed}{a \code{integer}, a seed used when reproducible results are
 needed. When a value inferior or equal to zero is given, a random integer
