@@ -4,13 +4,14 @@
 #'
 #' @param pathOut the path where the the out put file is seved
 #'
-#' @param fileGen a string include each output file. Each output file are 
-#' composed with a type name (methylGR, methylObj, ...), _, fileGen (F1),
-#'  parameters of the simulation, .rds
+#' @param fileGen a \code{string} include each output file. Each output file are 
+#' composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
+#'  parameters of the simulation and ".rds". 
 #'
-#' @param nbSynCHR Number of distinct synthetics chromosomes generate
+#' @param nbSynCHR \code{integer} Number of distinct synthetics chromosomes 
+#' generate.
 #'
-#' @param methData A real dataset where the program sampling to create 
+#' @param methData a \code{methylBase} object from \code{methylKit} A real dataset used to sample block  
 #' the synthetic chromosome
 #'
 #' @param nbBlock the number of blocks sample from methData genome to create
