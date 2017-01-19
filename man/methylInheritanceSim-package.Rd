@@ -4,7 +4,7 @@
 \name{methylInheritanceSim-package}
 \alias{methylInheritanceSim-package}
 \alias{methylPed}
-\title{methylInheritanceSim: Simulation}
+\title{methylInheritanceSim: Simulation TODO}
 \description{
 This package does a simulation of multigeneration of bisulfite data
 }
@@ -18,8 +18,7 @@ Pascal Belleau <pascal_belleau@hotmail.com>
 }
 \seealso{
 \itemize{
-    \item \code{\link{runSim}} { todo }
-    \item \code{\link{reRunSim}} { todo }
+    \item \code{\link{runSim}} { TODO }
 }
 }
 \keyword{package}

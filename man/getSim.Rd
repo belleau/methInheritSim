@@ -8,9 +8,9 @@ getSim(nbCtrl, nbCase, generation, stateInfo, stateDiff, diffValue, propDiff,
   propDiffsd = 0.1, propInheritance, propHetero)
 }
 \arguments{
-\item{nbCtrl}{TODO}
+\item{nbCtrl}{a non-negative \code{integer}, the number of controls}
 
-\item{nbCase}{TODO}
+\item{nbCase}{a non-negative \code{integer}, the number of cases}
 
 \item{generation}{TODO}
 
@@ -22,11 +22,11 @@ getSim(nbCtrl, nbCase, generation, stateInfo, stateDiff, diffValue, propDiff,
 
 \item{propDiff}{}
 
+\item{propDiffsd}{Default: \code{0.1}}
+
 \item{propInheritance}{}
 
 \item{propHetero}{}
-
-\item{propDiffsd=0.1}{}
 }
 \value{
 TODO

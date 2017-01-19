@@ -4,8 +4,8 @@
 \name{samplesForChrSynthetic}
 \alias{samplesForChrSynthetic}
 \title{All samples information, formated by \code{methylKit}, in a
-\code{methylRawList} format (for demo purpose).}
-\format{A \code{methylRawList} object contains the information for one generation.
+\code{methylBase} format (for demo purpose).}
+\format{A \code{methylBase} object contains the information for one generation.
 Each sample information is
 stored in a \code{methylRaw} object. There is \code{methylRaw} objects
  (6 controls and 6 cases).}
@@ -13,13 +13,13 @@ stored in a \code{methylRaw} object. There is \code{methylRaw} objects
 data(samplesForChrSynthetic)
 }
 \value{
-A \code{methylRawList} contains the information for one generation.
+A \code{methylBase} contains the information for one generation.
 Each sample information is stored in a \code{methylRaw} object. 
 There is \code{methylRaw} objects
 (6 controls and 6 cases).
 }
 \description{
-The object is a \code{methylRawList}.
+The object is a \code{methylBase}.
 There is 12 samples (6 controls and 6 cases). Each
 sample information is stored in a \code{methylRaw} object.
 }
@@ -38,8 +38,8 @@ data(samplesForChrSynthetic)
 }
 \seealso{
 \itemize{
-    \item \code{\link{runSim}} {for running a
-    simulation analysis using methylKit info entry}
+\item \code{\link{runSim}} {for running a
+simulation analysis using methylKit info entry}
 }
 }
 \keyword{datasets}
