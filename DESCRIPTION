@@ -6,9 +6,9 @@ Version: 0.99.0
 Date: 2016-09-09
 Author: Pascal Belleau, Astrid Deschênes and Arnaud Droit
 Author@R: c(person("Pascal", "Belleau",
-    email="pascal.belleau@crchuq.ulaval.ca", role=c("cre", "aut")),
+    email="pascal_belleau@hotmail.com", role=c("cre", "aut")),
     person("Astrid", "Deschênes",
-    email="Astrid-Louise.Deschenes@crchudequebec.ulaval.ca",
+    email="adeschen@hotmail.com",
     role=c("aut")),
     person("Arnaud", "Droit",
     email="arnaud.droit@crchuq.ulaval.ca", role=c("aut")))
@@ -16,12 +16,15 @@ Depends:
     R (>= 3.3)
 Imports:
     methylKit,
-    BiocParallel,
     GenomicRanges,
+    GenomeInfoDb,
+    BiocGenerics,
+    S4Vectors,
+    methods,
+    stats,
     IRanges,
     msm
 Suggests:
-    BiocGenerics,
     BiocStyle,
     knitr,
     rmarkdown,
@@ -31,6 +34,6 @@ License: Artistic-2.0
 VignetteBuilder: knitr
 biocViews: BiologicalQuestion, Epigenetics,
     Software, StatisticalMethod, Simulation
-Maintainer: Pascal Belleau <pascal.belleau@crchuq.ulaval.ca>
+Maintainer: Pascal Belleau <pascal_belleau@hotmail.com>
 License: Artistic-2.0
 RoxygenNote: 5.0.1

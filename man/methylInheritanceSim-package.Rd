@@ -9,14 +9,12 @@
 This package does a simulation of multigeneration of bisulfite data
 }
 \author{
-Astrid Deschênes,
 Pascal Belleau,
-Mathieu Dalvai,
-Janice Bailey and
+Astrid Deschênes and 
 Arnaud Droit
 
 Maintainer:
-Astrid Deschenes <astrid-louise.deschenes@crchudequebec.ulaval.ca>
+Pascal Belleau <pascal_belleau@hotmail.com>
 }
 \seealso{
 \itemize{

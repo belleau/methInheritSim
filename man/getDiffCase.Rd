@@ -7,13 +7,13 @@
 getDiffCase(x, nb, sDiff, diffCase, propDiffsd)
 }
 \arguments{
-\item{x}{}
+\item{x}{TODO}
 
-\item{nb}{}
+\item{nb}{TODO}
 
-\item{sDiff}{}
+\item{sDiff}{TODO}
 
-\item{diffCase}{}
+\item{diffCase}{TODO}
 
 \item{propDiffsd}{-c * exp(b * log(distance between two CpG))}
 
@@ -25,7 +25,7 @@ getDiffCase(x, nb, sDiff, diffCase, propDiffsd)
 TODO
 }
 \description{
-
+TODO
 }
 \examples{
 
