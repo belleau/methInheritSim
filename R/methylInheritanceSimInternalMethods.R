@@ -200,27 +200,27 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
 #'
 #' @author Pascal Belleau
 #' @keywords internal
-getDiffCase <- function(x,nb, sDiff, diffCase, propDiffsd){
+getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
+    
     meanDiff <- 0
+    
     if(x[3] == 0){
-        val <- rbeta(nb,estBetaAlpha(x[1:2]), estBetaBeta(x[1:2]))
+        val <- rbeta(nb, estBetaAlpha(x[1:2]), estBetaBeta(x[1:2]))
         meanDiff <- x[1]
-        partitionDiff <- c(0,nb)
-    }
-    else{
-        meanDiff <- ifelse(x[1]<0.5,
-                           min(1, x[1]+sDiff),
-                           max(0, x[1]-sDiff))
+        partitionDiff <- c(0, nb)
+    } else{
+        meanDiff <- ifelse(x[1] < 0.5,
+                            min(1, x[1]+sDiff),
+                            max(0, x[1]-sDiff))
         
         partitionDiff <- c(diffCase, nb - diffCase)
         
-        
-        val <- c(rbeta(partitionDiff[1], estBetaAlpha(c(meanDiff,x[2])),
-                       estBetaBeta(c(meanDiff,x[2]))),
-                 rbeta(partitionDiff[2],estBetaAlpha(x), estBetaBeta(x)))
+        val <- c(rbeta(partitionDiff[1], estBetaAlpha(c(meanDiff, x[2])),
+                    estBetaBeta(c(meanDiff, x[2]))),
+                    rbeta(partitionDiff[2], estBetaAlpha(x), estBetaBeta(x)))
     }
-    #list(sDiff=sDiff, partitionDiff=partitionDiff, val=val)
-    c(meanDiff, partitionDiff, val)
+    
+    return(c(meanDiff, partitionDiff, val))
 }
 
 

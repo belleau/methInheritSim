@@ -1,4 +1,4 @@
-#' methylInheritanceSim: Simulation
+#' methylInheritanceSim: Simulation TODO
 #'
 #' This package does a simulation of multigeneration of bisulfite data
 #'
@@ -17,16 +17,17 @@
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{runSim}} { todo }
-#'     \item \code{\link{reRunSim}} { todo }
+#'     \item \code{\link{runSim}} { TODO }
 #' }
 #'
 #' @keywords package
 NULL
+
+
 #' All samples information, formated by \code{methylKit}, in a
-#' \code{methylRawList} format (for demo purpose).
+#' \code{methylBase} format (for demo purpose).
 #'
-#' The object is a \code{methylRawList}.
+#' The object is a \code{methylBase}.
 #' There is 12 samples (6 controls and 6 cases). Each
 #' sample information is stored in a \code{methylRaw} object.
 #' 
@@ -39,20 +40,20 @@ NULL
 #'
 #' @aliases samplesForChrSynthetic
 #'
-#' @format A \code{methylRawList} object contains the information for one generation.
+#' @format A \code{methylBase} object contains the information for one generation.
 #' Each sample information is
 #' stored in a \code{methylRaw} object. There is \code{methylRaw} objects
 #'  (6 controls and 6 cases).
 #'
-#' @return A \code{methylRawList} contains the information for one generation.
+#' @return A \code{methylBase} contains the information for one generation.
 #' Each sample information is stored in a \code{methylRaw} object. 
 #' There is \code{methylRaw} objects
 #' (6 controls and 6 cases).
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{runSim}} {for running a
-#'     simulation analysis using methylKit info entry}
+#' \item \code{\link{runSim}} {for running a
+#' simulation analysis using methylKit info entry}
 #' }
 #'
 #' @usage data(samplesForChrSynthetic)
