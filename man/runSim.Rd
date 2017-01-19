@@ -14,48 +14,42 @@ runSim(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock, nbC, nbGeneration,
 \arguments{
 \item{pathOut}{the path where the the out put file is seved}
 
-\item{fileGen}{a string include each output file. Each output file are 
-composed with a type name (methylGR, methylObj, ...), _, fileGen (F1),
- parameters of the simulation, .rds}
+\item{fileGen}{a \code{string} include each output file. Each output file are 
+composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
+parameters of the simulation and ".rds".}
 
-\item{nbSynCHR}{Number of distinct synthetics chromosomes generate}
+\item{nbSynCHR}{a \code{integer}, the number of distinct synthetics chromosomes. 
+generate.}
 
-\item{methData}{A real dataset where the program sampling to create 
-the synthetic chromosome}
+\item{methData}{a \code{methylBase} object from \code{methylKit}, a real 
+dataset used to sample block for the synthetic chromosome}
 
-\item{nbBlock}{the number of blocks sample from methData genome to create
-the synthetic chromosome}
+\item{nbBlock}{a \code{integer}, the number of blocks sample from methData 
+genome to create the synthetic chromosome.}
 
-\item{lBlock}{the number of the CpG in each block sampled}
+\item{lBlock}{a \code{integer}, the number of the CpG in each block sampled}
 
-\item{nbC}{the number of CTRL and case in the the simulation dataset. In 
-the simulation dataset the number of CTRL equal the number of Case. 
-The number of CTRL do not need to be equal to the number of Case in
-the real dataset}
+\item{nbGeneration}{a \code{integer}, the number of generation simulate}
 
-\item{nbGeneration}{The number of generation simulate}
+\item{vpDiff}{a positive \code{double} inferior ot \code{1}, the mean proportion of case simulate as 
+differentially methylated when the site is selected as differentially
+methylated (this is like the penetrance).}
 
-\item{vpDiff}{The proportion of case simulate as differentially methylated 
-when the site is selected as differentially methylated (this like the penetrance)
-at each differentially methylated site a number is sampled from a normal
-distribution with a truncated normal (between 0 and 1) vpDiff and variance 
-vpDIff this number will be the penetrance at the site}
+\item{vpDiffsd}{a \code{double} the variance of the parameter \code{vpDIff}}
 
-\item{vpDiffsd}{the variance of the parameter vpDIff}
-
-\item{vDiff}{in the case of a differentially methylated site a case 
+\item{vDiff}{a positive \code{double} inferior ot \code{1}, in the case of a differentially methylated site a case 
 differentially methylated the proportion of C/T follow a beta distribution 
 where the mean is shifted of vDiff from the CTRL distribution}
 
-\item{vInheritance}{the proportion of case inherite the inherited sites.}
+\item{vInheritance}{a positive \code{double} inferior ot \code{1}, the proportion of case inherite the inherited sites.}
 
-\item{propInherite}{proportion of differentially methylated site
+\item{propInherite}{a positive \code{double} inferior ot \code{1}, proportion of differentially methylated site
 are inherated}
 
-\item{rateDiff}{the mean of the chance that a site is differentially 
+\item{rateDiff}{a positive \code{double} inferior ot \code{1}, the mean of the chance that a site is differentially 
 methylated}
 
-\item{minRate}{the minimum number of diferentially methylated site}
+\item{minRate}{a positive \code{double} inferior ot \code{1}, the minimum number of diferentially methylated site}
 
 \item{propHetero}{the reduction vDiff for the intergeneration}
 
@@ -87,6 +81,11 @@ correspond to the \code{hi.perc} parameter in the  \code{methylKit} package.}
 \item{nbCores}{Default: \code{1}.}
 
 \item{vSeed}{Default: \code{-1}.}
+
+\item{vNbSample}{a \code{vector} of the number of CTRL and case in the the simulation dataset. In 
+the simulation dataset the number of CTRL equal the number of Case. 
+The number of CTRL do not need to be equal to the number of Case in
+the real dataset}
 
 \item{vSeed}{a \code{integer}, a seed used when reproducible results are
 needed. When a value inferior or equal to zero is given, a random integer
