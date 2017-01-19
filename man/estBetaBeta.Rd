@@ -2,23 +2,26 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{estBetaBeta}
 \alias{estBetaBeta}
-\title{Estime the beta paramater of a beta distribution}
+\title{Estimate the beta paramater of a beta distribution}
 \usage{
 estBetaBeta(valCtrl, minVal = 1e-06)
 }
 \arguments{
-\item{valCtrl}{array with first value mean
-and second}
+\item{valCtrl}{a \code{vector} with 2 entries, the first value is the mean
+and the second value is the variance of the controls (CTRL) at a specific 
+CpG site.}
 
-\item{minVal, }{float (default 1e-06), the minimum value of the mu 
-(valCtrl[1]) and if valCtrl[2] is smaller than mu/1000 or minVal
-and mu must < 1 by minus min(0.001, sigma2 * 10^(-log10(minVal)/2)}
+\item{minVal}{a \code{double}, the minimum value accepted for the mu
+parameter. If the first entry of \code{valCrtl} is smaller than 
+\code{minVal}, then \code{minVal} is used in the calculation of the beta
+paramter. 
+Default: \code{1e-06}.}
 }
 \value{
-The beta parameter of a Beta distribution
+a \code{double}, the beta parameter of a Beta distribution
 }
 \description{
-Estime the beta paramater from the mean and the variance
+Estimate the beta paramater from the mean and the variance
 of a beta distribution
 }
 \examples{
