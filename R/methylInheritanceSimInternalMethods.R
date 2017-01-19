@@ -441,6 +441,8 @@ getDiffMeth <- function(stateInfo,rateDiff, minRate, propInherite, c=1.0, b = -1
 #' 
 #' @author Pascal Belleau
 #' @importFrom methylKit read filterByCoverage normalizeCoverage unite calculateDiffMeth get.methylDiff getData tileMethylCounts methRead
+#' @importFrom GenomicRanges GRanges
+#' @importFrom IRanges IRanges
 #' @importFrom stats rpois
 #' @keywords internal
 # Identify the pos where the case are Diff meth and which one are heritable
