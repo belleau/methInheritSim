@@ -4,48 +4,47 @@
 #'
 #' @param pathOut the path where the the out put file is seved
 #'
-#' @param fileGen a string include each output file. Each output file are 
-#' composed with a type name (methylGR, methylObj, ...), _, fileGen (F1),
-#'  parameters of the simulation, .rds
+#' @param fileGen a \code{string} include each output file. Each output file are 
+#' composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
+#' parameters of the simulation and ".rds". 
 #'
-#' @param nbSynCHR Number of distinct synthetics chromosomes generate
+#' @param nbSynCHR a \code{integer}, the number of distinct synthetics chromosomes. 
+#' generate.
 #'
-#' @param methData A real dataset where the program sampling to create 
-#' the synthetic chromosome
+#' @param methData a \code{methylBase} object from \code{methylKit}, a real 
+#' dataset used to sample block for the synthetic chromosome
 #'
-#' @param nbBlock the number of blocks sample from methData genome to create
-#' the synthetic chromosome
+#' @param nbBlock a \code{integer}, the number of blocks sample from methData 
+#' genome to create the synthetic chromosome.
 #'
-#' @param lBlock the number of the CpG in each block sampled
+#' @param lBlock a \code{integer}, the number of the CpG in each block sampled
 #'
-#' @param nbC the number of CTRL and case in the the simulation dataset. In 
+#' @param vNbSample a \code{vector} of the number of CTRL and case in the the simulation dataset. In 
 #' the simulation dataset the number of CTRL equal the number of Case. 
 #' The number of CTRL do not need to be equal to the number of Case in
 #' the real dataset
 #'
-#' @param nbGeneration The number of generation simulate
+#' @param nbGeneration a \code{integer}, the number of generation simulate
 #'
-#' @param vpDiff The proportion of case simulate as differentially methylated 
-#' when the site is selected as differentially methylated (this like the penetrance)
-#' at each differentially methylated site a number is sampled from a normal
-#' distribution with a truncated normal (between 0 and 1) vpDiff and variance 
-#' vpDIff this number will be the penetrance at the site
+#' @param vpDiff a positive \code{double} inferior ot \code{1}, the mean proportion of case simulate as 
+#' differentially methylated when the site is selected as differentially
+#' methylated (this is like the penetrance).
 #' 
-#' @param vpDiffsd the variance of the parameter vpDIff
+#' @param vpDiffsd a \code{double} the variance of the parameter \code{vpDIff}
 #'
-#' @param vDiff in the case of a differentially methylated site a case 
+#' @param vDiff a positive \code{double} inferior ot \code{1}, in the case of a differentially methylated site a case 
 #' differentially methylated the proportion of C/T follow a beta distribution 
 #' where the mean is shifted of vDiff from the CTRL distribution
 #'
-#' @param vInheritance the proportion of case inherite the inherited sites.
+#' @param vInheritance a positive \code{double} inferior ot \code{1}, the proportion of case inherite the inherited sites.
 #' 
-#' @param propInherite proportion of differentially methylated site
+#' @param propInherite a positive \code{double} inferior ot \code{1}, proportion of differentially methylated site
 #' are inherated
 #'
-#' @param rateDiff the mean of the chance that a site is differentially 
+#' @param rateDiff a positive \code{double} inferior ot \code{1}, the mean of the chance that a site is differentially 
 #' methylated
 #'
-#' @param minRate the minimum number of diferentially methylated site
+#' @param minRate a positive \code{double} inferior ot \code{1}, the minimum number of diferentially methylated site
 #'
 #' @param propHetero the reduction vDiff for the intergeneration
 #' 
