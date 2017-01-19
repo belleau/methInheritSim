@@ -13,7 +13,7 @@
 #' paramter. 
 #' Default: \code{1e-06}.
 #'
-#' @return a \code{double}, the alpha parameter of a Beta distribution
+#' @return a \code{double}, the alpha parameter of a Beta distribution.
 #'
 #' @examples
 #'
@@ -38,7 +38,7 @@ estBetaAlpha <- function(valCtrl, minVal = 1e-06){
 #' @title Estimate the beta paramater of a beta distribution
 #'
 #' @description Estimate the beta paramater from the mean and the variance
-#' of a beta distribution
+#' of a beta distribution.
 #'
 #' @param valCtrl  a \code{vector} with 2 entries, the first value is the mean
 #' and the second value is the variance of the controls (CTRL) at a specific 
@@ -50,7 +50,7 @@ estBetaAlpha <- function(valCtrl, minVal = 1e-06){
 #' paramter. 
 #' Default: \code{1e-06}.
 #'
-#' @return a \code{double}, the beta parameter of a Beta distribution
+#' @return a \code{double}, the beta parameter of a Beta distribution.
 #'
 #' @examples
 #'
@@ -75,46 +75,50 @@ estBetaBeta <- function(valCtrl, minVal = 1e-06){
 
 #' @title Create a synthetic chromosome with the CTRL genome
 #'
-#' @description Create a synthetic chromosome with the sampling of m blocks 
-#' with nbCpG consecutive CpG 
+#' @description Create a synthetic chromosome with the sampling of a specified 
+#' number of blocks and a specified number of consecutive CpG.
 #'
 #' @param methInfo is methylKitList of the CTRL data.
 #'
-#' @param m \code{integer} the number of blocks 
+#' @param m \code{integer}, the number of blocks used for sampling.
 #'
-#' @param nbCpG a \code{integer} consecutive CpG position from methInfo
+#' @param nbCpG a \code{integer}, the number of consecutive CpG positions used
+#' for sampling from \code{methInfo}.
 #'
-#' @return TODO
+#' @return a \code{GRanges} object, the senthetic chromosome TODO
 #'
 #' @examples
 #'
 #' ## Load methyl information
 #' data(samplesForChrSynthetic)
+#' 
+#' ## Ensure results are reproducible
 #' set.seed(32)
-#' methylInheritanceSim:::getSyntheticChr(methInfo=samplesForChrSynthetic, m = 10, nbCpG = 20)
-#' 
-#' 
-#' ## TODO
-#'
+#' methylInheritanceSim:::getSyntheticChr(methInfo=samplesForChrSynthetic, 
+#' m = 10, nbCpG = 20)
 #'
 #' @author Pascal Belleau
 #' @importFrom stats runif var
 #' @keywords internal
-
-getSyntheticChr <- function(methInfo, m, nbCpG){
+getSyntheticChr <- function(methInfo, m, nbCpG) {
     
     seqChr <- unique(methInfo$chr) # list of Chr
-    # Sample m chromosome could be the same
+    
+    # Sample m chromosomes, the same can be sample more than once
     chr <- seqChr[sample(1:length(seqChr),m,replace=TRUE)]
     
     # The position of the CTRL
-    posCTRL <- which(methInfo@treatment==0)
+    posCTRL <- which(methInfo@treatment == 0)
     
     # Init the data.frame
-    res <- data.frame(chr=rep("S", m*nbCpG), start=rep(0,m*nbCpG), end=rep(0,m*nbCpG),
-                      meanCTRL=rep(0,m*nbCpG), varCTRL=rep(0,m*nbCpG),
-                      alphaCTRL=rep(0,m*nbCpG), betaCTRL=rep(0,m*nbCpG),
-                      chrOri=rep(0, m*nbCpG), startOri=rep(0,m*nbCpG))
+    res <- data.frame(chr = rep("S", m * nbCpG), start=rep(0, m * nbCpG), 
+                        end = rep(0, m * nbCpG),
+                        meanCTRL = rep(0, m * nbCpG), 
+                        varCTRL = rep(0, m * nbCpG),
+                        alphaCTRL = rep(0,m * nbCpG), 
+                        betaCTRL = rep(0, m * nbCpG),
+                        chrOri = rep(0, m * nbCpG), 
+                        startOri = rep(0, m * nbCpG))
     
     # First position
     l <- 1000
@@ -123,25 +127,34 @@ getSyntheticChr <- function(methInfo, m, nbCpG){
         
         # Select a position in the block
         v <- round(runif(1,0,1) *
-                       (length(methInfo$start[methInfo$chr==chr[i]]) - nbCpG))
+                    (length(methInfo$start[methInfo$chr == chr[i]]) - nbCpG))
         
-        methBlock <- getData(methInfo[methInfo$chr==chr[i]][(v+1):(v+nbCpG)])
-        matProp <- sapply(posCTRL, function(x,methCur){unname(unlist(methCur[3*(x-1)+2]/methCur[3*(x-1)+1]))}, methCur=methBlock[5:length(methBlock)])
-        res$chrOri[((i-1)*nbCpG + 1):(i*nbCpG)] <- rep(chr[i], nbCpG)
-        res$startOri[((i-1)*nbCpG + 1):(i*nbCpG)] <- unname(unlist(methBlock[2]))
-        res$start[((i-1)*nbCpG + 1):(i*nbCpG)] <- unname(unlist(methBlock[2])) - unname(unlist(methBlock[2]))[1] + l
-        res$end[((i-1)*nbCpG + 1):(i*nbCpG)] <- res$start[((i-1)*nbCpG + 1):(i*nbCpG)]
-        res$meanCTRL[((i-1)*nbCpG + 1):(i*nbCpG)] <- rowMeans(matProp)
-        res$varCTRL[((i-1)*nbCpG + 1):(i*nbCpG)] <- apply(matProp, 1, var)
-        l <- res$start[i*nbCpG] + 10000
+        methBlock <- getData(methInfo[methInfo$chr == chr[i]][(v+1):(v+nbCpG)])
+        matProp <- sapply(posCTRL, function(x, methCur) {
+                unname(unlist(methCur[3*(x - 1) + 2]/methCur[3*(x - 1) + 1]))}, 
+                methCur = methBlock[5:length(methBlock)])
+        res$chrOri[((i - 1) * nbCpG + 1):(i * nbCpG)] <- rep(chr[i], nbCpG)
+        res$startOri[((i - 1) * nbCpG + 1):(i * nbCpG)] <- 
+                unname(unlist(methBlock[2]))
+        res$start[((i - 1) * nbCpG + 1):(i * nbCpG)] <- 
+                unname(unlist(methBlock[2])) - 
+                unname(unlist(methBlock[2]))[1] + l
+        res$end[((i - 1) * nbCpG + 1):(i * nbCpG)] <- 
+                res$start[((i - 1) * nbCpG + 1):(i * nbCpG)]
+        res$meanCTRL[((i - 1) * nbCpG + 1):(i * nbCpG)] <- rowMeans(matProp)
+        res$varCTRL[((i - 1) * nbCpG + 1):(i * nbCpG)] <- 
+                apply(matProp, 1, var)
+        l <- res$start[i * nbCpG] + 10000
     }
-    res$alphaCTRL <- apply(res[,c(4,5)], 1, estBetaAlpha)
-    res$betaCTRL <- apply(res[,c(4,5)], 1, estBetaBeta)
-    res <- GRanges(seqnames = res$chr, ranges =
-                        IRanges(start = res$start, end = res$end),
-                    strand = rep("+", m*nbCpG), chrOri = res$chrOri,
+    
+    res$alphaCTRL <- apply(res[, c(4,5)], 1, estBetaAlpha)
+    res$betaCTRL  <- apply(res[, c(4,5)], 1, estBetaBeta)
+    res <- GRanges(seqnames = res$chr, 
+                    ranges = IRanges(start = res$start, end = res$end),
+                    strand = rep("+", m * nbCpG), chrOri = res$chrOri,
                     startOri = res$startOri, meanCTRL = res$meanCTRL,
                     varCTRL = res$varCTRL)
+    
     return(res)
 }
 

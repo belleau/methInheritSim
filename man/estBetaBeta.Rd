@@ -18,11 +18,11 @@ paramter.
 Default: \code{1e-06}.}
 }
 \value{
-a \code{double}, the beta parameter of a Beta distribution
+a \code{double}, the beta parameter of a Beta distribution.
 }
 \description{
 Estimate the beta paramater from the mean and the variance
-of a beta distribution
+of a beta distribution.
 }
 \examples{
 
