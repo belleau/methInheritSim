@@ -369,7 +369,8 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 
 #' @title TODO
 #'
-#' @description Identify the pos where the case are Diff meth and which one are heritable
+#' @description Identify the pos where the case are Diff meth and which 
+#' one are heritable
 #'
 #' @param stateInfo 
 #'
@@ -383,7 +384,7 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #'
 #' @param b a \code{double}, TODO . Default: \code{-1e-01}.
 #'
-#' @param endLength TODO . Default: \code{1000}.
+#' @param endLength a \code{double}, TODO . Default: \code{1000}.
 #'
 #' @return a \code{list} containing the following elements:
 #' \itemize{
@@ -499,11 +500,12 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #'
 #' @param propHetero TODO
 #'
-#' @param minReads TODO
+#' @param minReads a \code{integer} TODO
 #' 
 #' @param maxPercReads TODO
 #' 
-#' @param context TODO. Default: \code{"CpG"}.
+#' @param context TODO, short description of the methylation context. 
+#' As exemples: Cpg, CpH, CHH, etc.. Default: \code{"CpG"}.
 #' 
 #' @param assembly TODO. Default: \code{"Rnor_5.0"}.
 #' 
@@ -511,11 +513,11 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' 
 #' @param diffRes TODO. Default: \code{NULL}.
 #'
-#' @param saveGRanges TODO. Default: \code{TRUE}.
+#' @param saveGRanges a \code{logical}, TODO. Default: \code{TRUE}.
 #' 
-#' @param saveMethylKit TODO. Default: \code{TRUE}.
+#' @param saveMethylKit a \code{logical}, TODO.. Default: \code{TRUE}.
 #' 
-#' @param anaMethylKit TODO. Default: \code{TRUE}.
+#' @param anaMethylKit a \code{logical}, TODO. Default: \code{TRUE}.
 #' 
 #' @return \code{0} indicating that the function has been successful.
 #'

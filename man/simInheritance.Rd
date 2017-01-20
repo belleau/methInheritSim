@@ -46,11 +46,12 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 
 \item{propHetero}{TODO}
 
-\item{minReads}{TODO}
+\item{minReads}{a \code{integer} TODO}
 
 \item{maxPercReads}{TODO}
 
-\item{context}{TODO. Default: \code{"CpG"}.}
+\item{context}{TODO, short description of the methylation context. 
+As exemples: Cpg, CpH, CHH, etc.. Default: \code{"CpG"}.}
 
 \item{assembly}{TODO. Default: \code{"Rnor_5.0"}.}
 
@@ -58,11 +59,11 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 
 \item{diffRes}{TODO. Default: \code{NULL}.}
 
-\item{saveGRanges}{TODO. Default: \code{TRUE}.}
+\item{saveGRanges}{a \code{logical}, TODO. Default: \code{TRUE}.}
 
-\item{saveMethylKit}{TODO. Default: \code{TRUE}.}
+\item{saveMethylKit}{a \code{logical}, TODO.. Default: \code{TRUE}.}
 
-\item{anaMethylKit}{TODO. Default: \code{TRUE}.}
+\item{anaMethylKit}{a \code{logical}, TODO. Default: \code{TRUE}.}
 }
 \value{
 \code{0} indicating that the function has been successful.
