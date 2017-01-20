@@ -478,7 +478,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #'
 #' @param pref TODO
 #'
-#' @param k TODO
+#' @param k a positive \code{integer}, TODO
 #'
 #' @param nbCtrl a positive \code{integer}, the number of controls.
 #'

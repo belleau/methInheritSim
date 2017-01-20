@@ -16,7 +16,7 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 
 \item{pref}{TODO}
 
-\item{k}{TODO}
+\item{k}{a positive \code{integer}, TODO}
 
 \item{nbCtrl}{a positive \code{integer}, the number of controls.}
 
