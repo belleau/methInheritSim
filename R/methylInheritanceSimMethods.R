@@ -90,10 +90,6 @@
 #' @param vSeed a \code{integer}, a seed used when reproducible results are
 #' needed. When a value inferior or equal to zero is given, a random integer
 #' is used. Default: \code{-1}.
-#' 
-#' @param vSeed a \code{integer}, a seed used when reproducible results are
-#' needed. When a value inferior or equal to zero is given, a random integer
-#' is used. Default: \code{-1}.
 #'
 #' @return TODO
 #'
