@@ -1,7 +1,7 @@
 
 # methylInheritanceSim
 
-TODO
+Whole-Genome Inherited Bisulphite Sequencing Data Simulation
 
 
 ## Authors ##
