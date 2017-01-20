@@ -4,12 +4,13 @@
 #'
 #' @param pathOut the path where the the out put file is seved
 #'
-#' @param fileGen a \code{string} include each output file. Each output file are 
+#' @param fileGen a \code{string} include each output file. Each output 
+#' file are 
 #' composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
 #' parameters of the simulation and ".rds". 
 #'
-#' @param nbSynCHR a \code{integer}, the number of distinct synthetics chromosomes. 
-#' generate.
+#' @param nbSynCHR a \code{integer}, the number of distinct synthetics 
+#' chromosomes. generate.
 #'
 #' @param methData a \code{methylBase} object from \code{methylKit}, a real 
 #' dataset used to sample block for the synthetic chromosome
@@ -19,34 +20,41 @@
 #'
 #' @param lBlock a \code{integer}, the number of the CpG in each block sampled
 #'
-#' @param vNbSample a \code{vector} of the number of CTRL and case in the the simulation dataset. In 
+#' @param vNbSample a \code{vector} of the number of CTRL and case in the the 
+#' simulation dataset. In 
 #' the simulation dataset the number of CTRL equal the number of Case. 
 #' The number of CTRL do not need to be equal to the number of Case in
 #' the real dataset
 #'
 #' @param nbGeneration a \code{integer}, the number of generation simulate
 #'
-#' @param vpDiff a positive \code{double} inferior ot \code{1}, the mean proportion of case simulate as 
-#' differentially methylated when the site is selected as differentially
-#' methylated (this is like the penetrance).
+#' @param vpDiff a positive \code{double} inferior ot \code{1}, the mean 
+#' proportion of case simulate as differentially methylated when the site 
+#' is selected as differentially methylated (this is like the penetrance).
 #' 
 #' @param vpDiffsd a \code{double} the variance of the parameter \code{vpDIff}
 #'
-#' @param vDiff a positive \code{double} inferior ot \code{1}, in the case of a differentially methylated site a case 
+#' @param vDiff a positive \code{double} inferior ot \code{1}, in the case of 
+#' a differentially methylated site a case 
 #' differentially methylated the proportion of C/T follow a beta distribution 
 #' where the mean is shifted of vDiff from the CTRL distribution
 #'
-#' @param vInheritance a positive \code{double} inferior ot \code{1}, the proportion of case inherite the inherited sites.
+#' @param vInheritance a positive \code{double} inferior ot \code{1}, the 
+#' proportion of case inherite the inherited sites.
 #' 
-#' @param propInherite a positive \code{double} inferior ot \code{1}, proportion of differentially methylated site
+#' @param propInherite a positive \code{double} inferior ot \code{1}, 
+#' proportion of differentially methylated site
 #' are inherated
 #'
-#' @param rateDiff a positive \code{double} inferior ot \code{1}, the mean of the chance that a site is differentially 
+#' @param rateDiff a positive \code{double} inferior ot \code{1}, the mean of 
+#' the chance that a site is differentially 
 #' methylated
 #'
-#' @param minRate a positive \code{double} inferior ot \code{1}, the minimum number of diferentially methylated site
+#' @param minRate a positive \code{double} inferior ot \code{1}, the minimum 
+#' number of diferentially methylated site
 #'
-#' @param propHetero the reduction vDiff for the intergeneration
+#' @param propHetero a positive \code{double} inferior ot \code{1}, the 
+#' reduction vDiff for the intergeneration
 #' 
 #' @param minReads a positive \code{integer} Bases and regions having lower
 #' coverage than this count are discarded. The parameter
@@ -73,9 +81,12 @@
 #' 
 #' @param anaMethylKit Default: \code{TRUE}
 #' 
-#' @param nbCores Default: \code{1}.
+#' @param nbCores a positive \code{integer}, the number of cores to use when
+#' processing the analysis. Default: \code{1}.
 #' 
-#' @param vSeed Default: \code{-1}.
+#' @param vSeed a \code{integer}, a seed used when reproducible results are
+#' needed. When a value inferior or equal to zero is given, a random integer
+#' is used. Default: \code{-1}.
 #' 
 #' @param vSeed a \code{integer}, a seed used when reproducible results are
 #' needed. When a value inferior or equal to zero is given, a random integer
