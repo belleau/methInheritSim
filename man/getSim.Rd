@@ -60,6 +60,9 @@ TODO
 ## Fix seed to have reproducible results
 set.seed(312)
 
+## Load dataset
+data("samplesForChrSynthetic")
+
 ## Generate a stateInfo object using samples
 stateInfo <- methylInheritanceSim:::getSyntheticChr(methInfo = 
 samplesForChrSynthetic, nbBlock = 1, nbCpG = 3)
