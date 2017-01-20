@@ -76,6 +76,8 @@
 #' 
 #' @param meanCov Default: \code{80}
 #' 
+#' @param n a positive \code{integer} 
+#' 
 #' @param keepDiff Default: \code{FALSE}
 #' 
 #' @param saveGRanges Default: \code{TRUE}
@@ -105,7 +107,7 @@
 
 
 runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
-                    nbC, nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance,
+                   vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance,
                     propInherite ,rateDiff, minRate, propHetero, minReads = 10, 
                     maxPercReads = 99.9, context = "CpG", assembly="Rnor_5.0",
                     meanCov = 80, n, keepDiff = FALSE,
@@ -126,7 +128,7 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
         adPref <- paste0(fileGen, "_", s)
         saveRDS(res, file=paste0(pathOut, "/stateInfo_", adPref, ".rds"))
         
-        for(nbSample in nbC){
+        for(nbSample in vNbSample){
             
             adPrefSample <- paste0(adPref, "_", nbSample)
             nbCtrl <- nbSample
