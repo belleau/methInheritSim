@@ -16,14 +16,22 @@ getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 1, b = -0.1,
 
 \item{propInherite}{}
 
-\item{b}{TODO . Default: \code{-1e-01}.}
+\item{c}{a \code{double}, TODO Default: \code{1.0}.}
+
+\item{b}{a \code{double}, TODO . Default: \code{-1e-01}.}
 
 \item{endLength}{TODO . Default: \code{1000}.}
-
-\item{c.}{Default: \code{-1e-01}.}
 }
 \value{
-TODO
+a \code{list} containing the following elements:
+\itemize{
+\item \code{stateDiff} a \code{vector} TODO. The length of the 
+\code{vector} corresponds to the length of 
+the \code{stateInfo} parameter.
+\item \code{stateDiff} a \code{vector} TODO. The length of the 
+\code{vector} corresponds to the length of 
+the \code{stateInfo} parameter.
+}
 }
 \description{
 Identify the pos where the case are Diff meth and which one are heritable
