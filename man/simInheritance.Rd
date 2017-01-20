@@ -22,7 +22,8 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 
 \item{nbCase}{a positive \code{integer}, the number of cases.}
 
-\item{treatment}{TODO}
+\item{treatment}{a \code{vector} containing 0 and 1 denoting 
+which samples are controls and which samples are cases. TODO}
 
 \item{sample.id}{TODO}
 
