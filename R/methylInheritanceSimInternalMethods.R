@@ -493,11 +493,15 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #'
 #' @param stateInfo TODO
 #'
-#' @param rateDiff
+#' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
+#' the probability that a site is differentially methylated. 
 #'
-#' @param minRate TODO
+#' @param minRate a positive \code{double} inferior to \code{1}, the minimum 
+#' rate of differentially methylated sites. Ensure that the total number of
+#' differentially methylated sites is superior to \code{minRate}.
 #'
-#' @param propInherite TODO
+#' @param propInherite a positive \code{double} between [0,1], the 
+#' proportion of cases that inherited differentially methylated sites.
 #'
 #' @param diffValue TODO
 #'
@@ -509,14 +513,18 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #'
 #' @param propHetero TODO
 #'
-#' @param minReads a \code{integer} TODO
+#' @param minReads a  positive \code{integer}, bases and regions having lower
+#' coverage inferior to \code{minReads} are discarded. This parameter
+#' correspond to the \code{lo.count} parameter in the \code{methylKit} package.
 #' 
 #' @param maxPercReads TODO
 #' 
-#' @param context TODO, short description of the methylation context. 
-#' As exemples: Cpg, CpH, CHH, etc.. Default: \code{"CpG"}.
+#' @param context a string of \code{character}, a short description of 
+#' the methylation context. As exemples: Cpg, CpH, CHH, etc.. 
+#' Default: \code{"CpG"}.
 #' 
-#' @param assembly TODO. Default: \code{"Rnor_5.0"}.
+#' @param assembly a string of \code{character}, TODO. 
+#' Default: \code{"Rnor_5.0"}.
 #' 
 #' @param meanCov TODO. Default: \code{80}.
 #' 

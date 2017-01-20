@@ -31,11 +31,15 @@ which samples are controls and which samples are cases. TODO}
 
 \item{stateInfo}{TODO}
 
-\item{rateDiff}{}
+\item{rateDiff}{a positive \code{double} inferior to \code{1}, the mean of 
+the probability that a site is differentially methylated.}
 
-\item{minRate}{TODO}
+\item{minRate}{a positive \code{double} inferior to \code{1}, the minimum 
+rate of differentially methylated sites. Ensure that the total number of
+differentially methylated sites is superior to \code{minRate}.}
 
-\item{propInherite}{TODO}
+\item{propInherite}{a positive \code{double} between [0,1], the 
+proportion of cases that inherited differentially methylated sites.}
 
 \item{diffValue}{TODO}
 
@@ -47,14 +51,18 @@ which samples are controls and which samples are cases. TODO}
 
 \item{propHetero}{TODO}
 
-\item{minReads}{a \code{integer} TODO}
+\item{minReads}{a  positive \code{integer}, bases and regions having lower
+coverage inferior to \code{minReads} are discarded. This parameter
+correspond to the \code{lo.count} parameter in the \code{methylKit} package.}
 
 \item{maxPercReads}{TODO}
 
-\item{context}{TODO, short description of the methylation context. 
-As exemples: Cpg, CpH, CHH, etc.. Default: \code{"CpG"}.}
+\item{context}{a string of \code{character}, a short description of 
+the methylation context. As exemples: Cpg, CpH, CHH, etc.. 
+Default: \code{"CpG"}.}
 
-\item{assembly}{TODO. Default: \code{"Rnor_5.0"}.}
+\item{assembly}{a string of \code{character}, TODO. 
+Default: \code{"Rnor_5.0"}.}
 
 \item{meanCov}{TODO. Default: \code{80}.}
 
