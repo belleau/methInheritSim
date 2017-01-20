@@ -1,0 +1,25 @@
+language: r
+sudo: required
+
+# R version
+r: bioc-release
+
+# Package caching only makes sense for the release versions.
+cache: packages
+
+# Packages from Bioconductor needed
+bioc_required: true
+
+# Be strict when checking package
+warnings_are_errors: true
+
+r_build_args: "--no-manual --no-resave-data --keep-empty-dirs"
+r_check_args: "--no-build-vignettes --no-manual --timings"
+
+# Package dependencies from CRAN not in DESCRIPTION file
+r_binary_packages:
+   - covr
+
+# To send info to codecov
+after_success:
+  - Rscript -e 'library(covr);codecov()'

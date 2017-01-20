@@ -5,8 +5,8 @@
 \alias{samplesForChrSynthetic}
 \title{All samples information, formated by \code{methylKit}, in a
 \code{methylBase} format (for demo purpose).}
-\format{A \code{methylBase} object contains the information for one generation.
-Each sample information is
+\format{A \code{methylBase} object contains the information for one 
+generation. Each sample information is
 stored in a \code{methylRaw} object. There is \code{methylRaw} objects
  (6 controls and 6 cases).}
 \usage{

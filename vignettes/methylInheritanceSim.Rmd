@@ -1,0 +1,44 @@
+---
+title: "Whole-Genome Inherited Bisulphite Sequencing Data Simulation"
+author: Pascal Belleau, Astrid Deschenes and Arnaud Droit 
+output:
+  BiocStyle::html_document:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{TODO}
+  %\VignettePackage{methylInheritanceSim}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown()
+library(knitr)
+```
+
+<br />
+**Package**: `r Rpackage("methylInheritanceSim")`<br />
+**Authors**: `r packageDescription("methylInheritanceSim")[["Author"]]`<br />
+**Version**: `r packageDescription("methylInheritanceSim")$Version`<br />
+**Compiled date**: `r Sys.Date()`<br />
+**License**: `r packageDescription("methylInheritanceSim")[["License"]]`<br />
+
+
+# Licensing 
+
+The **methylInheritanceSim** package and the underlying 
+**methylInheritanceSim** code 
+are distributed under the Artistic license 2.0. You are free to use and 
+redistribute this software. 
+
+# Introduction
+
+# Introduction
+
+DNA methylation plays an important role in the biology of tissue development 
+and diseases. High-throughput sequencing techniques enable genome-wide 
+detection of differentially methylated elements (DME), commonly sites (DMS) or 
+regions (DMR). The analysis of treatment effects on DNA methylation, from 
+one generation to the next (inter-generational) and across generations that 
+were not exposed to the initial environment (trans-generational) represent 
+complex designs. 

@@ -18,6 +18,7 @@ Imports:
     methylKit,
     GenomicRanges,
     GenomeInfoDb,
+    parallel,
     BiocGenerics,
     S4Vectors,
     methods,
@@ -32,8 +33,9 @@ Suggests:
 Encoding: UTF-8
 License: Artistic-2.0
 VignetteBuilder: knitr
-biocViews: BiologicalQuestion, Epigenetics,
-    Software, StatisticalMethod, Simulation
+biocViews: BiologicalQuestion, Epigenetics, DNAMethylation, 
+    DifferentialMethylation, MethylSeq,
+    Software, StatisticalMethod, WholeGenome, Sequencing
 Maintainer: Pascal Belleau <pascal_belleau@hotmail.com>
 License: Artistic-2.0
 RoxygenNote: 5.0.1
