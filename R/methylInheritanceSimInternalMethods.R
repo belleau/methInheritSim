@@ -291,7 +291,7 @@ getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
 #' 
 #' ## Create a simulation using stateInfo and stateDiff
 #' methylInheritanceSim:::getSim(nbCtrl = 3, nbCase = 2, generation = 3, 
-#' stateInfo = stateInfo, sateDiff = stateDiff, diffValue = 10, 
+#' stateInfo = stateInfo, stateDiff = stateDiff, diffValue = 10, 
 #' propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
 #'
 #' @author Pascal Belleau
