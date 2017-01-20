@@ -12,49 +12,52 @@
 #' @param nbSynCHR a \code{integer}, the number of distinct synthetics 
 #' chromosomes. generate.
 #'
-#' @param methData a \code{methylBase} object from \code{methylKit}, a real 
-#' dataset used to sample block for the synthetic chromosome
+#' @param methData is object of class \code{methylBase}, the CpG information
+#' from controls (CTRL) that will be used to create the sythetic chromosome. 
+#' The object can also contain information from cases but only the controls will
+#' be used.
 #'
-#' @param nbBlock a \code{integer}, the number of blocks sample from methData 
-#' genome to create the synthetic chromosome.
+#' @param nbBlock \code{integer}, the number of blocks used for sampling.
 #'
-#' @param lBlock a \code{integer}, the number of the CpG in each block sampled
+#' @param lBlock a \code{integer}, the number of consecutive CpG positions used
+#' for sampling from \code{methInfo}.
 #'
-#' @param vNbSample a \code{vector} of the number of CTRL and case in the the 
+#' @param vNbSample a \code{vector} of positive \code{integer}, the number of CTRL and case in the the 
 #' simulation dataset. In 
 #' the simulation dataset the number of CTRL equal the number of Case. 
 #' The number of CTRL do not need to be equal to the number of Case in
 #' the real dataset
 #'
-#' @param nbGeneration a \code{integer}, the number of generation simulate
+#' @param nbGeneration a positive \code{integer}, the number of generations
 #'
-#' @param vpDiff a positive \code{double} inferior ot \code{1}, the mean 
-#' proportion of case simulate as differentially methylated when the site 
-#' is selected as differentially methylated (this is like the penetrance).
+#' @param vpDiff a \code{double} superior to \code{0} and inferior or equal 
+#' to \code{1}, the mean value for the proportion of samples that will have,
+#' for a specific position, differentially methylated values. It can be 
+#' interpreted as the penetrance.
 #' 
-#' @param vpDiffsd a \code{double} the variance of the parameter \code{vpDIff}
+#' @param vpDiffsd a non-negative \code{double}, the standard deviation 
+#' associated to the \code{propDiff}.
 #'
-#' @param vDiff a positive \code{double} inferior ot \code{1}, in the case of 
-#' a differentially methylated site a case 
-#' differentially methylated the proportion of C/T follow a beta distribution 
-#' where the mean is shifted of vDiff from the CTRL distribution
+#' @param vDiff a positive \code{double} between [0,1], the proportion of C/T for a case 
+#' differentially methylated follow a beta distribution 
+#' where the mean is shifted of \code{vDiff} from the CTRL distribution
 #'
-#' @param vInheritance a positive \code{double} inferior ot \code{1}, the 
+#' @param vInheritance a positive \code{double} between [0,1], the 
 #' proportion of case inherite the inherited sites.
 #' 
-#' @param propInherite a positive \code{double} inferior ot \code{1}, 
+#' @param propInherite a positive \code{double} inferior to \code{1}, 
 #' proportion of differentially methylated site
 #' are inherated
 #'
-#' @param rateDiff a positive \code{double} inferior ot \code{1}, the mean of 
+#' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
 #' the chance that a site is differentially 
 #' methylated
 #'
-#' @param minRate a positive \code{double} inferior ot \code{1}, the minimum 
+#' @param minRate a positive \code{double} inferior to \code{1}, the minimum 
 #' number of diferentially methylated site
 #'
-#' @param propHetero a positive \code{double} inferior ot \code{1}, the 
-#' reduction vDiff for the intergeneration
+#' @param propHetero a positive \code{double} between [0,1], the 
+#' reduction of vDiff for the second and following generation
 #' 
 #' @param minReads a positive \code{integer} Bases and regions having lower
 #' coverage than this count are discarded. The parameter
