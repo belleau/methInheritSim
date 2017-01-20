@@ -16,11 +16,11 @@ getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 1, b = -0.1,
 
 \item{propInherite}{}
 
-\item{c}{}
+\item{b}{TODO . Default: \code{-1e-01}.}
 
-\item{b}{}
+\item{endLength}{TODO . Default: \code{1000}.}
 
-\item{endLength}{}
+\item{c.}{Default: \code{-1e-01}.}
 }
 \value{
 TODO

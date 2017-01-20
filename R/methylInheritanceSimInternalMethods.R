@@ -228,25 +228,38 @@ getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
 #'
 #' @description TODO
 #'
-#' @param nbCtrl a non-negative \code{integer}, the number of controls
+#' @param nbCtrl a positive \code{integer}, the number of controls
 #'
-#' @param nbCase a non-negative \code{integer}, the number of cases
+#' @param nbCase a positive \code{integer}, the number of cases
 #'
-#' @param generation TODO
+#' @param generation a positive \code{integer}, the number of generations
 #'
 #' @param stateInfo TODO
 #'
-#' @param stateDiff
+#' @param stateDiff a \code{list} with 2 entries. The first entry is called 
+#' \code{stateDiff} and contains a \code{vector} of \code{integer} with 
+#' a length corresponding the length of \code{stateInfo}. The \code{statDiff}
+#' indicates, using a \code{1}, the positions where the CpG sites are
+#' differentially methylated. The second entry is
+#' called \code{statInherite} and contains a \code{vector} of \code{integer} 
+#' with a length corresponding the length of \code{stateInfo}. The 
+#' \code{statInherite}
+#' indicates, using a \code{1}, the positions where the CpG values are
+#' inherited.
 #'
-#' @param diffValue
+#' @param diffValue TODO
 #'
-#' @param propDiff
+#' @param propDiff a \code{double} superior to \code{0} and inferior or equal 
+#' to \code{1}, the mean value for the proportion of samples that will have,
+#' for a specific position, differentially methylated values. It can be 
+#' interpreted as the penetrance.
 #'
-#' @param propDiffsd Default: \code{0.1}
+#' @param propDiffsd a non-negative \code{double}, the standard deviation 
+#' associated to the \code{propDiff}.
 #'
-#' @param propInheritance
+#' @param propInheritance TODO
 #'
-#' @param propHetero
+#' @param propHetero TODO
 #'
 #' @return TODO
 #'
@@ -330,7 +343,7 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #'
 #' @description Identify the pos where the case are Diff meth and which one are heritable
 #'
-#' @param stateInfo
+#' @param stateInfo 
 #'
 #' @param rateDiff
 #'
@@ -338,11 +351,11 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #'
 #' @param propInherite
 #'
-#' @param c
+#' @param c. Default: \code{-1e-01}.
 #'
-#' @param b
+#' @param b TODO . Default: \code{-1e-01}.
 #'
-#' @param endLength
+#' @param endLength TODO . Default: \code{1000}.
 #'
 #' @return TODO
 #'
@@ -354,7 +367,7 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #' @importFrom stats rbeta rexp runif rpois
 #' @keywords internal
 getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite, 
-                            c = 1.0, b = -1e-01, endLength=1000) {
+                            c = 1.0, b = -1e-01, endLength = 1000) {
     
     nbPos <- length(stateInfo)
     nbTry <- 1

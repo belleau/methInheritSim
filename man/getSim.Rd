@@ -8,25 +8,38 @@ getSim(nbCtrl, nbCase, generation, stateInfo, stateDiff, diffValue, propDiff,
   propDiffsd = 0.1, propInheritance, propHetero)
 }
 \arguments{
-\item{nbCtrl}{a non-negative \code{integer}, the number of controls}
+\item{nbCtrl}{a positive \code{integer}, the number of controls}
 
-\item{nbCase}{a non-negative \code{integer}, the number of cases}
+\item{nbCase}{a positive \code{integer}, the number of cases}
 
-\item{generation}{TODO}
+\item{generation}{a positive \code{integer}, the number of generations}
 
 \item{stateInfo}{TODO}
 
-\item{stateDiff}{}
+\item{stateDiff}{a \code{list} with 2 entries. The first entry is called 
+\code{stateDiff} and contains a \code{vector} of \code{integer} with 
+a length corresponding the length of \code{stateInfo}. The \code{statDiff}
+indicates, using a \code{1}, the positions where the CpG sites are
+differentially methylated. The second entry is
+called \code{statInherite} and contains a \code{vector} of \code{integer} 
+with a length corresponding the length of \code{stateInfo}. The 
+\code{statInherite}
+indicates, using a \code{1}, the positions where the CpG values are
+inherited.}
 
-\item{diffValue}{}
+\item{diffValue}{TODO}
 
-\item{propDiff}{}
+\item{propDiff}{a \code{double} superior to \code{0} and inferior or equal 
+to \code{1}, the mean value for the proportion of samples that will have,
+for a specific position, differentially methylated values. It can be 
+interpreted as the penetrance.}
 
-\item{propDiffsd}{Default: \code{0.1}}
+\item{propDiffsd}{a non-negative \code{double}, the standard deviation 
+associated to the \code{propDiff}.}
 
-\item{propInheritance}{}
+\item{propInheritance}{TODO}
 
-\item{propHetero}{}
+\item{propHetero}{TODO}
 }
 \value{
 TODO
