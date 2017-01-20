@@ -50,9 +50,9 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 
 \item{maxPercReads}{TODO}
 
-\item{context}{TODO. Default: \code{"CpG"}}
+\item{context}{TODO. Default: \code{"CpG"}.}
 
-\item{assembly}{TODO}
+\item{assembly}{TODO. Default: \code{"Rnor_5.0"}.}
 
 \item{meanCov}{TODO. Default: \code{80}.}
 

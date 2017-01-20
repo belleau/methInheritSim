@@ -379,13 +379,21 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #'
 #' @param propInherite
 #'
-#' @param c. Default: \code{-1e-01}.
+#' @param c a \code{double}, TODO Default: \code{1.0}.
 #'
-#' @param b TODO . Default: \code{-1e-01}.
+#' @param b a \code{double}, TODO . Default: \code{-1e-01}.
 #'
 #' @param endLength TODO . Default: \code{1000}.
 #'
-#' @return TODO
+#' @return a \code{list} containing the following elements:
+#' \itemize{
+#' \item \code{stateDiff} a \code{vector} TODO. The length of the 
+#' \code{vector} corresponds to the length of 
+#' the \code{stateInfo} parameter.
+#' \item \code{stateDiff} a \code{vector} TODO. The length of the 
+#' \code{vector} corresponds to the length of 
+#' the \code{stateInfo} parameter.
+#' }
 #'
 #' @examples
 #'
@@ -410,16 +418,17 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
         m<- max(1, round(vExp[i]))
         
         while(m <= nbPos){
-            flagInherite <- ifelse(runif(1,0,1) < propInherite, TRUE,FALSE)
+            flagInherite <- ifelse(runif(1, 0, 1) < propInherite, TRUE, FALSE)
             stateDiff[m] <- 1
             if(flagInherite){
                 stateInherite[m] <- 1
             }
             m <- m+1
             while(m <= nbPos && 
-                  (start(stateInfo)[m] - start(stateInfo)[m-1]) <= endLength){
+                (start(stateInfo)[m] - start(stateInfo)[m - 1]) <= endLength){
                 cutOff <- c * 
                     exp(b*log(start(stateInfo)[m] - start(stateInfo)[m-1]))
+                
                 u <- runif(1,0,1)
                 if(u < cutOff){
                     stateDiff[m] <- 1
@@ -432,15 +441,18 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
             i <- i+1
             m <- m + round(vExp[i])
         }
-        length(which(stateDiff == 1))
-        if(length(which(stateDiff == 1))>= minRate * nbPos){
+        length(which(stateDiff == 1)) # TODO Pascal a quoi ca sert ?
+        
+        if (length(which(stateDiff == 1)) >= minRate * nbPos) {
             flag <- FALSE
         } else{
             warning(paste0("Nb: ", length(which(stateDiff == 1))))
         }
+        
         nbTry <- nbTry + 1
     }
-    if(flag){
+    
+    if (flag) {
         stateDiff <- NULL
         warning("Enable to generate the differentially methyyleted proportion fin\n")
     }
@@ -491,9 +503,9 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' 
 #' @param maxPercReads TODO
 #' 
-#' @param context TODO. Default: \code{"CpG"}
+#' @param context TODO. Default: \code{"CpG"}.
 #' 
-#' @param assembly TODO
+#' @param assembly TODO. Default: \code{"Rnor_5.0"}.
 #' 
 #' @param meanCov TODO. Default: \code{80}.
 #' 
