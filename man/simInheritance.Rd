@@ -12,44 +12,60 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
   saveMethylKit = TRUE, anaMethylKit = TRUE)
 }
 \arguments{
-\item{pathOut}{}
+\item{pathOut}{TODO}
 
-\item{pref}{}
+\item{pref}{TODO}
 
-\item{k}{}
+\item{k}{TODO}
 
-\item{nbCtrl}{}
+\item{nbCtrl}{a positive \code{integer}, the number of controls.}
 
-\item{nbCase}{}
+\item{nbCase}{a positive \code{integer}, the number of cases.}
 
-\item{treatment}{}
+\item{treatment}{TODO}
 
-\item{sample.id}{}
+\item{sample.id}{TODO}
 
-\item{generation}{}
+\item{generation}{a positive \code{integer}, the number of generations.}
+
+\item{stateInfo}{TODO}
 
 \item{rateDiff}{}
 
-\item{minRate}{}
+\item{minRate}{TODO}
 
-\item{propInherite}{}
+\item{propInherite}{TODO}
 
-\item{diffValue}{}
+\item{diffValue}{TODO}
 
-\item{propDiff}{}
+\item{propDiff}{TODO}
 
-\item{propDiffsd}{}
+\item{propDiffsd}{TODO}
 
-\item{propInheritance}{}
+\item{propInheritance}{TODO}
 
-\item{propHetero}{}
+\item{propHetero}{TODO}
 
-\item{diffRes}{(default \code{NULL})}
+\item{minReads}{TODO}
 
-\item{res}{}
+\item{maxPercReads}{TODO}
+
+\item{context}{TODO. Default: \code{"CpG"}}
+
+\item{assembly}{TODO}
+
+\item{meanCov}{TODO. Default: \code{80}.}
+
+\item{diffRes}{TODO. Default: \code{NULL}.}
+
+\item{saveGRanges}{TODO. Default: \code{TRUE}.}
+
+\item{saveMethylKit}{TODO. Default: \code{TRUE}.}
+
+\item{anaMethylKit}{TODO. Default: \code{TRUE}.}
 }
 \value{
-TODO
+\code{0} indicating that the function has been successful.
 }
 \description{
 TODO

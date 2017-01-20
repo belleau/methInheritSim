@@ -17,7 +17,7 @@
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{runSim}} { TODO }
+#' \item \code{\link{runSim}} { TODO }
 #' }
 #'
 #' @keywords package
@@ -40,8 +40,8 @@ NULL
 #'
 #' @aliases samplesForChrSynthetic
 #'
-#' @format A \code{methylBase} object contains the information for one generation.
-#' Each sample information is
+#' @format A \code{methylBase} object contains the information for one 
+#' generation. Each sample information is
 #' stored in a \code{methylRaw} object. There is \code{methylRaw} objects
 #'  (6 controls and 6 cases).
 #'

@@ -18,7 +18,7 @@ Pascal Belleau <pascal_belleau@hotmail.com>
 }
 \seealso{
 \itemize{
-    \item \code{\link{runSim}} { TODO }
+\item \code{\link{runSim}} { TODO }
 }
 }
 \keyword{package}
