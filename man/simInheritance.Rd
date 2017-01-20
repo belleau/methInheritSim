@@ -23,7 +23,8 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 \item{nbCase}{a positive \code{integer}, the number of cases.}
 
 \item{treatment}{a \code{vector} containing 0 and 1 denoting 
-which samples are controls and which samples are cases. TODO}
+which samples are controls and which samples are cases. The length of 
+the \code{vector} corresponds to the sum of \code{nbCtrl} and \code{nbCase}.}
 
 \item{sample.id}{TODO}
 
@@ -41,30 +42,44 @@ differentially methylated sites is superior to \code{minRate}.}
 \item{propInherite}{a positive \code{double} between [0,1], the 
 proportion of cases that inherited differentially methylated sites.}
 
-\item{diffValue}{TODO}
+\item{diffValue}{a non-negative \code{double} between between [0,1], the 
+proportion of C/T for a case differentially methylated following a 
+beta distribution 
+where the mean is shifted of \code{diffValue} from the CTRL distribution.}
 
-\item{propDiff}{TODO}
+\item{propDiff}{a \code{double} superior to \code{0} and inferior or equal 
+to \code{1}, the mean value for the proportion of samples that will have,
+for a specific position, differentially methylated values. It can be 
+interpreted as the penetrance.}
 
-\item{propDiffsd}{TODO}
+\item{propDiffsd}{a non-negative \code{double}, the standard deviation 
+associated to the \code{propDiff}.}
 
-\item{propInheritance}{TODO}
+\item{propInheritance}{a non-negative \code{double} between [0,1], the 
+proportion of case that inherite differentially methylated sites.}
 
-\item{propHetero}{TODO}
+\item{propHetero}{TODO a non-negative \code{double} between [0,1], the 
+reduction of \code{diffValue} for the second and following generations.}
 
-\item{minReads}{a  positive \code{integer}, bases and regions having lower
+\item{minReads}{a positive \code{integer}, bases and regions having lower
 coverage inferior to \code{minReads} are discarded. This parameter
 correspond to the \code{lo.count} parameter in the \code{methylKit} package.}
 
-\item{maxPercReads}{TODO}
+\item{maxPercReads}{a \code{double} between [0,100], the percentile of read
+counts that is going to be used as upper cutoff. Bases or regions
+having higher
+coverage than this percentile are discarded.The parameter
+correspond to the \code{hi.perc} parameter in the \code{methylKit} package.}
 
 \item{context}{a string of \code{character}, a short description of 
 the methylation context. As exemples: Cpg, CpH, CHH, etc.. 
 Default: \code{"CpG"}.}
 
-\item{assembly}{a string of \code{character}, TODO. 
-Default: \code{"Rnor_5.0"}.}
+\item{assembly}{a string of \code{character}, the description of the genome 
+assembly. Default: \code{"Rnor_5.0"}.}
 
-\item{meanCov}{TODO. Default: \code{80}.}
+\item{meanCov}{a positive \code{integer}, the mean coverage
+at the CpG sites. Default: \code{80}.}
 
 \item{diffRes}{TODO. Default: \code{NULL}.}
 

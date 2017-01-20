@@ -18,7 +18,7 @@ will be used.}
 for sampling from \code{methInfo}.}
 }
 \value{
-a \code{GRanges} object, the synthetic chromosome
+a \code{GRanges} object, the synthetic chromosome TODO
 }
 \description{
 Create a synthetic chromosome with the sampling of a specified 

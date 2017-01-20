@@ -88,7 +88,7 @@ estBetaBeta <- function(valCtrl, minVal = 1e-06){
 #' @param nbCpG a \code{integer}, the number of consecutive CpG positions used
 #' for sampling from \code{methInfo}.
 #'
-#' @return a \code{GRanges} object, the synthetic chromosome
+#' @return a \code{GRanges} object, the synthetic chromosome TODO
 #'
 #' @examples
 #'
@@ -485,7 +485,8 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' @param nbCase a positive \code{integer}, the number of cases.
 #'
 #' @param treatment a \code{vector} containing 0 and 1 denoting 
-#' which samples are controls and which samples are cases. TODO
+#' which samples are controls and which samples are cases. The length of 
+#' the \code{vector} corresponds to the sum of \code{nbCtrl} and \code{nbCase}.
 #'
 #' @param sample.id TODO
 #'
@@ -503,30 +504,44 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' @param propInherite a positive \code{double} between [0,1], the 
 #' proportion of cases that inherited differentially methylated sites.
 #'
-#' @param diffValue TODO
+#' @param diffValue a non-negative \code{double} between between [0,1], the 
+#' proportion of C/T for a case differentially methylated following a 
+#' beta distribution 
+#' where the mean is shifted of \code{diffValue} from the CTRL distribution.
 #'
-#' @param propDiff TODO
+#' @param propDiff a \code{double} superior to \code{0} and inferior or equal 
+#' to \code{1}, the mean value for the proportion of samples that will have,
+#' for a specific position, differentially methylated values. It can be 
+#' interpreted as the penetrance.
 #'
-#' @param propDiffsd TODO
+#' @param propDiffsd a non-negative \code{double}, the standard deviation 
+#' associated to the \code{propDiff}.
 #'
-#' @param propInheritance TODO
+#' @param propInheritance a non-negative \code{double} between [0,1], the 
+#' proportion of case that inherite differentially methylated sites.
 #'
-#' @param propHetero TODO
+#' @param propHetero TODO a non-negative \code{double} between [0,1], the 
+#' reduction of \code{diffValue} for the second and following generations.
 #'
-#' @param minReads a  positive \code{integer}, bases and regions having lower
+#' @param minReads a positive \code{integer}, bases and regions having lower
 #' coverage inferior to \code{minReads} are discarded. This parameter
 #' correspond to the \code{lo.count} parameter in the \code{methylKit} package.
 #' 
-#' @param maxPercReads TODO
+#' @param maxPercReads a \code{double} between [0,100], the percentile of read
+#' counts that is going to be used as upper cutoff. Bases or regions
+#' having higher
+#' coverage than this percentile are discarded.The parameter
+#' correspond to the \code{hi.perc} parameter in the \code{methylKit} package.
 #' 
 #' @param context a string of \code{character}, a short description of 
 #' the methylation context. As exemples: Cpg, CpH, CHH, etc.. 
 #' Default: \code{"CpG"}.
 #' 
-#' @param assembly a string of \code{character}, TODO. 
-#' Default: \code{"Rnor_5.0"}.
+#' @param assembly a string of \code{character}, the description of the genome 
+#' assembly. Default: \code{"Rnor_5.0"}.
 #' 
-#' @param meanCov TODO. Default: \code{80}.
+#' @param meanCov a positive \code{integer}, the mean coverage
+#' at the CpG sites. Default: \code{80}.
 #' 
 #' @param diffRes TODO. Default: \code{NULL}.
 #'
