@@ -8,30 +8,32 @@ getSim(nbCtrl, nbCase, generation, stateInfo, stateDiff, diffValue, propDiff,
   propDiffsd = 0.1, propInheritance, propHetero)
 }
 \arguments{
-\item{nbCtrl}{a positive \code{integer}, the number of controls}
+\item{nbCtrl}{a positive \code{integer}, the number of controls.}
 
-\item{nbCase}{a positive \code{integer}, the number of cases}
+\item{nbCase}{a positive \code{integer}, the number of cases.}
 
-\item{generation}{a positive \code{integer}, the number of generations}
+\item{generation}{a positive \code{integer}, the number of generations.}
 
 \item{stateInfo}{a \code{GRanges} object, the synthetic chromosome generated 
 by \code{getSyntheticChr} TODO (ajouter les champs de metadata ?)}
 
 \item{stateDiff}{a \code{list} with 2 entries. The first entry is called 
-\code{stateDiff} and contains a \code{vector} of \code{integer} with 
+\code{stateDiff} and contains a \code{vector} of \code{integer} (\code{0} 
+and \code{1}) with 
 a length corresponding the length of \code{stateInfo}. The \code{statDiff}
 indicates, using a \code{1}, the positions where the CpG sites are
 differentially methylated. The second entry is
 called \code{statInherite} and contains a \code{vector} of \code{integer} 
+(\code{0} and \code{1})
 with a length corresponding the length of \code{stateInfo}. The 
 \code{statInherite}
 indicates, using a \code{1}, the positions where the CpG values are
 inherited.}
 
-\item{diffValue}{TODO 
-Hyp: a positive \code{double} between between [0,1], the proportion of C/T for a case 
-differentially methylated follow a beta distribution 
-where the mean is shifted of \code{vDiff} from the CTRL distribution}
+\item{diffValue}{a non-negative \code{double} between between [0,1], the 
+proportion of C/T for a case differentially methylated following a 
+beta distribution 
+where the mean is shifted of \code{diffValue} from the CTRL distribution.}
 
 \item{propDiff}{a \code{double} superior to \code{0} and inferior or equal 
 to \code{1}, the mean value for the proportion of samples that will have,
@@ -41,13 +43,11 @@ interpreted as the penetrance.}
 \item{propDiffsd}{a non-negative \code{double}, the standard deviation 
 associated to the \code{propDiff}.}
 
-\item{propInheritance}{TODO
-Hyp: a positive \code{double} between [0,1], the 
-proportion of case inherite the inherited sites.}
+\item{propInheritance}{a non-negative \code{double} between [0,1], the 
+proportion of case that inherite differentially methylated sites.}
 
-\item{propHetero}{TODO
-Hyp: a positive \code{double} between [0,1], the 
-reduction of vDiff for the second and following generations}
+\item{propHetero}{TODO a non-negative \code{double} between [0,1], the 
+reduction of \code{diffValue} for the second and following generations.}
 }
 \value{
 TODO
@@ -57,8 +57,23 @@ TODO
 }
 \examples{
 
-## TODO
+## Fix seed to have reproducible results
+set.seed(312)
 
+## Generate a stateInfo object using samples
+stateInfo <- methylInheritanceSim:::getSyntheticChr(methInfo = 
+samplesForChrSynthetic, nbBlock = 1, nbCpG = 3)
+
+## Generate a stateDiff object with length corresponding to
+## nbBlock * nbCpG from stateInfo
+stateDiff <- list()
+stateDiff[["stateDiff"]] <- c(1, 0, 1)
+stateDiff[["stateInherite"]] <- c(1, 0, 0)
+
+## Create a simulation using stateInfo and stateDiff
+methylInheritanceSim:::getSim(nbCtrl = 3, nbCase = 2, generation = 3, 
+stateInfo = stateInfo, sateDiff = stateDiff, diffValue = 10, 
+propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
 
 }
 \author{

@@ -9,8 +9,8 @@ getSyntheticChr(methInfo, nbBlock, nbCpG)
 \arguments{
 \item{methInfo}{is object of class \code{methylBase}, the CpG information
 from controls (CTRL) that will be used to create the sythetic chromosome. 
-The object can also contain information from cases but only the controls will
-be used.}
+The object can also contain information from cases but only the controls 
+will be used.}
 
 \item{nbBlock}{\code{integer}, the number of blocks used for sampling.}
 

@@ -80,8 +80,8 @@ estBetaBeta <- function(valCtrl, minVal = 1e-06){
 #'
 #' @param methInfo is object of class \code{methylBase}, the CpG information
 #' from controls (CTRL) that will be used to create the sythetic chromosome. 
-#' The object can also contain information from cases but only the controls will
-#' be used.
+#' The object can also contain information from cases but only the controls 
+#' will be used.
 #'
 #' @param nbBlock \code{integer}, the number of blocks used for sampling.
 #'
@@ -228,30 +228,32 @@ getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
 #'
 #' @description TODO
 #'
-#' @param nbCtrl a positive \code{integer}, the number of controls
+#' @param nbCtrl a positive \code{integer}, the number of controls.
 #'
-#' @param nbCase a positive \code{integer}, the number of cases
+#' @param nbCase a positive \code{integer}, the number of cases.
 #'
-#' @param generation a positive \code{integer}, the number of generations
+#' @param generation a positive \code{integer}, the number of generations.
 #'
 #' @param stateInfo a \code{GRanges} object, the synthetic chromosome generated 
 #' by \code{getSyntheticChr} TODO (ajouter les champs de metadata ?)
 #'
 #' @param stateDiff a \code{list} with 2 entries. The first entry is called 
-#' \code{stateDiff} and contains a \code{vector} of \code{integer} with 
+#' \code{stateDiff} and contains a \code{vector} of \code{integer} (\code{0} 
+#' and \code{1}) with 
 #' a length corresponding the length of \code{stateInfo}. The \code{statDiff}
 #' indicates, using a \code{1}, the positions where the CpG sites are
 #' differentially methylated. The second entry is
 #' called \code{statInherite} and contains a \code{vector} of \code{integer} 
+#' (\code{0} and \code{1})
 #' with a length corresponding the length of \code{stateInfo}. The 
 #' \code{statInherite}
 #' indicates, using a \code{1}, the positions where the CpG values are
 #' inherited.
 #'
-#' @param diffValue TODO 
-#' Hyp: a positive \code{double} between between [0,1], the proportion of C/T for a case 
-#' differentially methylated follow a beta distribution 
-#' where the mean is shifted of \code{vDiff} from the CTRL distribution
+#' @param diffValue a non-negative \code{double} between between [0,1], the 
+#' proportion of C/T for a case differentially methylated following a 
+#' beta distribution 
+#' where the mean is shifted of \code{diffValue} from the CTRL distribution.
 #'
 #' @param propDiff a \code{double} superior to \code{0} and inferior or equal 
 #' to \code{1}, the mean value for the proportion of samples that will have,
@@ -261,20 +263,33 @@ getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
 #' @param propDiffsd a non-negative \code{double}, the standard deviation 
 #' associated to the \code{propDiff}.
 #'
-#' @param propInheritance TODO
-#' Hyp: a positive \code{double} between [0,1], the 
-#' proportion of case inherite the inherited sites.
+#' @param propInheritance a non-negative \code{double} between [0,1], the 
+#' proportion of case that inherite differentially methylated sites.
 #'
-#' @param propHetero TODO
-#' Hyp: a positive \code{double} between [0,1], the 
-#' reduction of vDiff for the second and following generations
+#' @param propHetero TODO a non-negative \code{double} between [0,1], the 
+#' reduction of \code{diffValue} for the second and following generations.
 #'
 #' @return TODO
 #'
 #' @examples
 #'
-#' ## TODO
-#'
+#' ## Fix seed to have reproducible results
+#' set.seed(312)
+#' 
+#' ## Generate a stateInfo object using samples
+#' stateInfo <- methylInheritanceSim:::getSyntheticChr(methInfo = 
+#' samplesForChrSynthetic, nbBlock = 1, nbCpG = 3)
+#' 
+#' ## Generate a stateDiff object with length corresponding to
+#' ## nbBlock * nbCpG from stateInfo
+#' stateDiff <- list()
+#' stateDiff[["stateDiff"]] <- c(1, 0, 1)
+#' stateDiff[["stateInherite"]] <- c(1, 0, 0)
+#' 
+#' ## Create a simulation using stateInfo and stateDiff
+#' methylInheritanceSim:::getSim(nbCtrl = 3, nbCase = 2, generation = 3, 
+#' stateInfo = stateInfo, sateDiff = stateDiff, diffValue = 10, 
+#' propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
 #'
 #' @author Pascal Belleau
 #' @importFrom msm rtnorm
@@ -288,8 +303,9 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
                     diffValue, propDiff, propDiffsd = 0.1, propInheritance, 
                     propHetero) {
     inR <- propDiff
-    #res<-list()
+    
     res <- GRangesList()
+    
     if(propDiffsd < 0.0000001){
         diffCase <- round(nbCase * inR)
     } else{
