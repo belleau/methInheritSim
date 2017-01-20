@@ -4,12 +4,12 @@
 \alias{runSim}
 \title{TODO}
 \usage{
-runSim(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock, nbC, nbGeneration,
-  vpDiff, vpDiffsd, vDiff, vInheritance, propInherite, rateDiff, minRate,
-  propHetero, minReads = 10, maxPercReads = 99.9, context = "CpG",
-  assembly = "Rnor_5.0", meanCov = 80, n, keepDiff = FALSE,
-  saveGRanges = TRUE, saveMethylKit = TRUE, anaMethylKit = TRUE,
-  nbCores = 1, vSeed = -1)
+runSim(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock, vNbSample,
+  nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance, propInherite, rateDiff,
+  minRate, propHetero, minReads = 10, maxPercReads = 99.9,
+  context = "CpG", assembly = "Rnor_5.0", meanCov = 80, n,
+  keepDiff = FALSE, saveGRanges = TRUE, saveMethylKit = TRUE,
+  anaMethylKit = TRUE, nbCores = 1, vSeed = -1)
 }
 \arguments{
 \item{pathOut}{the path where the the out put file is seved}
@@ -31,6 +31,12 @@ be used.}
 
 \item{lBlock}{a \code{integer}, the number of consecutive CpG positions used
 for sampling from \code{methInfo}.}
+
+\item{vNbSample}{a \code{vector} of positive \code{integer}, the number of CTRL and case in the the 
+simulation dataset. In 
+the simulation dataset the number of CTRL equal the number of Case. 
+The number of CTRL do not need to be equal to the number of Case in
+the real dataset}
 
 \item{nbGeneration}{a positive \code{integer}, the number of generations}
 
@@ -80,6 +86,8 @@ correspond to the \code{hi.perc} parameter in the  \code{methylKit} package.}
 
 \item{meanCov}{Default: \code{80}}
 
+\item{n}{a positive \code{integer}}
+
 \item{keepDiff}{Default: \code{FALSE}}
 
 \item{saveGRanges}{Default: \code{TRUE}}
@@ -94,12 +102,6 @@ processing the analysis. Default: \code{1}.}
 \item{vSeed}{a \code{integer}, a seed used when reproducible results are
 needed. When a value inferior or equal to zero is given, a random integer
 is used. Default: \code{-1}.}
-
-\item{vNbSample}{a \code{vector} of positive \code{integer}, the number of CTRL and case in the the 
-simulation dataset. In 
-the simulation dataset the number of CTRL equal the number of Case. 
-The number of CTRL do not need to be equal to the number of Case in
-the real dataset}
 }
 \value{
 TODO
