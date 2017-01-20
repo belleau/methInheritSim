@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/belleau/methylInheritanceSim.svg?branch=master)](https://travis-ci.org/belleau/methylInheritanceSim)
 
 # methylInheritanceSim
 
@@ -25,6 +26,7 @@ For more information on Artistic 2.0 License see
 
 ## Bugs/Feature requests ##
 
-TODO
+If you have any bugs or feature requests, 
+[let us know](https://github.com/belleau/methylInheritanceSim/issues). 
 
 Thanks!
