@@ -14,7 +14,8 @@ getSim(nbCtrl, nbCase, generation, stateInfo, stateDiff, diffValue, propDiff,
 
 \item{generation}{a positive \code{integer}, the number of generations}
 
-\item{stateInfo}{TODO}
+\item{stateInfo}{a \code{GRanges} object, the synthetic chromosome generated 
+by \code{getSyntheticChr} TODO (ajouter les champs de metadata ?)}
 
 \item{stateDiff}{a \code{list} with 2 entries. The first entry is called 
 \code{stateDiff} and contains a \code{vector} of \code{integer} with 
@@ -27,7 +28,10 @@ with a length corresponding the length of \code{stateInfo}. The
 indicates, using a \code{1}, the positions where the CpG values are
 inherited.}
 
-\item{diffValue}{TODO}
+\item{diffValue}{TODO 
+Hyp: a positive \code{double} between between [0,1], the proportion of C/T for a case 
+differentially methylated follow a beta distribution 
+where the mean is shifted of \code{vDiff} from the CTRL distribution}
 
 \item{propDiff}{a \code{double} superior to \code{0} and inferior or equal 
 to \code{1}, the mean value for the proportion of samples that will have,
@@ -37,9 +41,13 @@ interpreted as the penetrance.}
 \item{propDiffsd}{a non-negative \code{double}, the standard deviation 
 associated to the \code{propDiff}.}
 
-\item{propInheritance}{TODO}
+\item{propInheritance}{TODO
+Hyp: a positive \code{double} between [0,1], the 
+proportion of case inherite the inherited sites.}
 
-\item{propHetero}{TODO}
+\item{propHetero}{TODO
+Hyp: a positive \code{double} between [0,1], the 
+reduction of vDiff for the second and following generations}
 }
 \value{
 TODO

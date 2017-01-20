@@ -80,7 +80,7 @@ estBetaBeta <- function(valCtrl, minVal = 1e-06){
 #'
 #' @param methInfo is object of class \code{methylBase}, the CpG information
 #' from controls (CTRL) that will be used to create the sythetic chromosome. 
-#' The object can also contain information from cases but onl the controls will
+#' The object can also contain information from cases but only the controls will
 #' be used.
 #'
 #' @param nbBlock \code{integer}, the number of blocks used for sampling.
@@ -234,7 +234,8 @@ getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
 #'
 #' @param generation a positive \code{integer}, the number of generations
 #'
-#' @param stateInfo TODO
+#' @param stateInfo a \code{GRanges} object, the synthetic chromosome generated 
+#' by \code{getSyntheticChr} TODO (ajouter les champs de metadata ?)
 #'
 #' @param stateDiff a \code{list} with 2 entries. The first entry is called 
 #' \code{stateDiff} and contains a \code{vector} of \code{integer} with 
@@ -247,7 +248,10 @@ getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
 #' indicates, using a \code{1}, the positions where the CpG values are
 #' inherited.
 #'
-#' @param diffValue TODO
+#' @param diffValue TODO 
+#' Hyp: a positive \code{double} between between [0,1], the proportion of C/T for a case 
+#' differentially methylated follow a beta distribution 
+#' where the mean is shifted of \code{vDiff} from the CTRL distribution
 #'
 #' @param propDiff a \code{double} superior to \code{0} and inferior or equal 
 #' to \code{1}, the mean value for the proportion of samples that will have,
@@ -258,8 +262,12 @@ getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
 #' associated to the \code{propDiff}.
 #'
 #' @param propInheritance TODO
+#' Hyp: a positive \code{double} between [0,1], the 
+#' proportion of case inherite the inherited sites.
 #'
 #' @param propHetero TODO
+#' Hyp: a positive \code{double} between [0,1], the 
+#' reduction of vDiff for the second and following generations
 #'
 #' @return TODO
 #'

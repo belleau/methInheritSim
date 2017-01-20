@@ -14,44 +14,54 @@ runSim(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock, nbC, nbGeneration,
 \arguments{
 \item{pathOut}{the path where the the out put file is seved}
 
-\item{fileGen}{a \code{string} include each output file. Each output file are 
+\item{fileGen}{a \code{string} include each output file. Each output 
+file are 
 composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
 parameters of the simulation and ".rds".}
 
-\item{nbSynCHR}{a \code{integer}, the number of distinct synthetics chromosomes. 
-generate.}
+\item{nbSynCHR}{a \code{integer}, the number of distinct synthetics 
+chromosomes. generate.}
 
-\item{methData}{a \code{methylBase} object from \code{methylKit}, a real 
-dataset used to sample block for the synthetic chromosome}
+\item{methData}{is object of class \code{methylBase}, the CpG information
+from controls (CTRL) that will be used to create the sythetic chromosome. 
+The object can also contain information from cases but only the controls will
+be used.}
 
-\item{nbBlock}{a \code{integer}, the number of blocks sample from methData 
-genome to create the synthetic chromosome.}
+\item{nbBlock}{\code{integer}, the number of blocks used for sampling.}
 
-\item{lBlock}{a \code{integer}, the number of the CpG in each block sampled}
+\item{lBlock}{a \code{integer}, the number of consecutive CpG positions used
+for sampling from \code{methInfo}.}
 
-\item{nbGeneration}{a \code{integer}, the number of generation simulate}
+\item{nbGeneration}{a positive \code{integer}, the number of generations}
 
-\item{vpDiff}{a positive \code{double} inferior ot \code{1}, the mean proportion of case simulate as 
-differentially methylated when the site is selected as differentially
-methylated (this is like the penetrance).}
+\item{vpDiff}{a \code{double} superior to \code{0} and inferior or equal 
+to \code{1}, the mean value for the proportion of samples that will have,
+for a specific position, differentially methylated values. It can be 
+interpreted as the penetrance.}
 
-\item{vpDiffsd}{a \code{double} the variance of the parameter \code{vpDIff}}
+\item{vpDiffsd}{a non-negative \code{double}, the standard deviation 
+associated to the \code{propDiff}.}
 
-\item{vDiff}{a positive \code{double} inferior ot \code{1}, in the case of a differentially methylated site a case 
-differentially methylated the proportion of C/T follow a beta distribution 
-where the mean is shifted of vDiff from the CTRL distribution}
+\item{vDiff}{a positive \code{double} between [0,1], the proportion of C/T for a case 
+differentially methylated follow a beta distribution 
+where the mean is shifted of \code{vDiff} from the CTRL distribution}
 
-\item{vInheritance}{a positive \code{double} inferior ot \code{1}, the proportion of case inherite the inherited sites.}
+\item{vInheritance}{a positive \code{double} between [0,1], the 
+proportion of case inherite the inherited sites.}
 
-\item{propInherite}{a positive \code{double} inferior ot \code{1}, proportion of differentially methylated site
+\item{propInherite}{a positive \code{double} inferior to \code{1}, 
+proportion of differentially methylated site
 are inherated}
 
-\item{rateDiff}{a positive \code{double} inferior ot \code{1}, the mean of the chance that a site is differentially 
+\item{rateDiff}{a positive \code{double} inferior to \code{1}, the mean of 
+the chance that a site is differentially 
 methylated}
 
-\item{minRate}{a positive \code{double} inferior ot \code{1}, the minimum number of diferentially methylated site}
+\item{minRate}{a positive \code{double} inferior to \code{1}, the minimum 
+number of diferentially methylated site}
 
-\item{propHetero}{the reduction vDiff for the intergeneration}
+\item{propHetero}{a positive \code{double} between [0,1], the 
+reduction of vDiff for the second and following generation}
 
 \item{minReads}{a positive \code{integer} Bases and regions having lower
 coverage than this count are discarded. The parameter
@@ -78,11 +88,15 @@ correspond to the \code{hi.perc} parameter in the  \code{methylKit} package.}
 
 \item{anaMethylKit}{Default: \code{TRUE}}
 
-\item{nbCores}{Default: \code{1}.}
+\item{nbCores}{a positive \code{integer}, the number of cores to use when
+processing the analysis. Default: \code{1}.}
 
-\item{vSeed}{Default: \code{-1}.}
+\item{vSeed}{a \code{integer}, a seed used when reproducible results are
+needed. When a value inferior or equal to zero is given, a random integer
+is used. Default: \code{-1}.}
 
-\item{vNbSample}{a \code{vector} of the number of CTRL and case in the the simulation dataset. In 
+\item{vNbSample}{a \code{vector} of positive \code{integer}, the number of CTRL and case in the the 
+simulation dataset. In 
 the simulation dataset the number of CTRL equal the number of Case. 
 The number of CTRL do not need to be equal to the number of Case in
 the real dataset}
