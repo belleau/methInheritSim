@@ -12,14 +12,14 @@ runSim(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock, vNbSample,
   anaMethylKit = TRUE, nbCores = 1, vSeed = -1)
 }
 \arguments{
-\item{pathOut}{the path where the the out put file is seved}
+\item{pathOut}{the path where the the output file is seved}
 
 \item{fileGen}{a \code{string} include each output file. Each output 
 file are 
 composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
 parameters of the simulation and ".rds".}
 
-\item{nbSynCHR}{a \code{integer}, the number of distinct synthetics 
+\item{nbSynCHR}{a positive \code{integer}, the number of distinct synthetics 
 chromosomes. generate.}
 
 \item{methData}{is object of class \code{methylBase}, the CpG information
@@ -32,8 +32,8 @@ be used.}
 \item{lBlock}{a \code{integer}, the number of consecutive CpG positions used
 for sampling from \code{methInfo}.}
 
-\item{vNbSample}{a \code{vector} of positive \code{integer}, the number of CTRL and case in the the 
-simulation dataset. In 
+\item{vNbSample}{a \code{vector} of positive \code{integer}, the number of 
+CTRL and case in the the simulation dataset. In 
 the simulation dataset the number of CTRL equal the number of Case. 
 The number of CTRL do not need to be equal to the number of Case in
 the real dataset}
@@ -48,8 +48,8 @@ interpreted as the penetrance.}
 \item{vpDiffsd}{a non-negative \code{double}, the standard deviation 
 associated to the \code{propDiff}.}
 
-\item{vDiff}{a positive \code{double} between [0,1], the proportion of C/T for a case 
-differentially methylated follow a beta distribution 
+\item{vDiff}{a positive \code{double} between [0,1], the proportion of 
+C/T for a case differentially methylated follow a beta distribution 
 where the mean is shifted of \code{vDiff} from the CTRL distribution}
 
 \item{vInheritance}{a positive \code{double} between [0,1], the 
@@ -71,7 +71,7 @@ reduction of vDiff for the second and following generation}
 
 \item{minReads}{a positive \code{integer} Bases and regions having lower
 coverage than this count are discarded. The parameter
-correspond to the \code{lo.count} parameter in the  \code{methylKit} package.}
+correspond to the \code{lo.count} parameter in the \code{methylKit} package.}
 
 \item{maxPercReads}{a \code{double} between [0,100], the percentile of read
 counts that is going to be used as upper cutoff. Bases ore regions
@@ -80,15 +80,21 @@ coverage than this percentile are discarded. Parameter used for both CpG
 sites and tiles analysis. The parameter
 correspond to the \code{hi.perc} parameter in the  \code{methylKit} package.}
 
-\item{context}{Default: \code{"CpG"}}
+\item{context}{methylation context string, ex: CpG,CpH,CHH, etc. (default:CpG)}
 
-\item{assembly}{Default: \code{"Rnor_5.0"}}
+\item{assembly}{string that determines the genome assembly. Ex: mm9,hg18 etc.
+Default: \code{"Rnor_5.0"}}
 
-\item{meanCov}{Default: \code{80}}
+\item{meanCov}{a positive \code{integer} represent the mean of the coverage
+at the CpG site Default: \code{80}}
 
-\item{n}{a positive \code{integer}}
+\item{n}{a positive \code{integer} the number of simulation for each 
+parameters (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
+\code{vInheritance})}
 
-\item{keepDiff}{Default: \code{FALSE}}
+\item{keepDiff}{\code{logical} if true, the differentially methyled sites
+will be the same for each parameters ( \code{vpDiff}, 
+\code{vDiff} and \code{vInheritance}) Default: \code{FALSE}}
 
 \item{saveGRanges}{Default: \code{TRUE}}
 

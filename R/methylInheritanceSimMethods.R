@@ -2,14 +2,14 @@
 #'
 #' @description TODO
 #'
-#' @param pathOut the path where the the out put file is seved
+#' @param pathOut the path where the the output file is seved
 #'
 #' @param fileGen a \code{string} include each output file. Each output 
 #' file are 
 #' composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
 #' parameters of the simulation and ".rds". 
 #'
-#' @param nbSynCHR a \code{integer}, the number of distinct synthetics 
+#' @param nbSynCHR a positive \code{integer}, the number of distinct synthetics 
 #' chromosomes. generate.
 #'
 #' @param methData is object of class \code{methylBase}, the CpG information
@@ -22,8 +22,8 @@
 #' @param lBlock a \code{integer}, the number of consecutive CpG positions used
 #' for sampling from \code{methInfo}.
 #'
-#' @param vNbSample a \code{vector} of positive \code{integer}, the number of CTRL and case in the the 
-#' simulation dataset. In 
+#' @param vNbSample a \code{vector} of positive \code{integer}, the number of 
+#' CTRL and case in the the simulation dataset. In 
 #' the simulation dataset the number of CTRL equal the number of Case. 
 #' The number of CTRL do not need to be equal to the number of Case in
 #' the real dataset
@@ -38,8 +38,8 @@
 #' @param vpDiffsd a non-negative \code{double}, the standard deviation 
 #' associated to the \code{propDiff}.
 #'
-#' @param vDiff a positive \code{double} between [0,1], the proportion of C/T for a case 
-#' differentially methylated follow a beta distribution 
+#' @param vDiff a positive \code{double} between [0,1], the proportion of 
+#' C/T for a case differentially methylated follow a beta distribution 
 #' where the mean is shifted of \code{vDiff} from the CTRL distribution
 #'
 #' @param vInheritance a positive \code{double} between [0,1], the 
@@ -61,7 +61,7 @@
 #' 
 #' @param minReads a positive \code{integer} Bases and regions having lower
 #' coverage than this count are discarded. The parameter
-#' correspond to the \code{lo.count} parameter in the  \code{methylKit} package.
+#' correspond to the \code{lo.count} parameter in the \code{methylKit} package.
 #' 
 #' @param maxPercReads a \code{double} between [0,100], the percentile of read
 #' counts that is going to be used as upper cutoff. Bases ore regions
@@ -70,15 +70,21 @@
 #' sites and tiles analysis. The parameter
 #' correspond to the \code{hi.perc} parameter in the  \code{methylKit} package.
 #' 
-#' @param context Default: \code{"CpG"}
+#' @param context methylation context string, ex: CpG,CpH,CHH, etc. (default:CpG)
 #' 
-#' @param assembly Default: \code{"Rnor_5.0"}
+#' @param assembly string that determines the genome assembly. Ex: mm9,hg18 etc.
+#' Default: \code{"Rnor_5.0"}
 #' 
-#' @param meanCov Default: \code{80}
+#' @param meanCov a positive \code{integer} represent the mean of the coverage
+#' at the CpG site Default: \code{80}
 #' 
-#' @param n a positive \code{integer} 
+#' @param n a positive \code{integer} the number of simulation for each 
+#' parameters (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
+#' \code{vInheritance})
 #' 
-#' @param keepDiff Default: \code{FALSE}
+#' @param keepDiff \code{logical} if true, the differentially methyled sites
+#' will be the same for each parameters ( \code{vpDiff}, 
+#' \code{vDiff} and \code{vInheritance}) Default: \code{FALSE}
 #' 
 #' @param saveGRanges Default: \code{TRUE}
 #' 
