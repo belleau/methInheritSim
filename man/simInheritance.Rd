@@ -16,15 +16,13 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 
 \item{pref}{TODO}
 
-\item{k}{a positive \code{integer}, TODO}
+\item{k}{TODO}
 
 \item{nbCtrl}{a positive \code{integer}, the number of controls.}
 
 \item{nbCase}{a positive \code{integer}, the number of cases.}
 
-\item{treatment}{a \code{vector} containing 0 and 1 denoting 
-which samples are controls and which samples are cases. The length of 
-the \code{vector} corresponds to the sum of \code{nbCtrl} and \code{nbCase}.}
+\item{treatment}{TODO}
 
 \item{sample.id}{TODO}
 
@@ -32,62 +30,39 @@ the \code{vector} corresponds to the sum of \code{nbCtrl} and \code{nbCase}.}
 
 \item{stateInfo}{TODO}
 
-\item{rateDiff}{a positive \code{double} inferior to \code{1}, the mean of 
-the probability that a site is differentially methylated.}
+\item{rateDiff}{TODO}
 
-\item{minRate}{a positive \code{double} inferior to \code{1}, the minimum 
-rate of differentially methylated sites. Ensure that the total number of
-differentially methylated sites is superior to \code{minRate}.}
+\item{minRate}{TODO}
 
-\item{propInherite}{a positive \code{double} between [0,1], the 
-proportion of cases that inherited differentially methylated sites.}
+\item{propInherite}{TODO}
 
-\item{diffValue}{a non-negative \code{double} between between [0,1], the 
-proportion of C/T for a case differentially methylated following a 
-beta distribution 
-where the mean is shifted of \code{diffValue} from the CTRL distribution.}
+\item{diffValue}{TODO}
 
-\item{propDiff}{a \code{double} superior to \code{0} and inferior or equal 
-to \code{1}, the mean value for the proportion of samples that will have,
-for a specific position, differentially methylated values. It can be 
-interpreted as the penetrance.}
+\item{propDiff}{TODO}
 
-\item{propDiffsd}{a non-negative \code{double}, the standard deviation 
-associated to the \code{propDiff}.}
+\item{propDiffsd}{TODO}
 
-\item{propInheritance}{a non-negative \code{double} between [0,1], the 
-proportion of case that inherite differentially methylated sites.}
+\item{propInheritance}{TODO}
 
-\item{propHetero}{TODO a non-negative \code{double} between [0,1], the 
-reduction of \code{diffValue} for the second and following generations.}
+\item{propHetero}{TODO}
 
-\item{minReads}{a positive \code{integer}, bases and regions having lower
-coverage inferior to \code{minReads} are discarded. This parameter
-correspond to the \code{lo.count} parameter in the \code{methylKit} package.}
+\item{minReads}{TODO}
 
-\item{maxPercReads}{a \code{double} between [0,100], the percentile of read
-counts that is going to be used as upper cutoff. Bases or regions
-having higher
-coverage than this percentile are discarded.The parameter
-correspond to the \code{hi.perc} parameter in the \code{methylKit} package.}
+\item{maxPercReads}{TODO}
 
-\item{context}{a string of \code{character}, a short description of 
-the methylation context. As exemples: Cpg, CpH, CHH, etc.. 
-Default: \code{"CpG"}.}
+\item{context}{TODO. Default: \code{"CpG"}.}
 
-\item{assembly}{a string of \code{character}, the description of the genome 
-assembly. Default: \code{"Rnor_5.0"}.}
+\item{assembly}{TODO. Default: \code{"Rnor_5.0"}.}
 
-\item{meanCov}{a positive \code{integer}, the mean coverage
-at the CpG sites. Default: \code{80}.}
+\item{meanCov}{TODO. Default: \code{80}.}
 
 \item{diffRes}{TODO. Default: \code{NULL}.}
 
-\item{saveGRanges}{a \code{logical}, TODO. Default: \code{TRUE}.}
+\item{saveGRanges}{TODO. Default: \code{TRUE}.}
 
-\item{saveMethylKit}{a \code{logical}, TODO.. Default: \code{TRUE}.}
+\item{saveMethylKit}{TODO. Default: \code{TRUE}.}
 
-\item{anaMethylKit}{a \code{logical}, TODO. Default: \code{TRUE}.}
+\item{anaMethylKit}{TODO. Default: \code{TRUE}.}
 }
 \value{
 \code{0} indicating that the function has been successful.

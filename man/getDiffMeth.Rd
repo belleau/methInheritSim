@@ -20,7 +20,7 @@ getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 1, b = -0.1,
 
 \item{b}{a \code{double}, TODO . Default: \code{-1e-01}.}
 
-\item{endLength}{a \code{double}, TODO . Default: \code{1000}.}
+\item{endLength}{TODO . Default: \code{1000}.}
 }
 \value{
 a \code{list} containing the following elements:
@@ -34,8 +34,7 @@ the \code{stateInfo} parameter.
 }
 }
 \description{
-Identify the pos where the case are Diff meth and which 
-one are heritable
+Identify the pos where the case are Diff meth and which one are heritable
 }
 \examples{
 

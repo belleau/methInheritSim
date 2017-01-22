@@ -53,7 +53,7 @@ C/T for a case differentially methylated follow a beta distribution
 where the mean is shifted of \code{vDiff} from the CTRL distribution}
 
 \item{vInheritance}{a positive \code{double} between [0,1], the 
-proportion of case inherite the inherited sites.}
+proportion of cases that inherited differentially sites.}
 
 \item{propInherite}{a positive \code{double} inferior to \code{1}, 
 proportion of differentially methylated site
@@ -64,7 +64,7 @@ the chance that a site is differentially
 methylated}
 
 \item{minRate}{a positive \code{double} inferior to \code{1}, the minimum 
-number of diferentially methylated site}
+rate of differentially methylated sites}
 
 \item{propHetero}{a positive \code{double} between [0,1], the 
 reduction of vDiff for the second and following generation}
@@ -94,9 +94,13 @@ parameters (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
 
 \item{keepDiff}{\code{logical} if true, the differentially methyled sites
 will be the same for each parameters ( \code{vpDiff}, 
-\code{vDiff} and \code{vInheritance}) Default: \code{FALSE}}
+\code{vDiff} and \code{vInheritance}). Default: \code{FALSE}}
 
-\item{saveGRanges}{Default: \code{TRUE}}
+\item{saveGRanges}{\code{logical} if true, save a list of \code{nbGeneration}
+GRangesList. Each GRangeList contain \code{vNbSample} GRanges which contain
+for each CpG site: the position, the coverage and the proportion of the C/T.
+A files treatment_... which contains the position of the CTRL and Case are 
+save too. Default: \code{TRUE}}
 
 \item{saveMethylKit}{Default: \code{TRUE}}
 
@@ -117,8 +121,17 @@ TODO
 }
 \examples{
 
-## TODO
+## TODO pathOut where to write file ?
+## Load methyl information
+data(samplesForChrSynthetic)
 
+\dontrun{runSim(pathOut = "testData", fileGen = "F1", nbSynCHR = 1, 
+methData = samplesForChrSynthetic, nbBlock = 10, lBlock = 20,
+vNbSample = c(3), nbGeneration = 3, vpDiff = c(0.9), 
+vpDiffsd = c(0.1), vDiff = c(0.8), 
+vInheritance = c(0.5), propInherite = 0.3,
+rateDiff = 0.01, minRate = 0.01, propHetero = 0.5, n = 5, 
+nbCores= 1, vSeed = 32)}
 
 }
 \author{

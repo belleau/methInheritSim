@@ -88,7 +88,7 @@ estBetaBeta <- function(valCtrl, minVal = 1e-06){
 #' @param nbCpG a \code{integer}, the number of consecutive CpG positions used
 #' for sampling from \code{methInfo}.
 #'
-#' @return a \code{GRanges} object, the synthetic chromosome TODO
+#' @return a \code{GRanges} object, the synthetic chromosome
 #'
 #' @examples
 #'
@@ -290,7 +290,7 @@ getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
 #' stateDiff[["stateDiff"]] <- c(1, 0, 1)
 #' stateDiff[["stateInherite"]] <- c(1, 0, 0)
 #' 
-#' ## Create a simulated data using stateInfo and stateDiff
+#' ## Create a simulation using stateInfo and stateDiff
 #' methylInheritanceSim:::getSim(nbCtrl = 3, nbCase = 2, generation = 3, 
 #' stateInfo = stateInfo, stateDiff = stateDiff, diffValue = 10, 
 #' propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
@@ -306,19 +306,18 @@ getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
 getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff, 
                     diffValue, propDiff, propDiffsd = 0.1, propInheritance, 
                     propHetero) {
-    
     inR <- propDiff
     
     res <- GRangesList()
     
-    if (propDiffsd < 0.0000001) {
+    if(propDiffsd < 0.0000001){
         diffCase <- round(nbCase * inR)
-    } else {
+    } else{
         diffCase <- round(nbCase * rtnorm(1, mean = inR, sd = propDiffsd, 
                                             lower = 0, upper = 1))
     }
     
-    ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x, nb) {
+    ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x, nb){
             rbeta(nb, estBetaAlpha(x), estBetaBeta(x))}, nb = nbCtrl))
     
     case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
@@ -336,13 +335,11 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
     for(i in 2:generation)
     {
         rm(case, ctrl)
-        
         inR <- propDiff * propInheritance^(i - 2) # One generation move
         diffCur <- diffValue * propHetero       # Change diffValue
-        
-        if (propDiffsd < 0.0000001) {
+        if(propDiffsd < 0.0000001) {
             diffCase <- round(nbCase * inR)
-        } else {
+        } else{
             diffCase <- round(nbCase * rtnorm(1, mean = inR, 
                                         sd = propDiffsd, lower = 0, upper = 1))
         }
@@ -361,7 +358,7 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
         
         res[[i]] <- GRanges(seqnames = seqnames(stateInfo),
                         ranges = ranges(stateInfo),
-                        strand = strand(stateInfo),
+                        strand =  strand(stateInfo),
                         meanDiff = case[, 1], meanCTRL = mcols(stateInfo)[3],
                         partitionCase = case[, 2], partitionCtrl = case[, 3],
                         ctrl = ctrl, case = case[,4:length(case[1,])])
@@ -372,8 +369,7 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 
 #' @title TODO
 #'
-#' @description Identify the pos where the case are Diff meth and which 
-#' one are heritable
+#' @description Identify the pos where the case are Diff meth and which one are heritable
 #'
 #' @param stateInfo 
 #'
@@ -387,7 +383,7 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #'
 #' @param b a \code{double}, TODO . Default: \code{-1e-01}.
 #'
-#' @param endLength a \code{double}, TODO . Default: \code{1000}.
+#' @param endLength TODO . Default: \code{1000}.
 #'
 #' @return a \code{list} containing the following elements:
 #' \itemize{
@@ -404,6 +400,7 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #' ## TODO
 #' 
 #' @author Pascal Belleau
+#' @importFrom BiocGenerics start
 #' @importFrom stats rbeta rexp runif rpois
 #' @keywords internal
 getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite, 
@@ -413,7 +410,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
     nbTry <- 1
     flag  <-  TRUE
     
-    while (nbTry < 1000 & flag) {
+    while(nbTry < 1000 & flag) {
         stateDiff <- rep(0, nbPos)
         stateInherite <- rep(0, nbPos)
         vExp <- rexp(nbPos, rateDiff)
@@ -421,39 +418,35 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
         i<-1
         m<- max(1, round(vExp[i]))
         
-        while (m <= nbPos){
+        while(m <= nbPos){
             flagInherite <- ifelse(runif(1, 0, 1) < propInherite, TRUE, FALSE)
             stateDiff[m] <- 1
             if(flagInherite){
                 stateInherite[m] <- 1
             }
             m <- m+1
-            while (m <= nbPos && 
+            while(m <= nbPos && 
                 (start(stateInfo)[m] - start(stateInfo)[m - 1]) <= endLength){
+                print(paste0("Aye ", m))
                 cutOff <- c * 
                     exp(b*log(start(stateInfo)[m] - start(stateInfo)[m-1]))
                 
                 u <- runif(1,0,1)
-                
                 if(u < cutOff){
                     stateDiff[m] <- 1
-                    if (flagInherite) {
+                    if(flagInherite){
                         stateInherite[m] <- 1
                     }
                 }
-                
                 m <- m + 1
             }
-            i <- i + 1
+            i <- i+1
             m <- m + round(vExp[i])
         }
-        length(which(stateDiff == 1)) # TODO Pascal a quoi ca sert ?
+        
         
         if (length(which(stateDiff == 1)) >= minRate * nbPos) {
             flag <- FALSE
-        } else{
-            ## TODO : enlever les warnings
-            warning(paste0("Nb: ", length(which(stateDiff == 1))))
         }
         
         nbTry <- nbTry + 1
@@ -461,9 +454,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
     
     if (flag) {
         stateDiff <- NULL
-        ## Si peut retourner NULL indiquer dans section @return cette possibilite
-        ## TODO : enlever les warnings
-        warning("Enable to generate the differentially methyyleted proportion fin\n")
+        stop("Enable to generate the differentially methyyleted proportion fin\n")
     }
     
     return(list(stateDiff = stateDiff, stateInherite = stateInherite))
@@ -478,15 +469,13 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #'
 #' @param pref TODO
 #'
-#' @param k a positive \code{integer}, TODO
+#' @param k TODO
 #'
 #' @param nbCtrl a positive \code{integer}, the number of controls.
 #'
 #' @param nbCase a positive \code{integer}, the number of cases.
 #'
-#' @param treatment a \code{vector} containing 0 and 1 denoting 
-#' which samples are controls and which samples are cases. The length of 
-#' the \code{vector} corresponds to the sum of \code{nbCtrl} and \code{nbCase}.
+#' @param treatment TODO
 #'
 #' @param sample.id TODO
 #'
@@ -494,62 +483,39 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #'
 #' @param stateInfo TODO
 #'
-#' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
-#' the probability that a site is differentially methylated. 
+#' @param rateDiff TODO
 #'
-#' @param minRate a positive \code{double} inferior to \code{1}, the minimum 
-#' rate of differentially methylated sites. Ensure that the total number of
-#' differentially methylated sites is superior to \code{minRate}.
+#' @param minRate TODO
 #'
-#' @param propInherite a positive \code{double} between [0,1], the 
-#' proportion of cases that inherited differentially methylated sites.
+#' @param propInherite TODO
 #'
-#' @param diffValue a non-negative \code{double} between between [0,1], the 
-#' proportion of C/T for a case differentially methylated following a 
-#' beta distribution 
-#' where the mean is shifted of \code{diffValue} from the CTRL distribution.
+#' @param diffValue TODO
 #'
-#' @param propDiff a \code{double} superior to \code{0} and inferior or equal 
-#' to \code{1}, the mean value for the proportion of samples that will have,
-#' for a specific position, differentially methylated values. It can be 
-#' interpreted as the penetrance.
+#' @param propDiff TODO
 #'
-#' @param propDiffsd a non-negative \code{double}, the standard deviation 
-#' associated to the \code{propDiff}.
+#' @param propDiffsd TODO
 #'
-#' @param propInheritance a non-negative \code{double} between [0,1], the 
-#' proportion of case that inherite differentially methylated sites.
+#' @param propInheritance TODO
 #'
-#' @param propHetero TODO a non-negative \code{double} between [0,1], the 
-#' reduction of \code{diffValue} for the second and following generations.
+#' @param propHetero TODO
 #'
-#' @param minReads a positive \code{integer}, bases and regions having lower
-#' coverage inferior to \code{minReads} are discarded. This parameter
-#' correspond to the \code{lo.count} parameter in the \code{methylKit} package.
+#' @param minReads TODO
 #' 
-#' @param maxPercReads a \code{double} between [0,100], the percentile of read
-#' counts that is going to be used as upper cutoff. Bases or regions
-#' having higher
-#' coverage than this percentile are discarded.The parameter
-#' correspond to the \code{hi.perc} parameter in the \code{methylKit} package.
+#' @param maxPercReads TODO
 #' 
-#' @param context a string of \code{character}, a short description of 
-#' the methylation context. As exemples: Cpg, CpH, CHH, etc.. 
-#' Default: \code{"CpG"}.
+#' @param context TODO. Default: \code{"CpG"}.
 #' 
-#' @param assembly a string of \code{character}, the description of the genome 
-#' assembly. Default: \code{"Rnor_5.0"}.
+#' @param assembly TODO. Default: \code{"Rnor_5.0"}.
 #' 
-#' @param meanCov a positive \code{integer}, the mean coverage
-#' at the CpG sites. Default: \code{80}.
+#' @param meanCov TODO. Default: \code{80}.
 #' 
 #' @param diffRes TODO. Default: \code{NULL}.
 #'
-#' @param saveGRanges a \code{logical}, TODO. Default: \code{TRUE}.
+#' @param saveGRanges TODO. Default: \code{TRUE}.
 #' 
-#' @param saveMethylKit a \code{logical}, TODO.. Default: \code{TRUE}.
+#' @param saveMethylKit TODO. Default: \code{TRUE}.
 #' 
-#' @param anaMethylKit a \code{logical}, TODO. Default: \code{TRUE}.
+#' @param anaMethylKit TODO. Default: \code{TRUE}.
 #' 
 #' @return \code{0} indicating that the function has been successful.
 #'
@@ -563,11 +529,11 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' @importFrom IRanges IRanges
 #' @importFrom stats rpois
 #' @importFrom methods new
-#' @importFrom stats start end
+#' @importFrom BiocGenerics start end strand
 #' @keywords internal
 simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment, 
                     sample.id, generation, stateInfo,
-                    rateDiff, minRate, propInherite, diffValue, propDiff,
+                    rateDiff ,minRate, propInherite, diffValue, propDiff,
                     propDiffsd, propInheritance, propHetero, 
                     minReads = 10, maxPercReads = 99.9,
                     context = "CpG", assembly="Rnor_5.0",
@@ -578,21 +544,21 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
     # if just a part of the simulation is done it do it again
     
     alreadyDone <- TRUE
-    if (! (file.exists(paste0(pathOut, "/stateDiff_", pref, "_", k, ".rds"))) 
+    if(! (file.exists(paste0(pathOut, "/stateDiff_", pref, "_", k, ".rds"))) 
        || ! (file.exists(paste0(pathOut, 
                                     "/simV0.1_", pref, "_", k, ".rds")))) {
         alreadyDone <- FALSE
     }
-    if (saveGRanges && 
+    if(saveGRanges && 
        ! (file.exists(paste0(pathOut, "/methylGR_", pref, "_", k,".rds")))) {
         alreadyDone <- FALSE
        }
-    if (saveMethylKit &&
+    if(saveMethylKit &&
        ! (file.exists(paste0(pathOut, 
                                 "/methylObj_", pref, "_", k, ".rds")))) {
         alreadyDone <- FALSE
     }
-    if (anaMethylKit &&
+    if(anaMethylKit &&
        ( ! (file.exists(paste0(pathOut, "/meth_", pref, "_", k,".rds")))
          || ! (file.exists(paste0(pathOut, 
                                     "/methDiff_", pref, "_", k, ".rds"))))) {
@@ -621,15 +587,15 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
         myobj <- list()
         myGR <- list()
         myMat <- list()
-        myTr <- list()
+        #myTr <- list()
         meth <- list()
         myDiff <- list()
         
-        for (i in 1:generation) {
+        for(i in 1:generation) {
             outList <- list()
             outGR <- GRangesList() 
-            for (j in 1:(nbCtrl+nbCase)) {
-                coverage <- rpois(length(stateInfo), meanCov) + 1
+            for(j in 1:(nbCtrl+nbCase)){
+                coverage <- rpois( length(stateInfo), meanCov) + 1
                 
                 testM <- GRanges(seqnames = seqnames( stateInfo), 
                                     ranges = ranges(stateInfo),
@@ -637,8 +603,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                                     coverage = coverage,
                                     numCs = round(coverage * 
                                             unlist(mcols(simV0.1[[i]])[4+j])))
-                
-                if (saveMethylKit) {
+                if(saveMethylKit){
                     obj<-new("methylRaw", data.frame(chr = seqnames( testM), 
                                         start = start(testM), 
                                         end = end(testM),
@@ -650,27 +615,25 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                             assembly = assembly,
                             context = context, resolution = 'base')
                     
-                    outList[[j]] <- obj
+                    outList[[j]]<-obj
                 }
-                
-                if (saveGRanges) {
-                    outGR[[j]] <- testM
+                if(saveGRanges){
+                    outGR[[j]]<-testM
                 }
             }
-            
             myMat[[i]] <- outList
-            myTr[[i]] <- treatment
+            #myTr[[i]] <- treatment
             
-            if (saveMethylKit) {
+            if(saveMethylKit){
                 myobj[[i]] <- new("methylRawList", outList,
                                     treatment = treatment)
             }
             
-            if (saveGRanges) {
+            if(saveGRanges){
                 myGR[[i]] <- outList
             }
             
-            if (anaMethylKit) {
+            if(anaMethylKit){
                 filtered.myobj <- filterByCoverage(myobj[[i]],
                                         lo.count = minReads, 
                                         lo.perc = NULL, hi.count = NULL,
@@ -681,17 +644,17 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
             }
         }
         
-        if (saveGRanges) {
+        if(saveGRanges){
             saveRDS(myGR,file = paste0(pathOut, "/methylGR_", pref, 
                                             "_", k, ".rds"))
         }
         
-        if (saveMethylKit) {
+        if(saveMethylKit){
             saveRDS(myobj,file = paste0(pathOut, "/methylObj_", pref, 
                                             "_", k, ".rds"))
         }
         
-        if (anaMethylKit) {
+        if(anaMethylKit){
             saveRDS(meth,file = paste0(pathOut, "/meth_", pref, 
                                             "_", k,".rds"))
             saveRDS(myDiff,file = paste0(pathOut, "/methDiff_", pref, 
