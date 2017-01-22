@@ -43,7 +43,7 @@
 #' where the mean is shifted of \code{vDiff} from the CTRL distribution
 #'
 #' @param vInheritance a positive \code{double} between [0,1], the 
-#' proportion of case inherite the inherited sites.
+#' proportion of cases that inherited differentially sites.
 #' 
 #' @param propInherite a positive \code{double} inferior to \code{1}, 
 #' proportion of differentially methylated site
@@ -54,7 +54,7 @@
 #' methylated
 #'
 #' @param minRate a positive \code{double} inferior to \code{1}, the minimum 
-#' number of diferentially methylated site
+#' rate of differentially methylated sites
 #'
 #' @param propHetero a positive \code{double} between [0,1], the 
 #' reduction of vDiff for the second and following generation
@@ -104,8 +104,7 @@
 #' @examples
 #'
 #' ## TODO
-#'
-#'
+#' 
 #' @author Pascal Belleau
 #' @importFrom parallel mclapply
 #' @export
@@ -201,6 +200,7 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
             }
         }
     }
+    return(0)
 }
 
 
