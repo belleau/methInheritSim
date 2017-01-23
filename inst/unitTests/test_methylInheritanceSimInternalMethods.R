@@ -82,7 +82,7 @@ test.validateRunSimParameters_outputDir_number <- function() {
                                     fileID = "F1", 
                                     nbSynCHR = 1, 
                                     methData = samplesForChrSynthetic, 
-                                    nbBlock = 3, lBlock  = 2,
+                                    nbBlock = 3, nbCpG  = 2,
                                     vNbSample = 2, 
                                     nbGeneration = 3, 
                                     vpDiff = 2, vpDiffsd = 1, 
@@ -118,7 +118,7 @@ test.validateRunSimParameters_fileID_number <- function() {
                                                                     fileID = 2, 
                                                                     nbSynCHR = 1, 
                                                                     methData = samplesForChrSynthetic, 
-                                                                    nbBlock = 3, lBlock  = 2,
+                                                                    nbBlock = 3, nbCpG  = 2,
                                                                     vNbSample = 2, 
                                                                     nbGeneration = 3, 
                                                                     vpDiff = 2, vpDiffsd = 1, 
@@ -154,7 +154,7 @@ test.validateRunSimParameters_nbSynCHR_not_number <- function() {
                                                         fileID = "F1", 
                                                         nbSynCHR = "hi", 
                                                         methData = samplesForChrSynthetic, 
-                                                        nbBlock = 3, lBlock  = 2,
+                                                        nbBlock = 3, nbCpG  = 2,
                                                         vNbSample = 2, 
                                                         nbGeneration = 3, 
                                                         vpDiff = 2, vpDiffsd = 1, 
@@ -190,7 +190,7 @@ test.validateRunSimParameters_nbSynCHR_vector_number <- function() {
                                                                     fileID = "F1", 
                                                                     nbSynCHR = c(1,2), 
                                                                     methData = samplesForChrSynthetic, 
-                                                                    nbBlock = 3, lBlock  = 2,
+                                                                    nbBlock = 3, nbCpG  = 2,
                                                                     vNbSample = 2, 
                                                                     nbGeneration = 3, 
                                                                     vpDiff = 2, vpDiffsd = 1, 
@@ -226,7 +226,7 @@ test.validateRunSimParameters_nbSynCHR_zero <- function() {
                                                                     fileID = "F1", 
                                                                     nbSynCHR = 0, 
                                                                     methData = samplesForChrSynthetic, 
-                                                                    nbBlock = 3, lBlock  = 2,
+                                                                    nbBlock = 3, nbCpG  = 2,
                                                                     vNbSample = 2, 
                                                                     nbGeneration = 3, 
                                                                     vpDiff = 2, vpDiffsd = 1, 
@@ -263,7 +263,7 @@ test.validateRunSimParameters_methBase_number <- function() {
                                                             fileID = "F1", 
                                                             nbSynCHR = 1, 
                                                             methData = 33, 
-                                                            nbBlock = 3, lBlock  = 2,
+                                                            nbBlock = 3, nbCpG  = 2,
                                                             vNbSample = 2, 
                                                             nbGeneration = 3, 
                                                             vpDiff = 2, vpDiffsd = 1, 
@@ -300,7 +300,7 @@ test.validateRunSimParameters_nbBlock_number_vector <- function() {
                                                         fileID = "F1", 
                                                         nbSynCHR = 1, 
                                                         methData = samplesForChrSynthetic,
-                                                        nbBlock = c(3, 1), lBlock  = 2,
+                                                        nbBlock = c(3, 1), nbCpG  = 2,
                                                         vNbSample = 2, 
                                                         nbGeneration = 3, 
                                                         vpDiff = 2, vpDiffsd = 1, 
@@ -337,7 +337,7 @@ test.validateRunSimParameters_nbBlock_string <- function() {
                                                         fileID = "F1", 
                                                         nbSynCHR = 1, 
                                                         methData = samplesForChrSynthetic,
-                                                        nbBlock = "hi", lBlock  = 2,
+                                                        nbBlock = "hi", nbCpG  = 2,
                                                         vNbSample = 2, 
                                                         nbGeneration = 3, 
                                                         vpDiff = 2, vpDiffsd = 1, 
@@ -367,14 +367,14 @@ test.validateRunSimParameters_nbBlock_string <- function() {
     checkEquals(obs, exp, message)
 }
 
-test.validateRunSimParameters_lBlock_number_vector <- function() {
+test.validateRunSimParameters_nbCpG_number_vector <- function() {
     
     obs <- tryCatch(
         methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
                                                         fileID = "F1", 
                                                         nbSynCHR = 1, 
                                                         methData = samplesForChrSynthetic,
-                                                        nbBlock = 2, lBlock  = c(3,2),
+                                                        nbBlock = 2, nbCpG  = c(3,2),
                                                         vNbSample = 2, 
                                                         nbGeneration = 3, 
                                                         vpDiff = 2, vpDiffsd = 1, 
@@ -395,23 +395,23 @@ test.validateRunSimParameters_lBlock_number_vector <- function() {
         error=conditionMessage)
     
     
-    exp <- "lBlock must be a positive integer or numeric"
+    exp <- "nbCpG must be a positive integer or numeric"
     
     
-    message <- paste0("test.validateRunSimParameters_lBlock_number_vector() ",
-                      "- Number vector as lBlock parameter did not generated expected results.")
+    message <- paste0("test.validateRunSimParameters_nbCpG_number_vector() ",
+                      "- Number vector as nbCpG parameter did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
 
-test.validateRunSimParameters_lBlock_string <- function() {
+test.validateRunSimParameters_nbCpG_string <- function() {
     
     obs <- tryCatch(
         methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
                                                         fileID = "F1", 
                                                         nbSynCHR = 1, 
                                                         methData = samplesForChrSynthetic,
-                                                        nbBlock = 2, lBlock  = "hi",
+                                                        nbBlock = 2, nbCpG  = "hi",
                                                         vNbSample = 2, 
                                                         nbGeneration = 3, 
                                                         vpDiff = 2, vpDiffsd = 1, 
@@ -432,11 +432,11 @@ test.validateRunSimParameters_lBlock_string <- function() {
         error=conditionMessage)
     
     
-    exp <- "lBlock must be a positive integer or numeric"
+    exp <- "nbCpG must be a positive integer or numeric"
     
     
-    message <- paste0("test.validateRunSimParameters_lBlock_string() ",
-                      "- String as lBlock parameter did not generated expected results.")
+    message <- paste0("test.validateRunSimParameters_nbCpG_string() ",
+                      "- String as nbCpG parameter did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }

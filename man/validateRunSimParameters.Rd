@@ -4,11 +4,11 @@
 \alias{validateRunSimParameters}
 \title{Parameters validation for the \code{\link{runSim}} function}
 \usage{
-validateRunSimParameters(outputDir, fileID, nbSynCHR, methData, nbBlock, lBlock,
-  vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance, propInherite,
-  rateDiff, minRate, propHetero, minReads, maxPercReads, context, assembly,
-  meanCov, n, keepDiff, saveGRanges, saveMethylKit, anaMethylKit, nbCores,
-  vSeed)
+validateRunSimParameters(outputDir, fileID, nbSynCHR, methData, nbSimulation,
+  nbBlock, nbCpG, vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff,
+  vInheritance, propInherite, rateDiff, minRate, propHetero, minReads,
+  maxPercReads, context, assembly, meanCov, keepDiff, saveGRanges,
+  saveMethylKit, anaMethylKit, nbCores, vSeed)
 }
 \arguments{
 \item{outputDir}{a string of \code{character} or \code{NULL}, the path 
@@ -26,10 +26,14 @@ from controls (CTRL) that will be used to create the sythetic chromosome.
 The \code{methData} object can also contain information from cases but 
 only the controls will be used.}
 
+\item{nbSimulation}{a positive \code{integer}, the number of simulations 
+for each parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
+\code{vInheritance}).}
+
 \item{nbBlock}{a positive \code{integer}, the number of blocks used 
 for sampling.}
 
-\item{lBlock}{a positive \code{integer}, the number of consecutive CpG 
+\item{nbCpG}{a positive \code{integer}, the number of consecutive CpG 
 positions used for sampling from \code{methInfo}.}
 
 \item{vNbSample}{a \code{vector} of positive \code{integer}, the number of 
@@ -91,10 +95,6 @@ Default: \code{"Rnor_5.0"}}
 \item{meanCov}{a positive \code{integer} represent the mean of the coverage
 at the CpG site Default: \code{80}.}
 
-\item{n}{a positive \code{integer}, the number of simulation for each 
-parameters (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
-\code{vInheritance}).}
-
 \item{keepDiff}{\code{logical} if true, the differentially methyled sites
 will be the same for each parameter (\code{vpDiff}, 
 \code{vDiff} and \code{vInheritance}). Default: \code{FALSE}.}
@@ -110,7 +110,8 @@ save too. Default: \code{TRUE}.}
 \item{anaMethylKit}{a \code{logical}, TODO. Default: \code{TRUE}}
 
 \item{nbCores}{a positive \code{integer}, the number of cores to use when
-processing the analysis. Default: \code{1}.}
+creating the simulated datasets. Default: \code{1} and always 
+\code{1} for Windows.}
 
 \item{vSeed}{a \code{integer}, a seed used when reproducible results are
 needed. When a value inferior or equal to zero is given, a random integer
@@ -125,7 +126,20 @@ Validation of all parameters needed by the public
 }
 \examples{
 
-## TODO
+## Load dataset
+data("samplesForChrSynthetic")
+
+## The function returns 0 when all paramaters are valid
+methylInheritanceSim:::validateRunSimParameters(
+outputDir = "test", fileID = "test", nbSynCHR = 1, 
+methData = samplesForChrSynthetic, nbSimulation = 2, nbBlock = 10, 
+nbCpG = 4, vNbSample = 10, nbGeneration = 3, vpDiff =0.2, 
+vpDiffsd = 0.3,
+vDiff = 0.4, vInheritance = 0.2, propInherite = 0.5, 
+rateDiff = 0.2, minRate = 0.1,
+propHetero = 0.2, minReads = 10, maxPercReads = 99.1, context = "CpG",
+assembly = "Rnor_5.0", meanCov = 80, keepDiff = FALSE, saveGRanges = TRUE,
+saveMethylKit = FALSE, anaMethylKit = FALSE, nbCores = 1, vSeed = -1)
 
 }
 \author{

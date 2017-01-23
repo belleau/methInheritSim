@@ -59,7 +59,7 @@ estBetaAlpha <- function(valCtrl, minVal = 1e-06){
 #'
 #' @author Pascal Belleau
 #' @keywords internal
-estBetaBeta <- function(valCtrl, minVal = 1e-06){
+estBetaBeta <- function(valCtrl, minVal = 1e-06) {
     
     mu <- max(valCtrl[1], minVal)
     
@@ -83,12 +83,13 @@ estBetaBeta <- function(valCtrl, minVal = 1e-06){
 #' The object can also contain information from cases but only the controls 
 #' will be used.
 #'
-#' @param nbBlock \code{integer}, the number of blocks used for sampling.
+#' @param nbBlock a positive \code{integer}, the number of blocks used 
+#' for sampling.
 #'
 #' @param nbCpG a \code{integer}, the number of consecutive CpG positions used
 #' for sampling from \code{methInfo}.
 #'
-#' @return a \code{GRanges} object, the synthetic chromosome
+#' @return a \code{GRanges} object, the synthetic chromosome.
 #'
 #' @examples
 #'
@@ -685,11 +686,15 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' from controls (CTRL) that will be used to create the sythetic chromosome. 
 #' The \code{methData} object can also contain information from cases but 
 #' only the controls will be used.
+#' 
+#' @param nbSimulation a positive \code{integer}, the number of simulations 
+#' for each parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
+#' \code{vInheritance}).
 #'
 #' @param nbBlock a positive \code{integer}, the number of blocks used 
 #' for sampling.
 #'
-#' @param lBlock a positive \code{integer}, the number of consecutive CpG 
+#' @param nbCpG a positive \code{integer}, the number of consecutive CpG 
 #' positions used for sampling from \code{methInfo}.
 #'
 #' @param vNbSample a \code{vector} of positive \code{integer}, the number of 
@@ -751,10 +756,6 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @param meanCov a positive \code{integer} represent the mean of the coverage
 #' at the CpG site Default: \code{80}.
 #' 
-#' @param n a positive \code{integer}, the number of simulation for each 
-#' parameters (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
-#' \code{vInheritance}).
-#' 
 #' @param keepDiff \code{logical} if true, the differentially methyled sites
 #' will be the same for each parameter (\code{vpDiff}, 
 #' \code{vDiff} and \code{vInheritance}). Default: \code{FALSE}.
@@ -770,7 +771,8 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @param anaMethylKit a \code{logical}, TODO. Default: \code{TRUE}
 #' 
 #' @param nbCores a positive \code{integer}, the number of cores to use when
-#' processing the analysis. Default: \code{1}.
+#' creating the simulated datasets. Default: \code{1} and always 
+#' \code{1} for Windows.
 #' 
 #' @param vSeed a \code{integer}, a seed used when reproducible results are
 #' needed. When a value inferior or equal to zero is given, a random integer
@@ -780,13 +782,26 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #'
 #' @examples
 #'
-#' ## TODO
+#' ## Load dataset
+#' data("samplesForChrSynthetic")
+#'
+#' ## The function returns 0 when all paramaters are valid
+#' methylInheritanceSim:::validateRunSimParameters(
+#' outputDir = "test", fileID = "test", nbSynCHR = 1, 
+#' methData = samplesForChrSynthetic, nbSimulation = 2, nbBlock = 10, 
+#' nbCpG = 4, vNbSample = 10, nbGeneration = 3, vpDiff =0.2, 
+#' vpDiffsd = 0.3,
+#' vDiff = 0.4, vInheritance = 0.2, propInherite = 0.5, 
+#' rateDiff = 0.2, minRate = 0.1,
+#' propHetero = 0.2, minReads = 10, maxPercReads = 99.1, context = "CpG",
+#' assembly = "Rnor_5.0", meanCov = 80, keepDiff = FALSE, saveGRanges = TRUE,
+#' saveMethylKit = FALSE, anaMethylKit = FALSE, nbCores = 1, vSeed = -1)
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom S4Vectors isSingleInteger isSingleNumber
 #' @keywords internal
 validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData, 
-                                    nbBlock, lBlock,
+                                    nbSimulation, nbBlock, nbCpG,
                                     vNbSample, nbGeneration, vpDiff, 
                                     vpDiffsd, vDiff, 
                                     vInheritance,
@@ -794,7 +809,7 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
                                     propHetero, 
                                     minReads, 
                                     maxPercReads, context, assembly,
-                                    meanCov, n, keepDiff,
+                                    meanCov, keepDiff,
                                     saveGRanges, saveMethylKit,
                                     anaMethylKit,
                                     nbCores, vSeed) {
@@ -814,6 +829,12 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("methData must be an object of class \"methyBase\"")
     }
     
+    ## Validate that nbSimulation is an positive integer
+    if (!(isSingleInteger(nbSimulation) || isSingleNumber(nbSimulation)) ||
+        as.integer(nbSimulation) < 1) {
+        stop("nbSimulation must be a positive integer or numeric")
+    }
+    
     ## Validate that nbSynCHR is an positive integer
     if (!(isSingleInteger(nbSynCHR) || isSingleNumber(nbSynCHR)) ||
         as.integer(nbSynCHR) < 1) {
@@ -826,10 +847,10 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("nbBlock must be a positive integer or numeric")
     }
     
-    ## Validate that lBlock is an positive integer
-    if (!(isSingleInteger(lBlock) || isSingleNumber(lBlock)) ||
-        as.integer(lBlock) < 1) {
-        stop("lBlock must be a positive integer or numeric")
+    ## Validate that nbCpG is an positive integer
+    if (!(isSingleInteger(nbCpG) || isSingleNumber(nbCpG)) ||
+        as.integer(nbCpG) < 1) {
+        stop("nbCpG must be a positive integer or numeric")
     }
     
     ## Validate that vNbSample is an positive integer
@@ -904,14 +925,26 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("maxPercReads must be a positive double between [0,100]")
     }
     
+    ## Validate that nbCores is an positive integer
+    if (!(isSingleInteger(nbCores) || isSingleNumber(nbCores)) ||
+        as.integer(nbCores) < 1) {
+        stop("nbCores must be a positive integer or numeric")
+    }
+    
+    ## Validate that nbCores is set to 1 on Windows system
+    if (Sys.info()["sysname"] == "Windows" && as.integer(nbCores) != 1) {
+        stop("nbCores must be 1 on a Windows system.")
+    }
+    
 #    context, assembly,
-#    meanCov, n,
+#    meanCov, 
     ## Validate that keepDiff is a logical
     if (!is.logical(keepDiff)) {
         stop("keepDiff must be a logical")
     }
     
 #    saveGRanges, saveMethylKit,
-#    anaMethylKit,
-#    nbCores, vSeed
+#    anaMethylKit,  vSeed
+    
+    return(0)
 }

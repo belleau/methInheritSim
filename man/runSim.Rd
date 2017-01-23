@@ -4,12 +4,12 @@
 \alias{runSim}
 \title{TODO}
 \usage{
-runSim(outputDir = NULL, fileID, nbSynCHR = 1, methData, nbBlock, lBlock,
-  vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance, propInherite,
-  rateDiff, minRate, propHetero, minReads = 10, maxPercReads = 99.9,
-  context = "CpG", assembly = "Rnor_5.0", meanCov = 80, n,
-  keepDiff = FALSE, saveGRanges = TRUE, saveMethylKit = TRUE,
-  anaMethylKit = TRUE, nbCores = 1, vSeed = -1)
+runSim(outputDir = NULL, fileID, nbSynCHR = 1, methData, nbSimulation,
+  nbBlock, nbCpG, vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff,
+  vInheritance, propInherite, rateDiff, minRate, propHetero, minReads = 10,
+  maxPercReads = 99.9, context = "CpG", assembly = "Rnor_5.0",
+  meanCov = 80, keepDiff = FALSE, saveGRanges = TRUE,
+  saveMethylKit = TRUE, anaMethylKit = TRUE, nbCores = 1, vSeed = -1)
 }
 \arguments{
 \item{outputDir}{a string of \code{character} or \code{NULL}, the path 
@@ -50,10 +50,14 @@ from controls (CTRL) that will be used to create the sythetic chromosome.
 The \code{methData} object can also contain information from cases but 
 only the controls will be used.}
 
+\item{nbSimulation}{a positive \code{integer}, the number of simulations 
+for each parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
+\code{vInheritance}).}
+
 \item{nbBlock}{a positive \code{integer}, the number of blocks used 
 for sampling.}
 
-\item{lBlock}{a positive \code{integer}, the number of consecutive CpG 
+\item{nbCpG}{a positive \code{integer}, the number of consecutive CpG 
 positions used for sampling from \code{methInfo}.}
 
 \item{vNbSample}{a \code{vector} of positive \code{integer}, the number of 
@@ -117,10 +121,6 @@ Default: \code{"Rnor_5.0"}}
 \item{meanCov}{a positive \code{integer}, the mean of the coverage
 at the CpG sites. Default: \code{80}.}
 
-\item{n}{a positive \code{integer}, the number of simulation for each 
-parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
-\code{vInheritance}).}
-
 \item{keepDiff}{a \code{logical}, when \code{TRUE}, the 
 differentially methyled sites
 will be the same for each parameter (\code{vpDiff}, 
@@ -157,11 +157,12 @@ TODO
 data(samplesForChrSynthetic)
 
 \dontrun{runSim(outputDir = "testData", fileID = "F1", nbSynCHR = 1, 
-methData = samplesForChrSynthetic, nbBlock = 10, lBlock = 20,
+methData = samplesForChrSynthetic, nbSimulation = 2, 
+nbBlock = 10, nbCpG = 20,
 vNbSample = c(6), nbGeneration = 3, vpDiff = c(0.9), 
 vpDiffsd = c(0.1), vDiff = c(0.8), 
 vInheritance = c(0.5), propInherite = 0.3,
-rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, n = 5, 
+rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, nbSimulation = 5, 
 nbCores= 1, vSeed = 32)}
 
 }
