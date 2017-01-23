@@ -2,7 +2,7 @@
 #'
 #' @description TODO
 #'
-#' @param pathOut a string of \code{character}, the path where the 
+#' @param outputDir a string of \code{character}, the path where the 
 #' files created by the function will be saved. Default: \code{NULL}.
 #'
 #' @param fileGen a string of \code{character}, TODO 
@@ -32,7 +32,8 @@
 #'
 #' @param nbGeneration a positive \code{integer}, the number of generations.
 #'
-#' @param vpDiff a \code{double} superior to \code{0} and inferior or equal 
+#' @param vpDiff a \code{vector} of \code{double} superior to \code{0} and 
+#' inferior or equal 
 #' to \code{1}, the mean value for the proportion of samples that will have,
 #' for a specific position, differentially methylated values. It can be 
 #' interpreted as the penetrance.
@@ -47,7 +48,8 @@
 #' @param vInheritance a positive \code{double} between [0,1], the 
 #' proportion of cases that inherited differentially sites.
 #' 
-#' @param propInherite a non-negative \code{double} inferior or equal to \code{1}, 
+#' @param propInherite a non-negative \code{double} inferior or equal 
+#' to \code{1}, 
 #' proportion of differentially methylated site
 #' are inherated
 #'
@@ -113,11 +115,11 @@
 #'
 #' @examples
 #'
-#' ## TODO pathOut where to write file ?
+#' ## TODO outputDir where to write file ?
 #' ## Load methyl information
 #' data(samplesForChrSynthetic)
 #' 
-#' \dontrun{runSim(pathOut = "testData", fileGen = "F1", nbSynCHR = 1, 
+#' \dontrun{runSim(outputDir = "testData", fileGen = "F1", nbSynCHR = 1, 
 #' methData = samplesForChrSynthetic, nbBlock = 10, lBlock = 20,
 #' vNbSample = c(6), nbGeneration = 3, vpDiff = c(0.9), 
 #' vpDiffsd = c(0.1), vDiff = c(0.8), 
@@ -128,7 +130,8 @@
 #' @author Pascal Belleau
 #' @importFrom parallel mclapply
 #' @export
-runSim <- function(pathOut = NULL, fileGen, nbSynCHR, methData, nbBlock, lBlock,
+runSim <- function(outputDir = NULL, fileGen, nbSynCHR, methData, 
+                    nbBlock, lBlock,
                     vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff, 
                     vInheritance,
                     propInherite, rateDiff, minRate, propHetero, 
@@ -139,7 +142,7 @@ runSim <- function(pathOut = NULL, fileGen, nbSynCHR, methData, nbBlock, lBlock,
                     anaMethylKit = TRUE,
                     nbCores = 1, vSeed = -1) {
     
-    validateRunSimParameters(pathOut = pathOut, fileGen = fileGen, 
+    validateRunSimParameters(outputDir = outputDir, fileGen = fileGen, 
                                 nbSynCHR = nbSynCHR, methData = methData, 
                                 nbBlock = nbBlock, lBlock  = lBlock,
                                 vNbSample = vNbSample, 
@@ -165,8 +168,8 @@ runSim <- function(pathOut = NULL, fileGen, nbSynCHR, methData, nbBlock, lBlock,
     }
     set.seed(vSeed)
     
-    if (!is.null(outputDir) && !dir.exists(pathOut)) {
-        dir.create(pathOut, showWarnings = TRUE)
+    if (!is.null(outputDir) && !dir.exists(outputDir)) {
+        dir.create(outputDir, showWarnings = TRUE)
     }
     
     for(s in 1:nbSynCHR) {
@@ -176,7 +179,7 @@ runSim <- function(pathOut = NULL, fileGen, nbSynCHR, methData, nbBlock, lBlock,
                                 nbCpG = lBlock)
         
         adPref <- paste0(fileGen, "_", s)
-        saveRDS(res, file = paste0(pathOut, "/stateInfo_", adPref, ".rds"))
+        saveRDS(res, file = paste0(outputDir, "/stateInfo_", adPref, ".rds"))
         
         for(nbSample in vNbSample) {
             
@@ -187,7 +190,7 @@ runSim <- function(pathOut = NULL, fileGen, nbSynCHR, methData, nbBlock, lBlock,
             # Define tretment and sample.id 
             treatment <- c(rep(0,nbSample), rep(1,nbSample))
             if(saveGRanges){
-                saveRDS(treatment, file = paste0(pathOut, "/treatment_", 
+                saveRDS(treatment, file = paste0(outputDir, "/treatment_", 
                                             adPrefSample, ".rds"))
             }
             
@@ -230,7 +233,7 @@ runSim <- function(pathOut = NULL, fileGen, nbSynCHR, methData, nbBlock, lBlock,
                                             propInheritance)
                             
                         a <- mclapply(1:n, FUN = simInheritance, 
-                                        pathOut = pathOut, 
+                                        pathOut = outputDir, 
                                         pref = prefBase, nbCtrl = nbCtrl,
                                         nbCase = nbCase, treatment = treatment, 
                                         sample.id = sample.id, 
@@ -258,5 +261,6 @@ runSim <- function(pathOut = NULL, fileGen, nbSynCHR, methData, nbBlock, lBlock,
             }
         }
     }
+    
     return(0)
 }

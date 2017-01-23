@@ -76,9 +76,9 @@ test.getSyntheticChr_good_01 <- function() {
 ## getSim() function
 ###################################################
 
-test.validateRunSimParameters_pathOut_number <- function() {
+test.validateRunSimParameters_outputDir_number <- function() {
     
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(pathOut = 33,
+    obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(outputDir = 33,
                                     fileGen = "F1", 
                                     nbSynCHR = 1, 
                                     methData = samplesForChrSynthetic, 
@@ -103,11 +103,47 @@ test.validateRunSimParameters_pathOut_number <- function() {
                             error=conditionMessage)
 
     
-    exp <- "pathOut must be a character string or NULL"
+    exp <- "outputDir must be a character string or NULL"
     
     
-    message <- paste0("test.validateRunSimParameters_pathOut_number() ",
-                      "- Number as pathOut paramter did not generated expected results.")
+    message <- paste0("test.validateRunSimParameters_outputDir_number() ",
+                      "- Number as outputDir paramter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_nbSynCHR_not_number <- function() {
+    
+    obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
+                                                        fileGen = "F1", 
+                                                        nbSynCHR = "hi", 
+                                                        methData = samplesForChrSynthetic, 
+                                                        nbBlock = 3, lBlock  = 2,
+                                                        vNbSample = 2, 
+                                                        nbGeneration = 3, 
+                                                        vpDiff = 2, vpDiffsd = 1, 
+                                                        vDiff = 2, 
+                                                        vInheritance = 2,
+                                                        propInherite = 0.8, 
+                                                        rateDiff = 2, 
+                                                        minRate = 1, 
+                                                        propHetero = 0.4, 
+                                                        minReads = 2, 
+                                                        maxPercReads = 99.9, 
+                                                        context = "CpG", assembly = "hg19",
+                                                        meanCov = 10, n = 3, 
+                                                        keepDiff = TRUE, saveGRanges = FALSE, 
+                                                        saveMethylKit = FALSE,
+                                                        anaMethylKit = FALSE,
+                                                        nbCores = 1, vSeed = -1),
+                    error=conditionMessage)
+    
+    
+    exp <- "nbSynCHR must be a positive integer or numeric"
+    
+    
+    message <- paste0("test.validateRunSimParameters_nbSynCHR_not_number() ",
+                      "- Not a number as nbSynCHR paramter did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }

@@ -671,7 +671,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @description Validation of all parameters needed by the public
 #' \code{\link{runSim}} function.
 #'
-#' @param pathOut a string of \code{character}, the path where the 
+#' @param outputDir a string of \code{character}, the path where the 
 #' files created by the function will be saved or \code{NULL}. 
 #'
 #' @param fileGen a string of \code{character}, TODO 
@@ -786,7 +786,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom S4Vectors isSingleInteger isSingleNumber
 #' @keywords internal
-validateRunSimParameters <-function(pathOut, fileGen, nbSynCHR, methData, 
+validateRunSimParameters <-function(outputDir, fileGen, nbSynCHR, methData, 
                                     nbBlock, lBlock,
                                     vNbSample, nbGeneration, vpDiff, 
                                     vpDiffsd, vDiff, 
@@ -800,9 +800,9 @@ validateRunSimParameters <-function(pathOut, fileGen, nbSynCHR, methData,
                                     anaMethylKit,
                                     nbCores, vSeed) {
     
-    ## Validate that the pathOut is an not empty string
-    if (!is.null(pathOut) && !is.character(pathOut)) {
-        stop("pathOut must be a character string or NULL")
+    ## Validate that the outputDir is an not empty string
+    if (!is.null(outputDir) && !is.character(outputDir)) {
+        stop("outputDir must be a character string or NULL")
     }
     
     ## Validate that the fileGen is an not empty string
