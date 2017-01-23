@@ -88,8 +88,8 @@ are inherated}
 the chance that a site is differentially 
 methylated.}
 
-\item{minRate}{a non-negative \code{double} inferior to \code{1}, the minimum 
-rate of differentially methylated sites.}
+\item{minRate}{a non-negative \code{double} inferior to \code{1}, the 
+minimum rate for differentially methylated sites.}
 
 \item{propHetero}{a positive \code{double} between [0,1], the 
 reduction of vDiff for the second and following generations.}

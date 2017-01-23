@@ -15,11 +15,7 @@ validateRunSimParameters(outputDir, fileID, nbSynCHR, methData, nbBlock, lBlock,
 where the 
 files created by the function will be saved or \code{NULL}.}
 
-\item{fileID}{a string of \code{character}, TODO 
-include each output file. Each output 
-file are 
-composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
-parameters of the simulation and ".rds".}
+\item{fileID}{a string of \code{character}, TODO}
 
 \item{nbSynCHR}{a positive \code{integer}, the number of distinct synthetic 
 chromosomes. generate. TODO}

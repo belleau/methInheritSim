@@ -676,10 +676,6 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' files created by the function will be saved or \code{NULL}. 
 #'
 #' @param fileID a string of \code{character}, TODO 
-#' include each output file. Each output 
-#' file are 
-#' composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
-#' parameters of the simulation and ".rds". 
 #'
 #' @param nbSynCHR a positive \code{integer}, the number of distinct synthetic 
 #' chromosomes. generate. TODO
@@ -809,6 +805,11 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
     ## Validate that the fileID is an not empty string
     if (!is.null(fileID) && !is.character(fileID)) {
         stop("fileID must be a character string or NULL")
+    }
+    
+    ## Validate that the methData is a methylBase object
+    if (!"methylBase" %in% class(methData)) {
+        stop("methData must be an object of class \"methyBase\"")
     }
     
     ## Validate that nbSynCHR is an positive integer

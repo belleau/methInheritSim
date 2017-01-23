@@ -18,7 +18,7 @@ test.estBetaAlpha_good_01 <- function() {
     exp <- 0.125
     
     message <- paste0("test.estBetaAlpha_good_01() ",
-                    "- Valid paramters did not generated expected results.")
+                    "- Valid parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
@@ -35,7 +35,7 @@ test.estBetaBeta_good_01 <- function() {
     exp <- 0.035
     
     message <- paste0("test.estBetaBeta_good_01() ",
-                      "- Valid paramters did not generated expected results.")
+                      "- Valid parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
@@ -61,7 +61,7 @@ test.getSyntheticChr_good_01 <- function() {
                    varCTRL = c(0.00293610808482296, 0.00038750651540637))
     
     message <- paste0("test.getSyntheticChr_good_01() ",
-                      "- Valid paramters did not generated expected results.")
+                      "- Valid parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
@@ -107,7 +107,7 @@ test.validateRunSimParameters_outputDir_number <- function() {
     
     
     message <- paste0("test.validateRunSimParameters_outputDir_number() ",
-                      "- Number as outputDir paramter did not generated expected results.")
+                      "- Number as outputDir parameter did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
@@ -143,7 +143,7 @@ test.validateRunSimParameters_fileID_number <- function() {
     
     
     message <- paste0("test.validateRunSimParameters_fileID_number() ",
-                      "- Number as fileID paramter did not generated expected results.")
+                      "- Number as fileID parameter did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
@@ -179,7 +179,7 @@ test.validateRunSimParameters_nbSynCHR_not_number <- function() {
     
     
     message <- paste0("test.validateRunSimParameters_nbSynCHR_not_number() ",
-                      "- Not a number as nbSynCHR paramter did not generated expected results.")
+                      "- Not a number as nbSynCHR parameter did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
@@ -215,7 +215,7 @@ test.validateRunSimParameters_nbSynCHR_vector_number <- function() {
     
     
     message <- paste0("test.validateRunSimParameters_nbSynCHR_vector_number() ",
-                      "- Vector of numbers as nbSynCHR paramter did not generated expected results.")
+                      "- Vector of numbers as nbSynCHR parameter did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
@@ -251,7 +251,44 @@ test.validateRunSimParameters_nbSynCHR_zero <- function() {
     
     
     message <- paste0("test.validateRunSimParameters_nbSynCHR_zero() ",
-                      "- Zero as nbSynCHR paramter did not generated expected results.")
+                      "- Zero as nbSynCHR parameter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_methBase_number <- function() {
+    
+    obs <- tryCatch(
+            methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
+                                                            fileID = "F1", 
+                                                            nbSynCHR = 1, 
+                                                            methData = 33, 
+                                                            nbBlock = 3, lBlock  = 2,
+                                                            vNbSample = 2, 
+                                                            nbGeneration = 3, 
+                                                            vpDiff = 2, vpDiffsd = 1, 
+                                                            vDiff = 2, 
+                                                            vInheritance = 2,
+                                                            propInherite = 0.8, 
+                                                            rateDiff = 2, 
+                                                            minRate = 1, 
+                                                            propHetero = 0.4, 
+                                                            minReads = 2, 
+                                                            maxPercReads = 99.9, 
+                                                            context = "CpG", assembly = "hg19",
+                                                            meanCov = 10, n = 3, 
+                                                            keepDiff = TRUE, saveGRanges = FALSE, 
+                                                            saveMethylKit = FALSE,
+                                                            anaMethylKit = FALSE,
+                                                            nbCores = 1, vSeed = -1),
+                    error=conditionMessage)
+    
+    
+    exp <- "methData must be an object of class \"methyBase\""
+    
+    
+    message <- paste0("test.validateRunSimParameters_methBase_number() ",
+                      "- Number as methBase parameter did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
