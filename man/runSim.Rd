@@ -94,10 +94,11 @@ Default: \code{"Rnor_5.0"}}
 at the CpG sites. Default: \code{80}.}
 
 \item{n}{a positive \code{integer}, the number of simulation for each 
-parameters (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
+parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
 \code{vInheritance}).}
 
-\item{keepDiff}{\code{logical} if true, the differentially methyled sites
+\item{keepDiff}{a \code{logical}, when \code{TRUE}, the 
+differentially methyled sites
 will be the same for each parameter (\code{vpDiff}, 
 \code{vDiff} and \code{vInheritance}). Default: \code{FALSE}.}
 

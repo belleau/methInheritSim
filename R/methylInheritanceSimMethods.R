@@ -84,10 +84,11 @@
 #' at the CpG sites. Default: \code{80}.
 #' 
 #' @param n a positive \code{integer}, the number of simulation for each 
-#' parameters (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
+#' parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
 #' \code{vInheritance}).
 #' 
-#' @param keepDiff \code{logical} if true, the differentially methyled sites
+#' @param keepDiff a \code{logical}, when \code{TRUE}, the 
+#' differentially methyled sites
 #' will be the same for each parameter (\code{vpDiff}, 
 #' \code{vDiff} and \code{vInheritance}). Default: \code{FALSE}.
 #' 
