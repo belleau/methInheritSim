@@ -80,8 +80,8 @@
 #' genome assembly. Ex: mm9,hg18 etc.
 #' Default: \code{"Rnor_5.0"}
 #' 
-#' @param meanCov a positive \code{integer} represent the mean of the coverage
-#' at the CpG site Default: \code{80}.
+#' @param meanCov a positive \code{integer}, the mean of the coverage
+#' at the CpG sites. Default: \code{80}.
 #' 
 #' @param n a positive \code{integer}, the number of simulation for each 
 #' parameters (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
@@ -118,10 +118,10 @@
 #' 
 #' \dontrun{runSim(pathOut = "testData", fileGen = "F1", nbSynCHR = 1, 
 #' methData = samplesForChrSynthetic, nbBlock = 10, lBlock = 20,
-#' vNbSample = c(3), nbGeneration = 3, vpDiff = c(0.9), 
+#' vNbSample = c(6), nbGeneration = 3, vpDiff = c(0.9), 
 #' vpDiffsd = c(0.1), vDiff = c(0.8), 
 #' vInheritance = c(0.5), propInherite = 0.3,
-#' rateDiff = 0.01, minRate = 0.01, propHetero = 0.5, n = 5, 
+#' rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, n = 5, 
 #' nbCores= 1, vSeed = 32)}
 #' 
 #' @author Pascal Belleau
@@ -180,7 +180,7 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
             nbCase <- nbSample
             
             # Define tretment and sample.id 
-            treatment=c(rep(0,nbSample),rep(1,nbSample))
+            treatment <- c(rep(0,nbSample), rep(1,nbSample))
             if(saveGRanges){
                 saveRDS(treatment, file = paste0(pathOut, "/treatment_", 
                                             adPrefSample, ".rds"))
@@ -226,14 +226,11 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
                             
                         a <- mclapply(1:n, FUN = simInheritance, 
                                         pathOut = pathOut, 
-                                        pref = prefBase, 
-                                        nbCtrl = nbCtrl,
-                                        nbCase = nbCase, 
-                                        treatment = treatment, 
+                                        pref = prefBase, nbCtrl = nbCtrl,
+                                        nbCase = nbCase, treatment = treatment, 
                                         sample.id = sample.id, 
                                         generation = nbGeneration,
-                                        stateInfo = res, 
-                                        rateDiff = rateDiff,
+                                        stateInfo = res, rateDiff = rateDiff,
                                         minRate = minRate, 
                                         propInherite = propInherite,
                                         diffValue = diffValue, 
@@ -245,9 +242,10 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
                                         maxPercReads = maxPercReads,
                                         context = context, 
                                         assembly = assembly,
-                                        meanCov = meanCov, 
-                                        diffRes = diffRes,
-                                        anaMethylKit = FALSE, 
+                                        meanCov = meanCov, diffRes = diffRes,
+                                        saveGRanges = saveGRanges,
+                                        saveMethylKit = saveMethylKit,
+                                        anaMethylKit = anaMethylKit, 
                                         mc.cores = nbCores,
                                         mc.preschedule = FALSE)
                     }
