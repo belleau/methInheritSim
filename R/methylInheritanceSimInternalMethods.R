@@ -673,22 +673,24 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #'
 #' @param outputDir a string of \code{character} or \code{NULL}, the path 
 #' where the 
-#' files created by the function will be saved or \code{NULL}. 
+#' files created by the function will be saved. When \code{NULL}, the files
+#' are saved in the current directory. Default: \code{NULL}.
 #'
 #' @param fileID a string of \code{character}, TODO 
 #'
-#' @param nbSynCHR a positive \code{integer}, the number of distinct synthetic 
-#' chromosomes. generate. TODO
+#' @param nbSynCHR a positive \code{integer}, the number of distinct 
+#' synthetic chromosomes that will be generated.
 #'
 #' @param methData an object of class \code{methylBase}, the CpG information
 #' from controls (CTRL) that will be used to create the sythetic chromosome. 
 #' The \code{methData} object can also contain information from cases but 
 #' only the controls will be used.
 #'
-#' @param nbBlock \code{integer}, the number of blocks used for sampling.
+#' @param nbBlock a positive \code{integer}, the number of blocks used 
+#' for sampling.
 #'
-#' @param lBlock a \code{integer}, the number of consecutive CpG positions used
-#' for sampling from \code{methInfo}.
+#' @param lBlock a positive \code{integer}, the number of consecutive CpG 
+#' positions used for sampling from \code{methInfo}.
 #'
 #' @param vNbSample a \code{vector} of positive \code{integer}, the number of 
 #' methData (CTRL) and cases in the the simulation dataset. In 
@@ -816,11 +818,6 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
     if (!(isSingleInteger(nbSynCHR) || isSingleNumber(nbSynCHR)) ||
         as.integer(nbSynCHR) < 1) {
         stop("nbSynCHR must be a positive integer or numeric")
-    }
-    
-    ## Validate that methData is methylBase class from methylKit
-    if(!(class(methData) == "methylBase") ){
-        stop("methylBase must be methylBase class from methylKit")
     }
     
     ## Validate that nbBlock is an positive integer

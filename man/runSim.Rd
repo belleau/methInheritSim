@@ -50,16 +50,17 @@ from controls (CTRL) that will be used to create the sythetic chromosome.
 The \code{methData} object can also contain information from cases but 
 only the controls will be used.}
 
-\item{nbBlock}{\code{integer}, the number of blocks used for sampling.}
+\item{nbBlock}{a positive \code{integer}, the number of blocks used 
+for sampling.}
 
-\item{lBlock}{a \code{integer}, the number of consecutive CpG positions used
-for sampling from \code{methInfo}.}
+\item{lBlock}{a positive \code{integer}, the number of consecutive CpG 
+positions used for sampling from \code{methInfo}.}
 
 \item{vNbSample}{a \code{vector} of positive \code{integer}, the number of 
-methData (CTRL) and cases in the the simulation dataset. In 
-the simulated dataset, the number of CTRL equals the number of Case. 
+controls (CTRL) and cases in the simulated dataset. In 
+the simulated dataset, the number of CTRL equals the number of cases. 
 The number of CTRL do not need to be equal to the number of Case in
-the real dataset.}
+the real dataset \code{methData}.}
 
 \item{nbGeneration}{a positive \code{integer}, the number of generations.}
 
@@ -136,7 +137,8 @@ save too. Default: \code{TRUE}.}
 \item{anaMethylKit}{a \code{logical}, TODO. Default: \code{TRUE}}
 
 \item{nbCores}{a positive \code{integer}, the number of cores to use when
-processing the analysis. Default: \code{1}.}
+creating the simulated datasets. Default: \code{1} and always 
+\code{1} for Windows.}
 
 \item{vSeed}{a \code{integer}, a seed used when reproducible results are
 needed. When a value inferior or equal to zero is given, a random integer

@@ -40,16 +40,17 @@
 #' The \code{methData} object can also contain information from cases but 
 #' only the controls will be used.
 #'
-#' @param nbBlock \code{integer}, the number of blocks used for sampling.
+#' @param nbBlock a positive \code{integer}, the number of blocks used 
+#' for sampling.
 #'
-#' @param lBlock a \code{integer}, the number of consecutive CpG positions used
-#' for sampling from \code{methInfo}.
+#' @param lBlock a positive \code{integer}, the number of consecutive CpG 
+#' positions used for sampling from \code{methInfo}.
 #'
 #' @param vNbSample a \code{vector} of positive \code{integer}, the number of 
-#' methData (CTRL) and cases in the the simulation dataset. In 
-#' the simulated dataset, the number of CTRL equals the number of Case. 
+#' controls (CTRL) and cases in the simulated dataset. In 
+#' the simulated dataset, the number of CTRL equals the number of cases. 
 #' The number of CTRL do not need to be equal to the number of Case in
-#' the real dataset.
+#' the real dataset \code{methData}.
 #'
 #' @param nbGeneration a positive \code{integer}, the number of generations.
 #'
@@ -126,7 +127,8 @@
 #' @param anaMethylKit a \code{logical}, TODO. Default: \code{TRUE}
 #' 
 #' @param nbCores a positive \code{integer}, the number of cores to use when
-#' processing the analysis. Default: \code{1}.
+#' creating the simulated datasets. Default: \code{1} and always 
+#' \code{1} for Windows.
 #' 
 #' @param vSeed a \code{integer}, a seed used when reproducible results are
 #' needed. When a value inferior or equal to zero is given, a random integer

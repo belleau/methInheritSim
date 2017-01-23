@@ -13,22 +13,24 @@ validateRunSimParameters(outputDir, fileID, nbSynCHR, methData, nbBlock, lBlock,
 \arguments{
 \item{outputDir}{a string of \code{character} or \code{NULL}, the path 
 where the 
-files created by the function will be saved or \code{NULL}.}
+files created by the function will be saved. When \code{NULL}, the files
+are saved in the current directory. Default: \code{NULL}.}
 
 \item{fileID}{a string of \code{character}, TODO}
 
-\item{nbSynCHR}{a positive \code{integer}, the number of distinct synthetic 
-chromosomes. generate. TODO}
+\item{nbSynCHR}{a positive \code{integer}, the number of distinct 
+synthetic chromosomes that will be generated.}
 
 \item{methData}{an object of class \code{methylBase}, the CpG information
 from controls (CTRL) that will be used to create the sythetic chromosome. 
 The \code{methData} object can also contain information from cases but 
 only the controls will be used.}
 
-\item{nbBlock}{\code{integer}, the number of blocks used for sampling.}
+\item{nbBlock}{a positive \code{integer}, the number of blocks used 
+for sampling.}
 
-\item{lBlock}{a \code{integer}, the number of consecutive CpG positions used
-for sampling from \code{methInfo}.}
+\item{lBlock}{a positive \code{integer}, the number of consecutive CpG 
+positions used for sampling from \code{methInfo}.}
 
 \item{vNbSample}{a \code{vector} of positive \code{integer}, the number of 
 methData (CTRL) and cases in the the simulation dataset. In 

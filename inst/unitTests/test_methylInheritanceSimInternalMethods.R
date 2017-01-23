@@ -292,3 +292,151 @@ test.validateRunSimParameters_methBase_number <- function() {
     
     checkEquals(obs, exp, message)
 }
+
+test.validateRunSimParameters_nbBlock_number_vector <- function() {
+    
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
+                                                        fileID = "F1", 
+                                                        nbSynCHR = 1, 
+                                                        methData = samplesForChrSynthetic,
+                                                        nbBlock = c(3, 1), lBlock  = 2,
+                                                        vNbSample = 2, 
+                                                        nbGeneration = 3, 
+                                                        vpDiff = 2, vpDiffsd = 1, 
+                                                        vDiff = 2, 
+                                                        vInheritance = 2,
+                                                        propInherite = 0.8, 
+                                                        rateDiff = 2, 
+                                                        minRate = 1, 
+                                                        propHetero = 0.4, 
+                                                        minReads = 2, 
+                                                        maxPercReads = 99.9, 
+                                                        context = "CpG", assembly = "hg19",
+                                                        meanCov = 10, n = 3, 
+                                                        keepDiff = TRUE, saveGRanges = FALSE, 
+                                                        saveMethylKit = FALSE,
+                                                        anaMethylKit = FALSE,
+                                                        nbCores = 1, vSeed = -1),
+        error=conditionMessage)
+    
+    
+    exp <- "nbBlock must be a positive integer or numeric"
+    
+    
+    message <- paste0("test.validateRunSimParameters_nbBlock_number_vector() ",
+                      "- Number vector as nbBlock parameter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_nbBlock_string <- function() {
+    
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
+                                                        fileID = "F1", 
+                                                        nbSynCHR = 1, 
+                                                        methData = samplesForChrSynthetic,
+                                                        nbBlock = "hi", lBlock  = 2,
+                                                        vNbSample = 2, 
+                                                        nbGeneration = 3, 
+                                                        vpDiff = 2, vpDiffsd = 1, 
+                                                        vDiff = 2, 
+                                                        vInheritance = 2,
+                                                        propInherite = 0.8, 
+                                                        rateDiff = 2, 
+                                                        minRate = 1, 
+                                                        propHetero = 0.4, 
+                                                        minReads = 2, 
+                                                        maxPercReads = 99.9, 
+                                                        context = "CpG", assembly = "hg19",
+                                                        meanCov = 10, n = 3, 
+                                                        keepDiff = TRUE, saveGRanges = FALSE, 
+                                                        saveMethylKit = FALSE,
+                                                        anaMethylKit = FALSE,
+                                                        nbCores = 1, vSeed = -1),
+        error=conditionMessage)
+    
+    
+    exp <- "nbBlock must be a positive integer or numeric"
+    
+    
+    message <- paste0("test.validateRunSimParameters_nbBlock_string() ",
+                      "- String as nbBlock parameter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_lBlock_number_vector <- function() {
+    
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
+                                                        fileID = "F1", 
+                                                        nbSynCHR = 1, 
+                                                        methData = samplesForChrSynthetic,
+                                                        nbBlock = 2, lBlock  = c(3,2),
+                                                        vNbSample = 2, 
+                                                        nbGeneration = 3, 
+                                                        vpDiff = 2, vpDiffsd = 1, 
+                                                        vDiff = 2, 
+                                                        vInheritance = 2,
+                                                        propInherite = 0.8, 
+                                                        rateDiff = 2, 
+                                                        minRate = 1, 
+                                                        propHetero = 0.4, 
+                                                        minReads = 2, 
+                                                        maxPercReads = 99.9, 
+                                                        context = "CpG", assembly = "hg19",
+                                                        meanCov = 10, n = 3, 
+                                                        keepDiff = TRUE, saveGRanges = FALSE, 
+                                                        saveMethylKit = FALSE,
+                                                        anaMethylKit = FALSE,
+                                                        nbCores = 1, vSeed = -1),
+        error=conditionMessage)
+    
+    
+    exp <- "lBlock must be a positive integer or numeric"
+    
+    
+    message <- paste0("test.validateRunSimParameters_lBlock_number_vector() ",
+                      "- Number vector as lBlock parameter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_lBlock_string <- function() {
+    
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
+                                                        fileID = "F1", 
+                                                        nbSynCHR = 1, 
+                                                        methData = samplesForChrSynthetic,
+                                                        nbBlock = 2, lBlock  = "hi",
+                                                        vNbSample = 2, 
+                                                        nbGeneration = 3, 
+                                                        vpDiff = 2, vpDiffsd = 1, 
+                                                        vDiff = 2, 
+                                                        vInheritance = 2,
+                                                        propInherite = 0.8, 
+                                                        rateDiff = 2, 
+                                                        minRate = 1, 
+                                                        propHetero = 0.4, 
+                                                        minReads = 2, 
+                                                        maxPercReads = 99.9, 
+                                                        context = "CpG", assembly = "hg19",
+                                                        meanCov = 10, n = 3, 
+                                                        keepDiff = TRUE, saveGRanges = FALSE, 
+                                                        saveMethylKit = FALSE,
+                                                        anaMethylKit = FALSE,
+                                                        nbCores = 1, vSeed = -1),
+        error=conditionMessage)
+    
+    
+    exp <- "lBlock must be a positive integer or numeric"
+    
+    
+    message <- paste0("test.validateRunSimParameters_lBlock_string() ",
+                      "- String as lBlock parameter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
