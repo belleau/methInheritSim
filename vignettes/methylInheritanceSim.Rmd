@@ -68,7 +68,7 @@ library(methylInheritanceSim)
 
 # Description of the permutation analysis
 
-The synthetic methylated sites are generate using a real dataset. Two parameters
+The synthetic methylated sites (or CpG sites) are generate using a real dataset (methData). Two parameters
 determine this step (nbBlock and lBLock). The nbBlock representes the number 
 block randomly selected in the real dataset genome. Each block must contain 
 lBlock consecutive methylated sites.
@@ -80,7 +80,17 @@ parameters alpha and beta of a distribution beta from the mean and variance of
 the proportion of C/T  for the CTRL at this site. We use this Beta distribution 
 to simulate the the proportion of C/T in the controle dataset.
 
-We select randomly the DMS from methylated sites from synthetic chromosome. To 
+We select randomly the DMS from methylated sites from synthetic chromosome 
+(mean of the proportion of DMS on the number of methylated sites is rateDiff). To 
 create DMR, the successors of the selected DMS are more likely to be DMS too, 
 if they are nearer than 1000 base pairs.
+
+For the case simulation of the F1 generation, for methilated sites not selected 
+as DMS, the same beta distribution as the control is used to simulate. For the DMS, a 
+proportion (vpDiff) of the cases are selected and the C/T follow a shift Beta 
+distribution (the parameter are estimated with mean control - or + vDiff). 
+The 1 - vpDiff other case follow the same distribution as a control. 
+The parameter vpDiff is liked penetrance. 
+ 
+
 
