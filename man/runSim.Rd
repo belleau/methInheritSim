@@ -4,16 +4,16 @@
 \alias{runSim}
 \title{TODO}
 \usage{
-runSim(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock, vNbSample,
-  nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance, propInherite, rateDiff,
-  minRate, propHetero, minReads = 10, maxPercReads = 99.9,
+runSim(pathOut = NULL, fileGen, nbSynCHR, methData, nbBlock, lBlock,
+  vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance, propInherite,
+  rateDiff, minRate, propHetero, minReads = 10, maxPercReads = 99.9,
   context = "CpG", assembly = "Rnor_5.0", meanCov = 80, n,
   keepDiff = FALSE, saveGRanges = TRUE, saveMethylKit = TRUE,
   anaMethylKit = TRUE, nbCores = 1, vSeed = -1)
 }
 \arguments{
 \item{pathOut}{a string of \code{character}, the path where the 
-files created by the function will be saved.}
+files created by the function will be saved. Default: \code{NULL}.}
 
 \item{fileGen}{a string of \code{character}, TODO 
 include each output file. Each output 
@@ -57,7 +57,7 @@ where the mean is shifted of \code{vDiff} from the CTRL distribution}
 \item{vInheritance}{a positive \code{double} between [0,1], the 
 proportion of cases that inherited differentially sites.}
 
-\item{propInherite}{a positive \code{double} inferior to \code{1}, 
+\item{propInherite}{a non-negative \code{double} inferior or equal to \code{1}, 
 proportion of differentially methylated site
 are inherated}
 
@@ -65,7 +65,7 @@ are inherated}
 the chance that a site is differentially 
 methylated.}
 
-\item{minRate}{a positive \code{double} inferior to \code{1}, the minimum 
+\item{minRate}{a non-negative \code{double} inferior to \code{1}, the minimum 
 rate of differentially methylated sites.}
 
 \item{propHetero}{a positive \code{double} between [0,1], the 

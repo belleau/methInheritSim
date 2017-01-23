@@ -715,7 +715,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @param vInheritance a positive \code{double} between [0,1], the 
 #' proportion of cases that inherited differentially sites.
 #' 
-#' @param propInherite a positive \code{double} inferior to \code{1}, 
+#' @param propInherite a non-negative \code{double} inferior or equal to \code{1}, 
 #' proportion of differentially methylated site
 #' are inherated
 #'
@@ -723,7 +723,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' the chance that a site is differentially 
 #' methylated.
 #'
-#' @param minRate a positive \code{double} inferior to \code{1}, the minimum 
+#' @param minRate a non-negative \code{double} inferior to \code{1}, the minimum 
 #' rate of differentially methylated sites.
 #'
 #' @param propHetero a positive \code{double} between [0,1], the 
@@ -783,6 +783,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' ## TODO
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
+#' @importFrom S4Vectors isSingleInteger isSingleNumber
 #' @keywords internal
 validateRunSimParameters <-function(pathOut, fileGen, nbSynCHR, methData, 
                                     nbBlock, lBlock,
@@ -797,4 +798,119 @@ validateRunSimParameters <-function(pathOut, fileGen, nbSynCHR, methData,
                                     anaMethylKit,
                                     nbCores, vSeed) {
     
+    ## Validate that the pathOut is an not empty string
+    if (!is.null(pathOut) && !is.character(pathOut)) {
+        stop("output_dir must be a character string or NULL")
+    }
+    
+    ## Validate that the fileGen is an not empty string
+    if (!is.null(fileGen) && !is.character(fileGen)) {
+        stop("fileGen must be a character string or NULL")
+    }
+    
+    ## Validate that nbSynCHR is an positive integer
+    if (!(isSingleInteger(nbSynCHR) || isSingleNumber(nbSynCHR)) ||
+        as.integer(nbSynCHR) < 1) {
+        stop("nbSynCHR must be a positive integer or numeric")
+    }
+    
+    ## Validate that methData is methylBase class from methylKit
+    if(!(class(methData) == "methylBase") ){
+        stop("methylBase must be methylBase class from methylKit")
+    }
+    
+    ## Validate that nbBlock is an positive integer
+    if (!(isSingleInteger(nbBlock) || isSingleNumber(nbBlock)) ||
+        as.integer(nbBlock) < 1) {
+        stop("nbBlock must be a positive integer or numeric")
+    }
+    
+    ## Validate that lBlock is an positive integer
+    if (!(isSingleInteger(lBlock) || isSingleNumber(lBlock)) ||
+        as.integer(lBlock) < 1) {
+        stop("lBlock must be a positive integer or numeric")
+    }
+    
+    ## Validate that vNbSample is an positive integer
+    if (!(isSingleInteger(vNbSample) || isSingleNumber(vNbSample)) ||
+        as.integer(vNbSample) < 1) {
+        stop("vNbSample must be a positive integer or numeric")
+    }
+    
+    ## Validate that nbGeneration is an positive integer
+    if (!(isSingleInteger(nbGeneration) || isSingleNumber(nbGeneration)) ||
+        as.integer(nbGeneration) < 1) {
+        stop("nbGeneration must be a positive integer or numeric")
+    }
+    
+    ## Validate that vpDiff is an positive double between (0,1]
+    if (!(isSingleNumber(vpDiff)) ||
+        vpDiff <= 0.00 || vpDiff > 1.00) {
+        stop("vpDiff must be a positive double between (0,1]")
+    }
+    
+    ## Validate that vpDiffsd is an non-negative double 
+    if (!(isSingleNumber(vpDiffsd)) ||
+        vpDiff < 0.00) {
+        stop("vpDiffsd is an non-negative double")
+    }
+    
+    ## Validate that vDiff is an positive double between [0,1]
+    if (!(isSingleNumber(vDiff)) ||
+        vDiff < 0.00 || vDiff > 1.00) {
+        stop("vDiff must be a positive double between [0,1]")
+    }
+    
+    ## Validate that vInheritance is an positive double between [0,1]
+    if (!(isSingleNumber(vInheritance)) ||
+        vInheritance < 0.00 || vInheritance > 1.00) {
+        stop("vInheritance must be a positive double between [0,1]")
+    }
+    
+    ## Validate that propInherite is an positive double between [0,1]
+    if (!(isSingleNumber(propInherite)) ||
+        propInherite < 0.00 || propInherite > 1.00) {
+        stop("propInherite must be a positive double between [0,1]")
+    }
+    
+    ## Validate that rateDiff is an positive double between (0,1)
+    if (!(isSingleNumber(rateDiff)) ||
+        rateDiff <= 0.00 || rateDiff >= 1.00) {
+        stop("rateDiff must be a positive double between (0,1)")
+    }
+    
+    ## Validate that minRate is an positive double between [0,1)
+    if (!(isSingleNumber(minRate)) ||
+        minRate < 0.00 || minRate >= 1.00) {
+        stop("minRate must be a positive double between [0,1)")
+    }
+    
+    ## Validate that propHetero is an positive double between [0,1]
+    if (!(isSingleNumber(propHetero)) ||
+        propHetero < 0.00 || propHetero > 1.00) {
+        stop("propHetero must be a positive double between [0,1]")
+    }
+    
+    ## Validate that minReads is an positive integer
+    if (!(isSingleInteger(minReads) || isSingleNumber(minReads)) ||
+        as.integer(minReads) < 1) {
+        stop("minReads must be a positive integer or numeric")
+    }
+    
+    ## Validate that maxPercReads is an positive double between [0,100]
+    if (!(isSingleNumber(maxPercReads)) ||
+        maxPercReads < 0.00 || maxPercReads > 100.00) {
+        stop("maxPercReads must be a positive double between [0,100]")
+    }
+    
+#    context, assembly,
+#    meanCov, n,
+    ## Validate that keepDiff is a logical
+    if (!is.logical(keepDiff)) {
+        stop("keepDiff must be a logical")
+    }
+    
+#    saveGRanges, saveMethylKit,
+#    anaMethylKit,
+#    nbCores, vSeed
 }
