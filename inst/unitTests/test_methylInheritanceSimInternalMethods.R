@@ -68,50 +68,46 @@ test.getSyntheticChr_good_01 <- function() {
 
 
 ###################################################
+##validateRunSimParameters() function
+###################################################
+
+
+###################################################
 ## getSim() function
 ###################################################
 
-test.getSim_good_01 <- function() {
+test.validateRunSimParameters_pathOut_number <- function() {
     
-    set.seed(312)
+    obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(pathOut = 33,
+                                    fileGen = "F1", 
+                                    nbSynCHR = 1, 
+                                    methData = samplesForChrSynthetic, 
+                                    nbBlock = 3, lBlock  = 2,
+                                    vNbSample = 2, 
+                                    nbGeneration = 3, 
+                                    vpDiff = 2, vpDiffsd = 1, 
+                                    vDiff = 2, 
+                                    vInheritance = 2,
+                                    propInherite = 0.8, 
+                                    rateDiff = 2, 
+                                    minRate = 1, 
+                                    propHetero = 0.4, 
+                                    minReads = 2, 
+                                    maxPercReads = 99.9, 
+                                    context = "CpG", assembly = "hg19",
+                                    meanCov = 10, n = 3, 
+                                    keepDiff = TRUE, saveGRanges = FALSE, 
+                                    saveMethylKit = FALSE,
+                                    anaMethylKit = FALSE,
+                                    nbCores = 1, vSeed = -1),
+                            error=conditionMessage)
+
     
-    stateInfo <- methylInheritanceSim:::getSyntheticChr(methInfo = 
-                    samplesForChrSynthetic, nbBlock = 1, nbCpG = 2)
-    
-    stateDiff <- list()
-    stateDiff[["stateDiff"]] <- c(0,1)
-    stateDiff[["stateInherite"]] <- c(0,1)
-    
-    obs <- methylInheritanceSim:::getSim(2, 2, 2, stateInfo, stateDiff, 
-                                            10, 0.8, 0.2, 0.8, 0.1)
-    
-    entry_01 <- GenomicRanges::GRanges(seqnames = rep("S", 2), 
-                ranges = IRanges::IRanges(start = c(1000, 1007), 
-                                        end = c(1000, 1007)),
-                strand = rep("+", 2), meanDiff = c(0.987112859251413, 1),
-                meanCTRL.meanCTRL = c(0.987112859251413, 0.0711020304345812), 
-                partitionCase = c(0, 2), partitionCtrl = c(2,0),
-                ctrl.V1 = c(0.984744151048604, 0.0751012481595866),
-                ctrl.V2 = c(0.994061018191887, 0.0462071869386155),
-                case.V1 = c(0.952275081359202, 0),
-                case.V2 = c(0.998424919118535, 1))
-    
-    entry_02 <- GenomicRanges::GRanges(seqnames = rep("S", 2), 
-                ranges = IRanges::IRanges(start = c(1000, 1007), 
-                                end = c(1000, 1007)),
-                strand = rep("+", 2), meanDiff = c(0.987112859251413, 1),
-                meanCTRL.meanCTRL = c(0.987112859251413, 0.0711020304345812), 
-                partitionCase = c(0, 1), partitionCtrl = c(2, 1),
-                ctrl.V1 = c(0.996109673466832, 0.00572813753446487),
-                ctrl.V2 = c(0.997316622965915, 0.0355629065128061),
-                case.V1 = c(0.997846790687883, 1),
-                case.V2 = c(0.974685083913519, 0.150238331165474))
-    
-    exp <- GenomicRanges::GRangesList(entry_01, entry_02)
+    exp <- "pathOut must be a character string or NULL"
     
     
-    message <- paste0("test.getSim_good_01() ",
-                      "- Valid paramters did not generated expected results.")
+    message <- paste0("test.validateRunSimParameters_pathOut_number() ",
+                      "- Number as pathOut paramter did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }

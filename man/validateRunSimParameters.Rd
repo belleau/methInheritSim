@@ -2,7 +2,7 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{validateRunSimParameters}
 \alias{validateRunSimParameters}
-\title{TODO}
+\title{Parameters validation for the \code{\link{runSim}} function}
 \usage{
 validateRunSimParameters(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
   vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance, propInherite,
@@ -12,7 +12,7 @@ validateRunSimParameters(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
 }
 \arguments{
 \item{pathOut}{a string of \code{character}, the path where the 
-files created by the function will be saved.}
+files created by the function will be saved or \code{NULL}.}
 
 \item{fileGen}{a string of \code{character}, TODO 
 include each output file. Each output 
@@ -121,7 +121,8 @@ is used. Default: \code{-1}.}
 \code{0} indicating that the function has been successful.
 }
 \description{
-TODO
+Validation of all parameters needed by the public
+\code{\link{runSim}} function.
 }
 \examples{
 

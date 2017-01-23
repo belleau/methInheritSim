@@ -666,12 +666,13 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 }
 
 
-#' @title TODO
+#' @title Parameters validation for the \code{\link{runSim}} function
 #'
-#' @description TODO
+#' @description Validation of all parameters needed by the public
+#' \code{\link{runSim}} function.
 #'
 #' @param pathOut a string of \code{character}, the path where the 
-#' files created by the function will be saved.
+#' files created by the function will be saved or \code{NULL}. 
 #'
 #' @param fileGen a string of \code{character}, TODO 
 #' include each output file. Each output 
@@ -790,7 +791,8 @@ validateRunSimParameters <-function(pathOut, fileGen, nbSynCHR, methData,
                                     vNbSample, nbGeneration, vpDiff, 
                                     vpDiffsd, vDiff, 
                                     vInheritance,
-                                    propInherite, rateDiff, minRate, propHetero, 
+                                    propInherite, rateDiff, minRate, 
+                                    propHetero, 
                                     minReads, 
                                     maxPercReads, context, assembly,
                                     meanCov, n, keepDiff,
@@ -800,7 +802,7 @@ validateRunSimParameters <-function(pathOut, fileGen, nbSynCHR, methData,
     
     ## Validate that the pathOut is an not empty string
     if (!is.null(pathOut) && !is.character(pathOut)) {
-        stop("output_dir must be a character string or NULL")
+        stop("pathOut must be a character string or NULL")
     }
     
     ## Validate that the fileGen is an not empty string
