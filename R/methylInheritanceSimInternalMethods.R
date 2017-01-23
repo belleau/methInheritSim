@@ -671,10 +671,11 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @description Validation of all parameters needed by the public
 #' \code{\link{runSim}} function.
 #'
-#' @param outputDir a string of \code{character}, the path where the 
+#' @param outputDir a string of \code{character} or \code{NULL}, the path 
+#' where the 
 #' files created by the function will be saved or \code{NULL}. 
 #'
-#' @param fileGen a string of \code{character}, TODO 
+#' @param fileID a string of \code{character}, TODO 
 #' include each output file. Each output 
 #' file are 
 #' composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
@@ -786,7 +787,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom S4Vectors isSingleInteger isSingleNumber
 #' @keywords internal
-validateRunSimParameters <-function(outputDir, fileGen, nbSynCHR, methData, 
+validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData, 
                                     nbBlock, lBlock,
                                     vNbSample, nbGeneration, vpDiff, 
                                     vpDiffsd, vDiff, 
@@ -805,9 +806,9 @@ validateRunSimParameters <-function(outputDir, fileGen, nbSynCHR, methData,
         stop("outputDir must be a character string or NULL")
     }
     
-    ## Validate that the fileGen is an not empty string
-    if (!is.null(fileGen) && !is.character(fileGen)) {
-        stop("fileGen must be a character string or NULL")
+    ## Validate that the fileID is an not empty string
+    if (!is.null(fileID) && !is.character(fileID)) {
+        stop("fileID must be a character string or NULL")
     }
     
     ## Validate that nbSynCHR is an positive integer

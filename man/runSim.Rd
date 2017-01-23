@@ -4,7 +4,7 @@
 \alias{runSim}
 \title{TODO}
 \usage{
-runSim(outputDir = NULL, fileGen, nbSynCHR, methData, nbBlock, lBlock,
+runSim(outputDir = NULL, fileID, nbSynCHR = 1, methData, nbBlock, lBlock,
   vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance, propInherite,
   rateDiff, minRate, propHetero, minReads = 10, maxPercReads = 99.9,
   context = "CpG", assembly = "Rnor_5.0", meanCov = 80, n,
@@ -12,17 +12,38 @@ runSim(outputDir = NULL, fileGen, nbSynCHR, methData, nbBlock, lBlock,
   anaMethylKit = TRUE, nbCores = 1, vSeed = -1)
 }
 \arguments{
-\item{outputDir}{a string of \code{character}, the path where the 
-files created by the function will be saved. Default: \code{NULL}.}
+\item{outputDir}{a string of \code{character} or \code{NULL}, the path 
+where the 
+files created by the function will be saved. When \code{NULL}, the files
+are saved in the current directory. Default: \code{NULL}.}
 
-\item{fileGen}{a string of \code{character}, TODO 
-include each output file. Each output 
-file are 
-composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
-parameters of the simulation and ".rds".}
+\item{fileID}{a string of \code{character}, a identifiant that will be 
+included in each output file name. Each output 
+file name is 
+composed of those elements, separated by "_":
+\itemize{ 
+\item a type name, ex: methylGR, methylObj, etc..
+\item a \code{fileID}
+\item the chromosome number, a number between 1 and \code{nbSynCHR}
+\item the number of samples, a number in the \code{vNbSample} \code{vector}
+\item the mean proportion of samples that will have,
+for a specific position, differentially methylated values, a 
+number in the \code{vpDiff} \code{vector}
+\item the proportion of 
+C/T for a case differentially methylated follow a beta distribution, a
+number in the \code{vDiff} \code{vector}
+\item the proportion of 
+C/T for a case differentially methylated follow a beta distribution, a
+number in the \code{vDiff} \code{vector}
+\item the 
+proportion of cases that inherited differentially sites, a number in the
+\code{vInheritance} \code{vector}
+\item TODO
+\item the file extension ".rds"
+}}
 
 \item{nbSynCHR}{a positive \code{integer}, the number of distinct synthetic 
-chromosomes. generate. TODO}
+chromosomes that will be generated. Default: \code{1}.}
 
 \item{methData}{an object of class \code{methylBase}, the CpG information
 from controls (CTRL) that will be used to create the sythetic chromosome. 
@@ -55,8 +76,8 @@ associated to the \code{propDiff}.}
 C/T for a case differentially methylated follow a beta distribution 
 where the mean is shifted of \code{vDiff} from the CTRL distribution}
 
-\item{vInheritance}{a positive \code{double} between [0,1], the 
-proportion of cases that inherited differentially sites.}
+\item{vInheritance}{a \code{vector} of positive \code{double} between [0,1], 
+the proportion of cases that inherited differentially sites.}
 
 \item{propInherite}{a non-negative \code{double} inferior or equal 
 to \code{1}, 
@@ -89,7 +110,7 @@ string, ex: CpG,CpH,CHH, etc.
 Default: \code{"CpG"}.}
 
 \item{assembly}{a string of \code{character}, the short description of the 
-genome assembly. Ex: mm9,hg18 etc.
+genome assembly. Ex: "mm9", "hg18", etc.
 Default: \code{"Rnor_5.0"}}
 
 \item{meanCov}{a positive \code{integer}, the mean of the coverage
@@ -133,7 +154,7 @@ TODO
 ## Load methyl information
 data(samplesForChrSynthetic)
 
-\dontrun{runSim(outputDir = "testData", fileGen = "F1", nbSynCHR = 1, 
+\dontrun{runSim(outputDir = "testData", fileID = "F1", nbSynCHR = 1, 
 methData = samplesForChrSynthetic, nbBlock = 10, lBlock = 20,
 vNbSample = c(6), nbGeneration = 3, vpDiff = c(0.9), 
 vpDiffsd = c(0.1), vDiff = c(0.8), 

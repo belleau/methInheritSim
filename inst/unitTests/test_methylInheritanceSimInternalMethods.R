@@ -79,7 +79,7 @@ test.getSyntheticChr_good_01 <- function() {
 test.validateRunSimParameters_outputDir_number <- function() {
     
     obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(outputDir = 33,
-                                    fileGen = "F1", 
+                                    fileID = "F1", 
                                     nbSynCHR = 1, 
                                     methData = samplesForChrSynthetic, 
                                     nbBlock = 3, lBlock  = 2,
@@ -112,10 +112,46 @@ test.validateRunSimParameters_outputDir_number <- function() {
     checkEquals(obs, exp, message)
 }
 
+test.validateRunSimParameters_fileID_number <- function() {
+    
+    obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
+                                                                    fileID = 2, 
+                                                                    nbSynCHR = 1, 
+                                                                    methData = samplesForChrSynthetic, 
+                                                                    nbBlock = 3, lBlock  = 2,
+                                                                    vNbSample = 2, 
+                                                                    nbGeneration = 3, 
+                                                                    vpDiff = 2, vpDiffsd = 1, 
+                                                                    vDiff = 2, 
+                                                                    vInheritance = 2,
+                                                                    propInherite = 0.8, 
+                                                                    rateDiff = 2, 
+                                                                    minRate = 1, 
+                                                                    propHetero = 0.4, 
+                                                                    minReads = 2, 
+                                                                    maxPercReads = 99.9, 
+                                                                    context = "CpG", assembly = "hg19",
+                                                                    meanCov = 10, n = 3, 
+                                                                    keepDiff = TRUE, saveGRanges = FALSE, 
+                                                                    saveMethylKit = FALSE,
+                                                                    anaMethylKit = FALSE,
+                                                                    nbCores = 1, vSeed = -1),
+                    error=conditionMessage)
+    
+    
+    exp <- "fileID must be a character string or NULL"
+    
+    
+    message <- paste0("test.validateRunSimParameters_fileID_number() ",
+                      "- Number as fileID paramter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
 test.validateRunSimParameters_nbSynCHR_not_number <- function() {
     
     obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
-                                                        fileGen = "F1", 
+                                                        fileID = "F1", 
                                                         nbSynCHR = "hi", 
                                                         methData = samplesForChrSynthetic, 
                                                         nbBlock = 3, lBlock  = 2,
@@ -144,6 +180,78 @@ test.validateRunSimParameters_nbSynCHR_not_number <- function() {
     
     message <- paste0("test.validateRunSimParameters_nbSynCHR_not_number() ",
                       "- Not a number as nbSynCHR paramter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_nbSynCHR_vector_number <- function() {
+    
+    obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
+                                                                    fileID = "F1", 
+                                                                    nbSynCHR = c(1,2), 
+                                                                    methData = samplesForChrSynthetic, 
+                                                                    nbBlock = 3, lBlock  = 2,
+                                                                    vNbSample = 2, 
+                                                                    nbGeneration = 3, 
+                                                                    vpDiff = 2, vpDiffsd = 1, 
+                                                                    vDiff = 2, 
+                                                                    vInheritance = 2,
+                                                                    propInherite = 0.8, 
+                                                                    rateDiff = 2, 
+                                                                    minRate = 1, 
+                                                                    propHetero = 0.4, 
+                                                                    minReads = 2, 
+                                                                    maxPercReads = 99.9, 
+                                                                    context = "CpG", assembly = "hg19",
+                                                                    meanCov = 10, n = 3, 
+                                                                    keepDiff = TRUE, saveGRanges = FALSE, 
+                                                                    saveMethylKit = FALSE,
+                                                                    anaMethylKit = FALSE,
+                                                                    nbCores = 1, vSeed = -1),
+                    error=conditionMessage)
+    
+    
+    exp <- "nbSynCHR must be a positive integer or numeric"
+    
+    
+    message <- paste0("test.validateRunSimParameters_nbSynCHR_vector_number() ",
+                      "- Vector of numbers as nbSynCHR paramter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_nbSynCHR_zero <- function() {
+    
+    obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
+                                                                    fileID = "F1", 
+                                                                    nbSynCHR = 0, 
+                                                                    methData = samplesForChrSynthetic, 
+                                                                    nbBlock = 3, lBlock  = 2,
+                                                                    vNbSample = 2, 
+                                                                    nbGeneration = 3, 
+                                                                    vpDiff = 2, vpDiffsd = 1, 
+                                                                    vDiff = 2, 
+                                                                    vInheritance = 2,
+                                                                    propInherite = 0.8, 
+                                                                    rateDiff = 2, 
+                                                                    minRate = 1, 
+                                                                    propHetero = 0.4, 
+                                                                    minReads = 2, 
+                                                                    maxPercReads = 99.9, 
+                                                                    context = "CpG", assembly = "hg19",
+                                                                    meanCov = 10, n = 3, 
+                                                                    keepDiff = TRUE, saveGRanges = FALSE, 
+                                                                    saveMethylKit = FALSE,
+                                                                    anaMethylKit = FALSE,
+                                                                    nbCores = 1, vSeed = -1),
+                    error=conditionMessage)
+    
+    
+    exp <- "nbSynCHR must be a positive integer or numeric"
+    
+    
+    message <- paste0("test.validateRunSimParameters_nbSynCHR_zero() ",
+                      "- Zero as nbSynCHR paramter did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }

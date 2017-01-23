@@ -2,17 +2,38 @@
 #'
 #' @description TODO
 #'
-#' @param outputDir a string of \code{character}, the path where the 
-#' files created by the function will be saved. Default: \code{NULL}.
+#' @param outputDir a string of \code{character} or \code{NULL}, the path 
+#' where the 
+#' files created by the function will be saved. When \code{NULL}, the files
+#' are saved in the current directory. Default: \code{NULL}.
 #'
-#' @param fileGen a string of \code{character}, TODO 
-#' include each output file. Each output 
-#' file are 
-#' composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
-#' parameters of the simulation and ".rds". 
+#' @param fileID a string of \code{character}, a identifiant that will be 
+#' included in each output file name. Each output 
+#' file name is 
+#' composed of those elements, separated by "_":
+#' \itemize{ 
+#' \item a type name, ex: methylGR, methylObj, etc..
+#' \item a \code{fileID}
+#' \item the chromosome number, a number between 1 and \code{nbSynCHR}
+#' \item the number of samples, a number in the \code{vNbSample} \code{vector}
+#' \item the mean proportion of samples that will have,
+#' for a specific position, differentially methylated values, a 
+#' number in the \code{vpDiff} \code{vector}
+#' \item the proportion of 
+#' C/T for a case differentially methylated follow a beta distribution, a
+#' number in the \code{vDiff} \code{vector}
+#' \item the proportion of 
+#' C/T for a case differentially methylated follow a beta distribution, a
+#' number in the \code{vDiff} \code{vector}
+#' \item the 
+#' proportion of cases that inherited differentially sites, a number in the
+#' \code{vInheritance} \code{vector}
+#' \item TODO
+#' \item the file extension ".rds"
+#' }
 #'
 #' @param nbSynCHR a positive \code{integer}, the number of distinct synthetic 
-#' chromosomes. generate. TODO
+#' chromosomes that will be generated. Default: \code{1}.
 #'
 #' @param methData an object of class \code{methylBase}, the CpG information
 #' from controls (CTRL) that will be used to create the sythetic chromosome. 
@@ -45,8 +66,8 @@
 #' C/T for a case differentially methylated follow a beta distribution 
 #' where the mean is shifted of \code{vDiff} from the CTRL distribution
 #'
-#' @param vInheritance a positive \code{double} between [0,1], the 
-#' proportion of cases that inherited differentially sites.
+#' @param vInheritance a \code{vector} of positive \code{double} between [0,1], 
+#' the proportion of cases that inherited differentially sites.
 #' 
 #' @param propInherite a non-negative \code{double} inferior or equal 
 #' to \code{1}, 
@@ -79,7 +100,7 @@
 #' Default: \code{"CpG"}.
 #' 
 #' @param assembly a string of \code{character}, the short description of the 
-#' genome assembly. Ex: mm9,hg18 etc.
+#' genome assembly. Ex: "mm9", "hg18", etc.
 #' Default: \code{"Rnor_5.0"}
 #' 
 #' @param meanCov a positive \code{integer}, the mean of the coverage
@@ -119,7 +140,7 @@
 #' ## Load methyl information
 #' data(samplesForChrSynthetic)
 #' 
-#' \dontrun{runSim(outputDir = "testData", fileGen = "F1", nbSynCHR = 1, 
+#' \dontrun{runSim(outputDir = "testData", fileID = "F1", nbSynCHR = 1, 
 #' methData = samplesForChrSynthetic, nbBlock = 10, lBlock = 20,
 #' vNbSample = c(6), nbGeneration = 3, vpDiff = c(0.9), 
 #' vpDiffsd = c(0.1), vDiff = c(0.8), 
@@ -130,7 +151,7 @@
 #' @author Pascal Belleau
 #' @importFrom parallel mclapply
 #' @export
-runSim <- function(outputDir = NULL, fileGen, nbSynCHR, methData, 
+runSim <- function(outputDir = NULL, fileID, nbSynCHR = 1, methData, 
                     nbBlock, lBlock,
                     vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff, 
                     vInheritance,
@@ -142,7 +163,7 @@ runSim <- function(outputDir = NULL, fileGen, nbSynCHR, methData,
                     anaMethylKit = TRUE,
                     nbCores = 1, vSeed = -1) {
     
-    validateRunSimParameters(outputDir = outputDir, fileGen = fileGen, 
+    validateRunSimParameters(outputDir = outputDir, fileID = fileID, 
                                 nbSynCHR = nbSynCHR, methData = methData, 
                                 nbBlock = nbBlock, lBlock  = lBlock,
                                 vNbSample = vNbSample, 
@@ -178,7 +199,7 @@ runSim <- function(outputDir = NULL, fileGen, nbSynCHR, methData,
         res <- getSyntheticChr(methInfo = methData, nbBlock = nbBlock, 
                                 nbCpG = lBlock)
         
-        adPref <- paste0(fileGen, "_", s)
+        adPref <- paste0(fileID, "_", s)
         saveRDS(res, file = paste0(outputDir, "/stateInfo_", adPref, ".rds"))
         
         for(nbSample in vNbSample) {
@@ -202,11 +223,11 @@ runSim <- function(outputDir = NULL, fileGen, nbSynCHR, methData,
                         if(i == 1){
                             sample.id[[j]] <- list()
                         }
-                        sample.id[[j]][[i]] <- paste0("F", j,"_",i,"_C")
+                        sample.id[[j]][[i]] <- paste0("F", j, "_", i, "_C")
                     }
                 } else {
                     for(j in 1:nbGeneration){
-                        sample.id[[j]][[i]] <- paste0("F", j,"_",i,"_OC")
+                        sample.id[[j]][[i]] <- paste0("F", j, "_", i, "_OC")
                     }
                 }
             }

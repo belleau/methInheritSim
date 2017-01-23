@@ -4,17 +4,18 @@
 \alias{validateRunSimParameters}
 \title{Parameters validation for the \code{\link{runSim}} function}
 \usage{
-validateRunSimParameters(outputDir, fileGen, nbSynCHR, methData, nbBlock,
-  lBlock, vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance,
-  propInherite, rateDiff, minRate, propHetero, minReads, maxPercReads, context,
-  assembly, meanCov, n, keepDiff, saveGRanges, saveMethylKit, anaMethylKit,
-  nbCores, vSeed)
+validateRunSimParameters(outputDir, fileID, nbSynCHR, methData, nbBlock, lBlock,
+  vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance, propInherite,
+  rateDiff, minRate, propHetero, minReads, maxPercReads, context, assembly,
+  meanCov, n, keepDiff, saveGRanges, saveMethylKit, anaMethylKit, nbCores,
+  vSeed)
 }
 \arguments{
-\item{outputDir}{a string of \code{character}, the path where the 
+\item{outputDir}{a string of \code{character} or \code{NULL}, the path 
+where the 
 files created by the function will be saved or \code{NULL}.}
 
-\item{fileGen}{a string of \code{character}, TODO 
+\item{fileID}{a string of \code{character}, TODO 
 include each output file. Each output 
 file are 
 composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
