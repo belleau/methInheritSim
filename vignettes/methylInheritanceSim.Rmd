@@ -73,7 +73,7 @@ determine this step (nbBlock and lBLock). The nbBlock representes the number
 block randomly selected in the real dataset genome. Each block must contain 
 lBlock consecutive methylated sites.
 
-![alt text](synthetiChr.png "Synthetic Chr")
+![alt text](syntheticChr.png "Synthetic Chr")
 
 For each methylated site of the synthetic chromosome, we estimate the 
 parameters alpha and beta of a distribution beta from the mean and variance of
