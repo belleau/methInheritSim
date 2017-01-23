@@ -3,7 +3,7 @@
 #' @description TODO
 #'
 #' @param pathOut a string of \code{character}, the path where the 
-#' files created by the function will be saved.
+#' files created by the function will be saved. Default: \code{NULL}.
 #'
 #' @param fileGen a string of \code{character}, TODO 
 #' include each output file. Each output 
@@ -47,7 +47,7 @@
 #' @param vInheritance a positive \code{double} between [0,1], the 
 #' proportion of cases that inherited differentially sites.
 #' 
-#' @param propInherite a positive \code{double} inferior to \code{1}, 
+#' @param propInherite a non-negative \code{double} inferior or equal to \code{1}, 
 #' proportion of differentially methylated site
 #' are inherated
 #'
@@ -55,7 +55,7 @@
 #' the chance that a site is differentially 
 #' methylated.
 #'
-#' @param minRate a positive \code{double} inferior to \code{1}, the minimum 
+#' @param minRate a non-negative \code{double} inferior to \code{1}, the minimum 
 #' rate of differentially methylated sites.
 #'
 #' @param propHetero a positive \code{double} between [0,1], the 
@@ -128,7 +128,7 @@
 #' @author Pascal Belleau
 #' @importFrom parallel mclapply
 #' @export
-runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
+runSim <- function(pathOut = NULL, fileGen, nbSynCHR, methData, nbBlock, lBlock,
                     vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff, 
                     vInheritance,
                     propInherite, rateDiff, minRate, propHetero, 
@@ -164,6 +164,10 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
         vSeed <- 1e8 * (tSeed - floor(tSeed))
     }
     set.seed(vSeed)
+    
+    if (!is.null(outputDir) && !dir.exists(pathOut)) {
+        dir.create(pathOut, showWarnings = TRUE)
+    }
     
     for(s in 1:nbSynCHR) {
         

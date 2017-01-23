@@ -56,7 +56,7 @@ where the mean is shifted of \code{vDiff} from the CTRL distribution}
 \item{vInheritance}{a positive \code{double} between [0,1], the 
 proportion of cases that inherited differentially sites.}
 
-\item{propInherite}{a positive \code{double} inferior to \code{1}, 
+\item{propInherite}{a non-negative \code{double} inferior or equal to \code{1}, 
 proportion of differentially methylated site
 are inherated}
 
@@ -64,7 +64,7 @@ are inherated}
 the chance that a site is differentially 
 methylated.}
 
-\item{minRate}{a positive \code{double} inferior to \code{1}, the minimum 
+\item{minRate}{a non-negative \code{double} inferior to \code{1}, the minimum 
 rate of differentially methylated sites.}
 
 \item{propHetero}{a positive \code{double} between [0,1], the 

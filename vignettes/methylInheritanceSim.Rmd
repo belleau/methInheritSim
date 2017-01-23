@@ -41,4 +41,56 @@ detection of differentially methylated elements (DME), commonly sites (DMS) or
 regions (DMR). The analysis of treatment effects on DNA methylation, from 
 one generation to the next (inter-generational) and across generations that 
 were not exposed to the initial environment (trans-generational) represent 
-complex designs. 
+complex designs. There are two main approaches to study the methylation inheritance, the first 
+is based on segregation in pedigree while the second uses the intersection 
+between the DME of each generation (useful when pedigree is unknown). The power 
+and the false positve rate of this type of design are relatively hard to 
+evaluate.
+
+We present a package simulating the methylation inheritance. Using real 
+datasets, the method generates a synthetic chromosome by sampling regions. Two 
+different distributions are used to simulate the methylation level at each CpG 
+site: one for the DMS and one for all the other sites. The second distribution 
+takes advantage of parameters estimated using control datasets. The package also
+offers the option to select the proportion of sites randomly selected as DMS, 
+as well as, the fraction of the cases that inherited the DMS in the subsequent 
+generations.
+
+# Loading methylInheritanceSim package
+
+As with any R package, the `r Rpackage("methylInheritanceSim")` package should 
+first be loaded with the following command:
+
+```{r loadingPackage, warning=FALSE, message=FALSE}
+library(methylInheritanceSim)
+```
+
+
+# Description of the permutation analysis
+
+The synthetic methylated sites (or CpG sites) are generate using a real dataset (methData). Two parameters
+determine this step (nbBlock and lBLock). The nbBlock representes the number 
+block randomly selected in the real dataset genome. Each block must contain 
+lBlock consecutive methylated sites.
+
+![alt text](synthetiChr.png "Synthetic Chr")
+
+For each methylated site of the synthetic chromosome, we estimate the 
+parameters alpha and beta of a distribution beta from the mean and variance of
+the proportion of C/T  for the CTRL at this site. We use this Beta distribution 
+to simulate the the proportion of C/T in the controle dataset.
+
+We select randomly the DMS from methylated sites from synthetic chromosome 
+(mean of the proportion of DMS on the number of methylated sites is rateDiff). To 
+create DMR, the successors of the selected DMS are more likely to be DMS too, 
+if they are nearer than 1000 base pairs.
+
+For the case simulation of the F1 generation, for methilated sites not selected 
+as DMS, the same beta distribution as the control is used to simulate. For the DMS, a 
+proportion (vpDiff) of the cases are selected and the C/T follow a shift Beta 
+distribution (the parameter are estimated with mean control - or + vDiff). 
+The 1 - vpDiff other case follow the same distribution as a control. 
+The parameter vpDiff is liked penetrance. 
+ 
+
+
