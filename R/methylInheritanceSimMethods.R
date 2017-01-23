@@ -84,9 +84,13 @@
 #' 
 #' @param keepDiff \code{logical} if true, the differentially methyled sites
 #' will be the same for each parameters ( \code{vpDiff}, 
-#' \code{vDiff} and \code{vInheritance}) Default: \code{FALSE}
+#' \code{vDiff} and \code{vInheritance}). Default: \code{FALSE}
 #' 
-#' @param saveGRanges Default: \code{TRUE}
+#' @param saveGRanges \code{logical} if true, save a list of \code{nbGeneration}
+#' GRangesList. Each GRangeList contain \code{vNbSample} GRanges which contain
+#' for each CpG site: the position, the coverage and the proportion of the C/T.
+#' A files treatment_... which contains the position of the CTRL and Case are 
+#' save too. Default: \code{TRUE}
 #' 
 #' @param saveMethylKit Default: \code{TRUE}
 #' 
@@ -103,7 +107,17 @@
 #'
 #' @examples
 #'
-#' ## TODO
+#' ## TODO pathOut where to write file ?
+#' ## Load methyl information
+#' data(samplesForChrSynthetic)
+#' 
+#' \dontrun{runSim(pathOut = "testData", fileGen = "F1", nbSynCHR = 1, 
+#' methData = samplesForChrSynthetic, nbBlock = 10, lBlock = 20,
+#' vNbSample = c(3), nbGeneration = 3, vpDiff = c(0.9), 
+#' vpDiffsd = c(0.1), vDiff = c(0.8), 
+#' vInheritance = c(0.5), propInherite = 0.3,
+#' rateDiff = 0.01, minRate = 0.01, propHetero = 0.5, n = 5, 
+#' nbCores= 1, vSeed = 32)}
 #' 
 #' @author Pascal Belleau
 #' @importFrom parallel mclapply
@@ -141,6 +155,11 @@ runSim <- function(pathOut, fileGen, nbSynCHR, methData, nbBlock, lBlock,
             
             # Define tretment and sample.id 
             treatment=c(rep(0,nbSample),rep(1,nbSample))
+            if(saveGRanges){
+                saveRDS(treatment, file = paste0(pathOut, "/treatment_", 
+                                            adPrefSample, ".rds"))
+            }
+            
             sample.id <- list()
             
             for(i in 1:(2*nbSample)){
