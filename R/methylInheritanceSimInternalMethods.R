@@ -984,6 +984,10 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("nbCores must be 1 on a Windows system.")
     }
     
-#    vSeed    
+    ## Validate that vSeed is an integer
+    if (!(isSingleInteger(vSeed) || isSingleNumber(vSeed))){
+        stop("vSeed must be an integer or numeric")
+    }
+    
     return(0)
 }
