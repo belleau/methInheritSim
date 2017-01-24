@@ -64,10 +64,10 @@
 #' for a specific position, differentially methylated values. It can be 
 #' interpreted as the penetrance.
 #' 
-#' @param vpDiffsd a non-negative \code{double}, the standard deviation 
-#' associated to the \code{propDiff}.
+#' @param vpDiffsd a \code{vector} of a non-negative \code{double}, the standard
+#' deviation associated to the \code{vpDiff}.
 #'
-#' @param vDiff a positive \code{double} between [0,1], the proportion of 
+#' @param vDiff a \code{vector} of a positive \code{double} between [0,1], the proportion of 
 #' C/T for a case differentially methylated follow a beta distribution 
 #' where the mean is shifted of \code{vDiff} from the CTRL distribution
 #'

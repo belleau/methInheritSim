@@ -853,11 +853,12 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("nbCpG must be a positive integer or numeric")
     }
     
+    ## TODO change to vector
     ## Validate that vNbSample is an positive integer
-    if (!(isSingleInteger(vNbSample) || isSingleNumber(vNbSample)) ||
-        as.integer(vNbSample) < 1) {
-        stop("vNbSample must be a positive integer or numeric")
-    }
+    # if (!(isSingleInteger(vNbSample) || isSingleNumber(vNbSample)) ||
+    #     as.integer(vNbSample) < 1) {
+    #     stop("vNbSample must be a positive integer or numeric")
+    # }
     
     ## Validate that nbGeneration is an positive integer
     if (!(isSingleInteger(nbGeneration) || isSingleNumber(nbGeneration)) ||
@@ -865,29 +866,34 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("nbGeneration must be a positive integer or numeric")
     }
     
+    ## TODO change to vector
     ## Validate that vpDiff is an positive double between (0,1]
-    if (!(isSingleNumber(vpDiff)) ||
-        vpDiff <= 0.00 || vpDiff > 1.00) {
-        stop("vpDiff must be a positive double between (0,1]")
-    }
+    # if (!(isSingleNumber(vpDiff)) ||
+    #     vpDiff <= 0.00 || vpDiff > 1.00) {
+    #     stop("vpDiff must be a positive double between (0,1]")
+    # }
     
+    ## TODO change to vector
     ## Validate that vpDiffsd is an non-negative double 
-    if (!(isSingleNumber(vpDiffsd)) ||
-        vpDiff < 0.00) {
-        stop("vpDiffsd is an non-negative double")
-    }
+    # if (!(isSingleNumber(vpDiffsd)) ||
+    #     vpDiff < 0.00) {
+    #     stop("vpDiffsd is an non-negative double")
+    # }
     
+    ## TODO change to vector
     ## Validate that vDiff is an positive double between [0,1]
-    if (!(isSingleNumber(vDiff)) ||
-        vDiff < 0.00 || vDiff > 1.00) {
-        stop("vDiff must be a positive double between [0,1]")
-    }
+    # if (!(isSingleNumber(vDiff)) ||
+    #     vDiff < 0.00 || vDiff > 1.00) {
+    #     stop("vDiff must be a positive double between [0,1]")
+    # }
     
+    ## TODO change to vector
     ## Validate that vInheritance is an positive double between [0,1]
-    if (!(isSingleNumber(vInheritance)) ||
-        vInheritance < 0.00 || vInheritance > 1.00) {
-        stop("vInheritance must be a positive double between [0,1]")
-    }
+    # if (!(isSingleNumber(vInheritance)) ||
+    #     vInheritance < 0.00 || vInheritance > 1.00) {
+    #     stop("vInheritance must be a positive double between [0,1]")
+    # }
+    
     
     ## Validate that propInherite is an positive double between [0,1]
     if (!(isSingleNumber(propInherite)) ||
