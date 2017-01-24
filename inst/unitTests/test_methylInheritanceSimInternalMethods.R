@@ -73,11 +73,10 @@ test.getSyntheticChr_good_01 <- function() {
 
 
 ###################################################
-## getSim() function
+## validateRunSimParameters() function
 ###################################################
 
 test.validateRunSimParameters_outputDir_number <- function() {
-    
     obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(outputDir = 33,
                                     fileID = "F1", 
                                     nbSynCHR = 1, 
@@ -86,7 +85,7 @@ test.validateRunSimParameters_outputDir_number <- function() {
                                     vNbSample = 2, 
                                     nbGeneration = 3, 
                                     vpDiff = 2, vpDiffsd = 1, 
-                                    vDiff = 2, 
+                                    vDiff = 0.22, 
                                     vInheritance = 2,
                                     propInherite = 0.8, 
                                     rateDiff = 2, 
@@ -102,9 +101,7 @@ test.validateRunSimParameters_outputDir_number <- function() {
                                     nbCores = 1, vSeed = -1),
                             error=conditionMessage)
 
-    
     exp <- "outputDir must be a character string or NULL"
-    
     
     message <- paste0("test.validateRunSimParameters_outputDir_number() ",
                       "- Number as outputDir parameter did not generated expected results.")
@@ -113,7 +110,6 @@ test.validateRunSimParameters_outputDir_number <- function() {
 }
 
 test.validateRunSimParameters_fileID_number <- function() {
-    
     obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
                                                                     fileID = 2, 
                                                                     nbSynCHR = 1, 
@@ -121,7 +117,7 @@ test.validateRunSimParameters_fileID_number <- function() {
                                                                     nbBlock = 3, nbCpG  = 2,
                                                                     vNbSample = 2, 
                                                                     nbGeneration = 3, 
-                                                                    vpDiff = 2, vpDiffsd = 1, 
+                                                                    vpDiff = 0.2, vpDiffsd = 1, 
                                                                     vDiff = 2, 
                                                                     vInheritance = 2,
                                                                     propInherite = 0.8, 
@@ -138,9 +134,7 @@ test.validateRunSimParameters_fileID_number <- function() {
                                                                     nbCores = 1, vSeed = -1),
                     error=conditionMessage)
     
-    
     exp <- "fileID must be a character string or NULL"
-    
     
     message <- paste0("test.validateRunSimParameters_fileID_number() ",
                       "- Number as fileID parameter did not generated expected results.")
@@ -149,7 +143,6 @@ test.validateRunSimParameters_fileID_number <- function() {
 }
 
 test.validateRunSimParameters_nbSynCHR_not_number <- function() {
-    
     obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
                                                         fileID = "F1", 
                                                         nbSynCHR = "hi", 
@@ -157,7 +150,7 @@ test.validateRunSimParameters_nbSynCHR_not_number <- function() {
                                                         nbBlock = 3, nbCpG  = 2,
                                                         vNbSample = 2, 
                                                         nbGeneration = 3, 
-                                                        vpDiff = 2, vpDiffsd = 1, 
+                                                        vpDiff = 0.2, vpDiffsd = 1, 
                                                         vDiff = 2, 
                                                         vInheritance = 2,
                                                         propInherite = 0.8, 
@@ -174,9 +167,7 @@ test.validateRunSimParameters_nbSynCHR_not_number <- function() {
                                                         nbCores = 1, vSeed = -1),
                     error=conditionMessage)
     
-    
     exp <- "nbSynCHR must be a positive integer or numeric"
-    
     
     message <- paste0("test.validateRunSimParameters_nbSynCHR_not_number() ",
                       "- Not a number as nbSynCHR parameter did not generated expected results.")
@@ -185,7 +176,6 @@ test.validateRunSimParameters_nbSynCHR_not_number <- function() {
 }
 
 test.validateRunSimParameters_nbSynCHR_vector_number <- function() {
-    
     obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
                                                                     fileID = "F1", 
                                                                     nbSynCHR = c(1,2), 
@@ -193,7 +183,7 @@ test.validateRunSimParameters_nbSynCHR_vector_number <- function() {
                                                                     nbBlock = 3, nbCpG  = 2,
                                                                     vNbSample = 2, 
                                                                     nbGeneration = 3, 
-                                                                    vpDiff = 2, vpDiffsd = 1, 
+                                                                    vpDiff = 0.2, vpDiffsd = 1, 
                                                                     vDiff = 2, 
                                                                     vInheritance = 2,
                                                                     propInherite = 0.8, 
@@ -210,9 +200,7 @@ test.validateRunSimParameters_nbSynCHR_vector_number <- function() {
                                                                     nbCores = 1, vSeed = -1),
                     error=conditionMessage)
     
-    
     exp <- "nbSynCHR must be a positive integer or numeric"
-    
     
     message <- paste0("test.validateRunSimParameters_nbSynCHR_vector_number() ",
                       "- Vector of numbers as nbSynCHR parameter did not generated expected results.")
@@ -221,7 +209,6 @@ test.validateRunSimParameters_nbSynCHR_vector_number <- function() {
 }
 
 test.validateRunSimParameters_nbSynCHR_zero <- function() {
-    
     obs <- tryCatch(methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
                                                                     fileID = "F1", 
                                                                     nbSynCHR = 0, 
@@ -229,7 +216,7 @@ test.validateRunSimParameters_nbSynCHR_zero <- function() {
                                                                     nbBlock = 3, nbCpG  = 2,
                                                                     vNbSample = 2, 
                                                                     nbGeneration = 3, 
-                                                                    vpDiff = 2, vpDiffsd = 1, 
+                                                                    vpDiff = 0.22, vpDiffsd = 1, 
                                                                     vDiff = 2, 
                                                                     vInheritance = 2,
                                                                     propInherite = 0.8, 
@@ -246,9 +233,7 @@ test.validateRunSimParameters_nbSynCHR_zero <- function() {
                                                                     nbCores = 1, vSeed = -1),
                     error=conditionMessage)
     
-    
     exp <- "nbSynCHR must be a positive integer or numeric"
-    
     
     message <- paste0("test.validateRunSimParameters_nbSynCHR_zero() ",
                       "- Zero as nbSynCHR parameter did not generated expected results.")
@@ -257,7 +242,6 @@ test.validateRunSimParameters_nbSynCHR_zero <- function() {
 }
 
 test.validateRunSimParameters_methBase_number <- function() {
-    
     obs <- tryCatch(
             methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
                                                             fileID = "F1", 
@@ -266,7 +250,7 @@ test.validateRunSimParameters_methBase_number <- function() {
                                                             nbBlock = 3, nbCpG  = 2,
                                                             vNbSample = 2, 
                                                             nbGeneration = 3, 
-                                                            vpDiff = 2, vpDiffsd = 1, 
+                                                            vpDiff = 0.22, vpDiffsd = 1, 
                                                             vDiff = 2, 
                                                             vInheritance = 2,
                                                             propInherite = 0.8, 
@@ -286,7 +270,6 @@ test.validateRunSimParameters_methBase_number <- function() {
     
     exp <- "methData must be an object of class \"methyBase\""
     
-    
     message <- paste0("test.validateRunSimParameters_methBase_number() ",
                       "- Number as methBase parameter did not generated expected results.")
     
@@ -294,7 +277,6 @@ test.validateRunSimParameters_methBase_number <- function() {
 }
 
 test.validateRunSimParameters_nbBlock_number_vector <- function() {
-    
     obs <- tryCatch(
         methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
                                                         fileID = "F1", 
@@ -303,7 +285,7 @@ test.validateRunSimParameters_nbBlock_number_vector <- function() {
                                                         nbBlock = c(3, 1), nbCpG  = 2,
                                                         vNbSample = 2, 
                                                         nbGeneration = 3, 
-                                                        vpDiff = 2, vpDiffsd = 1, 
+                                                        vpDiff = 0.22, vpDiffsd = 1, 
                                                         vDiff = 2, 
                                                         vInheritance = 2,
                                                         propInherite = 0.8, 
@@ -320,9 +302,7 @@ test.validateRunSimParameters_nbBlock_number_vector <- function() {
                                                         nbCores = 1, vSeed = -1),
         error=conditionMessage)
     
-    
     exp <- "nbBlock must be a positive integer or numeric"
-    
     
     message <- paste0("test.validateRunSimParameters_nbBlock_number_vector() ",
                       "- Number vector as nbBlock parameter did not generated expected results.")
@@ -331,7 +311,6 @@ test.validateRunSimParameters_nbBlock_number_vector <- function() {
 }
 
 test.validateRunSimParameters_nbBlock_string <- function() {
-    
     obs <- tryCatch(
         methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
                                                         fileID = "F1", 
@@ -340,7 +319,7 @@ test.validateRunSimParameters_nbBlock_string <- function() {
                                                         nbBlock = "hi", nbCpG  = 2,
                                                         vNbSample = 2, 
                                                         nbGeneration = 3, 
-                                                        vpDiff = 2, vpDiffsd = 1, 
+                                                        vpDiff = 0.22, vpDiffsd = 1, 
                                                         vDiff = 2, 
                                                         vInheritance = 2,
                                                         propInherite = 0.8, 
@@ -357,9 +336,7 @@ test.validateRunSimParameters_nbBlock_string <- function() {
                                                         nbCores = 1, vSeed = -1),
         error=conditionMessage)
     
-    
     exp <- "nbBlock must be a positive integer or numeric"
-    
     
     message <- paste0("test.validateRunSimParameters_nbBlock_string() ",
                       "- String as nbBlock parameter did not generated expected results.")
@@ -368,7 +345,6 @@ test.validateRunSimParameters_nbBlock_string <- function() {
 }
 
 test.validateRunSimParameters_nbCpG_number_vector <- function() {
-    
     obs <- tryCatch(
         methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
                                                         fileID = "F1", 
@@ -377,7 +353,7 @@ test.validateRunSimParameters_nbCpG_number_vector <- function() {
                                                         nbBlock = 2, nbCpG  = c(3,2),
                                                         vNbSample = 2, 
                                                         nbGeneration = 3, 
-                                                        vpDiff = 2, vpDiffsd = 1, 
+                                                        vpDiff = 0.2, vpDiffsd = 1, 
                                                         vDiff = 2, 
                                                         vInheritance = 2,
                                                         propInherite = 0.8, 
@@ -394,9 +370,7 @@ test.validateRunSimParameters_nbCpG_number_vector <- function() {
                                                         nbCores = 1, vSeed = -1),
         error=conditionMessage)
     
-    
     exp <- "nbCpG must be a positive integer or numeric"
-    
     
     message <- paste0("test.validateRunSimParameters_nbCpG_number_vector() ",
                       "- Number vector as nbCpG parameter did not generated expected results.")
@@ -405,7 +379,6 @@ test.validateRunSimParameters_nbCpG_number_vector <- function() {
 }
 
 test.validateRunSimParameters_nbCpG_string <- function() {
-    
     obs <- tryCatch(
         methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
                                                         fileID = "F1", 
@@ -414,7 +387,7 @@ test.validateRunSimParameters_nbCpG_string <- function() {
                                                         nbBlock = 2, nbCpG  = "hi",
                                                         vNbSample = 2, 
                                                         nbGeneration = 3, 
-                                                        vpDiff = 2, vpDiffsd = 1, 
+                                                        vpDiff = 0.2, vpDiffsd = 1, 
                                                         vDiff = 2, 
                                                         vInheritance = 2,
                                                         propInherite = 0.8, 
@@ -431,12 +404,78 @@ test.validateRunSimParameters_nbCpG_string <- function() {
                                                         nbCores = 1, vSeed = -1),
         error=conditionMessage)
     
-    
     exp <- "nbCpG must be a positive integer or numeric"
-    
     
     message <- paste0("test.validateRunSimParameters_nbCpG_string() ",
                       "- String as nbCpG parameter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_nbCores_string <- function() {
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
+                                                        fileID = "F1", 
+                                                        nbSynCHR = 1, 
+                                                        methData = samplesForChrSynthetic,
+                                                        nbBlock = 2, nbCpG  = 2,
+                                                        vNbSample = 2, 
+                                                        nbGeneration = 3, 
+                                                        vpDiff = 0.2, vpDiffsd = 1, 
+                                                        vDiff = 0.2, 
+                                                        vInheritance = 0.2,
+                                                        propInherite = 0.8, 
+                                                        rateDiff = 0.8, 
+                                                        minRate = 0.1, 
+                                                        propHetero = 0.4, 
+                                                        minReads = 2, 
+                                                        maxPercReads = 99.9, 
+                                                        context = "CpG", assembly = "hg19",
+                                                        meanCov = 10, n = 3, 
+                                                        keepDiff = TRUE, saveGRanges = FALSE, 
+                                                        saveMethylKit = FALSE,
+                                                        anaMethylKit = FALSE,
+                                                        nbCores = "hi", vSeed = -1),
+        error=conditionMessage)
+    
+    exp <- "nbCores must be a positive integer or numeric"
+    
+    message <- paste0("test.validateRunSimParameters_nbCores_string() ",
+                      "- String as nbCores parameter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_nbCores_zero <- function() {
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
+                                                        fileID = "F1", 
+                                                        nbSynCHR = 1, 
+                                                        methData = samplesForChrSynthetic,
+                                                        nbBlock = 2, nbCpG = 2,
+                                                        vNbSample = 2, 
+                                                        nbGeneration = 3, 
+                                                        vpDiff = 0.2, vpDiffsd = 1, 
+                                                        vDiff = 0.2, 
+                                                        vInheritance = 0.2,
+                                                        propInherite = 0.8, 
+                                                        rateDiff = 0.8, 
+                                                        minRate = 0.1, 
+                                                        propHetero = 0.4, 
+                                                        minReads = 2, 
+                                                        maxPercReads = 99.9, 
+                                                        context = "CpG", assembly = "hg19",
+                                                        meanCov = 10, n = 3, 
+                                                        keepDiff = TRUE, saveGRanges = FALSE, 
+                                                        saveMethylKit = FALSE,
+                                                        anaMethylKit = FALSE,
+                                                        nbCores = 0, vSeed = -1),
+        error=conditionMessage)
+    
+    exp <- "nbCores must be a positive integer or numeric"
+    
+    message <- paste0("test.validateRunSimParameters_nbCores_zero() ",
+                      "- Zero as nbCores parameter did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
