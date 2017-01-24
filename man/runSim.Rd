@@ -4,45 +4,72 @@
 \alias{runSim}
 \title{TODO}
 \usage{
-runSim(pathOut = NULL, fileGen, nbSynCHR, methData, nbBlock, lBlock,
-  vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff, vInheritance, propInherite,
-  rateDiff, minRate, propHetero, minReads = 10, maxPercReads = 99.9,
-  context = "CpG", assembly = "Rnor_5.0", meanCov = 80, n,
-  keepDiff = FALSE, saveGRanges = TRUE, saveMethylKit = TRUE,
-  anaMethylKit = TRUE, nbCores = 1, vSeed = -1)
+runSim(outputDir = NULL, fileID, nbSynCHR = 1, methData, nbSimulation,
+  nbBlock, nbCpG, vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff,
+  vInheritance, propInherite, rateDiff, minRate, propHetero, minReads = 10,
+  maxPercReads = 99.9, context = "CpG", assembly = "Rnor_5.0",
+  meanCov = 80, keepDiff = FALSE, saveGRanges = TRUE,
+  saveMethylKit = TRUE, anaMethylKit = TRUE, nbCores = 1, vSeed = -1)
 }
 \arguments{
-\item{pathOut}{a string of \code{character}, the path where the 
-files created by the function will be saved. Default: \code{NULL}.}
+\item{outputDir}{a string of \code{character} or \code{NULL}, the path 
+where the 
+files created by the function will be saved. When \code{NULL}, the files
+are saved in the current directory. Default: \code{NULL}.}
 
-\item{fileGen}{a string of \code{character}, TODO 
-include each output file. Each output 
-file are 
-composed with a type name (methylGR, methylObj, ...), _, fileGen (ex F1),
-parameters of the simulation and ".rds".}
+\item{fileID}{a string of \code{character}, a identifiant that will be 
+included in each output file name. Each output 
+file name is 
+composed of those elements, separated by "_":
+\itemize{ 
+\item a type name, ex: methylGR, methylObj, etc..
+\item a \code{fileID}
+\item the chromosome number, a number between 1 and \code{nbSynCHR}
+\item the number of samples, a number in the \code{vNbSample} \code{vector}
+\item the mean proportion of samples that will have,
+for a specific position, differentially methylated values, a 
+number in the \code{vpDiff} \code{vector}
+\item the proportion of 
+C/T for a case differentially methylated follow a beta distribution, a
+number in the \code{vDiff} \code{vector}
+\item the proportion of 
+C/T for a case differentially methylated follow a beta distribution, a
+number in the \code{vDiff} \code{vector}
+\item the 
+proportion of cases that inherited differentially sites, a number in the
+\code{vInheritance} \code{vector}
+\item TODO
+\item the file extension ".rds"
+}}
 
 \item{nbSynCHR}{a positive \code{integer}, the number of distinct synthetic 
-chromosomes. generate. TODO}
+chromosomes that will be generated. Default: \code{1}.}
 
 \item{methData}{an object of class \code{methylBase}, the CpG information
 from controls (CTRL) that will be used to create the sythetic chromosome. 
 The \code{methData} object can also contain information from cases but 
 only the controls will be used.}
 
-\item{nbBlock}{\code{integer}, the number of blocks used for sampling.}
+\item{nbSimulation}{a positive \code{integer}, the number of simulations 
+for each parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
+\code{vInheritance}).}
 
-\item{lBlock}{a \code{integer}, the number of consecutive CpG positions used
-for sampling from \code{methInfo}.}
+\item{nbBlock}{a positive \code{integer}, the number of blocks used 
+for sampling.}
+
+\item{nbCpG}{a positive \code{integer}, the number of consecutive CpG 
+positions used for sampling from \code{methInfo}.}
 
 \item{vNbSample}{a \code{vector} of positive \code{integer}, the number of 
-methData (CTRL) and cases in the the simulation dataset. In 
-the simulated dataset, the number of CTRL equals the number of Case. 
+controls (CTRL) and cases in the simulated dataset. In 
+the simulated dataset, the number of CTRL equals the number of cases. 
 The number of CTRL do not need to be equal to the number of Case in
-the real dataset.}
+the real dataset \code{methData}.}
 
 \item{nbGeneration}{a positive \code{integer}, the number of generations.}
 
-\item{vpDiff}{a \code{double} superior to \code{0} and inferior or equal 
+\item{vpDiff}{a \code{vector} of \code{double} superior to \code{0} and 
+inferior or equal 
 to \code{1}, the mean value for the proportion of samples that will have,
 for a specific position, differentially methylated values. It can be 
 interpreted as the penetrance.}
@@ -54,10 +81,11 @@ associated to the \code{propDiff}.}
 C/T for a case differentially methylated follow a beta distribution 
 where the mean is shifted of \code{vDiff} from the CTRL distribution}
 
-\item{vInheritance}{a positive \code{double} between [0,1], the 
-proportion of cases that inherited differentially sites.}
+\item{vInheritance}{a \code{vector} of positive \code{double} between [0,1], 
+the proportion of cases that inherited differentially sites.}
 
-\item{propInherite}{a non-negative \code{double} inferior or equal to \code{1}, 
+\item{propInherite}{a non-negative \code{double} inferior or equal 
+to \code{1}, 
 proportion of differentially methylated site
 are inherated}
 
@@ -65,8 +93,8 @@ are inherated}
 the chance that a site is differentially 
 methylated.}
 
-\item{minRate}{a non-negative \code{double} inferior to \code{1}, the minimum 
-rate of differentially methylated sites.}
+\item{minRate}{a non-negative \code{double} inferior to \code{1}, the 
+minimum rate for differentially methylated sites.}
 
 \item{propHetero}{a positive \code{double} between [0,1], the 
 reduction of vDiff for the second and following generations.}
@@ -87,15 +115,11 @@ string, ex: CpG,CpH,CHH, etc.
 Default: \code{"CpG"}.}
 
 \item{assembly}{a string of \code{character}, the short description of the 
-genome assembly. Ex: mm9,hg18 etc.
+genome assembly. Ex: "mm9", "hg18", etc.
 Default: \code{"Rnor_5.0"}}
 
 \item{meanCov}{a positive \code{integer}, the mean of the coverage
 at the CpG sites. Default: \code{80}.}
-
-\item{n}{a positive \code{integer}, the number of simulation for each 
-parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
-\code{vInheritance}).}
 
 \item{keepDiff}{a \code{logical}, when \code{TRUE}, the 
 differentially methyled sites
@@ -113,7 +137,8 @@ save too. Default: \code{TRUE}.}
 \item{anaMethylKit}{a \code{logical}, TODO. Default: \code{TRUE}}
 
 \item{nbCores}{a positive \code{integer}, the number of cores to use when
-processing the analysis. Default: \code{1}.}
+creating the simulated datasets. Default: \code{1} and always 
+\code{1} for Windows.}
 
 \item{vSeed}{a \code{integer}, a seed used when reproducible results are
 needed. When a value inferior or equal to zero is given, a random integer
@@ -127,16 +152,17 @@ TODO
 }
 \examples{
 
-## TODO pathOut where to write file ?
+## TODO outputDir where to write file ?
 ## Load methyl information
 data(samplesForChrSynthetic)
 
-\dontrun{runSim(pathOut = "testData", fileGen = "F1", nbSynCHR = 1, 
-methData = samplesForChrSynthetic, nbBlock = 10, lBlock = 20,
+\dontrun{runSim(outputDir = "testData", fileID = "F1", nbSynCHR = 1, 
+methData = samplesForChrSynthetic, nbSimulation = 2, 
+nbBlock = 10, nbCpG = 20,
 vNbSample = c(6), nbGeneration = 3, vpDiff = c(0.9), 
 vpDiffsd = c(0.1), vDiff = c(0.8), 
 vInheritance = c(0.5), propInherite = 0.3,
-rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, n = 5, 
+rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, nbSimulation = 5, 
 nbCores= 1, vSeed = 32)}
 
 }

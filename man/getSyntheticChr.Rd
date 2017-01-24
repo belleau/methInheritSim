@@ -12,13 +12,14 @@ from controls (CTRL) that will be used to create the sythetic chromosome.
 The object can also contain information from cases but only the controls 
 will be used.}
 
-\item{nbBlock}{\code{integer}, the number of blocks used for sampling.}
+\item{nbBlock}{a positive \code{integer}, the number of blocks used 
+for sampling.}
 
 \item{nbCpG}{a \code{integer}, the number of consecutive CpG positions used
 for sampling from \code{methInfo}.}
 }
 \value{
-a \code{GRanges} object, the synthetic chromosome
+a \code{GRanges} object, the synthetic chromosome.
 }
 \description{
 Create a synthetic chromosome with the sampling of a specified 
