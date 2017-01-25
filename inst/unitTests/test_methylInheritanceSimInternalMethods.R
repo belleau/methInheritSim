@@ -97,7 +97,7 @@ test.validateRunSimParameters_outputDir_number <- function() {
                                     meanCov = 10, n = 3, 
                                     keepDiff = TRUE, saveGRanges = FALSE, 
                                     saveMethylKit = FALSE,
-                                    anaMethylKit = FALSE,
+                                    runAnalysis = FALSE,
                                     nbCores = 1, vSeed = -1),
                             error=conditionMessage)
 
@@ -130,7 +130,7 @@ test.validateRunSimParameters_fileID_number <- function() {
                                                                     meanCov = 10, n = 3, 
                                                                     keepDiff = TRUE, saveGRanges = FALSE, 
                                                                     saveMethylKit = FALSE,
-                                                                    anaMethylKit = FALSE,
+                                                                    runAnalysis = FALSE,
                                                                     nbCores = 1, vSeed = -1),
                     error=conditionMessage)
     
@@ -163,7 +163,7 @@ test.validateRunSimParameters_nbSynCHR_not_number <- function() {
                                                         meanCov = 10, n = 3, 
                                                         keepDiff = TRUE, saveGRanges = FALSE, 
                                                         saveMethylKit = FALSE,
-                                                        anaMethylKit = FALSE,
+                                                        runAnalysis = FALSE,
                                                         nbCores = 1, vSeed = -1),
                     error=conditionMessage)
     
@@ -196,7 +196,7 @@ test.validateRunSimParameters_nbSynCHR_vector_number <- function() {
                                                                     meanCov = 10, n = 3, 
                                                                     keepDiff = TRUE, saveGRanges = FALSE, 
                                                                     saveMethylKit = FALSE,
-                                                                    anaMethylKit = FALSE,
+                                                                    runAnalysis = FALSE,
                                                                     nbCores = 1, vSeed = -1),
                     error=conditionMessage)
     
@@ -229,7 +229,7 @@ test.validateRunSimParameters_nbSynCHR_zero <- function() {
                                                                     meanCov = 10, n = 3, 
                                                                     keepDiff = TRUE, saveGRanges = FALSE, 
                                                                     saveMethylKit = FALSE,
-                                                                    anaMethylKit = FALSE,
+                                                                    runAnalysis = FALSE,
                                                                     nbCores = 1, vSeed = -1),
                     error=conditionMessage)
     
@@ -263,7 +263,7 @@ test.validateRunSimParameters_methBase_number <- function() {
                                                             meanCov = 10, n = 3, 
                                                             keepDiff = TRUE, saveGRanges = FALSE, 
                                                             saveMethylKit = FALSE,
-                                                            anaMethylKit = FALSE,
+                                                            runAnalysis = FALSE,
                                                             nbCores = 1, vSeed = -1),
                     error=conditionMessage)
     
@@ -298,7 +298,7 @@ test.validateRunSimParameters_nbBlock_number_vector <- function() {
                                                         meanCov = 10, n = 3, 
                                                         keepDiff = TRUE, saveGRanges = FALSE, 
                                                         saveMethylKit = FALSE,
-                                                        anaMethylKit = FALSE,
+                                                        runAnalysis = FALSE,
                                                         nbCores = 1, vSeed = -1),
         error=conditionMessage)
     
@@ -332,7 +332,7 @@ test.validateRunSimParameters_nbBlock_string <- function() {
                                                         meanCov = 10, n = 3, 
                                                         keepDiff = TRUE, saveGRanges = FALSE, 
                                                         saveMethylKit = FALSE,
-                                                        anaMethylKit = FALSE,
+                                                        runAnalysis = FALSE,
                                                         nbCores = 1, vSeed = -1),
         error=conditionMessage)
     
@@ -366,7 +366,7 @@ test.validateRunSimParameters_nbCpG_number_vector <- function() {
                                                         meanCov = 10, n = 3, 
                                                         keepDiff = TRUE, saveGRanges = FALSE, 
                                                         saveMethylKit = FALSE,
-                                                        anaMethylKit = FALSE,
+                                                        runAnalysis = FALSE,
                                                         nbCores = 1, vSeed = -1),
         error=conditionMessage)
     
@@ -400,7 +400,7 @@ test.validateRunSimParameters_nbCpG_string <- function() {
                                                         meanCov = 10, n = 3, 
                                                         keepDiff = TRUE, saveGRanges = FALSE, 
                                                         saveMethylKit = FALSE,
-                                                        anaMethylKit = FALSE,
+                                                        runAnalysis = FALSE,
                                                         nbCores = 1, vSeed = -1),
         error=conditionMessage)
     
@@ -434,7 +434,7 @@ test.validateRunSimParameters_nbCores_string <- function() {
                                                         meanCov = 10, n = 3, 
                                                         keepDiff = TRUE, saveGRanges = FALSE, 
                                                         saveMethylKit = FALSE,
-                                                        anaMethylKit = FALSE,
+                                                        runAnalysis = FALSE,
                                                         nbCores = "hi", vSeed = -1),
         error=conditionMessage)
     
@@ -468,7 +468,7 @@ test.validateRunSimParameters_nbCores_zero <- function() {
                                                         meanCov = 10, n = 3, 
                                                         keepDiff = TRUE, saveGRanges = FALSE, 
                                                         saveMethylKit = FALSE,
-                                                        anaMethylKit = FALSE,
+                                                        runAnalysis = FALSE,
                                                         nbCores = 0, vSeed = -1),
         error=conditionMessage)
     
