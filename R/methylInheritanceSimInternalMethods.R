@@ -885,20 +885,25 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("vpDiff and vpDiffsd must be the same length")
     }
     
-    ## Validate that vDiff is an positive double between [0,1]
+    ## Validate that vDiff is a vector of distinct non-negative double 
+    ## include in  [0,1]
     if (! is.numeric(vDiff) || 
         anyDuplicated(vDiff) > 0 ||
         any(vDiff < 0.00) || any(vDiff > 1.00)) {
-        stop("vDiff must be a non-negative double include in [0,1]")
+        stop(paste0("vDiff must be a vector of distinct non-negative double", 
+                    " include in [0,1]"))
     }
     
-    ## Validate that vInheritance is an positive double between [0,1]
+    ## Validate that vInheritance is a vector of distinct non-negative double 
+    ## include in [0,1]
     if (! is.numeric(vInheritance) || 
         anyDuplicated(vInheritance) > 0 ||
         any(vInheritance < 0.00) || any(vInheritance > 1.00)) {
-        stop("vInheritance must be a non-negative double include in [0,1]")
+        stop(paste0("vInheritance must be a vector of distinct non-negative ", 
+                    "double include in [0,1]"))
     }
     
+    ## TODO finish unit test
     ## Validate that rateDiff is an positive double include in (0,1)
     if (!(isSingleNumber(rateDiff)) ||
         rateDiff <= 0.00 || rateDiff >= 1.00) {
