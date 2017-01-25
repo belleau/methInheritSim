@@ -428,7 +428,6 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
             m <- m+1
             while(m <= nbPos && 
                 (start(stateInfo)[m] - start(stateInfo)[m - 1]) <= endLength){
-                print(paste0("Aye ", m))
                 cutOff <- c * 
                     exp(b*log(start(stateInfo)[m] - start(stateInfo)[m-1]))
                 
@@ -853,70 +852,77 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("nbCpG must be a positive integer or numeric")
     }
     
-    ## TODO change to vector
-    ## Validate that vNbSample is an positive integer
-    # if (!(isSingleInteger(vNbSample) || isSingleNumber(vNbSample)) ||
-    #     as.integer(vNbSample) < 1) {
-    #     stop("vNbSample must be a positive integer or numeric")
-    # }
-    
     ## Validate that nbGeneration is an positive integer
     if (!(isSingleInteger(nbGeneration) || isSingleNumber(nbGeneration)) ||
         as.integer(nbGeneration) < 1) {
         stop("nbGeneration must be a positive integer or numeric")
     }
     
-    ## TODO change to vector
-    ## Validate that vpDiff is an positive double between (0,1]
-    # if (!(isSingleNumber(vpDiff)) ||
-    #     vpDiff <= 0.00 || vpDiff > 1.00) {
-    #     stop("vpDiff must be a positive double between (0,1]")
-    # }
-    
-    ## TODO change to vector
-    ## Validate that vpDiffsd is an non-negative double 
-    # if (!(isSingleNumber(vpDiffsd)) ||
-    #     vpDiff < 0.00) {
-    #     stop("vpDiffsd is an non-negative double")
-    # }
-    
-    ## TODO change to vector
-    ## Validate that vDiff is an positive double between [0,1]
-    # if (!(isSingleNumber(vDiff)) ||
-    #     vDiff < 0.00 || vDiff > 1.00) {
-    #     stop("vDiff must be a positive double between [0,1]")
-    # }
-    
-    ## TODO change to vector
-    ## Validate that vInheritance is an positive double between [0,1]
-    # if (!(isSingleNumber(vInheritance)) ||
-    #     vInheritance < 0.00 || vInheritance > 1.00) {
-    #     stop("vInheritance must be a positive double between [0,1]")
-    # }
-    
-    
-    ## Validate that propInherite is an positive double between [0,1]
-    if (!(isSingleNumber(propInherite)) ||
-        propInherite < 0.00 || propInherite > 1.00) {
-        stop("propInherite must be a positive double between [0,1]")
+    ## Validate that vNbSample is a vector of distinct positive integer
+    if (! is.numeric(vNbSample) || 
+        anyDuplicated(vNbSample) > 0 ||
+        any(vNbSample < 1) ||
+        ! all(as.integer(vNbSample) == vNbSample)
+        ) {
+        stop("vNbSample must be a vector of distinct positive 
+            integer")
     }
     
-    ## Validate that rateDiff is an positive double between (0,1)
+    ## Validate that vpDiff is an positive double include in (0,1]
+    if (! is.numeric(vpDiff) || 
+        anyDuplicated(vpDiff) > 0 ||
+        any(vpDiff <= 0.00) || any(vpDiff > 1.00)) {
+        stop("vpDiff must be a positive double include in (0,1]")
+    }
+    
+    ## Validate that vpDiffsd is an non-negative double
+    if (! is.numeric(vpDiffsd) ||
+        any(vpDiffsd < 0.00) ) {
+        stop("vpDiffsd must be a non-negative double ")
+    }
+    
+    ## Validate that vpDiff and vpDiffsd must be the same length
+    if(length(vpDiff) != length(vpDiffsd)){
+        stop("vpDiff and vpDiffsd must be the same length ")
+    }
+    
+    ## Validate that vDiff is an positive double between [0,1]
+    if (! is.numeric(vDiff) || 
+        anyDuplicated(vDiff) > 0 ||
+        any(vDiff < 0.00) || any(vDiff > 1.00)) {
+        stop("vDiff must be a non-negative double include in [0,1]")
+    }
+    
+    ## Validate that vInheritance is an positive double between [0,1]
+    if (! is.numeric(vInheritance) || 
+        anyDuplicated(vInheritance) > 0 ||
+        any(vInheritance < 0.00) || any(vInheritance > 1.00)) {
+        stop("vInheritance must be a non-negative double include in [0,1]")
+    }
+    
+    ## Validate that rateDiff is an positive double include in (0,1)
     if (!(isSingleNumber(rateDiff)) ||
         rateDiff <= 0.00 || rateDiff >= 1.00) {
-        stop("rateDiff must be a positive double between (0,1)")
+        stop("rateDiff must be a positive double include in (0,1)")
     }
     
-    ## Validate that minRate is an positive double between [0,1)
+    ## Validate that minRate is an non-negative double include in [0,1)
     if (!(isSingleNumber(minRate)) ||
         minRate < 0.00 || minRate >= 1.00) {
-        stop("minRate must be a positive double between [0,1)")
+        stop("minRate must be a non-negative double include in [0,1)")
     }
     
-    ## Validate that propHetero is an positive double between [0,1]
+    ## Validate that propInherite is a non-negative double include in [0,1]
+    if (!(isSingleNumber(propInherite)) ||
+        propInherite < 0.00 || propInherite > 1.00) {
+        stop("propInherite must be a non-negative double include in [0,1]")
+    }
+    
+    
+    ## Validate that propHetero is an non-negative double include in [0,1]
     if (!(isSingleNumber(propHetero)) ||
         propHetero < 0.00 || propHetero > 1.00) {
-        stop("propHetero must be a positive double between [0,1]")
+        stop("propHetero must be a non-negative double include in [0,1]")
     }
     
     ## Validate that minReads is an positive integer
@@ -931,6 +937,42 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("maxPercReads must be a positive double between [0,100]")
     }
     
+    ## Validate that meanCov is an positive integer
+    if (!(isSingleInteger(meanCov) || isSingleNumber(meanCov)) ||
+        as.integer(meanCov) < 1) {
+        stop("meanCov must be a positive integer or numeric")
+    }
+    
+    ## Validate that context is not one of the CpG, CHG, CHH or none
+    if( !(context %in% c("CpG","CHG","CHH","none"))){
+        stop("context is not one of the CpG, CHG, CHH or none")
+    }
+    
+    ## Validate that assembly is a character string
+    if (!is.character(assembly)) {
+        stop("assembly must be a character string")
+    }
+
+    ## Validate that keepDiff is a logical
+    if (!is.logical(keepDiff)) {
+        stop("keepDiff must be a logical")
+    }
+    
+    ## Validate that saveGRanges is a logical
+    if (!is.logical(saveGRanges)) {
+        stop("saveGRanges must be a logical")
+    }
+    
+    ## Validate that saveMethylKit is a logical
+    if (!is.logical(saveMethylKit)) {
+        stop("saveMethylKit must be a logical")
+    }
+    
+    ## Validate that anaMethylKit is a logical
+    if (!is.logical(anaMethylKit)) {
+        stop("anaMethylKit must be a logical")
+    }
+    
     ## Validate that nbCores is an positive integer
     if (!(isSingleInteger(nbCores) || isSingleNumber(nbCores)) ||
         as.integer(nbCores) < 1) {
@@ -942,15 +984,10 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("nbCores must be 1 on a Windows system.")
     }
     
-#    context, assembly,
-#    meanCov, 
-    ## Validate that keepDiff is a logical
-    if (!is.logical(keepDiff)) {
-        stop("keepDiff must be a logical")
+    ## Validate that vSeed is an integer
+    if (!(isSingleInteger(vSeed) || isSingleNumber(vSeed))){
+        stop("vSeed must be an integer or numeric")
     }
-    
-#    saveGRanges, saveMethylKit,
-#    anaMethylKit,  vSeed
     
     return(0)
 }
