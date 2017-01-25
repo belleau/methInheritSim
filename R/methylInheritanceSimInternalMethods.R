@@ -823,6 +823,12 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("fileID must be a character string or NULL")
     }
     
+    ## Validate that nbSynCHR is an positive integer
+    if (!(isSingleInteger(nbSynCHR) || isSingleNumber(nbSynCHR)) ||
+        as.integer(nbSynCHR) < 1) {
+        stop("nbSynCHR must be a positive integer or numeric")
+    }
+    
     ## Validate that the methData is a methylBase object
     if (!"methylBase" %in% class(methData)) {
         stop("methData must be an object of class \"methyBase\"")
@@ -832,12 +838,6 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
     if (!(isSingleInteger(nbSimulation) || isSingleNumber(nbSimulation)) ||
         as.integer(nbSimulation) < 1) {
         stop("nbSimulation must be a positive integer or numeric")
-    }
-    
-    ## Validate that nbSynCHR is an positive integer
-    if (!(isSingleInteger(nbSynCHR) || isSingleNumber(nbSynCHR)) ||
-        as.integer(nbSynCHR) < 1) {
-        stop("nbSynCHR must be a positive integer or numeric")
     }
     
     ## Validate that nbBlock is an positive integer
@@ -864,26 +864,25 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         any(vNbSample < 1) ||
         ! all(as.integer(vNbSample) == vNbSample)
         ) {
-        stop("vNbSample must be a vector of distinct positive 
-            integer")
+        stop("vNbSample must be a vector of distinct positive integer")
     }
     
     ## Validate that vpDiff is an positive double include in (0,1]
     if (! is.numeric(vpDiff) || 
         anyDuplicated(vpDiff) > 0 ||
         any(vpDiff <= 0.00) || any(vpDiff > 1.00)) {
-        stop("vpDiff must be a positive double include in (0,1]")
+        stop("vpDiff must be a vector of distinct positive double include in (0,1]")
     }
     
     ## Validate that vpDiffsd is an non-negative double
     if (! is.numeric(vpDiffsd) ||
         any(vpDiffsd < 0.00) ) {
-        stop("vpDiffsd must be a non-negative double ")
+        stop("vpDiffsd must be a vector of non-negative double")
     }
     
     ## Validate that vpDiff and vpDiffsd must be the same length
     if(length(vpDiff) != length(vpDiffsd)){
-        stop("vpDiff and vpDiffsd must be the same length ")
+        stop("vpDiff and vpDiffsd must be the same length")
     }
     
     ## Validate that vDiff is an positive double between [0,1]
