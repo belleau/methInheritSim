@@ -9,7 +9,7 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
   propDiffsd, propInheritance, propHetero, minReads = 10,
   maxPercReads = 99.9, context = "CpG", assembly = "Rnor_5.0",
   meanCov = 80, diffRes = NULL, saveGRanges = TRUE,
-  saveMethylKit = TRUE, anaMethylKit = TRUE)
+  saveMethylKit = TRUE, runAnalysis = TRUE)
 }
 \arguments{
 \item{pathOut}{TODO}
@@ -62,7 +62,7 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 
 \item{saveMethylKit}{TODO. Default: \code{TRUE}.}
 
-\item{anaMethylKit}{TODO. Default: \code{TRUE}.}
+\item{runAnalysis}{TODO. Default: \code{TRUE}.}
 }
 \value{
 \code{0} indicating that the function has been successful.

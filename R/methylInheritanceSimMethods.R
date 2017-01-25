@@ -1,4 +1,5 @@
-#' @title TODO
+#' @title Simulate a multigeneration methylation experiment with inheritance 
+#' TODO review title
 #'
 #' @description TODO
 #'
@@ -58,8 +59,8 @@
 #' @param nbGeneration a positive \code{integer}, the number of generations.
 #' Default: \code{3}
 #'
-#' @param vNbSample a \code{vector} of distinct positive \code{integer}, the number of 
-#' controls (CTRL) and cases in the simulated dataset. In 
+#' @param vNbSample a \code{vector} of distinct positive \code{integer}, 
+#' the number of controls (CTRL) and cases in the simulated dataset. In 
 #' the simulated dataset, the number of CTRL equals the number of cases. 
 #' The number of CTRL do not need to be equal to the number of Case in
 #' the real dataset \code{methData}.
@@ -78,13 +79,15 @@
 #' the same length.
 #' Default: \code{c(0.1)}
 #'
-#' @param vDiff a \code{vector} of distinct non-negative \code{double} between [0,1], the proportion of 
-#' C/T for a case differentially methylated follow a beta distribution 
-#' where the mean is shifted of \code{vDiff} from the CTRL distribution
+#' @param vDiff a \code{vector} of distinct non-negative \code{double} include 
+#' in [0,1], the proportion of C/T for a case differentially methylated follow 
+#' a beta distribution where the mean is shifted of \code{vDiff} 
+#' from the CTRL distribution
 #' Default: \code{c(0.8)}
 #'
-#' @param vInheritance a \code{vector} of distinct non-negative \code{double} between [0,1], 
-#' the proportion of cases that inherited differentially sites.
+#' @param vInheritance a \code{vector} of distinct non-negative \code{double} 
+#' include in [0,1], the proportion of cases 
+#' that inherited differentially sites.
 #' Default: \code{c(0.5)}
 #' 
 #' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
@@ -195,8 +198,9 @@
 #' }
 #' TODO. Default: \code{TRUE}.
 #' 
-#' @param anaMethylKit a \code{logical}, if \code{TRUE}, for each simulation run
-#' a differentially methylation sites analysis on each generation and save two files The first contains
+#' @param runAnalysis a \code{logical}, if \code{TRUE}, for each simulation run
+#' a differentially methylation sites analysis with methylKit on each 
+#' generation and save two files The first contains
 #' a list of mehylBase and the second a list of methylDiff TODO
 #' The file name is 
 #' composed of those elements, separated by "_":
@@ -260,7 +264,7 @@ runSim <- function(outputDir = NULL, fileID = "s", nbSynCHR = 1, methData,
                     context = "CpG", assembly="Rnor_5.0",
                     keepDiff = FALSE,
                     saveGRanges = TRUE, saveMethylKit = TRUE,
-                    anaMethylKit = FALSE,
+                    runAnalysis = FALSE,
                     nbCores = 1, vSeed = -1) {
     
     validateRunSimParameters(outputDir = outputDir, fileID = fileID, 
@@ -280,7 +284,7 @@ runSim <- function(outputDir = NULL, fileID = "s", nbSynCHR = 1, methData,
                                 meanCov = meanCov, keepDiff = keepDiff,
                                 saveGRanges = saveGRanges, 
                                 saveMethylKit = saveMethylKit,
-                                anaMethylKit = anaMethylKit,
+                                runAnalysis = runAnalysis,
                                 nbCores = nbCores, vSeed = vSeed)
     
     ## Fix seed
@@ -375,7 +379,7 @@ runSim <- function(outputDir = NULL, fileID = "s", nbSynCHR = 1, methData,
                                         meanCov = meanCov, diffRes = diffRes,
                                         saveGRanges = saveGRanges,
                                         saveMethylKit = saveMethylKit,
-                                        anaMethylKit = anaMethylKit, 
+                                        runAnalysis = runAnalysis, 
                                         mc.cores = nbCores,
                                         mc.preschedule = FALSE)
                     }
