@@ -515,7 +515,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' 
 #' @param saveMethylKit TODO. Default: \code{TRUE}.
 #' 
-#' @param anaMethylKit TODO. Default: \code{TRUE}.
+#' @param runAnalysis TODO. Default: \code{TRUE}.
 #' 
 #' @return \code{0} indicating that the function has been successful.
 #'
@@ -538,7 +538,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                     minReads = 10, maxPercReads = 99.9,
                     context = "CpG", assembly="Rnor_5.0",
                     meanCov = 80, diffRes = NULL, saveGRanges = TRUE,
-                    saveMethylKit = TRUE, anaMethylKit = TRUE) {
+                    saveMethylKit = TRUE, runAnalysis = TRUE) {
     
     # Test if the simulation was done before
     # if just a part of the simulation is done it do it again
@@ -558,7 +558,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                                 "/methylObj_", pref, "_", k, ".rds")))) {
         alreadyDone <- FALSE
     }
-    if(anaMethylKit &&
+    if(runAnalysis &&
        ( ! (file.exists(paste0(pathOut, "/meth_", pref, "_", k,".rds")))
          || ! (file.exists(paste0(pathOut, 
                                     "/methDiff_", pref, "_", k, ".rds"))))) {
@@ -633,7 +633,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                 myGR[[i]] <- outList
             }
             
-            if(anaMethylKit){
+            if(runAnalysis){
                 filtered.myobj <- filterByCoverage(myobj[[i]],
                                         lo.count = minReads, 
                                         lo.perc = NULL, hi.count = NULL,
@@ -654,7 +654,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                                             "_", k, ".rds"))
         }
         
-        if(anaMethylKit){
+        if(runAnalysis){
             saveRDS(meth,file = paste0(pathOut, "/meth_", pref, 
                                             "_", k,".rds"))
             saveRDS(myDiff,file = paste0(pathOut, "/methDiff_", pref, 
@@ -767,7 +767,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' 
 #' @param saveMethylKit a \code{logical}, TODO. Default: \code{TRUE}.
 #' 
-#' @param anaMethylKit a \code{logical}, TODO. Default: \code{TRUE}
+#' @param runAnalysis a \code{logical}, TODO. Default: \code{TRUE}
 #' 
 #' @param nbCores a positive \code{integer}, the number of cores to use when
 #' creating the simulated datasets. Default: \code{1} and always 
@@ -794,7 +794,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' rateDiff = 0.2, minRate = 0.1,
 #' propHetero = 0.2, minReads = 10, maxPercReads = 99.1, context = "CpG",
 #' assembly = "Rnor_5.0", meanCov = 80, keepDiff = FALSE, saveGRanges = TRUE,
-#' saveMethylKit = FALSE, anaMethylKit = FALSE, nbCores = 1, vSeed = -1)
+#' saveMethylKit = FALSE, runAnalysis = FALSE, nbCores = 1, vSeed = -1)
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom S4Vectors isSingleInteger isSingleNumber
@@ -810,7 +810,7 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
                                     maxPercReads, context, assembly,
                                     meanCov, keepDiff,
                                     saveGRanges, saveMethylKit,
-                                    anaMethylKit,
+                                    runAnalysis,
                                     nbCores, vSeed) {
     
     ## Validate that the outputDir is an not empty string
@@ -823,6 +823,12 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("fileID must be a character string or NULL")
     }
     
+    ## Validate that nbSynCHR is an positive integer
+    if (!(isSingleInteger(nbSynCHR) || isSingleNumber(nbSynCHR)) ||
+        as.integer(nbSynCHR) < 1) {
+        stop("nbSynCHR must be a positive integer or numeric")
+    }
+    
     ## Validate that the methData is a methylBase object
     if (!"methylBase" %in% class(methData)) {
         stop("methData must be an object of class \"methyBase\"")
@@ -832,12 +838,6 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
     if (!(isSingleInteger(nbSimulation) || isSingleNumber(nbSimulation)) ||
         as.integer(nbSimulation) < 1) {
         stop("nbSimulation must be a positive integer or numeric")
-    }
-    
-    ## Validate that nbSynCHR is an positive integer
-    if (!(isSingleInteger(nbSynCHR) || isSingleNumber(nbSynCHR)) ||
-        as.integer(nbSynCHR) < 1) {
-        stop("nbSynCHR must be a positive integer or numeric")
     }
     
     ## Validate that nbBlock is an positive integer
@@ -864,26 +864,25 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         any(vNbSample < 1) ||
         ! all(as.integer(vNbSample) == vNbSample)
         ) {
-        stop("vNbSample must be a vector of distinct positive 
-            integer")
+        stop("vNbSample must be a vector of distinct positive integer")
     }
     
     ## Validate that vpDiff is an positive double include in (0,1]
     if (! is.numeric(vpDiff) || 
         anyDuplicated(vpDiff) > 0 ||
         any(vpDiff <= 0.00) || any(vpDiff > 1.00)) {
-        stop("vpDiff must be a positive double include in (0,1]")
+        stop("vpDiff must be a vector of distinct positive double include in (0,1]")
     }
     
     ## Validate that vpDiffsd is an non-negative double
     if (! is.numeric(vpDiffsd) ||
         any(vpDiffsd < 0.00) ) {
-        stop("vpDiffsd must be a non-negative double ")
+        stop("vpDiffsd must be a vector of non-negative double")
     }
     
     ## Validate that vpDiff and vpDiffsd must be the same length
     if(length(vpDiff) != length(vpDiffsd)){
-        stop("vpDiff and vpDiffsd must be the same length ")
+        stop("vpDiff and vpDiffsd must be the same length")
     }
     
     ## Validate that vDiff is an positive double between [0,1]
@@ -968,9 +967,9 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("saveMethylKit must be a logical")
     }
     
-    ## Validate that anaMethylKit is a logical
-    if (!is.logical(anaMethylKit)) {
-        stop("anaMethylKit must be a logical")
+    ## Validate that runAnalysis is a logical
+    if (!is.logical(runAnalysis)) {
+        stop("runAnalysis must be a logical")
     }
     
     ## Validate that nbCores is an positive integer

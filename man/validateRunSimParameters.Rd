@@ -8,7 +8,7 @@ validateRunSimParameters(outputDir, fileID, nbSynCHR, methData, nbSimulation,
   nbBlock, nbCpG, vNbSample, nbGeneration, vpDiff, vpDiffsd, vDiff,
   vInheritance, propInherite, rateDiff, minRate, propHetero, minReads,
   maxPercReads, context, assembly, meanCov, keepDiff, saveGRanges,
-  saveMethylKit, anaMethylKit, nbCores, vSeed)
+  saveMethylKit, runAnalysis, nbCores, vSeed)
 }
 \arguments{
 \item{outputDir}{a string of \code{character} or \code{NULL}, the path 
@@ -107,7 +107,7 @@ save too. Default: \code{TRUE}.}
 
 \item{saveMethylKit}{a \code{logical}, TODO. Default: \code{TRUE}.}
 
-\item{anaMethylKit}{a \code{logical}, TODO. Default: \code{TRUE}}
+\item{runAnalysis}{a \code{logical}, TODO. Default: \code{TRUE}}
 
 \item{nbCores}{a positive \code{integer}, the number of cores to use when
 creating the simulated datasets. Default: \code{1} and always 
@@ -139,7 +139,7 @@ vDiff = 0.4, vInheritance = 0.2, propInherite = 0.5,
 rateDiff = 0.2, minRate = 0.1,
 propHetero = 0.2, minReads = 10, maxPercReads = 99.1, context = "CpG",
 assembly = "Rnor_5.0", meanCov = 80, keepDiff = FALSE, saveGRanges = TRUE,
-saveMethylKit = FALSE, anaMethylKit = FALSE, nbCores = 1, vSeed = -1)
+saveMethylKit = FALSE, runAnalysis = FALSE, nbCores = 1, vSeed = -1)
 
 }
 \author{

@@ -2,7 +2,8 @@
 % Please edit documentation in R/methylInheritanceSimMethods.R
 \name{runSim}
 \alias{runSim}
-\title{TODO}
+\title{Simulate a multigeneration methylation experiment with inheritance 
+TODO review title}
 \usage{
 runSim(outputDir = NULL, fileID = "s", nbSynCHR = 1, methData,
   nbSimulation = 10, nbBlock = 100, nbCpG = 50, nbGeneration = 3,
@@ -11,7 +12,7 @@ runSim(outputDir = NULL, fileID = "s", nbSynCHR = 1, methData,
   minRate = 0.01, propInherite = 0.3, propHetero = 0.5, minReads = 10,
   maxPercReads = 99.9, meanCov = 80, context = "CpG",
   assembly = "Rnor_5.0", keepDiff = FALSE, saveGRanges = TRUE,
-  saveMethylKit = TRUE, anaMethylKit = FALSE, nbCores = 1, vSeed = -1)
+  saveMethylKit = TRUE, runAnalysis = FALSE, nbCores = 1, vSeed = -1)
 }
 \arguments{
 \item{outputDir}{a string of \code{character} or \code{NULL}, the path 
@@ -70,8 +71,8 @@ Default: \code{50}}
 \item{nbGeneration}{a positive \code{integer}, the number of generations.
 Default: \code{3}}
 
-\item{vNbSample}{a \code{vector} of distinct positive \code{integer}, the number of 
-controls (CTRL) and cases in the simulated dataset. In 
+\item{vNbSample}{a \code{vector} of distinct positive \code{integer}, 
+the number of controls (CTRL) and cases in the simulated dataset. In 
 the simulated dataset, the number of CTRL equals the number of cases. 
 The number of CTRL do not need to be equal to the number of Case in
 the real dataset \code{methData}.
@@ -90,13 +91,15 @@ deviation associated to the \code{vpDiff}. Note vpDiff and vpDiffsd must be
 the same length.
 Default: \code{c(0.1)}}
 
-\item{vDiff}{a \code{vector} of distinct non-negative \code{double} between [0,1], the proportion of 
-C/T for a case differentially methylated follow a beta distribution 
-where the mean is shifted of \code{vDiff} from the CTRL distribution
+\item{vDiff}{a \code{vector} of distinct non-negative \code{double} include 
+in [0,1], the proportion of C/T for a case differentially methylated follow 
+a beta distribution where the mean is shifted of \code{vDiff} 
+from the CTRL distribution
 Default: \code{c(0.8)}}
 
-\item{vInheritance}{a \code{vector} of distinct non-negative \code{double} between [0,1], 
-the proportion of cases that inherited differentially sites.
+\item{vInheritance}{a \code{vector} of distinct non-negative \code{double} 
+include in [0,1], the proportion of cases 
+that inherited differentially sites.
 Default: \code{c(0.5)}}
 
 \item{rateDiff}{a positive \code{double} inferior to \code{1}, the mean of 
@@ -205,8 +208,9 @@ between 1 and \code{nbSimulation}
 }
 TODO. Default: \code{TRUE}.}
 
-\item{anaMethylKit}{a \code{logical}, if \code{TRUE}, for each simulation run
-a differentially methylation sites analysis on each generation and save two files The first contains
+\item{runAnalysis}{a \code{logical}, if \code{TRUE}, for each simulation run
+a differentially methylation sites analysis with methylKit on each 
+generation and save two files The first contains
 a list of mehylBase and the second a list of methylDiff TODO
 The file name is 
 composed of those elements, separated by "_":
