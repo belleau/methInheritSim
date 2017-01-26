@@ -1,14 +1,15 @@
 #' @title Simulate a multigeneration methylation experiment with inheritance 
 #' 
 #'
-#' @description Simulate a multigeneration methylation experiment with 
-#' inheritance from a CTRL dataset. The simulation can be parametrize to fit 
-#' the model. The proportion of the case affected by the treatment, the effect 
-#' of the treatment on the mean of the distribution, the proportion of sites 
-#' inherited, the proportion of the differentially methilated sites from the 
-#' precedent generation are inherited, etc. The package generate a 
-#' multigeneration dataset with the information about control and case for 
-#' each generation.
+#' @description Simulate a multigeneration methylation case-ctrl experiment 
+#' with inheritance relation using a real control dataset. The simulation can 
+#' be parametrized to fit different models. The proportion of the case affected 
+#' by the treatment (penetrance), the effect of the treatment on the mean of 
+#' the distribution, the proportion of sites inherited, the proportion of the 
+#' differentially methylated sites from the precedent generation inherited, etc.
+#' The package simulates a multigeneration dataset like a bisulfite sequencing 
+#' experiment. The simulation includes the information about control and case 
+#' for each generation.
 #' 
 #'
 #' @param outputDir a string of \code{character} or \code{NULL}, the path 
@@ -29,7 +30,7 @@
 #' for a specific position, differentially methylated values, a 
 #' number in the \code{vpDiff} \code{vector}
 #' \item the proportion of 
-#' C/T for a case differentially methylated follow a beta distribution, a
+#' C/T for a case differentially methylated follow a shifted beta distribution, a
 #' number in the \code{vDiff} \code{vector}
 #' \item the 
 #' proportion of cases that inherited differentially sites, a number in the
@@ -64,7 +65,8 @@
 #' positions used for sampling from \code{methInfo}.
 #' Default: \code{50}
 #'
-#' @param nbGeneration a positive \code{integer}, the number of generations.
+#' @param nbGeneration a positive \code{integer}, the number of generations
+#' simulate.
 #' Default: \code{3}
 #'
 #' @param vNbSample a \code{vector} of distinct positive \code{integer}, 
@@ -156,80 +158,27 @@
 #' a generation). Each \code{GRangeList} contain \code{2 * vNbSample} 
 #' \code{GRanges} that contains for each CpG site: the position, the coverage 
 #' and the proportion of the C/T.
-#' A files treatment_... which contains the position of the CTRL and Case in 
+#' 
+#' A files treatment which contains the position of the CTRL and Case in 
 #' the GRangesList are 
 #' saved too. TODO Default: \code{TRUE}.
-#' The file name is 
-#' composed of those elements, separated by "_":
-#' \itemize{ 
-#' \item methylGR and treatment
-#' \item a \code{fileID}
-#' \item the chromosome number, a number between 1 and \code{nbSynCHR}
-#' \item the number of samples, a number in the \code{vNbSample} \code{vector}
-#' \item the mean proportion of samples that will have,
-#' for a specific position, differentially methylated values, a 
-#' number in the \code{vpDiff} \code{vector}
-#' \item the proportion of 
-#' C/T for a case differentially methylated follow a beta distribution, a
-#' number in the \code{vDiff} \code{vector}
-#' \item the 
-#' proportion of cases that inherited differentially sites, a number in the
-#' \code{vInheritance} \code{vector}
-#' \item Id for the simulation, a number 
-#' between 1 and \code{nbSimulation}
-#' \item the file extension ".rds"
-#' }
 #' 
 #' @param saveMethylKit a \code{logical}, if \code{TRUE}, for each simulation, 
 #' save a file that contains a list of \code{methylRawList} 
-#' (\code{methylRawList} corresponding to a generation) representing
+#' (each \code{methylRawList} corresponding to a generation) representing
 #' the simulation.
-#' The file name is 
-#' composed of those elements, separated by "_":
-#' \itemize{ 
-#' \item methylObj
-#' \item a \code{fileID}
-#' \item the chromosome number, a number between 1 and \code{nbSynCHR}
-#' \item the number of samples, a number in the \code{vNbSample} \code{vector}
-#' \item the mean proportion of samples that will have,
-#' for a specific position, differentially methylated values, a 
-#' number in the \code{vpDiff} \code{vector}
-#' \item the proportion of 
-#' C/T for a case differentially methylated follow a beta distribution, a
-#' number in the \code{vDiff} \code{vector}
-#' \item the 
-#' proportion of cases that inherited differentially sites, a number in the
-#' \code{vInheritance} \code{vector}
-#' \item Id for the simulation, a number 
-#' between 1 and \code{nbSimulation}
-#' \item the file extension ".rds"
-#' }
-#' TODO. Default: \code{TRUE}.
+#' The file name is describe in the parameter \code{fileID},
+#' in this case the file name start with: methylObj
+#' Default: \code{TRUE}.
 #' 
 #' @param runAnalysis a \code{logical}, if \code{TRUE}, for each simulation run
 #' a differentially methylation sites analysis with methylKit on each 
 #' generation and save two files The first contains
-#' a list of mehylBase and the second a list of methylDiff TODO
-#' The file name is 
-#' composed of those elements, separated by "_":
-#' \itemize{ 
-#' \item meth and methDiff
-#' \item a \code{fileID}
-#' \item the chromosome number, a number between 1 and \code{nbSynCHR}
-#' \item the number of samples, a number in the \code{vNbSample} \code{vector}
-#' \item the mean proportion of samples that will have,
-#' for a specific position, differentially methylated values, a 
-#' number in the \code{vpDiff} \code{vector}
-#' \item the proportion of 
-#' C/T for a case differentially methylated follow a beta distribution, a
-#' number in the \code{vDiff} \code{vector}
-#' \item the 
-#' proportion of cases that inherited differentially sites, a number in the
-#' \code{vInheritance} \code{vector}
-#' \item Id for the simulation, a number 
-#' between 1 and \code{nbSimulation}
-#' \item the file extension ".rds"
-#' }
+#' a list of normalised \code{mehylBase} and the second a list of
+#' \code{methylDiff} (each \code{methylDiff} is corresponding ) that contains 
+#' the comparaison between case and control.
+#' The file name is describe in the parameter \code{fileID},
+#' in this case the file name start with: meth and methDiff
 #' Default: \code{FALSE}
 #' 
 #' @param nbCores a positive \code{integer}, the number of cores to use when
@@ -247,8 +196,9 @@
 #' ## TODO outputDir where to write file ?
 #' ## Load methyl information
 #' data(samplesForChrSynthetic)
+#' temp_dir <- "test_runSim"
 #' 
-#' \dontrun{runSim(outputDir = "testData", fileID = "F1", nbSynCHR = 1, 
+#' \dontrun{runSim(outputDir = temp_dir, fileID = "F1", nbSynCHR = 1, 
 #' methData = samplesForChrSynthetic, nbSimulation = 2, 
 #' nbBlock = 10, nbCpG = 20,
 #' nbGeneration = 3, vNbSample = c(6), vpDiff = c(0.9), 
@@ -256,6 +206,10 @@
 #' vInheritance = c(0.5), propInherite = 0.3,
 #' rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, 
 #' nbCores = 1, vSeed = 32)}
+#' 
+#' \dontrun{if (dir.exists(temp_dir)) {
+#' unlink(temp_dir, recursive = TRUE, force = FALSE)
+#' }}
 #' 
 #' @author Pascal Belleau
 #' @importFrom parallel mclapply

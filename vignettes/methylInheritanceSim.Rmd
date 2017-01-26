@@ -96,14 +96,74 @@ The parameter vpDiff is liked penetrance.
 
 For the subsequent generation, for the selected DMS inherited, a proportion of 
 the case (vpDiff x power(vInheritance, number of generation after F2) ). The 
-proportion of C/T of the selected cases follow a shift Beta distribution 
+proportion of C/T of the selected cases follow a shifted Beta distribution 
 (the parameter are estimated with mean of control + or - (vDiff * propHetero) ).
 The propHetero is 0.5 if one of the parent are control
 
 
 # OutputDir
 
+Three files 
+
+The first file contain information about the synthetic chromosome.
+The file name is 
+composed of those elements, separated by "_":
+stateInfo
+a code for the simulation (ex S1)
+the chromosome number.
+
+The is GRange that contains the CpG (or methylated sites).
+The file have four metadata from the real dataset:
+chrOri the chromosome from the real dataset
+startOri the position from the real dataset
+meanCTRL the mean of the control in the real dataset
+varCTRL the variance of the control in the real dataset.
+
+The second file is a GRange contains information about the simulation
+The file have four metadata from the real dataset
+meanDiff means of the shifted distribution
+meanCTRL.meanCTRL means of the control distribution
+partitionCase number of case simulated with the shifted distribution
+partitionCtrl number of case simulated with the control distribution
+number of controls ctrl.V? The proportion of C/T for this case
+number of cases case.V? THe proportion of C/T for this case
+
+
+The third file stateDiff is a list with 2 entries. The first entry is called 
+stateDiff and contains a vector of integer (0 and 1) with 
+a length corresponding the length of stateInfo. The statDiff
+indicates, using a 1, the positions where the CpG sites are
+differentially methylated. The second entry is
+called statInherite and contains a vector of integer 
+(0 and 1)
+with a length corresponding the length of stateInfo. The 
+statInherite
+indicates, using a 1, the positions where the CpG values are
+inherited.
+
 The package generate a list of file depending of the parameters :
 saveGRanges, saveMethylKit and, anaMethylKit. 
-If saveGRanges parameters is TRUE, for each n simulations with the 
-parameters groups vNbSample vpDiff, 
+
+If saveGRanges parameters is TRUE, for each simulations 
+The file name is 
+composed of those elements, separated by "_":
+methylGR and treatment
+fileID
+the chromosome number
+
+the number of samples
+
+the mean proportion of case samples that will have,
+for a specific position, differentially methylated values
+
+the proportion of C/T for a case differentially methylated 
+follow a shifted beta distribution, a number in the vDiff vector
+
+the proportion of cases that inherited differentially sites, a number 
+in the vInheritance vector
+
+Id for the simulation, a number 
+between 1 and nbSimulation
+
+the file extension ".rds"
+

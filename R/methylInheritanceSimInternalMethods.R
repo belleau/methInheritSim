@@ -197,11 +197,14 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
 #' @examples
 #'
 #' ## TODO
-#'
+#' data(dataSimExample)
+#' 
+#' getDiffCase(x = unlist(mcols(stateInfo)[1,3:4]), 
+#' sDiff = 0.8, diffCase = round(6 * 0.9))
 #'
 #' @author Pascal Belleau
 #' @keywords internal
-getDiffCase <- function(x, nb, sDiff, diffCase, propDiffsd){
+getDiffCase <- function(x, nb, sDiff, diffCase){
     
     meanDiff <- 0
     
@@ -323,13 +326,15 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
     
     case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
                             stateDiff$stateDiff), 1, getDiffCase, nb=nbCase, 
-                            sDiff = diffValue, diffCase = diffCase, 
-                            propDiffsd = propDiffsd))
-    
+                            sDiff = diffValue, diffCase = diffCase 
+                            ))
+    # TODO change meanCTRL.meanCTRL in meanCTRL
+    #tmpCol <- matrix(mcols(stateInfo)[3]$meanCTRL, nc = 1)
     res[[1]] <- GRanges(seqnames = seqnames(stateInfo),
                         ranges = ranges(stateInfo),
                         strand =  strand(stateInfo),
-                        meanDiff = case[, 1], meanCTRL = mcols(stateInfo)[3],
+                        meanDiff = case[, 1], 
+                        meanCTRL = mcols(stateInfo)[3],
                         partitionCase = case[, 2], partitionCtrl = case[, 3],
                         ctrl = ctrl, case = case[, 4:length(case[1,])])
 
@@ -355,12 +360,13 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
         case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]), ncol = 2),
                         stateDiff$stateInherite), 1,
                         getDiffCase, nb = nbCase, sDiff = diffCur, 
-                        diffCase = diffCase, propDiffsd = propDiffsd))
+                        diffCase = diffCase))
         
         res[[i]] <- GRanges(seqnames = seqnames(stateInfo),
                         ranges = ranges(stateInfo),
                         strand =  strand(stateInfo),
-                        meanDiff = case[, 1], meanCTRL = mcols(stateInfo)[3],
+                        meanDiff = case[, 1], 
+                        meanCTRL = mcols(stateInfo)[3],
                         partitionCase = case[, 2], partitionCtrl = case[, 3],
                         ctrl = ctrl, case = case[,4:length(case[1,])])
     }
@@ -399,6 +405,12 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #' @examples
 #'
 #' ## TODO
+#' 
+#' data(dataSimExample)
+#' 
+#' diffRes <- methylInheritanceSim:::getDiffMeth(stateInfo = dataSimExample$stateInfo,
+#' rateDiff = 0.3, minRate = 0.3,
+#' propInherite = 0.3)
 #' 
 #' @author Pascal Belleau
 #' @importFrom BiocGenerics start
@@ -521,7 +533,29 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #'
 #' @examples
 #'
-#' ## TODO
+#' temp_dir <- "test_simInheritance"
+#' data(dataSimExample)
+#' 
+#' \dontrun{methylInheritanceSim:::simInheritance(pathOut = temp_dir,
+#' pref = paste0("S1_", "6_0.9_0.8_0.5"),
+#' k = 1, nbCtrl = 6, nbCase = 6, 
+#' treatment = dataSimExample$treatment, 
+#' sample.id = dataSimExample$sample.id,
+#' generation = 3, 
+#' stateInfo = dataSimExample$stateInfo,
+#' propDiff = 0.9, propDiffsd = 0.1,
+#' diffValue = 0.8,
+#' propInheritance = 0.5,
+#' rateDiff = 0.3, minRate = 0.3,
+#' propInherite = 0.3, 
+#' propHetero = 0.5,
+#' runAnalysis = FALSE
+#' )}
+#' 
+#' ## Delete temp_dir
+#' \dontrun{if (dir.exists(temp_dir)) {
+#' unlink(temp_dir, recursive = TRUE, force = FALSE)
+#' }}
 #' 
 #' @author Pascal Belleau
 #' @importFrom methylKit read filterByCoverage normalizeCoverage unite calculateDiffMeth get.methylDiff getData tileMethylCounts methRead
@@ -532,16 +566,20 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' @importFrom BiocGenerics start end strand
 #' @keywords internal
 simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment, 
-                    sample.id, generation, stateInfo,
-                    rateDiff ,minRate, propInherite, diffValue, propDiff,
-                    propDiffsd, propInheritance, propHetero, 
-                    minReads = 10, maxPercReads = 99.9,
-                    context = "CpG", assembly="Rnor_5.0",
-                    meanCov = 80, diffRes = NULL, saveGRanges = TRUE,
-                    saveMethylKit = TRUE, runAnalysis = TRUE) {
+                        sample.id, generation, stateInfo,
+                        propDiff, propDiffsd, diffValue, propInheritance, 
+                        rateDiff , minRate, propInherite, 
+                        propHetero, 
+                        minReads = 10, maxPercReads = 99.9,
+                        context = "CpG", assembly="Rnor_5.0",
+                        meanCov = 80, diffRes = NULL, saveGRanges = TRUE,
+                        saveMethylKit = TRUE, runAnalysis = TRUE) {
     
     # Test if the simulation was done before
     # if just a part of the simulation is done it do it again
+    if (!is.null(pathOut) && !dir.exists(pathOut)) {
+        dir.create(pathOut, showWarnings = TRUE)
+    }
     
     alreadyDone <- TRUE
     if(! (file.exists(paste0(pathOut, "/stateDiff_", pref, "_", k, ".rds"))) 

@@ -4,7 +4,7 @@
 \alias{getDiffCase}
 \title{get a proportion c/t for a case at a differentially}
 \usage{
-getDiffCase(x, nb, sDiff, diffCase, propDiffsd)
+getDiffCase(x, nb, sDiff, diffCase)
 }
 \arguments{
 \item{x}{TODO}
@@ -30,7 +30,10 @@ TODO
 \examples{
 
 ## TODO
+data(dataSimExample)
 
+getDiffCase(x = unlist(mcols(stateInfo)[1,3:4]), 
+sDiff = 0.8, diffCase = round(6 * 0.9))
 
 }
 \author{

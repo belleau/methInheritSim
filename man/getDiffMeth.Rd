@@ -40,6 +40,12 @@ Identify the pos where the case are Diff meth and which one are heritable
 
 ## TODO
 
+data(dataSimExample)
+
+diffRes <- methylInheritanceSim:::getDiffMeth(stateInfo = dataSimExample$stateInfo,
+rateDiff = 0.3, minRate = 0.3,
+propInherite = 0.3)
+
 }
 \author{
 Pascal Belleau
