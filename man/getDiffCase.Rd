@@ -2,12 +2,17 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{getDiffCase}
 \alias{getDiffCase}
-\title{get a proportion c/t for a case at a differentially}
+\title{Get a proportion C/T for a case at a differentially}
 \usage{
 getDiffCase(x, nb, sDiff, diffCase)
 }
 \arguments{
-\item{x}{TODO}
+\item{x}{a \code{vector} of \code{double} containing 3 entries: 
+\itemize{
+\item TODO
+\item ToDO
+\item ToDO 
+}}
 
 \item{nb}{TODO}
 
@@ -15,29 +20,39 @@ getDiffCase(x, nb, sDiff, diffCase)
 
 \item{diffCase}{TODO}
 
-\item{propDiffsd}{-c * exp(b * log(distance between two CpG))}
+\item{propDiffsd}{TODO
+-c * exp(b * log(distance between two CpG))}
 
 \item{b}{constant for distance}
 
 \item{endLength}{TODO}
 }
 \value{
-TODO
+a \code{vector} containing 3 entries:
+\itemize{
+\item TODO
+\item TODO
+\item TODO
+}
 }
 \description{
 TODO
 }
 \examples{
 
-## TODO
-data(dataSimExample)
+## Create vector containing 3 entries:
+## 1 - TODO
+## 2 - TODO
+## 3 - TODO
+x <- c(0.9814562, 0.0003607153, 0)
 
-getDiffCase(x = unlist(mcols(stateInfo)[1,3:4]), 
-sDiff = 0.8, diffCase = round(6 * 0.9))
+## Get the proportion of TODO
+methylInheritanceSim:::getDiffCase(x=x, nb=6, sDiff = 0.8, 
+diffCase = round(6 * 0.9))
 
 }
 \author{
-Pascal Belleau
+Pascal Belleau, Astrid Deschenes
 }
 \keyword{internal}
 

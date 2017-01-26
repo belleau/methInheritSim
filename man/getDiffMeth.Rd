@@ -8,7 +8,7 @@ getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 1, b = -0.1,
   endLength = 1000)
 }
 \arguments{
-\item{stateInfo}{}
+\item{stateInfo}{TODO}
 
 \item{rateDiff}{}
 
@@ -23,14 +23,19 @@ getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 1, b = -0.1,
 \item{endLength}{TODO . Default: \code{1000}.}
 }
 \value{
-a \code{list} containing the following elements:
+a \code{list} containing the 2 following elements:
 \itemize{
-\item \code{stateDiff} a \code{vector} TODO. The length of the 
-\code{vector} corresponds to the length of 
-the \code{stateInfo} parameter.
-\item \code{stateDiff} a \code{vector} TODO. The length of the 
-\code{vector} corresponds to the length of 
-the \code{stateInfo} parameter.
+\item \code{stateDiff} a \code{vector} of \code{integer} (\code{0} 
+and \code{1}) with length corresponding the length of \code{stateInfo}.
+The \code{vector}
+indicates, using \code{1}, the positions where the CpG sites are
+differentially methylated.
+\item \code{stateInherite} a \code{vector} of \code{integer} (\code{0} and 
+\code{1})
+with length corresponding the length of \code{stateInfo}. The 
+\code{vector}
+indicates, using \code{1}, the positions where the CpG values are
+inherited.
 }
 }
 \description{
@@ -40,10 +45,11 @@ Identify the pos where the case are Diff meth and which one are heritable
 
 ## TODO
 
+## Load dataset containing TODO
 data(dataSimExample)
 
-diffRes <- methylInheritanceSim:::getDiffMeth(stateInfo = dataSimExample$stateInfo,
-rateDiff = 0.3, minRate = 0.3,
+diffRes <- methylInheritanceSim:::getDiffMeth(stateInfo = 
+dataSimExample$stateInfo, rateDiff = 0.3, minRate = 0.3,
 propInherite = 0.3)
 
 }

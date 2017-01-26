@@ -142,34 +142,37 @@ Default: \code{99.9}.}
 at the simulated CpG sites.
 Default: \code{80}.}
 
-\item{context}{a string of \code{character}, the methylation context 
-one of the CpG,CpH,CHH, none. 
+\item{context}{a string of \code{character}, the short description of the 
+methylation context, such as "CpG", "CpH", "CHH", etc.. 
 Default: \code{"CpG"}.}
 
 \item{assembly}{a string of \code{character}, the short description of the 
-genome assembly. Ex: "mm9", "hg18", etc.
-Default: \code{"Rnor_5.0"}}
+genome assembly, such as "mm9", "hg18", etc..
+Default: \code{"Rnor_5.0"}.}
 
-\item{keepDiff}{a \code{logical}, if \code{TRUE}, the 
-differentially methyled sites
-will be the same for each parameter (\code{vpDiff}, 
-\code{vDiff} and \code{vInheritance}).
-Default: \code{FALSE}}
+\item{keepDiff}{a \code{logical}, when \code{TRUE}, the 
+differentially methylated sites
+will be the same for all simulated datasets. Datasets generated using 
+differents parameter values from vector parameters (\code{vpDiff}, 
+\code{vDiff} and \code{vInheritance}) wil all have the same differentially
+methylated sites.
+Default: \code{FALSE}.}
 
-\item{saveGRanges}{a \code{logical}, if \code{true}, for each simulation, 
-save a file that contains a 
-\code{list} of \code{GRangesList} (each \code{GRangesList} corresponding to 
-a generation). Each \code{GRangeList} contain \code{2 * vNbSample} 
-\code{GRanges} that contains for each CpG site: the position, the coverage 
+\item{saveGRanges}{a \code{logical}, when \code{true}, for each simulation, 
+save two types of file. The first type is a file that contains a 
+\code{list} of \code{GRangesList}. Each \code{GRangesList} corresponds to 
+a generation. Each \code{GRangeList} contains \code{2 * vNbSample} 
+\code{GRanges} that hold for each CpG site: the position, the coverage 
 and the proportion of the C/T.
 
 A files treatment which contains the position of the CTRL and Case in 
 the GRangesList are 
 saved too. TODO Default: \code{TRUE}.}
 
-\item{saveMethylKit}{a \code{logical}, if \code{TRUE}, for each simulation, 
-save a file that contains a list of \code{methylRawList} 
-(each \code{methylRawList} corresponding to a generation) representing
+\item{saveMethylKit}{a \code{logical}, when \code{TRUE}, for each 
+simulation, 
+save a file that contains a list of \code{methylRawList} objects. Each
+ \code{methylRawList} corresponding to one generation. TODO representing
 the simulation.
 The file name is describe in the parameter \code{fileID},
 in this case the file name start with: methylObj
@@ -183,9 +186,9 @@ a list of normalised \code{mehylBase} and the second a list of
 the comparaison between case and control.
 The file name is describe in the parameter \code{fileID},
 in this case the file name start with: meth and methDiff
-Default: \code{FALSE}}
+Default: \code{FALSE}.}
 
-\item{nbCores}{a positive \code{integer}, the number of cores to use when
+\item{nbCores}{a positive \code{integer}, the number of cores used when
 creating the simulated datasets. Default: \code{1} and always 
 \code{1} for Windows.}
 
@@ -194,8 +197,8 @@ needed. When a value inferior or equal to zero is given, a random integer
 is used. Default: \code{-1}.}
 }
 \value{
-\code{0} indicating that all parameters validations have been
-successful
+\code{0} indicating that the function have been
+successful.
 }
 \description{
 Simulate a multigeneration methylation case versus control 
