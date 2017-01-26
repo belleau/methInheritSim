@@ -88,60 +88,62 @@ interpreted as the penetrance. Note that \code{vpDiff} and \code{vpDiffsd}
  must be the same length.
 Default: \code{c(0.9)}.}
 
-\item{vpDiffsd}{a \code{vector} of a non-negative \code{double}, the standard
-deviation associated to the \code{vpDiff}. Note vpDiff and vpDiffsd must be
-the same length.
-Default: \code{c(0.1)}}
+\item{vpDiffsd}{a \code{vector} of a non-negative \code{double}, the 
+standard deviation associated to the \code{vpDiff}. Note that 
+\code{vpDiff} and \code{vpDiffsd} must be the same length.
+Default: \code{c(0.1)}.}
 
-\item{vDiff}{a \code{vector} of distinct non-negative \code{double} include 
-in [0,1], the proportion of C/T for a case differentially methylated follow 
+\item{vDiff}{a \code{vector} of distinct non-negative \code{double} 
+included in [0,1], the proportion of C/T for a case differentially 
+methylated that follows 
 a beta distribution where the mean is shifted of \code{vDiff} 
-from the CTRL distribution
-Default: \code{c(0.8)}}
+from the CTRL distribution.
+Default: \code{c(0.8)}.}
 
 \item{vInheritance}{a \code{vector} of distinct non-negative \code{double} 
-include in [0,1], the proportion of cases 
-that inherited differentially sites.
-Default: \code{c(0.5)}}
+included in [0,1], the proportion of cases 
+that inherits differentially methylated sites.
+Default: \code{c(0.5)}.}
 
 \item{rateDiff}{a positive \code{double} inferior to \code{1}, the mean of 
 the chance that a site is differentially 
 methylated.
-Default: \code{0.01}}
+Default: \code{0.01}.}
 
 \item{minRate}{a non-negative \code{double} inferior to \code{1}, the 
 minimum rate for differentially methylated sites.
-Default: \code{0.01}}
+Default: \code{0.01}.}
 
 \item{propInherite}{a non-negative \code{double} inferior or equal 
 to \code{1}, 
-proportion of differentially methylated region
-are inherated
-Default: \code{0.3}}
+the proportion of differentially methylated regions that 
+are inherated.
+Default: \code{0.3}.}
 
 \item{propHetero}{a non-negative \code{double} between [0,1], the 
-reduction of vDiff for the second and following generations.
-Default: \code{0.5}}
+reduction of \code{vDiff} for the second and following generations.
+Default: \code{0.5}.}
 
-\item{minReads}{a positive \code{integer} Bases and regions having lower
+\item{minReads}{a positive \code{integer}, sites and regions having lower
 coverage than this count are discarded. The parameter
-correspond to the \code{lo.count} parameter in the \code{methylKit} package.
-Default: \code{10}}
+corresponds to the \code{lo.count} parameter in 
+the \code{methylKit} package.
+Default: \code{10}.}
 
 \item{maxPercReads}{a \code{double} between [0,100], the percentile of read
-counts that is going to be used as upper cutoff. Bases ore regions
+counts that is going to be used as upper cutoff. Sites and regions
 having higher
-coverage than this percentile are discarded. Parameter used for both CpG
-sites and tiles analysis. The parameter
-correspond to the \code{hi.perc} parameter in the  \code{methylKit} package.
-Default: \code{99.9}}
+coverage than \code{maxPercReads} are discarded. This parameter is used for 
+both CpG sites and tiles analysis. The parameter
+correspond to the \code{hi.perc} parameter in the \code{methylKit} package.
+Default: \code{99.9}.}
 
 \item{meanCov}{a positive \code{integer}, the mean of the coverage
-at the CpG sites.
-Default: \code{80}}
+at the simulated CpG sites.
+Default: \code{80}.}
 
 \item{context}{a string of \code{character}, the methylation context 
- one of the CpG,CpH,CHH, none. 
+one of the CpG,CpH,CHH, none. 
 Default: \code{"CpG"}.}
 
 \item{assembly}{a string of \code{character}, the short description of the 
