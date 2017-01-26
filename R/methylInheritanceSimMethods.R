@@ -1,17 +1,22 @@
 #' @title Simulate a multigeneration methylation experiment with inheritance 
 #' 
 #'
-#' @description Simulate a multigeneration methylation case-ctrl experiment 
-#' with inheritance relation using a real control dataset. The simulation can 
-#' be parametrized to fit different models. The proportion of the case affected 
+#' @description Simulate a multigeneration methylation case versus control 
+#' experiment 
+#' with inheritance relation using a real control dataset. 
+#' 
+#' The simulation can 
+#' be parametrized to fit different models. The number of cases and controls, 
+#' the proportion of the case affected 
 #' by the treatment (penetrance), the effect of the treatment on the mean of 
 #' the distribution, the proportion of sites inherited, the proportion of the 
-#' differentially methylated sites from the precedent generation inherited, etc.
-#' The package simulates a multigeneration dataset like a bisulfite sequencing 
-#' experiment. The simulation includes the information about control and case 
-#' for each generation.
+#' differentially methylated sites from the precedent generation inherited, 
+#' etc..
 #' 
-#'
+#' The function simulates a multigeneration dataset like a bisulfite 
+#' sequencing experiment. The simulation includes the information about 
+#' control and case for each generation.
+#' 
 #' @param outputDir a string of \code{character} or \code{NULL}, the path 
 #' where the 
 #' files created by the function will be saved. When \code{NULL}, the files
@@ -26,16 +31,17 @@
 #' \item a \code{fileID}
 #' \item the chromosome number, a number between 1 and \code{nbSynCHR}
 #' \item the number of samples, a number in the \code{vNbSample} \code{vector}
-#' \item the mean proportion of samples that will have,
+#' \item the mean proportion of samples that has,
 #' for a specific position, differentially methylated values, a 
 #' number in the \code{vpDiff} \code{vector}
 #' \item the proportion of 
-#' C/T for a case differentially methylated follow a shifted beta distribution, a
+#' C/T for a case differentially methylated that follows a shifted beta 
+#' distribution, a
 #' number in the \code{vDiff} \code{vector}
 #' \item the 
-#' proportion of cases that inherited differentially sites, a number in the
+#' proportion of cases that inherits differentially sites, a number in the
 #' \code{vInheritance} \code{vector}
-#' \item Id for the simulation, a number 
+#' \item the identifiant for the simulation, a number 
 #' between 1 and \code{nbSimulation}
 #' \item the file extension ".rds"
 #' }
@@ -45,127 +51,131 @@
 #' chromosomes that will be generated. Default: \code{1}.
 #'
 #' @param methData an object of class \code{methylBase}, the CpG information
-#' from controls (CTRL) that will be used to create the sythetic chromosome. 
+#' from controls (CTRL) that will be used to create the synthetic chromosome. 
 #' The \code{methData} object can also contain information from cases but 
-#' only the controls will be used.
+#' only the controls are used.
 #' 
 #' @param nbSimulation a positive \code{integer}, the number of simulations 
+#' generated 
 #' for each parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
 #' \code{vInheritance}). 
-#' The number total of simulation is 
+#' The total number of simulation is 
 #' nbSimulation * \code{length(vNbSample)} * \code{length(vpDiff)} *
 #' \code{length(vInheritance)})
-#' Default: \code{10}
+#' Default: \code{10}.
 #'
 #' @param nbBlock a positive \code{integer}, the number of blocks used 
 #' for sampling.
-#' Default: \code{100}
+#' Default: \code{100}.
 #'
 #' @param nbCpG a positive \code{integer}, the number of consecutive CpG 
 #' positions used for sampling from \code{methInfo}.
-#' Default: \code{50}
+#' Default: \code{50}.
 #'
 #' @param nbGeneration a positive \code{integer}, the number of generations
-#' simulate.
-#' Default: \code{3}
+#' simulated.
+#' Default: \code{3}.
 #'
 #' @param vNbSample a \code{vector} of distinct positive \code{integer}, 
 #' the number of controls (CTRL) and cases in the simulated dataset. In 
 #' the simulated dataset, the number of CTRL equals the number of cases. 
 #' The number of CTRL do not need to be equal to the number of Case in
-#' the real dataset \code{methData}.
-#' Default: \code{c(3, 6)}
+#' the real \code{methData} dataset.
+#' Default: \code{c(3, 6)}.
 #'
-#' @param vpDiff a \code{vector} of distinct \code{double} superior to \code{0} 
-#' and inferior or equal 
+#' @param vpDiff a \code{vector} of distinct \code{double} superior to 
+#' \code{0} and inferior or equal 
 #' to \code{1}, the mean value for the proportion of samples that will have,
 #' for a specific position, differentially methylated values. It can be 
-#' interpreted as the penetrance. Note vpDiff and vpDiffsd must be
-#' the same length.
-#' Default: \code{c(0.9)}
+#' interpreted as the penetrance. Note that \code{vpDiff} and \code{vpDiffsd}
+#'  must be the same length.
+#' Default: \code{c(0.9)}.
 #' 
-#' @param vpDiffsd a \code{vector} of a non-negative \code{double}, the standard
-#' deviation associated to the \code{vpDiff}. Note vpDiff and vpDiffsd must be
-#' the same length.
-#' Default: \code{c(0.1)}
+#' @param vpDiffsd a \code{vector} of a non-negative \code{double}, the 
+#' standard deviation associated to the \code{vpDiff}. Note that 
+#' \code{vpDiff} and \code{vpDiffsd} must be the same length.
+#' Default: \code{c(0.1)}.
 #'
-#' @param vDiff a \code{vector} of distinct non-negative \code{double} include 
-#' in [0,1], the proportion of C/T for a case differentially methylated follow 
+#' @param vDiff a \code{vector} of distinct non-negative \code{double} 
+#' included in [0,1], the proportion of C/T for a case differentially 
+#' methylated that follows 
 #' a beta distribution where the mean is shifted of \code{vDiff} 
-#' from the CTRL distribution
-#' Default: \code{c(0.8)}
+#' from the CTRL distribution.
+#' Default: \code{c(0.8)}.
 #'
 #' @param vInheritance a \code{vector} of distinct non-negative \code{double} 
-#' include in [0,1], the proportion of cases 
-#' that inherited differentially sites.
-#' Default: \code{c(0.5)}
+#' included in [0,1], the proportion of cases 
+#' that inherits differentially methylated sites.
+#' Default: \code{c(0.5)}.
 #' 
 #' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
 #' the chance that a site is differentially 
 #' methylated.
-#' Default: \code{0.01}
+#' Default: \code{0.01}.
 #'
 #' @param minRate a non-negative \code{double} inferior to \code{1}, the 
 #' minimum rate for differentially methylated sites.
-#' Default: \code{0.01}
+#' Default: \code{0.01}.
 #'
 #' @param propInherite a non-negative \code{double} inferior or equal 
 #' to \code{1}, 
-#' proportion of differentially methylated region
-#' are inherated
-#' Default: \code{0.3}
+#' the proportion of differentially methylated regions that 
+#' are inherated.
+#' Default: \code{0.3}.
 #'
 #' @param propHetero a non-negative \code{double} between [0,1], the 
-#' reduction of vDiff for the second and following generations.
-#' Default: \code{0.5}
+#' reduction of \code{vDiff} for the second and following generations.
+#' Default: \code{0.5}.
 #' 
-#' @param minReads a positive \code{integer} Bases and regions having lower
+#' @param minReads a positive \code{integer}, sites and regions having lower
 #' coverage than this count are discarded. The parameter
-#' correspond to the \code{lo.count} parameter in the \code{methylKit} package.
-#' Default: \code{10}
+#' corresponds to the \code{lo.count} parameter in 
+#' the \code{methylKit} package.
+#' Default: \code{10}.
 #' 
 #' @param maxPercReads a \code{double} between [0,100], the percentile of read
-#' counts that is going to be used as upper cutoff. Bases ore regions
+#' counts that is going to be used as upper cutoff. Sites and regions
 #' having higher
-#' coverage than this percentile are discarded. Parameter used for both CpG
-#' sites and tiles analysis. The parameter
-#' correspond to the \code{hi.perc} parameter in the  \code{methylKit} package.
-#' Default: \code{99.9}
-#' 
+#' coverage than \code{maxPercReads} are discarded. This parameter is used for 
+#' both CpG sites and tiles analysis. The parameter
+#' correspond to the \code{hi.perc} parameter in the \code{methylKit} package.
+#' Default: \code{99.9}.
 #' 
 #' @param meanCov a positive \code{integer}, the mean of the coverage
-#' at the CpG sites.
-#' Default: \code{80}
+#' at the simulated CpG sites.
+#' Default: \code{80}.
 #' 
-#' 
-#' @param context a string of \code{character}, the methylation context 
-#'  one of the CpG,CpH,CHH, none. 
+#' @param context a string of \code{character}, the short description of the 
+#' methylation context, such as "CpG", "CpH", "CHH", etc.. 
 #' Default: \code{"CpG"}.
 #' 
 #' @param assembly a string of \code{character}, the short description of the 
-#' genome assembly. Ex: "mm9", "hg18", etc.
-#' Default: \code{"Rnor_5.0"}
+#' genome assembly, such as "mm9", "hg18", etc..
+#' Default: \code{"Rnor_5.0"}.
 #' 
-#' @param keepDiff a \code{logical}, if \code{TRUE}, the 
-#' differentially methyled sites
-#' will be the same for each parameter (\code{vpDiff}, 
-#' \code{vDiff} and \code{vInheritance}).
-#' Default: \code{FALSE}
+#' @param keepDiff a \code{logical}, when \code{TRUE}, the 
+#' differentially methylated sites
+#' will be the same for all simulated datasets. Datasets generated using 
+#' differents parameter values from vector parameters (\code{vpDiff}, 
+#' \code{vDiff} and \code{vInheritance}) wil all have the same differentially
+#' methylated sites.
+#' Default: \code{FALSE}.
 #' 
-#' @param saveGRanges a \code{logical}, if \code{true}, for each simulation, 
-#' save a file that contains a 
-#' \code{list} of \code{GRangesList} (each \code{GRangesList} corresponding to 
-#' a generation). Each \code{GRangeList} contain \code{2 * vNbSample} 
-#' \code{GRanges} that contains for each CpG site: the position, the coverage 
+#' @param saveGRanges a \code{logical}, when \code{true}, for each simulation, 
+#' save two types of file. The first type is a file that contains a 
+#' \code{list} of \code{GRangesList}. Each \code{GRangesList} corresponds to 
+#' a generation. Each \code{GRangeList} contains \code{2 * vNbSample} 
+#' \code{GRanges} that hold for each CpG site: the position, the coverage 
 #' and the proportion of the C/T.
 #' 
 #' A files treatment which contains the position of the CTRL and Case in 
 #' the GRangesList are 
 #' saved too. TODO Default: \code{TRUE}.
 #' 
-#' @param saveMethylKit a \code{logical}, if \code{TRUE}, for each simulation, 
-#' save a file that contains a list of \code{methylRawList} 
-#' (each \code{methylRawList} corresponding to a generation) representing
+#' @param saveMethylKit a \code{logical}, when \code{TRUE}, for each 
+#' simulation, 
+#' save a file that contains a list of \code{methylRawList} objects. Each
+#'  \code{methylRawList} corresponding to one generation. TODO representing
 #' the simulation.
 #' The file name is describe in the parameter \code{fileID},
 #' in this case the file name start with: methylObj
@@ -179,9 +189,9 @@
 #' the comparaison between case and control.
 #' The file name is describe in the parameter \code{fileID},
 #' in this case the file name start with: meth and methDiff
-#' Default: \code{FALSE}
+#' Default: \code{FALSE}.
 #' 
-#' @param nbCores a positive \code{integer}, the number of cores to use when
+#' @param nbCores a positive \code{integer}, the number of cores used when
 #' creating the simulated datasets. Default: \code{1} and always 
 #' \code{1} for Windows.
 #' 
@@ -189,15 +199,21 @@
 #' needed. When a value inferior or equal to zero is given, a random integer
 #' is used. Default: \code{-1}.
 #'
-#' @return TODO
-#'
+#' @return \code{0} indicating that the function have been
+#' successful.
+#' 
 #' @examples
 #'
-#' ## TODO outputDir where to write file ?
-#' ## Load methyl information
+#' ## Load dataset containing methyl information
 #' data(samplesForChrSynthetic)
+#' 
+#' ## Set the output directory where files will be created
 #' temp_dir <- "test_runSim"
 #' 
+#' ## Create 2 simulated dataset (nbSimulation) 
+#' ## over 3 generations (nbGenration = 3) with
+#' ## 6 cases and 6 controls (nNbsample = 6) using only one set
+#' ## of parameters (vpDiff = 0.9, vpDiffsd = 0.1, vDiff = 0.8)
 #' \dontrun{runSim(outputDir = temp_dir, fileID = "F1", nbSynCHR = 1, 
 #' methData = samplesForChrSynthetic, nbSimulation = 2, 
 #' nbBlock = 10, nbCpG = 20,
@@ -207,6 +223,7 @@
 #' rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, 
 #' nbCores = 1, vSeed = 32)}
 #' 
+#' ## To delete the output directory and its content
 #' \dontrun{if (dir.exists(temp_dir)) {
 #' unlink(temp_dir, recursive = TRUE, force = FALSE)
 #' }}
@@ -214,7 +231,8 @@
 #' @author Pascal Belleau
 #' @importFrom parallel mclapply
 #' @export
-runSim <- function(outputDir = NULL, fileID = "s", nbSynCHR = 1, methData, 
+runSim <- function(outputDir = NULL, fileID = "s", 
+                    nbSynCHR = 1, methData, 
                     nbSimulation = 10, nbBlock = 100, nbCpG = 50,
                     nbGeneration = 3, vNbSample = c(3, 6), vpDiff = c(0.9), 
                     vpDiffsd = c(0.1), vDiff = c(0.8), 
