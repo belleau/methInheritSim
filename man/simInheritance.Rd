@@ -5,8 +5,8 @@
 \title{TODO}
 \usage{
 simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
-  generation, stateInfo, rateDiff, minRate, propInherite, diffValue, propDiff,
-  propDiffsd, propInheritance, propHetero, minReads = 10,
+  generation, stateInfo, propDiff, propDiffsd, diffValue, propInheritance,
+  rateDiff, minRate, propInherite, propHetero, minReads = 10,
   maxPercReads = 99.9, context = "CpG", assembly = "Rnor_5.0",
   meanCov = 80, diffRes = NULL, saveGRanges = TRUE,
   saveMethylKit = TRUE, runAnalysis = TRUE)
@@ -30,19 +30,19 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 
 \item{stateInfo}{TODO}
 
+\item{propDiff}{TODO}
+
+\item{propDiffsd}{TODO}
+
+\item{diffValue}{TODO}
+
+\item{propInheritance}{TODO}
+
 \item{rateDiff}{TODO}
 
 \item{minRate}{TODO}
 
 \item{propInherite}{TODO}
-
-\item{diffValue}{TODO}
-
-\item{propDiff}{TODO}
-
-\item{propDiffsd}{TODO}
-
-\item{propInheritance}{TODO}
 
 \item{propHetero}{TODO}
 
@@ -72,7 +72,29 @@ TODO
 }
 \examples{
 
-## TODO
+temp_dir <- "test_simInheritance"
+data(dataSimExample)
+
+\dontrun{methylInheritanceSim:::simInheritance(pathOut = temp_dir,
+pref = paste0("S1_", "6_0.9_0.8_0.5"),
+k = 1, nbCtrl = 6, nbCase = 6, 
+treatment = dataSimExample$treatment, 
+sample.id = dataSimExample$sample.id,
+generation = 3, 
+stateInfo = dataSimExample$stateInfo,
+propDiff = 0.9, propDiffsd = 0.1,
+diffValue = 0.8,
+propInheritance = 0.5,
+rateDiff = 0.3, minRate = 0.3,
+propInherite = 0.3, 
+propHetero = 0.5,
+runAnalysis = FALSE
+)}
+
+## Delete temp_dir
+\dontrun{if (dir.exists(temp_dir)) {
+unlink(temp_dir, recursive = TRUE, force = FALSE)
+}}
 
 }
 \author{
