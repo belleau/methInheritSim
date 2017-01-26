@@ -1,17 +1,22 @@
 #' @title Simulate a multigeneration methylation experiment with inheritance 
 #' 
 #'
-#' @description Simulate a multigeneration methylation case-ctrl experiment 
-#' with inheritance relation using a real control dataset. The simulation can 
-#' be parametrized to fit different models. The proportion of the case affected 
+#' @description Simulate a multigeneration methylation case versus control 
+#' experiment 
+#' with inheritance relation using a real control dataset. 
+#' 
+#' The simulation can 
+#' be parametrized to fit different models. The number of cases and controls, 
+#' the proportion of the case affected 
 #' by the treatment (penetrance), the effect of the treatment on the mean of 
 #' the distribution, the proportion of sites inherited, the proportion of the 
-#' differentially methylated sites from the precedent generation inherited, etc.
-#' The package simulates a multigeneration dataset like a bisulfite sequencing 
-#' experiment. The simulation includes the information about control and case 
-#' for each generation.
+#' differentially methylated sites from the precedent generation inherited, 
+#' etc..
 #' 
-#'
+#' The function simulates a multigeneration dataset like a bisulfite 
+#' sequencing experiment. The simulation includes the information about 
+#' control and case for each generation.
+#' 
 #' @param outputDir a string of \code{character} or \code{NULL}, the path 
 #' where the 
 #' files created by the function will be saved. When \code{NULL}, the files
@@ -26,16 +31,17 @@
 #' \item a \code{fileID}
 #' \item the chromosome number, a number between 1 and \code{nbSynCHR}
 #' \item the number of samples, a number in the \code{vNbSample} \code{vector}
-#' \item the mean proportion of samples that will have,
+#' \item the mean proportion of samples that has,
 #' for a specific position, differentially methylated values, a 
 #' number in the \code{vpDiff} \code{vector}
 #' \item the proportion of 
-#' C/T for a case differentially methylated follow a shifted beta distribution, a
+#' C/T for a case differentially methylated that follows a shifted beta 
+#' distribution, a
 #' number in the \code{vDiff} \code{vector}
 #' \item the 
-#' proportion of cases that inherited differentially sites, a number in the
+#' proportion of cases that inherits differentially sites, a number in the
 #' \code{vInheritance} \code{vector}
-#' \item Id for the simulation, a number 
+#' \item the identifiant for the simulation, a number 
 #' between 1 and \code{nbSimulation}
 #' \item the file extension ".rds"
 #' }
@@ -45,44 +51,45 @@
 #' chromosomes that will be generated. Default: \code{1}.
 #'
 #' @param methData an object of class \code{methylBase}, the CpG information
-#' from controls (CTRL) that will be used to create the sythetic chromosome. 
+#' from controls (CTRL) that will be used to create the synthetic chromosome. 
 #' The \code{methData} object can also contain information from cases but 
-#' only the controls will be used.
+#' only the controls are used.
 #' 
 #' @param nbSimulation a positive \code{integer}, the number of simulations 
+#' generated 
 #' for each parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
 #' \code{vInheritance}). 
-#' The number total of simulation is 
+#' The total number of simulation is 
 #' nbSimulation * \code{length(vNbSample)} * \code{length(vpDiff)} *
 #' \code{length(vInheritance)})
-#' Default: \code{10}
+#' Default: \code{10}.
 #'
 #' @param nbBlock a positive \code{integer}, the number of blocks used 
 #' for sampling.
-#' Default: \code{100}
+#' Default: \code{100}.
 #'
 #' @param nbCpG a positive \code{integer}, the number of consecutive CpG 
 #' positions used for sampling from \code{methInfo}.
-#' Default: \code{50}
+#' Default: \code{50}.
 #'
 #' @param nbGeneration a positive \code{integer}, the number of generations
-#' simulate.
-#' Default: \code{3}
+#' simulated.
+#' Default: \code{3}.
 #'
 #' @param vNbSample a \code{vector} of distinct positive \code{integer}, 
 #' the number of controls (CTRL) and cases in the simulated dataset. In 
 #' the simulated dataset, the number of CTRL equals the number of cases. 
 #' The number of CTRL do not need to be equal to the number of Case in
-#' the real dataset \code{methData}.
-#' Default: \code{c(3, 6)}
+#' the real \code{methData} dataset.
+#' Default: \code{c(3, 6)}.
 #'
-#' @param vpDiff a \code{vector} of distinct \code{double} superior to \code{0} 
-#' and inferior or equal 
+#' @param vpDiff a \code{vector} of distinct \code{double} superior to 
+#' \code{0} and inferior or equal 
 #' to \code{1}, the mean value for the proportion of samples that will have,
 #' for a specific position, differentially methylated values. It can be 
-#' interpreted as the penetrance. Note vpDiff and vpDiffsd must be
-#' the same length.
-#' Default: \code{c(0.9)}
+#' interpreted as the penetrance. Note that \code{vpDiff} and \code{vpDiffsd}
+#'  must be the same length.
+#' Default: \code{c(0.9)}.
 #' 
 #' @param vpDiffsd a \code{vector} of a non-negative \code{double}, the standard
 #' deviation associated to the \code{vpDiff}. Note vpDiff and vpDiffsd must be
@@ -189,15 +196,21 @@
 #' needed. When a value inferior or equal to zero is given, a random integer
 #' is used. Default: \code{-1}.
 #'
-#' @return TODO
-#'
+#' @return \code{0} indicating that all parameters validations have been
+#' successful
+#' 
 #' @examples
 #'
-#' ## TODO outputDir where to write file ?
-#' ## Load methyl information
+#' ## Load dataset containing methyl information
 #' data(samplesForChrSynthetic)
+#' 
+#' ## Set the output directory where files will be created
 #' temp_dir <- "test_runSim"
 #' 
+#' ## Create 2 simulated dataset (nbSimulation) 
+#' ## over 3 generations (nbGenration = 3) with
+#' ## 6 cases and 6 controls (nNbsample = 6) using only one set
+#' ## of parameters (vpDiff = 0.9, vpDiffsd = 0.1, vDiff = 0.8)
 #' \dontrun{runSim(outputDir = temp_dir, fileID = "F1", nbSynCHR = 1, 
 #' methData = samplesForChrSynthetic, nbSimulation = 2, 
 #' nbBlock = 10, nbCpG = 20,
@@ -207,6 +220,7 @@
 #' rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, 
 #' nbCores = 1, vSeed = 32)}
 #' 
+#' ## To delete the output directory and its content
 #' \dontrun{if (dir.exists(temp_dir)) {
 #' unlink(temp_dir, recursive = TRUE, force = FALSE)
 #' }}
@@ -214,7 +228,8 @@
 #' @author Pascal Belleau
 #' @importFrom parallel mclapply
 #' @export
-runSim <- function(outputDir = NULL, fileID = "s", nbSynCHR = 1, methData, 
+runSim <- function(outputDir = NULL, fileID = "s", 
+                    nbSynCHR = 1, methData, 
                     nbSimulation = 10, nbBlock = 100, nbCpG = 50,
                     nbGeneration = 3, vNbSample = c(3, 6), vpDiff = c(0.9), 
                     vpDiffsd = c(0.1), vDiff = c(0.8), 
