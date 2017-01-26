@@ -1,7 +1,15 @@
 #' @title Simulate a multigeneration methylation experiment with inheritance 
-#' TODO review title
+#' 
 #'
-#' @description TODO
+#' @description Simulate a multigeneration methylation experiment with 
+#' inheritance from a CTRL dataset. The simulation can be parametrize to fit 
+#' the model. The proportion of the case affected by the treatment, the effect 
+#' of the treatment on the mean of the distribution, the proportion of sites 
+#' inherited, the proportion of the differentially methilated sites from the 
+#' precedent generation are inherited, etc. The package generate a 
+#' multigeneration dataset with the information about control and case for 
+#' each generation.
+#' 
 #'
 #' @param outputDir a string of \code{character} or \code{NULL}, the path 
 #' where the 

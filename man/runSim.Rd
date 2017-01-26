@@ -2,8 +2,7 @@
 % Please edit documentation in R/methylInheritanceSimMethods.R
 \name{runSim}
 \alias{runSim}
-\title{Simulate a multigeneration methylation experiment with inheritance 
-TODO review title}
+\title{Simulate a multigeneration methylation experiment with inheritance}
 \usage{
 runSim(outputDir = NULL, fileID = "s", nbSynCHR = 1, methData,
   nbSimulation = 10, nbBlock = 100, nbCpG = 50, nbGeneration = 3,
@@ -246,7 +245,14 @@ is used. Default: \code{-1}.}
 TODO
 }
 \description{
-TODO
+Simulate a multigeneration methylation experiment with 
+inheritance from a CTRL dataset. The simulation can be parametrize to fit 
+the model. The proportion of the case affected by the treatment, the effect 
+of the treatment on the mean of the distribution, the proportion of sites 
+inherited, the proportion of the differentially methilated sites from the 
+precedent generation are inherited, etc. The package generate a 
+multigeneration dataset with the information about control and case for 
+each generation.
 }
 \examples{
 
