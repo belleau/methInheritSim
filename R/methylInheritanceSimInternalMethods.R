@@ -331,7 +331,7 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
     
     res <- GRangesList()
     
-    if(propDiffsd < 0.0000001){
+    if (propDiffsd < 0.0000001) {
         diffCase <- round(nbCase * inR)
     } else{
         diffCase <- round(nbCase * rtnorm(1, mean = inR, sd = propDiffsd, 
@@ -391,17 +391,25 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
     return(res)
 }
 
-#' @title TODO
+#' @title Identify differentially methylated sites and among those, the ones
+#' that are inherited.
 #'
-#' @description Identify the pos where the case are Diff meth and which one are heritable
+#' @description Identify the site positions where the cases are differentially 
+#' methylated and, among those, the one that are inherited.
 #'
 #' @param stateInfo TODO
 #'
-#' @param rateDiff
+#' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
+#' the chance that a site is differentially 
+#' methylated.
 #'
-#' @param minRate
+#' @param minRate a non-negative \code{double} inferior to \code{1}, the 
+#' minimum rate for differentially methylated sites.
 #'
-#' @param propInherite
+#' @param propInherite a non-negative \code{double} inferior or equal 
+#' to \code{1}, 
+#' the proportion of differentially methylated regions that 
+#' are inherated.
 #'
 #' @param c a \code{double}, TODO Default: \code{1.0}.
 #'
@@ -425,17 +433,18 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #' }
 #'
 #' @examples
-#'
-#' ## TODO
 #' 
-#' ## Load dataset containing TODO
+#' ## Load dataset containing a list of objects used by 
+#' ## methylInheritanceSim internal functions
 #' data(dataSimExample)
 #' 
+#' ## Identify differentially methylated sites and among those, the ones
+#' ## that are inherited
 #' diffRes <- methylInheritanceSim:::getDiffMeth(stateInfo = 
 #' dataSimExample$stateInfo, rateDiff = 0.3, minRate = 0.3,
 #' propInherite = 0.3)
 #' 
-#' @author Pascal Belleau
+#' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom BiocGenerics start
 #' @importFrom stats rbeta rexp runif rpois
 #' @keywords internal
@@ -446,7 +455,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
     nbTry <- 1
     flag  <-  TRUE
     
-    while(nbTry < 1000 & flag) {
+    while (nbTry < 1000 & flag) {
         stateDiff <- rep(0, nbPos)
         stateInherite <- rep(0, nbPos)
         vExp <- rexp(nbPos, rateDiff)

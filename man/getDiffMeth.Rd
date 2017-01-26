@@ -2,7 +2,8 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{getDiffMeth}
 \alias{getDiffMeth}
-\title{TODO}
+\title{Identify differentially methylated sites and among those, the ones
+that are inherited.}
 \usage{
 getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 1, b = -0.1,
   endLength = 1000)
@@ -10,11 +11,17 @@ getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 1, b = -0.1,
 \arguments{
 \item{stateInfo}{TODO}
 
-\item{rateDiff}{}
+\item{rateDiff}{a positive \code{double} inferior to \code{1}, the mean of 
+the chance that a site is differentially 
+methylated.}
 
-\item{minRate}{}
+\item{minRate}{a non-negative \code{double} inferior to \code{1}, the 
+minimum rate for differentially methylated sites.}
 
-\item{propInherite}{}
+\item{propInherite}{a non-negative \code{double} inferior or equal 
+to \code{1}, 
+the proportion of differentially methylated regions that 
+are inherated.}
 
 \item{c}{a \code{double}, TODO Default: \code{1.0}.}
 
@@ -39,22 +46,24 @@ inherited.
 }
 }
 \description{
-Identify the pos where the case are Diff meth and which one are heritable
+Identify the site positions where the cases are differentially 
+methylated and, among those, the one that are inherited.
 }
 \examples{
 
-## TODO
-
-## Load dataset containing TODO
+## Load dataset containing a list of objects used by 
+## methylInheritanceSim internal functions
 data(dataSimExample)
 
+## Identify differentially methylated sites and among those, the ones
+## that are inherited
 diffRes <- methylInheritanceSim:::getDiffMeth(stateInfo = 
 dataSimExample$stateInfo, rateDiff = 0.3, minRate = 0.3,
 propInherite = 0.3)
 
 }
 \author{
-Pascal Belleau
+Pascal Belleau, Astrid Deschenes
 }
 \keyword{internal}
 
