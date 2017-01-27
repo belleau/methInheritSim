@@ -288,9 +288,10 @@ the `r Rpackage("methylKit")` functions calculateDiffMeth on the first file.
 
 # Conclusion
 
-The **methylInheritanceSim** package generates simulated multigenerational 
-DMS datasets. Several simulator parameters can be derived from real dataset 
-provided by the user in order to replicate realistic case-control scenarios. 
+The `r Rpackage("methylInheritanceSim")` package generates simulated 
+multigenerational DMS datasets. Several simulator parameters can be derived 
+from real dataset provided by the user in order to replicate realistic 
+case-control scenarios. 
 
 The results of a simulation could be analysed, using the 
 `r Rpackage("methylInheritance")` package, to evaluate the power and the 
