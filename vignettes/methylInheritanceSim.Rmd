@@ -107,8 +107,12 @@ The propHetero is 0.5 if one of the parent are control
 
 ## The dataset
 
-A dataset containing methylation data (6 cases and 6 controls) has been generated using the 
-`r Rpackage("methylInheritanceSim")` package and a real dataset from Rat experiment (the real dataset is not public yet so we used a simulation based on it). the data have been formated with the `r Rpackage("methylkit")` package in methylBase oject (with  the methylKit functions: filterByCoverage, normalizeCoverage and unite)
+A dataset containing methylation data (6 cases and 6 controls) has been 
+generated using the `r Rpackage("methylInheritanceSim")` package and a real 
+dataset from Rat experiment (the real dataset is not public yet so we used a 
+simulation based on it). the data have been formated with 
+the `r Rpackage("methylkit")` package in methylBase oject (with the methylKit
+functions: filterByCoverage, normalizeCoverage and unite)
 
 
 ```{r caseStudy01, warning=FALSE, message=FALSE, collapse=TRUE}
@@ -146,7 +150,7 @@ runSim(outputDir = temp_dir,
         rateDiff = 0.3, # The mean frequency of the differentially 
                         # methylated region 
         minRate = 0.2, propHetero = 0.5, 
-        nbCores = 1, vSeed = 32)
+        runAnalysis = TRUE, nbCores = 1, vSeed = 32)
         
         # The files generated
         dir(temp_dir)
@@ -200,15 +204,35 @@ indicates, using a 1, the positions where the CpG values are
 inherited.
 
 The package generate a list of file depending of the parameters :
-saveGRanges, saveMethylKit and, anaMethylKit. 
+saveGRanges, saveMethylKit and, runAnalysis. 
 
-If saveGRanges parameters is TRUE, for each simulations 
+When saveGRanges parameters is TRUE, the package save two files type. 
+The first generate for each simulation contains a list. The length of the list 
+corresponds to the number of generation. The generation are stored in order 
+(first entry = first generation, second entry = second generation, etc..). 
+All samples related to one generations are contained in a GRangesList. 
+The GRangeaList store a list of GRangea. Each GRanges stores the raw 
+mehylation data of one sample
+The second file a numeric vector denoting controls and cases (a file is 
+generates by entry in the vector parameters vNbSample).
 
-TODO prendre la description des fichiers dans runSim
+When saveMethylKit is TRUE, for each simulations save a files contains a list.
+The length of the list corresponds to the number of generation. The generation are stored in order (first entry = first generation, second entry = second generation, etc..). All samples related to one generations are contained in a S4 methylRawList object. The methylRawList object contains two Slots:
+1- treatment: a numeric vector denoting controls and cases.
+2- .Data: a list of methylRaw objects. Each object stores the raw mehylation 
+data of one sample.
 
-The results could analyse with a package like `r Rpackage("methylInheritance")`
+When runAnalysis is TRUE, for each simulations save two files
+The first file is the methylObj... file formated with 
+the `r Rpackage("methylkit")` package in a S4 methylBase oject (with the methylKit
+functions: filterByCoverage, normalizeCoverage and unite).
+The second file is a S4 calculateDiffMeth oject generate with the methylKit 
+functions calculateDiffMeth on the first file.
+
+
+The results of the simulation could be analysed with a package like `r Rpackage("methylInheritance")`
 to evaluate the power and the false discovery rate 
-of experiment design.
+of an experiment design.
 
 
 
