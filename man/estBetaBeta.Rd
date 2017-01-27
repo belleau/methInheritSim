@@ -2,7 +2,7 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{estBetaBeta}
 \alias{estBetaBeta}
-\title{Estimate the beta paramater of a beta distribution}
+\title{Estimate the beta parameter of a beta distribution}
 \usage{
 estBetaBeta(valCtrl, minVal = 1e-06)
 }
@@ -21,7 +21,7 @@ Default: \code{1e-06}.}
 a \code{double}, the beta parameter of a Beta distribution.
 }
 \description{
-Estimate the beta paramater from the mean and the variance
+Estimate the beta parameter from the mean and the variance
 of a beta distribution.
 }
 \examples{

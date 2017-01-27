@@ -2,19 +2,26 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{getDiffMeth}
 \alias{getDiffMeth}
-\title{TODO}
+\title{Identify differentially methylated sites and among those, the ones
+that are inherited.}
 \usage{
 getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 1, b = -0.1,
   endLength = 1000)
 }
 \arguments{
-\item{stateInfo}{}
+\item{stateInfo}{TODO}
 
-\item{rateDiff}{}
+\item{rateDiff}{a positive \code{double} inferior to \code{1}, the mean of 
+the chance that a site is differentially 
+methylated.}
 
-\item{minRate}{}
+\item{minRate}{a non-negative \code{double} inferior to \code{1}, the 
+minimum rate for differentially methylated sites.}
 
-\item{propInherite}{}
+\item{propInherite}{a non-negative \code{double} inferior or equal 
+to \code{1}, 
+the proportion of differentially methylated regions that 
+are inherated.}
 
 \item{c}{a \code{double}, TODO Default: \code{1.0}.}
 
@@ -23,32 +30,40 @@ getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 1, b = -0.1,
 \item{endLength}{TODO . Default: \code{1000}.}
 }
 \value{
-a \code{list} containing the following elements:
+a \code{list} containing the 2 following elements:
 \itemize{
-\item \code{stateDiff} a \code{vector} TODO. The length of the 
-\code{vector} corresponds to the length of 
-the \code{stateInfo} parameter.
-\item \code{stateDiff} a \code{vector} TODO. The length of the 
-\code{vector} corresponds to the length of 
-the \code{stateInfo} parameter.
+\item \code{stateDiff} a \code{vector} of \code{integer} (\code{0} 
+and \code{1}) with length corresponding the length of \code{stateInfo}.
+The \code{vector}
+indicates, using \code{1}, the positions where the CpG sites are
+differentially methylated.
+\item \code{stateInherite} a \code{vector} of \code{integer} (\code{0} and 
+\code{1})
+with length corresponding the length of \code{stateInfo}. The 
+\code{vector}
+indicates, using \code{1}, the positions where the CpG values are
+inherited.
 }
 }
 \description{
-Identify the pos where the case are Diff meth and which one are heritable
+Identify the site positions where the cases are differentially 
+methylated and, among those, the one that are inherited.
 }
 \examples{
 
-## TODO
-
+## Load dataset containing a list of objects used by 
+## methylInheritanceSim internal functions
 data(dataSimExample)
 
-diffRes <- methylInheritanceSim:::getDiffMeth(stateInfo = dataSimExample$stateInfo,
-rateDiff = 0.3, minRate = 0.3,
+## Identify differentially methylated sites and among those, the ones
+## that are inherited
+diffRes <- methylInheritanceSim:::getDiffMeth(stateInfo = 
+dataSimExample$stateInfo, rateDiff = 0.3, minRate = 0.3,
 propInherite = 0.3)
 
 }
 \author{
-Pascal Belleau
+Pascal Belleau, Astrid Deschenes
 }
 \keyword{internal}
 

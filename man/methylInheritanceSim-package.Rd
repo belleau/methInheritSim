@@ -2,8 +2,8 @@
 % Please edit documentation in R/methylInheritanceSim.R
 \docType{package}
 \name{methylInheritanceSim-package}
+\alias{methylInheritanceSim}
 \alias{methylInheritanceSim-package}
-\alias{methylPed}
 \title{methylInheritanceSim: Simulation TODO}
 \description{
 This package does a simulation of multigeneration of bisulfite data
