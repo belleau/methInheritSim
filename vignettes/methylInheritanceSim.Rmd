@@ -1,11 +1,11 @@
 ---
-title: "Whole-Genome Inherited Bisulphite Sequencing Data Simulation"
-author: Pascal Belleau, Astrid Deschenes and Arnaud Droit 
+title: "Simulating Whole-Genome Inherited Bisulphite Sequencing Data"
+author: Pascal Belleau, Astrid Deschênes and Arnaud Droit 
 output:
   BiocStyle::html_document:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{TODO}
+  %\VignetteIndexEntry{Simulating Whole-Genome Inherited Bisulphite Sequencing Data}
   %\VignettePackage{methylInheritanceSim}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
@@ -31,7 +31,6 @@ The **methylInheritanceSim** package and the underlying
 are distributed under the Artistic license 2.0. You are free to use and 
 redistribute this software. 
 
-# Introduction
 
 # Introduction
 
@@ -41,22 +40,29 @@ detection of differentially methylated elements (DME), commonly sites (DMS) or
 regions (DMR). The analysis of treatment effects on DNA methylation, from 
 one generation to the next (inter-generational) and across generations that 
 were not exposed to the initial environment (trans-generational) represent 
-complex designs. There are two main approaches to study the methylation inheritance, the first 
+complex designs. There are two main approaches to study the methylation 
+inheritance, the first 
 is based on segregation in pedigree while the second uses the intersection 
-between the DME of each generation (useful when pedigree is unknown). The power 
-and the false positve rate of this type of design are relatively hard to 
-evaluate.
+between the DME of each generation (useful when pedigree is unknown). The 
+power and the false positve rate of those types of design are relatively 
+hard to evaluate.
 
-We present a package simulating the methylation inheritance. Using real 
-datasets, the method generates a synthetic chromosome by sampling regions. Two 
-different distributions are used to simulate the methylation level at each CpG 
-site: one for the DMS and one for all the other sites. The second distribution 
-takes advantage of parameters estimated using control datasets. The package also
-offers the option to select the proportion of sites randomly selected as DMS, 
-as well as, the fraction of the cases that inherited the DMS in the subsequent 
-generations. It could be used to evaluate the power and the false discovery rate 
-of experiment design analyse by a package like the 
-`r Rpackage("methylInheritance")` package.
+We present a package that simulates the methylation inheritance. Using real 
+datasets, the package generates a synthetic chromosome by sampling regions. 
+Two different distributions are used to simulate the methylation level at 
+each CpG site: one for the DMS and one for all the other sites. The second 
+distribution takes advantage of parameters estimated using the control 
+datasets. The package also
+offers the option to select the proportion of sites randomly fixed as DMS, 
+as well as, the fraction of the cases that inherited the DMS in the 
+subsequent generations. 
+
+The **methylInheritanceSim** package generates simulated multigenerational 
+DMS datasets that are
+useful to evaluate the power and the false discovery rate 
+of experiment design analyse, such as the
+`r Rpackage("methylInheritance")` package does.
+
 
 # Loading methylInheritanceSim package
 
@@ -68,9 +74,10 @@ library(methylInheritanceSim)
 ```
 
 
-# Description of the permutation analysis
+# Description of the simulation process
 
-The synthetic methylated sites (or CpG sites) are generate using a real dataset (methData). Two parameters
+The synthetic methylated sites (or CpG sites) are generate using a real 
+dataset (methData parameter). Two parameters
 determine this step (nbBlock and lBLock). The nbBlock representes the number 
 block randomly selected in the real dataset genome. Each block must contain 
 lBlock consecutive methylated sites.
@@ -100,7 +107,7 @@ For the subsequent generation, for the selected DMS inherited, a proportion of
 the case (vpDiff x power(vInheritance, number of generation after F2) ). The 
 proportion of C/T of the selected cases follow a shifted Beta distribution 
 (the parameter are estimated with mean of control + or - (vDiff * propHetero) ).
-The propHetero is 0.5 if one of the parent are control
+The propHetero is 0.5 if one of the parent are control.
 
 
 # Case study 
@@ -116,16 +123,16 @@ functions: filterByCoverage, normalizeCoverage and unite)
 
 
 ```{r caseStudy01, warning=FALSE, message=FALSE, collapse=TRUE}
-    ## Load dataset base on real data (not in this case but normaly)
-    data(samplesForChrSynthetic)
+## Load  read DMS dataset (not in this case but normaly)
+data(samplesForChrSynthetic)
     
 ```
 
 
 ## The simulation
 
-The simulation can be run using the runSim function.
-The outputDir parameters fixe the directory where the results are stored.
+The simulation can be run using the *runSim* function.
+The **outputDir** parameter fix the directory where the results are stored.
 
 
 ```{r}
