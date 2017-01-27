@@ -171,7 +171,7 @@ head(samplesForChrSynthetic, n = 3)
 ## The simulation
 
 The simulation is run using the **runSim** function.
-The **outputDir** parameter fix the directory where the results are stored.
+The **outputDir** parameter fixes the directory where the results are stored.
 
 
 ```{r runSim01, warning=FALSE, message=FALSE, collapse=TRUE, cache=TRUE}
