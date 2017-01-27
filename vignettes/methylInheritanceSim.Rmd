@@ -76,32 +76,62 @@ library(methylInheritanceSim)
 
 # Description of the simulation process
 
-The synthetic methylated sites (or CpG sites) are generate using a real 
-dataset (methData parameter). Two parameters
-determine this step (nbBlock and lBLock). The nbBlock representes the number 
-block randomly selected in the real dataset genome. Each block must contain 
-lBlock consecutive methylated sites.
+The first step of the simulation process is to create a synthetic chromosome 
+made up of methylated sites. The synthetic methylated sites (or CpG sites) are 
+generated 
+using a real dataset (**methData** parameter). The read dataset only needs to
+contain methylation for controls on one generation; a real multigenerational 
+dataset is not need. 
+
+Two parameters are critical during this process:
+
+* *nbBlock*: The number of blocks randomly selected in the 
+real dataset genome. 
+* *lBlock*:  The number of consecutive methylated sites that must contain each
+selected block. 
+
+Those two parameters unable to reproduce CpG islands of customizable size.
+It also enable the transmission of differentially methylated sites
+as a distance TODO : reformuler
 
 ![alt text](syntheticChr.png "Synthetic Chr")
 
-For each methylated site of the synthetic chromosome, we estimate the 
-parameters alpha and beta of a distribution beta from the mean and variance of
-the proportion of C/T  for the CTRL at this site. We use this Beta distribution 
-to simulate the the proportion of C/T in the controle dataset.
+For each methylated site of the synthetic chromosome, the 
+alpha and beta parameters of a Beta distribution are estimated 
+from the mean and variance of
+the proportion of C/T for the real control dataset at this site. 
 
-We select randomly the DMS from methylated sites from synthetic chromosome 
-(mean of the proportion of DMS on the number of methylated sites is rateDiff). To 
-create DMR, the successors of the selected DMS are more likely to be DMS too, 
-if they are nearer than 1000 base pairs. After a proportion (propInherite) of 
-the DMR are selected has inherited 
+## Simulated control dataset
 
-For the case simulation of the F1 generation, for methilated sites not selected 
-as DMS, the same beta distribution as the control is used to simulate the 
-proportion of C/T. For the DMS, a proportion (vpDiff) of the cases are selected 
-and the C/T follow a shift Beta 
-distribution (the parameter are estimated with mean of control + or - vDiff). 
-The 1 - vpDiff other case follow the same distribution as a control. 
-The parameter vpDiff is liked penetrance. 
+A Beta distribution is
+used to simulate the proportion of C/T in the methylated sites of the 
+simulated control dataset.
+
+Using the synthetic chromosome, DMS are randomly selected from the methylated 
+sites. The *rateDiff* parameter fixes the mean of the proportion sites that are
+differentially methylated (DMS). 
+
+To recreate differentially methylated regions (DMR), the successors site
+of a DMS, located within 1000 base pairs, has a 
+higher probability to be selected as a DMS.
+
+The inheritance is done through the DMR. This means that when the following 
+generation inherits of a DMR region, it inherits all of the DMS present in the
+region. The *proInherite* parameter fixes the proportion of DMR 
+that are inherited.
+
+## Simulated case dataset 
+
+For the methylated sites in the F1 generation of the 
+simulated case dataset, 
+a Beta distribution is used to simulate the 
+proportion of C/T. This is the same distribution as for the control dataset.
+
+A propotion of the methylated sites, fixed by the *vpDiff* parameter, is 
+selected to be DMS. Those DMS are assigned a updated proportion of C/T that 
+follows a shift
+Beta distribution with parameters estimated using the mean 
+of control + or - *vDiff*. The *vpDiff* parameter is similar to penetrance. 
 
 For the subsequent generation, for the selected DMS inherited, a proportion of 
 the case (vpDiff x power(vInheritance, number of generation after F2) ). The 
@@ -115,27 +145,29 @@ The propHetero is 0.5 if one of the parent are control.
 ## The dataset
 
 A dataset containing methylation data (6 cases and 6 controls) has been 
-generated using the `r Rpackage("methylInheritanceSim")` package and a real 
-dataset from Rat experiment (the real dataset is not public yet so we used a 
-simulation based on it). the data have been formated with 
-the `r Rpackage("methylkit")` package in methylBase oject (with the methylKit
-functions: filterByCoverage, normalizeCoverage and unite)
-
+generated using the `r Rpackage("methylInheritanceSim")` package using a real 
+dataset from Rat experiment (the real dataset is not public yet, so we used a 
+simulation based on it). The data have been formated, using  
+the `r Rpackage("methylkit")` package, into a *methylBase* object 
+(using the `r Rpackage("methylkit")` functions: *filterByCoverage*, 
+*normalizeCoverage* and *unite*).
 
 ```{r caseStudy01, warning=FALSE, message=FALSE, collapse=TRUE}
 ## Load  read DMS dataset (not in this case but normaly)
 data(samplesForChrSynthetic)
-    
+
+## Print the first three rows of the object
+head(samplesForChrSynthetic, n = 3)
 ```
 
 
 ## The simulation
 
-The simulation can be run using the *runSim* function.
+The simulation is run using the **runSim** function.
 The **outputDir** parameter fix the directory where the results are stored.
 
 
-```{r}
+```{r warning=FALSE, message=FALSE, collapse=TRUE}
 
 temp_dir <- "test_runSim"
 
@@ -155,9 +187,12 @@ runSim(outputDir = temp_dir,
                         # methylated sites
         vInheritance = c(0.5), propInherite = 0.3,
         rateDiff = 0.3, # The mean frequency of the differentially 
-                        # methylated region 
-        minRate = 0.2, propHetero = 0.5, 
-        runAnalysis = TRUE, nbCores = 1, vSeed = 32)
+                        # methylated region TODO : region ?
+        minRate = 0.2, 
+        propHetero = 0.5, 
+        runAnalysis = TRUE, 
+        nbCores = 1, 
+        vSeed = 32)         # Fix seed to unable reproductive results
         
         # The files generated
         dir(temp_dir)
@@ -168,9 +203,9 @@ runSim(outputDir = temp_dir,
 ```
 
 
-# OutputDir
+# Files generated by the simulation
 
-Three files type are generated by default : 
+Three files type are generated by default: 
 
 The first file contain information about the synthetic chromosome.
 This is a GRange that contains the CpG (or methylated sites).
@@ -229,15 +264,23 @@ The length of the list corresponds to the number of generation. The generation a
 2- .Data: a list of methylRaw objects. Each object stores the raw mehylation 
 data of one sample.
 
-When runAnalysis is TRUE, for each simulations save two files
-The first file is the methylObj... file formated with 
-the `r Rpackage("methylkit")` package in a S4 methylBase oject (with the methylKit
-functions: filterByCoverage, normalizeCoverage and unite).
-The second file is a S4 calculateDiffMeth oject generate with the methylKit 
+When *runAnalysis* is *TRUE*, two files are saved for each simulations:
+
+* The first file is the methylObj... file formated with 
+the `r Rpackage("methylkit")` package in a *S4 methylBase* object 
+(with the methylKit functions: filterByCoverage, normalizeCoverage and unite).
+* The second file contains a *S4 calculateDiffMeth* object generate with the methylKit 
 functions calculateDiffMeth on the first file.
 
 
-The results of the simulation could be analysed with a package like `r Rpackage("methylInheritance")`
+# Conclusion
+
+The **methylInheritanceSim** package generates simulated multigenerational 
+DMS datasets. Several simulator parameters can be derived from real datasets 
+provided by the user in order to replicate real case scenarios. 
+
+The results of a simulation could be analysed, using  
+the `r Rpackage("methylInheritance")` package, 
 to evaluate the power and the false discovery rate 
 of an experiment design.
 
