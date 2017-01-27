@@ -127,11 +127,37 @@ indicates, using a \code{1}, the positions where the CpG values are
 inherited.
 } when is \code{NULL} generate a new ones with \code{getDiffMeth}.}
 
-\item{saveGRanges}{TODO.}
+\item{saveGRanges}{a \code{logical}, when \code{true}, the package save two 
+files type. The first generate for each simulation contains a \code{list}. 
+The length of the \code{list} corresponds to the number of generation. 
+The generation are stored in order (first entry = first generation, 
+second entry = second generation, etc..). All samples related to one 
+generations are contained in a \code{GRangesList}. 
+The \code{GRangeaList} store a \code{list} of \code{GRanges}. Each 
+\code{GRanges} stores the raw mehylation data of one sample.
+The second file a numeric \code{vector} denoting controls and cases 
+(a file is generates by entry in the \code{vector} parameters 
+\code{vNbSample}).}
 
-\item{saveMethylKit}{TODO.}
+\item{saveMethylKit}{a \code{logical}, when \code{TRUE}, the package save 
+a file contains a \code{list}. The length of the 
+\code{list} corresponds to the number of generation. The generation are 
+stored in order (first entry = first generation, 
+second entry = second generation, etc..). All samples related to one 
+generations are contained in a S4 \code{methylRawList} object. The 
+\code{methylRawList} object contains two Slots:
+1. treatment: A numeric \code{vector} denoting controls and cases.
+2. .Data: A \code{list} of \code{methylRaw} objects. Each object stores the 
+raw methylation data of one sample.}
 
-\item{runAnalysis}{TODO.}
+\item{runAnalysis}{a \code{logical}, if \code{TRUE}, two files are saved :
+1. The first file is the methylObj... file formated with the \code{methylkit} 
+package in a S4 \code{methylBase} object (with the \code{methylKit} 
+functions: \code{filterByCoverage}, \code{normalizeCoverage} and 
+\code{unite}).
+2. The second file contains a S4 \code{calculateDiffMeth} object generate 
+with the \code{methylKit} functions \code{calculateDiffMeth} on the 
+first file.}
 }
 \value{
 \code{0} indicating that the function has been successful.
