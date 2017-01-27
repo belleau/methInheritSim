@@ -5,7 +5,7 @@
 ###################################################
 
 data(samplesForChrSynthetic)
-
+data(dataSimExample)
 
 ###################################################
 ## estBetaAlpha() function
@@ -58,6 +58,31 @@ test.getDiffCase_good_01 <- function() {
     
     checkEquals(obs, exp, message)
 }
+
+
+###################################################
+## getDiffMeth() function
+###################################################
+
+test.getDiffMeth_good_01 <- function() {
+    set.seed(3222)
+    
+    t<-dataSimExample$stateInfo[1:10,]
+    
+    obs <- methylInheritanceSim:::getDiffMeth(stateInfo = 
+                    t, rateDiff = 0.3, minRate = 0.1,
+                    propInherite = 0.2)
+                                                            
+    exp <- list()
+    exp$stateDiff <- c(0, 0, 0, 0, 0, 1, 1, 0, 1, 1)
+    exp$stateInherite <- c(0, 0, 0, 0, 0, 1, 0, 0, 0, 0)
+    
+    message <- paste0("test.getDiffMeth_good_01() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
 
 ###################################################
 ## getSyntheticChr() function
