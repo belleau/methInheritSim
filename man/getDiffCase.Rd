@@ -10,21 +10,22 @@ getDiffCase(x, nb, sDiff, diffCase)
 \arguments{
 \item{x}{a \code{vector} of \code{double} containing 3 entries: 
 \itemize{
-\item mean of the CTRL at this sites
-\item variance of the CTRL at this sites
-\item 1 if the site is selected as differentially methylated else 0
+\item the mean of the CTRL at this sites
+\item the variance of the CTRL at this sites
+\item \code{1} if the site is selected as differentially methylated, 
+otherwise \code{0}
 }}
 
-\item{nb}{number of cases.}
+\item{nb}{an \code{integer}, the number of cases.}
 
-\item{sDiff}{non-negative \code{double} 
+\item{sDiff}{a non-negative \code{double} 
 included in [0,1], the proportion of C/T for a case differentially 
 methylated that follows 
 a beta distribution where the mean is shifted of \code{vDiff} 
 from the CTRL distribution.}
 
-\item{diffCase}{number of cases differentially at the selected as 
-differentially methylated site.}
+\item{diffCase}{an \code{integer}, the number of cases differentially at 
+the selected as differentially methylated site.}
 }
 \value{
 a \code{vector} containing 3 + nb entries:
@@ -36,16 +37,15 @@ a \code{vector} containing 3 + nb entries:
 }
 }
 \description{
-Simulate the proportion of C/T for each case for the sites 
-selected as differentially methylated or not
+Simulate the proportion of C/T for each case at the sites 
+selected as differentially methylated or not.
 }
 \examples{
 
 ## Create vector containing 3 + nb entries:
-## 1 - mean of proportion of C/T of the differentially methylated case
-## 2 - The number of case simulate with shifted distribution
-## 3 - The number of case simulate with the control distribution
-## 3 - the proportion of C/T for each case
+## 1 - The mean of the CTRL at this sites
+## 2 - The variance of the CTRL at this sites
+## 3 - 1 when DMS; otherwise 0
 x <- c(0.9814562, 0.0003607153, 0)
 
 ## Get the proportion of C/T for each case at a specific site.
