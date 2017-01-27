@@ -2,51 +2,53 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{getDiffCase}
 \alias{getDiffCase}
-\title{Get a proportion C/T for a case at a differentially}
+\title{Get a proportion C/T for each case for the sites selected as
+differentially methylated or not}
 \usage{
 getDiffCase(x, nb, sDiff, diffCase)
 }
 \arguments{
 \item{x}{a \code{vector} of \code{double} containing 3 entries: 
 \itemize{
-\item TODO
-\item ToDO
-\item ToDO 
+\item mean of the CTRL at this sites
+\item variance of the CTRL at this sites
+\item 1 if the site is selected as differentially methylated else 0
 }}
 
-\item{nb}{TODO}
+\item{nb}{number of cases.}
 
-\item{sDiff}{TODO}
+\item{sDiff}{non-negative \code{double} 
+included in [0,1], the proportion of C/T for a case differentially 
+methylated that follows 
+a beta distribution where the mean is shifted of \code{vDiff} 
+from the CTRL distribution.}
 
-\item{diffCase}{TODO}
-
-\item{propDiffsd}{TODO
--c * exp(b * log(distance between two CpG))}
-
-\item{b}{constant for distance}
-
-\item{endLength}{TODO}
+\item{diffCase}{number of cases differentially at the selected as 
+differentially methylated site.}
 }
 \value{
-a \code{vector} containing 3 entries:
+a \code{vector} containing 3 + nb entries:
 \itemize{
-\item TODO
-\item TODO
-\item TODO
+\item mean of proportion of C/T of the differentially methylated case
+\item The number of case simulate with shifted distribution
+\item The number of case simulate with the control distribution
+\item the proportion of C/T for each case
 }
 }
 \description{
-TODO
+Simulate the proportion of C/T for each case for the sites 
+selected as differentially methylated or not
 }
 \examples{
 
-## Create vector containing 3 entries:
-## 1 - TODO
-## 2 - TODO
-## 3 - TODO
+## Create vector containing 3 + nb entries:
+## 1 - mean of proportion of C/T of the differentially methylated case
+## 2 - The number of case simulate with shifted distribution
+## 3 - The number of case simulate with the control distribution
+## 3 - the proportion of C/T for each case
 x <- c(0.9814562, 0.0003607153, 0)
 
-## Get the proportion of TODO
+## Get the proportion of C/T for each case at a specific site.
 methylInheritanceSim:::getDiffCase(x=x, nb=6, sDiff = 0.8, 
 diffCase = round(6 * 0.9))
 

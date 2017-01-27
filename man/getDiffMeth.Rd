@@ -9,7 +9,12 @@ getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 1, b = -0.1,
   endLength = 1000)
 }
 \arguments{
-\item{stateInfo}{TODO}
+\item{stateInfo}{a GRanges that contains the CpG (or methylated sites).
+The GRamges have four metadata from the real dataset:
+chrOri the chromosome from the real dataset
+startOri the position of the site in the real dataset
+meanCTRL the mean of the control in the real dataset
+varCTRL the variance of the control in the real dataset.}
 
 \item{rateDiff}{a positive \code{double} inferior to \code{1}, the mean of 
 the chance that a site is differentially 
@@ -23,11 +28,23 @@ to \code{1},
 the proportion of differentially methylated regions that 
 are inherated.}
 
-\item{c}{a \code{double}, TODO Default: \code{1.0}.}
+\item{c}{a positive \code{double}, a factor in the formula to compute the 
+probabylity of site to be diffentially methylated in a differentially
+methylated region. 
+The probability formula of site in differentially methylated region is
+\code{c} * exp(\code{b} * log(distance with the preceding sites))
+Default: \code{1.0}.}
 
-\item{b}{a \code{double}, TODO . Default: \code{-1e-01}.}
+\item{b}{a negative \code{double}, a factor in the formula to compute the 
+probabylity of site to be diffentially methylated in a differentially
+methylated region. 
+The probability formula of site in differentially methylated region is
+\code{c} * exp(\code{b} * log(distance with the preceding sites)). Default: \code{-1e-01}.}
 
-\item{endLength}{TODO . Default: \code{1000}.}
+\item{endLength}{a positive \code{integer}, when the distance with the 
+preceding sites in a differentially
+methylated region is larger than \code{endLength}, the differentially
+methylated region is finished. Default: \code{1000}.}
 }
 \value{
 a \code{list} containing the 2 following elements:
