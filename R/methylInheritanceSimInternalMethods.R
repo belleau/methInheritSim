@@ -293,7 +293,7 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
 #' @param propHetero TODO a non-negative \code{double} between [0,1], the 
 #' reduction of \code{diffValue} for the second and following generations.
 #'
-#' @return TODO
+#' @return a \code{GRangesList} object. TODO
 #'
 #' @examples
 #'
