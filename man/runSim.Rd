@@ -158,34 +158,40 @@ differents parameter values from vector parameters (\code{vpDiff},
 methylated sites.
 Default: \code{FALSE}.}
 
-\item{saveGRanges}{a \code{logical}, when \code{true}, for each simulation, 
-save two types of file. The first type is a file that contains a 
-\code{list} of \code{GRangesList}. Each \code{GRangesList} corresponds to 
-a generation. Each \code{GRangeList} contains \code{2 * vNbSample} 
-\code{GRanges} that hold for each CpG site: the position, the coverage 
-and the proportion of the C/T.
-
-A files treatment which contains the position of the CTRL and Case in 
-the GRangesList are 
-saved too. TODO Default: \code{TRUE}.}
-
-\item{saveMethylKit}{a \code{logical}, when \code{TRUE}, for each 
-simulation, 
-save a file that contains a list of \code{methylRawList} objects. Each
- \code{methylRawList} corresponding to one generation. TODO representing
-the simulation.
-The file name is describe in the parameter \code{fileID},
-in this case the file name start with: methylObj
+\item{saveGRanges}{a \code{logical}, when \code{true}, the package save two 
+files type. The first generate for each simulation contains a \code{list}. 
+The length of the \code{list} corresponds to the number of generation. 
+The generation are stored in order (first entry = first generation, 
+second entry = second generation, etc..). All samples related to one 
+generations are contained in a \code{GRangesList}. 
+The \code{GRangeaList} store a \code{list} of \code{GRanges}. Each 
+\code{GRanges} stores the raw mehylation data of one sample.
+The second file a numeric \code{vector} denoting controls and cases 
+(a file is generates by entry in the \code{vector} parameters 
+\code{vNbSample}).
 Default: \code{TRUE}.}
 
-\item{runAnalysis}{a \code{logical}, if \code{TRUE}, for each simulation run
-a differentially methylation sites analysis with methylKit on each 
-generation and save two files The first contains
-a list of normalised \code{mehylBase} and the second a list of
-\code{methylDiff} (each \code{methylDiff} is corresponding ) that contains 
-the comparaison between case and control.
-The file name is describe in the parameter \code{fileID},
-in this case the file name start with: meth and methDiff
+\item{saveMethylKit}{a \code{logical}, when \code{TRUE}, for each 
+simulations save a file contains a \code{list}. The length of the 
+\code{list} corresponds to the number of generation. The generation are 
+stored in order (first entry = first generation, 
+second entry = second generation, etc..). All samples related to one 
+generations are contained in a S4 \code{methylRawList} object. The 
+\code{methylRawList} object contains two Slots:
+1. treatment: A numeric \code{vector} denoting controls and cases.
+2. .Data: A \code{list} of \code{methylRaw} objects. Each object stores the 
+raw methylation data of one sample.
+Default: \code{TRUE}.}
+
+\item{runAnalysis}{a \code{logical}, if \code{TRUE}, two files are saved 
+for each simulation:
+1. The first file is the methylObj... file formated with the \code{methylkit} 
+package in a S4 \code{methylBase} object (with the \code{methylKit} 
+functions: \code{filterByCoverage}, \code{normalizeCoverage} and 
+\code{unite}).
+2. The second file contains a S4 \code{calculateDiffMeth} object generate 
+with the \code{methylKit} functions \code{calculateDiffMeth} on the 
+first file.
 Default: \code{FALSE}.}
 
 \item{nbCores}{a positive \code{integer}, the number of cores used when

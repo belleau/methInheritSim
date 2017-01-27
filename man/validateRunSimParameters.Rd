@@ -121,15 +121,38 @@ at the CpG site Default: \code{80}.}
 will be the same for each parameter (\code{vpDiff}, 
 \code{vDiff} and \code{vInheritance}). Default: \code{FALSE}.}
 
-\item{saveGRanges}{\code{logical} if true, save a list of \code{nbGeneration}
-GRangesList. Each GRangeList contain \code{vNbSample} GRanges which contain
-for each CpG site: the position, the coverage and the proportion of the C/T.
-A files treatment_... which contains the position of the CTRL and Case are 
-save too. Default: \code{TRUE}.}
+\item{saveGRanges}{a \code{logical}, when \code{true}, the package save two 
+files type. The first generate for each simulation contains a \code{list}. 
+The length of the \code{list} corresponds to the number of generation. 
+The generation are stored in order (first entry = first generation, 
+second entry = second generation, etc..). All samples related to one 
+generations are contained in a \code{GRangesList}. 
+The \code{GRangeaList} store a \code{list} of \code{GRanges}. Each 
+\code{GRanges} stores the raw mehylation data of one sample.
+The second file a numeric \code{vector} denoting controls and cases 
+(a file is generates by entry in the \code{vector} parameters 
+\code{vNbSample}).}
 
-\item{saveMethylKit}{a \code{logical}, TODO. Default: \code{TRUE}.}
+\item{saveMethylKit}{a \code{logical}, when \code{TRUE}, for each 
+simulations save a file contains a \code{list}. The length of the 
+\code{list} corresponds to the number of generation. The generation are 
+stored in order (first entry = first generation, 
+second entry = second generation, etc..). All samples related to one 
+generations are contained in a S4 \code{methylRawList} object. The 
+\code{methylRawList} object contains two Slots:
+1. treatment: A numeric \code{vector} denoting controls and cases.
+2. .Data: A \code{list} of \code{methylRaw} objects. Each object stores the 
+raw methylation data of one sample.}
 
-\item{runAnalysis}{a \code{logical}, TODO. Default: \code{TRUE}}
+\item{runAnalysis}{a \code{logical}, if \code{TRUE}, two files are saved 
+for each simulation:
+1. The first file is the methylObj... file formated with the \code{methylkit} 
+package in a S4 \code{methylBase} object (with the \code{methylKit} 
+functions: \code{filterByCoverage}, \code{normalizeCoverage} and 
+\code{unite}).
+2. The second file contains a S4 \code{calculateDiffMeth} object generate 
+with the \code{methylKit} functions \code{calculateDiffMeth} on the 
+first file.}
 
 \item{nbCores}{a positive \code{integer}, the number of cores to use when
 creating the simulated datasets. Default: \code{1} and always 
