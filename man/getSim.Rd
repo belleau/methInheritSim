@@ -53,7 +53,7 @@ proportion of case that inherite differentially methylated sites.}
 reduction of \code{diffValue} for the second and following generations.}
 }
 \value{
-TODO
+a \code{GRangesList} object. TODO
 }
 \description{
 TODO
