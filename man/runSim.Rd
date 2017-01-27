@@ -96,7 +96,7 @@ Default: \code{c(0.1)}.}
 \item{vDiff}{a \code{vector} of distinct non-negative \code{double} 
 included in [0,1], the proportion of C/T for a case differentially 
 methylated that follows 
-a beta distribution where the mean is shifted of \code{vDiff} 
+a beta distribution where the mean is shifted by \code{vDiff} 
 from the CTRL distribution.
 Default: \code{c(0.8)}.}
 

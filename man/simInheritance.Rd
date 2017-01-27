@@ -2,7 +2,7 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{simInheritance}
 \alias{simInheritance}
-\title{TODO}
+\title{Simulate a multigeneration methylation experiment with inheritance}
 \usage{
 simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
   generation, stateInfo, propDiff, propDiffsd, diffValue, propInheritance,
@@ -10,32 +10,71 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
   assembly, meanCov, diffRes, saveGRanges, saveMethylKit, runAnalysis)
 }
 \arguments{
-\item{pathOut}{TODO}
+\item{pathOut}{a string of \code{character} or \code{NULL}, the path 
+where the 
+files created by the function will be saved. When \code{NULL}, the files
+are saved in the current directory.}
 
-\item{pref}{TODO}
+\item{pref}{a string of \code{character} representing the parameters of
+specific simulation
+the string is 
+composed of those elements, separated by "_":
+\itemize{ 
+\item a \code{fileID}
+\item the chromosome number, a number between 1 and \code{nbSynCHR}
+\item the number of samples, a number in the \code{vNbSample} \code{vector}
+\item the mean proportion of samples that has,
+for a specific position, differentially methylated values, a 
+number in the \code{vpDiff} \code{vector}
+\item the proportion of 
+C/T for a case differentially methylated that follows a shifted beta 
+distribution, a
+number in the \code{vDiff} \code{vector}
+\item the 
+proportion of cases that inherits differentially sites, a number in the
+\code{vInheritance} \code{vector}
+}}
 
-\item{k}{TODO}
+\item{k}{a positive \code{integer}, a Id for the current simulation.}
 
 \item{nbCtrl}{a positive \code{integer}, the number of controls.}
 
 \item{nbCase}{a positive \code{integer}, the number of cases.}
 
-\item{treatment}{TODO}
+\item{treatment}{a numeric vector denoting controls and cases}
 
-\item{sample.id}{TODO}
+\item{sample.id}{a matrix the name of each samples for each generation (row)
+and each case and control (column).}
 
 \item{generation}{a positive \code{integer}, the number of generations
 simulated.}
 
-\item{stateInfo}{TODO}
+\item{stateInfo}{a GRanges that contains the CpG (or methylated sites).
+The GRamges have four metadata from the real dataset:
+chrOri the chromosome from the real dataset
+startOri the position of the site in the real dataset
+meanCTRL the mean of the control in the real dataset
+varCTRL the variance of the control in the real dataset.}
 
-\item{propDiff}{TODO}
+\item{propDiff}{a \code{double} superior to 
+\code{0} and inferior or equal 
+to \code{1}, the mean value for the proportion of samples that will have,
+for a specific position, differentially methylated values. It can be 
+interpreted as the penetrance.}
 
-\item{propDiffsd}{TODO}
+\item{propDiffsd}{a non-negative \code{double}, the 
+standard deviation associated to the \code{vpDiff}. Note that 
+\code{vpDiff} and \code{vpDiffsd} must be the same length.}
 
-\item{diffValue}{TODO}
+\item{diffValue}{a non-negative \code{double} 
+included in [0,1], the proportion of C/T for a case differentially 
+methylated that follows 
+a beta distribution where the mean is shifted by \code{vDiff} 
+from the CTRL distribution.}
 
-\item{propInheritance}{TODO}
+\item{propInheritance}{a non-negative \code{double} 
+included in [0,1], the proportion of cases 
+that inherits differentially methylated sites.}
 
 \item{rateDiff}{a positive \code{double} inferior to \code{1}, the mean of 
 the chance that a site is differentially methylated.}
@@ -73,7 +112,20 @@ genome assembly, such as "mm9", "hg18", etc..}
 \item{meanCov}{a positive \code{integer}, the mean of the coverage
 at the simulated CpG sites.}
 
-\item{diffRes}{TODO when \code{NULL}}
+\item{diffRes}{a \code{list} with 2 entries:
+\itemize{
+\item \code{stateDiff} a \code{vector} of \code{integer} (\code{0} 
+and \code{1}) with length corresponding the length of \code{stateInfo}.
+The \code{vector}
+indicates, using a \code{1}, the positions where the CpG sites are
+differentially methylated.
+\item \code{stateInherite} a \code{vector} of \code{integer} (\code{0} and 
+\code{1})
+with length corresponding the length of \code{stateInfo}. The 
+\code{vector}
+indicates, using a \code{1}, the positions where the CpG values are
+inherited.
+} when is \code{NULL} generate a new ones with \code{getDiffMeth}.}
 
 \item{saveGRanges}{TODO.}
 
@@ -85,7 +137,21 @@ at the simulated CpG sites.}
 \code{0} indicating that the function has been successful.
 }
 \description{
-TODO
+Simulate a multigeneration methylation case versus control 
+experiment 
+with inheritance relation using a real control dataset. 
+
+The simulation can 
+be parametrized to fit different models. The number of cases and controls, 
+the proportion of the case affected 
+by the treatment (penetrance), the effect of the treatment on the mean of 
+the distribution, the proportion of sites inherited, the proportion of the 
+differentially methylated sites from the precedent generation inherited, 
+etc..
+
+The function simulates a multigeneration dataset like a bisulfite 
+sequencing experiment. The simulation includes the information about 
+control and case for each generation.
 }
 \examples{
 

@@ -16,7 +16,29 @@ where the
 files created by the function will be saved. When \code{NULL}, the files
 are saved in the current directory. Default: \code{NULL}.}
 
-\item{fileID}{a string of \code{character}, TODO}
+\item{fileID}{a string of \code{character}, a identifiant that will be 
+included in each output file name. Each output 
+file name is 
+composed of those elements, separated by "_":
+\itemize{ 
+\item a type name, ex: methylGR, methylObj, etc..
+\item a \code{fileID}
+\item the chromosome number, a number between 1 and \code{nbSynCHR}
+\item the number of samples, a number in the \code{vNbSample} \code{vector}
+\item the mean proportion of samples that has,
+for a specific position, differentially methylated values, a 
+number in the \code{vpDiff} \code{vector}
+\item the proportion of 
+C/T for a case differentially methylated that follows a shifted beta 
+distribution, a
+number in the \code{vDiff} \code{vector}
+\item the 
+proportion of cases that inherits differentially sites, a number in the
+\code{vInheritance} \code{vector}
+\item the identifiant for the simulation, a number 
+between 1 and \code{nbSimulation}
+\item the file extension ".rds"
+}}
 
 \item{nbSynCHR}{a positive \code{integer}, the number of distinct 
 synthetic chromosomes that will be generated.}
