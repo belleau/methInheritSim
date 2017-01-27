@@ -6,10 +6,8 @@
 \usage{
 simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
   generation, stateInfo, propDiff, propDiffsd, diffValue, propInheritance,
-  rateDiff, minRate, propInherite, propHetero, minReads = 10,
-  maxPercReads = 99.9, context = "CpG", assembly = "Rnor_5.0",
-  meanCov = 80, diffRes = NULL, saveGRanges = TRUE,
-  saveMethylKit = TRUE, runAnalysis = TRUE)
+  rateDiff, minRate, propInherite, propHetero, minReads, maxPercReads, context,
+  assembly, meanCov, diffRes, saveGRanges, saveMethylKit, runAnalysis)
 }
 \arguments{
 \item{pathOut}{TODO}
@@ -26,7 +24,8 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 
 \item{sample.id}{TODO}
 
-\item{generation}{a positive \code{integer}, the number of generations.}
+\item{generation}{a positive \code{integer}, the number of generations
+simulated.}
 
 \item{stateInfo}{TODO}
 
@@ -38,31 +37,49 @@ simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
 
 \item{propInheritance}{TODO}
 
-\item{rateDiff}{TODO}
+\item{rateDiff}{a positive \code{double} inferior to \code{1}, the mean of 
+the chance that a site is differentially methylated.}
 
-\item{minRate}{TODO}
+\item{minRate}{a non-negative \code{double} inferior to \code{1}, the 
+minimum rate for differentially methylated sites.
+Default: \code{0.01}.}
 
-\item{propInherite}{TODO}
+\item{propInherite}{a non-negative \code{double} inferior or equal 
+to \code{1}, 
+the proportion of differentially methylated regions that 
+are inherated.}
 
-\item{propHetero}{TODO}
+\item{propHetero}{a non-negative \code{double} between [0,1], the 
+reduction of \code{vDiff} for the second and following generations.}
 
-\item{minReads}{TODO}
+\item{minReads}{a positive \code{integer}, sites and regions having lower
+coverage than this count are discarded. The parameter
+corresponds to the \code{lo.count} parameter in 
+the \code{methylKit} package.}
 
-\item{maxPercReads}{TODO}
+\item{maxPercReads}{a \code{double} between [0,100], the percentile of read
+counts that is going to be used as upper cutoff. Sites and regions
+having higher
+coverage than \code{maxPercReads} are discarded. This parameter is used for 
+both CpG sites and tiles analysis. The parameter
+correspond to the \code{hi.perc} parameter in the \code{methylKit} package.}
 
-\item{context}{TODO. Default: \code{"CpG"}.}
+\item{context}{a string of \code{character}, the short description of the 
+methylation context, such as "CpG", "CpH", "CHH", etc..}
 
-\item{assembly}{TODO. Default: \code{"Rnor_5.0"}.}
+\item{assembly}{a string of \code{character}, the short description of the 
+genome assembly, such as "mm9", "hg18", etc..}
 
-\item{meanCov}{TODO. Default: \code{80}.}
+\item{meanCov}{a positive \code{integer}, the mean of the coverage
+at the simulated CpG sites.}
 
-\item{diffRes}{TODO. Default: \code{NULL}.}
+\item{diffRes}{TODO when \code{NULL}}
 
-\item{saveGRanges}{TODO. Default: \code{TRUE}.}
+\item{saveGRanges}{TODO.}
 
-\item{saveMethylKit}{TODO. Default: \code{TRUE}.}
+\item{saveMethylKit}{TODO.}
 
-\item{runAnalysis}{TODO. Default: \code{TRUE}.}
+\item{runAnalysis}{TODO.}
 }
 \value{
 \code{0} indicating that the function has been successful.
@@ -88,6 +105,8 @@ propInheritance = 0.5,
 rateDiff = 0.3, minRate = 0.3,
 propInherite = 0.3, 
 propHetero = 0.5,
+saveGRanges = FALSE,
+saveMethylKit = FALSE,
 runAnalysis = FALSE
 )}
 
@@ -98,7 +117,7 @@ unlink(temp_dir, recursive = TRUE, force = FALSE)
 
 }
 \author{
-Pascal Belleau
+Pascal Belleau, Astrid Deschenes
 }
 \keyword{internal}
 

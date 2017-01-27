@@ -113,7 +113,7 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
     
     seqChr <- unique(methInfo$chr) # list of Chr
     
-    # Sample m chromosomes, the same can be sample more than once
+    # Sample nbBlock chromosomes, the same can be sample more than once
     chr <- seqChr[sample(1:length(seqChr), nbBlock, replace=TRUE)]
     
     # The position of the CTRL
@@ -161,6 +161,8 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
     
     res$alphaCTRL <- apply(res[, c(4,5)], 1, estBetaAlpha)
     res$betaCTRL  <- apply(res[, c(4,5)], 1, estBetaBeta)
+    
+    ## Create returned value
     res <- GRanges(seqnames = res$chr, 
                     ranges = IRanges(start = res$start, end = res$end),
                     strand = rep("+", total), chrOri = res$chrOri,
@@ -523,15 +525,22 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #'
 #' @param sample.id TODO
 #'
-#' @param generation a positive \code{integer}, the number of generations.
+#' @param generation a positive \code{integer}, the number of generations
+#' simulated.
 #'
 #' @param stateInfo TODO
 #'
-#' @param rateDiff TODO
+#' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
+#' the chance that a site is differentially methylated.
 #'
-#' @param minRate TODO
+#' @param minRate a non-negative \code{double} inferior to \code{1}, the 
+#' minimum rate for differentially methylated sites.
+#' Default: \code{0.01}.
 #'
-#' @param propInherite TODO
+#' @param propInherite a non-negative \code{double} inferior or equal 
+#' to \code{1}, 
+#' the proportion of differentially methylated regions that 
+#' are inherated.
 #'
 #' @param diffValue TODO
 #'
@@ -541,25 +550,37 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #'
 #' @param propInheritance TODO
 #'
-#' @param propHetero TODO
+#' @param propHetero a non-negative \code{double} between [0,1], the 
+#' reduction of \code{vDiff} for the second and following generations.
 #'
-#' @param minReads TODO
+#' @param minReads a positive \code{integer}, sites and regions having lower
+#' coverage than this count are discarded. The parameter
+#' corresponds to the \code{lo.count} parameter in 
+#' the \code{methylKit} package.
 #' 
-#' @param maxPercReads TODO
+#' @param maxPercReads a \code{double} between [0,100], the percentile of read
+#' counts that is going to be used as upper cutoff. Sites and regions
+#' having higher
+#' coverage than \code{maxPercReads} are discarded. This parameter is used for 
+#' both CpG sites and tiles analysis. The parameter
+#' correspond to the \code{hi.perc} parameter in the \code{methylKit} package.
 #' 
-#' @param context TODO. Default: \code{"CpG"}.
+#' @param context a string of \code{character}, the short description of the 
+#' methylation context, such as "CpG", "CpH", "CHH", etc.. 
 #' 
-#' @param assembly TODO. Default: \code{"Rnor_5.0"}.
+#' @param assembly a string of \code{character}, the short description of the 
+#' genome assembly, such as "mm9", "hg18", etc..
 #' 
-#' @param meanCov TODO. Default: \code{80}.
+#' @param meanCov a positive \code{integer}, the mean of the coverage
+#' at the simulated CpG sites.
 #' 
-#' @param diffRes TODO. Default: \code{NULL}.
+#' @param diffRes TODO when \code{NULL} 
 #'
-#' @param saveGRanges TODO. Default: \code{TRUE}.
+#' @param saveGRanges TODO. 
 #' 
-#' @param saveMethylKit TODO. Default: \code{TRUE}.
+#' @param saveMethylKit TODO.
 #' 
-#' @param runAnalysis TODO. Default: \code{TRUE}.
+#' @param runAnalysis TODO. 
 #' 
 #' @return \code{0} indicating that the function has been successful.
 #'
@@ -581,6 +602,8 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' rateDiff = 0.3, minRate = 0.3,
 #' propInherite = 0.3, 
 #' propHetero = 0.5,
+#' saveGRanges = FALSE,
+#' saveMethylKit = FALSE,
 #' runAnalysis = FALSE
 #' )}
 #' 
@@ -589,7 +612,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' unlink(temp_dir, recursive = TRUE, force = FALSE)
 #' }}
 #' 
-#' @author Pascal Belleau
+#' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom methylKit read filterByCoverage normalizeCoverage unite calculateDiffMeth get.methylDiff getData tileMethylCounts methRead
 #' @importFrom GenomicRanges GRanges
 #' @importFrom IRanges IRanges
@@ -601,11 +624,10 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                         sample.id, generation, stateInfo,
                         propDiff, propDiffsd, diffValue, propInheritance, 
                         rateDiff , minRate, propInherite, 
-                        propHetero, 
-                        minReads = 10, maxPercReads = 99.9,
-                        context = "CpG", assembly="Rnor_5.0",
-                        meanCov = 80, diffRes = NULL, saveGRanges = TRUE,
-                        saveMethylKit = TRUE, runAnalysis = TRUE) {
+                        propHetero, minReads, maxPercReads,
+                        context, assembly, meanCov, diffRes, 
+                        saveGRanges,
+                        saveMethylKit, runAnalysis) {
     
     # Test if the simulation was done before
     # if just a part of the simulation is done it do it again
@@ -657,7 +679,6 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
         myobj <- list()
         myGR <- list()
         myMat <- list()
-        #myTr <- list()
         meth <- list()
         myDiff <- list()
         
@@ -692,7 +713,6 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                 }
             }
             myMat[[i]] <- outList
-            #myTr[[i]] <- treatment
             
             if (saveMethylKit) {
                 myobj[[i]] <- new("methylRawList", outList,
@@ -797,8 +817,8 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' the chance that a site is differentially 
 #' methylated.
 #'
-#' @param minRate a non-negative \code{double} inferior to \code{1}, the minimum 
-#' rate of differentially methylated sites.
+#' @param minRate a non-negative \code{double} inferior to \code{1}, the 
+#' minimum rate of differentially methylated sites.
 #'
 #' @param propHetero a positive \code{double} between [0,1], the 
 #' reduction of vDiff for the second and following generations.
@@ -929,36 +949,31 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
     }
     
     ## Validate that vNbSample is a vector of distinct positive integer
-    if (! is.numeric(vNbSample) || 
-        anyDuplicated(vNbSample) > 0 ||
-        any(vNbSample < 1) ||
-        ! all(as.integer(vNbSample) == vNbSample)
-        ) {
+    if (! is.numeric(vNbSample) || anyDuplicated(vNbSample) > 0 ||
+        any(vNbSample < 1) || ! all(as.integer(vNbSample) == vNbSample)) {
         stop("vNbSample must be a vector of distinct positive integer")
     }
     
     ## Validate that vpDiff is an positive double include in (0,1]
-    if (! is.numeric(vpDiff) || 
-        anyDuplicated(vpDiff) > 0 ||
+    if (! is.numeric(vpDiff) || anyDuplicated(vpDiff) > 0 ||
         any(vpDiff <= 0.00) || any(vpDiff > 1.00)) {
-        stop("vpDiff must be a vector of distinct positive double include in (0,1]")
+        stop(paste0("vpDiff must be a vector of distinct positive double ", 
+                        "include in (0,1]"))
     }
     
     ## Validate that vpDiffsd is an non-negative double
-    if (! is.numeric(vpDiffsd) ||
-        any(vpDiffsd < 0.00) ) {
+    if (! is.numeric(vpDiffsd) || any(vpDiffsd < 0.00) ) {
         stop("vpDiffsd must be a vector of non-negative double")
     }
     
     ## Validate that vpDiff and vpDiffsd must be the same length
-    if(length(vpDiff) != length(vpDiffsd)){
+    if (length(vpDiff) != length(vpDiffsd)) {
         stop("vpDiff and vpDiffsd must be the same length")
     }
     
     ## Validate that vDiff is a vector of distinct non-negative double 
     ## include in  [0,1]
-    if (! is.numeric(vDiff) || 
-        anyDuplicated(vDiff) > 0 ||
+    if (! is.numeric(vDiff) || anyDuplicated(vDiff) > 0 ||
         any(vDiff < 0.00) || any(vDiff > 1.00)) {
         stop(paste0("vDiff must be a vector of distinct non-negative double", 
                     " include in [0,1]"))
@@ -966,8 +981,7 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
     
     ## Validate that vInheritance is a vector of distinct non-negative double 
     ## include in [0,1]
-    if (! is.numeric(vInheritance) || 
-        anyDuplicated(vInheritance) > 0 ||
+    if (! is.numeric(vInheritance) || anyDuplicated(vInheritance) > 0 ||
         any(vInheritance < 0.00) || any(vInheritance > 1.00)) {
         stop(paste0("vInheritance must be a vector of distinct non-negative ", 
                     "double include in [0,1]"))
@@ -975,14 +989,12 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
     
     ## TODO finish unit test
     ## Validate that rateDiff is an positive double include in (0,1)
-    if (!(isSingleNumber(rateDiff)) ||
-        rateDiff <= 0.00 || rateDiff >= 1.00) {
+    if (!(isSingleNumber(rateDiff)) || rateDiff <= 0.00 || rateDiff >= 1.00) {
         stop("rateDiff must be a positive double include in (0,1)")
     }
     
     ## Validate that minRate is an non-negative double include in [0,1)
-    if (!(isSingleNumber(minRate)) ||
-        minRate < 0.00 || minRate >= 1.00) {
+    if (!(isSingleNumber(minRate)) || minRate < 0.00 || minRate >= 1.00) {
         stop("minRate must be a non-negative double include in [0,1)")
     }
     
@@ -1018,7 +1030,7 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
     }
     
     ## Validate that context is not one of the CpG, CHG, CHH or none
-    if( !(context %in% c("CpG","CHG","CHH","none"))){
+    if( !(context %in% c("CpG","CHG","CHH","none"))) {
         stop("context is not one of the CpG, CHG, CHH or none")
     }
     
@@ -1059,7 +1071,7 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
     }
     
     ## Validate that vSeed is an integer
-    if (!(isSingleInteger(vSeed) || isSingleNumber(vSeed))){
+    if (!(isSingleInteger(vSeed) || isSingleNumber(vSeed))) {
         stop("vSeed must be an integer or numeric")
     }
     

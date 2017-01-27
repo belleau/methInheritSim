@@ -316,6 +316,9 @@ runSim <- function(outputDir = NULL, fileID = "s",
                     }
                 }
             }
+            
+            ## Obtain the positions of the DMS when those have to be
+            ## the same in all generated simulation
             if (keepDiff == TRUE) {
                 diffRes <- getDiffMeth(stateInfo = res,
                                         rateDiff = rateDiff, minRate = minRate,
