@@ -53,13 +53,17 @@ proportion of case that inherite differentially methylated sites.}
 reduction of \code{vDiff} for the second and following generations.}
 }
 \value{
-a \code{GRangesList} object contains information about the simulation
-The file have four metadata related to real dataset:
-    meanDiff means of the shifted distribution
-meanCTRL.meanCTRL means of the control distribution
-partitionCase number of case simulated with the shifted distribution
-partitionCtrl number of case simulated with the control distribution
-and a metadata for each cases and controls the proportion of C/T.
+a \code{GRangesList} object contains information about the 
+simulation. The file have four metadata related to real dataset:
+\itemize{
+\item meanDiff, the means of the shifted distribution
+\item meanCTRL, the means of the control distribution
+\item partitionCase, the number of cases simulated with the shifted 
+distribution
+\itme partitionCtrl, the number of cases simulated with the control 
+distribution and a metadata for each cases and controls 
+the proportion of C/T.
+}
 }
 \description{
 For each control and case, generate the proportion of C/T at 
