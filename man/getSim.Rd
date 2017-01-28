@@ -60,7 +60,7 @@ simulation. The file have four metadata related to real dataset:
 \item meanCTRL, the means of the control distribution
 \item partitionCase, the number of cases simulated with the shifted 
 distribution
-\itme partitionCtrl, the number of cases simulated with the control 
+\item partitionCtrl, the number of cases simulated with the control 
 distribution and a metadata for each cases and controls 
 the proportion of C/T.
 }
