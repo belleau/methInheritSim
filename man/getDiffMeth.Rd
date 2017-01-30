@@ -39,7 +39,8 @@ Default: \code{1.0}.}
 probabylity of site to be diffentially methylated in a differentially
 methylated region. 
 The probability formula of site in differentially methylated region is
-\code{c} * exp(\code{b} * log(distance with the preceding sites)). Default: \code{-1e-01}.}
+\code{c} * exp(\code{b} * log(distance with the preceding sites)). 
+Default: \code{-1e-01}.}
 
 \item{endLength}{a positive \code{integer}, when the distance with the 
 preceding sites in a differentially

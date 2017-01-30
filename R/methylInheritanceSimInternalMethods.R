@@ -296,14 +296,18 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
 #' @param propHetero a non-negative \code{double} between [0,1], the 
 #' reduction of \code{vDiff} for the second and following generations.
 #'
-#' @return a \code{GRangesList} object contains information about the simulation
-#' The file have four metadata related to real dataset:
-#'     meanDiff means of the shifted distribution
-#' meanCTRL.meanCTRL means of the control distribution
-#' partitionCase number of case simulated with the shifted distribution
-#' partitionCtrl number of case simulated with the control distribution
-#' and a metadata for each cases and controls the proportion of C/T.
-#'
+#' @return a \code{GRangesList} object contains information about the 
+#' simulation. The file have four metadata related to real dataset:
+#' \itemize{
+#' \item meanDiff, the means of the shifted distribution
+#' \item meanCTRL, the means of the control distribution
+#' \item partitionCase, the number of cases simulated with the shifted 
+#' distribution
+#' \item partitionCtrl, the number of cases simulated with the control 
+#' distribution and a metadata for each cases and controls 
+#' the proportion of C/T.
+#' }
+#' 
 #' @examples
 #'
 #' ## Fix seed to have reproducible results
@@ -438,7 +442,8 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #' probabylity of site to be diffentially methylated in a differentially
 #' methylated region. 
 #' The probability formula of site in differentially methylated region is
-#' \code{c} * exp(\code{b} * log(distance with the preceding sites)). Default: \code{-1e-01}.
+#' \code{c} * exp(\code{b} * log(distance with the preceding sites)). 
+#' Default: \code{-1e-01}.
 #'
 #' @param endLength a positive \code{integer}, when the distance with the 
 #' preceding sites in a differentially
@@ -526,7 +531,8 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
     
     if (flag) {
         stateDiff <- NULL
-        stop("Enable to generate the differentially methyyleted proportion fin\n")
+        stop(paste0("Enable to generate the differentially methyyleted ", 
+                        "proportion fin\n"))
     }
     
     return(list(stateDiff = stateDiff, stateInherite = stateInherite))
@@ -692,13 +698,16 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' raw methylation data of one sample.
 #' 
 #' @param runAnalysis a \code{logical}, if \code{TRUE}, two files are saved :
-#' 1. The first file is the methylObj... file formated with the \code{methylkit} 
-#' package in a S4 \code{methylBase} object (with the \code{methylKit} 
+#' \itemize{
+#' \item 1. The first file is the methylObj... file formated 
+#' with the \code{methylkit} package in a S4 \code{methylBase} 
+#' object (with the \code{methylKit} 
 #' functions: \code{filterByCoverage}, \code{normalizeCoverage} and 
 #' \code{unite}).
-#' 2. The second file contains a S4 \code{calculateDiffMeth} object generate 
-#' with the \code{methylKit} functions \code{calculateDiffMeth} on the 
-#' first file.
+#' \item 2. The second file contains a S4 \code{calculateDiffMeth} object 
+#' generated with the \code{methylKit} functions \code{calculateDiffMeth} 
+#' using the first file.
+#' }
 #' 
 #' @return \code{0} indicating that the function has been successful.
 #'
@@ -750,27 +759,27 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
     # Test if the simulation was done before
     # if just a part of the simulation is done it do it again
     if (!is.null(pathOut) && !dir.exists(pathOut)) {
-        dir.create(pathOut, showWarnings = TRUE)
+            dir.create(pathOut, showWarnings = TRUE)
     }
     
     alreadyDone <- TRUE
     if(! (file.exists(paste0(pathOut, "/stateDiff_", pref, "_", k, ".rds"))) 
-       || ! (file.exists(paste0(pathOut, 
+        || ! (file.exists(paste0(pathOut, 
                                     "/simV0.1_", pref, "_", k, ".rds")))) {
         alreadyDone <- FALSE
     }
     if(saveGRanges && 
-       ! (file.exists(paste0(pathOut, "/methylGR_", pref, "_", k,".rds")))) {
-        alreadyDone <- FALSE
+        ! (file.exists(paste0(pathOut, "/methylGR_", pref, "_", k,".rds")))) {
+            alreadyDone <- FALSE
        }
     if(saveMethylKit &&
-       ! (file.exists(paste0(pathOut, 
+        ! (file.exists(paste0(pathOut, 
                                 "/methylObj_", pref, "_", k, ".rds")))) {
         alreadyDone <- FALSE
     }
     if(runAnalysis &&
-       ( ! (file.exists(paste0(pathOut, "/meth_", pref, "_", k,".rds")))
-         || ! (file.exists(paste0(pathOut, 
+        ( ! (file.exists(paste0(pathOut, "/meth_", pref, "_", k,".rds")))
+            || ! (file.exists(paste0(pathOut, 
                                     "/methDiff_", pref, "_", k, ".rds"))))) {
         alreadyDone <- FALSE
     }
@@ -847,7 +856,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                                         lo.perc = NULL, hi.count = NULL,
                                         hi.perc = maxPercReads)
                 filtered.myobj <- normalizeCoverage(filtered.myobj, "median")
-                meth[[i]] <- unite(filtered.myobj, destrand = FALSE)
+                meth[[i]]   <- unite(filtered.myobj, destrand = FALSE)
                 myDiff[[i]] <- calculateDiffMeth(meth[[i]])
             }
         }
@@ -949,13 +958,12 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @param vInheritance a positive \code{double} between [0,1], the 
 #' proportion of cases that inherited differentially sites.
 #' 
-#' @param propInherite a non-negative \code{double} inferior or equal to \code{1}, 
-#' proportion of differentially methylated site
+#' @param propInherite a non-negative \code{double} inferior or equal to 
+#' \code{1}, the proportion of differentially methylated site
 #' are inherated
 #'
 #' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
-#' the chance that a site is differentially 
-#' methylated.
+#' the chance that a site is differentially methylated.
 #'
 #' @param minRate a non-negative \code{double} inferior to \code{1}, the 
 #' minimum rate of differentially methylated sites.
@@ -1014,13 +1022,15 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' 
 #' @param runAnalysis a \code{logical}, if \code{TRUE}, two files are saved 
 #' for each simulation:
-#' 1. The first file is the methylObj... file formated with the \code{methylkit} 
-#' package in a S4 \code{methylBase} object (with the \code{methylKit} 
-#' functions: \code{filterByCoverage}, \code{normalizeCoverage} and 
-#' \code{unite}).
-#' 2. The second file contains a S4 \code{calculateDiffMeth} object generate 
-#' with the \code{methylKit} functions \code{calculateDiffMeth} on the 
-#' first file.
+#' \itemize{
+#' \item 1. The first file is the methylObj... file formated with 
+#' the \code{methylkit} package in a S4 \code{methylBase} object 
+#' (with the \code{methylKit} functions: \code{filterByCoverage}, 
+#' \code{normalizeCoverage} and \code{unite}).
+#' \item 2. The second file contains a S4 \code{calculateDiffMeth} object 
+#' generated with the \code{methylKit} functions \code{calculateDiffMeth} on 
+#' the first file.
+#' }
 #' 
 #' @param nbCores a positive \code{integer}, the number of cores to use when
 #' creating the simulated datasets. Default: \code{1} and always 

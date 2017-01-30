@@ -151,13 +151,16 @@ generations are contained in a S4 \code{methylRawList} object. The
 raw methylation data of one sample.}
 
 \item{runAnalysis}{a \code{logical}, if \code{TRUE}, two files are saved :
-1. The first file is the methylObj... file formated with the \code{methylkit} 
-package in a S4 \code{methylBase} object (with the \code{methylKit} 
+\itemize{
+\item 1. The first file is the methylObj... file formated 
+with the \code{methylkit} package in a S4 \code{methylBase} 
+object (with the \code{methylKit} 
 functions: \code{filterByCoverage}, \code{normalizeCoverage} and 
 \code{unite}).
-2. The second file contains a S4 \code{calculateDiffMeth} object generate 
-with the \code{methylKit} functions \code{calculateDiffMeth} on the 
-first file.}
+\item 2. The second file contains a S4 \code{calculateDiffMeth} object 
+generated with the \code{methylKit} functions \code{calculateDiffMeth} 
+using the first file.
+}}
 }
 \value{
 \code{0} indicating that the function has been successful.

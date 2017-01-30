@@ -81,13 +81,12 @@ where the mean is shifted of \code{vDiff} from the CTRL distribution}
 \item{vInheritance}{a positive \code{double} between [0,1], the 
 proportion of cases that inherited differentially sites.}
 
-\item{propInherite}{a non-negative \code{double} inferior or equal to \code{1}, 
-proportion of differentially methylated site
+\item{propInherite}{a non-negative \code{double} inferior or equal to 
+\code{1}, the proportion of differentially methylated site
 are inherated}
 
 \item{rateDiff}{a positive \code{double} inferior to \code{1}, the mean of 
-the chance that a site is differentially 
-methylated.}
+the chance that a site is differentially methylated.}
 
 \item{minRate}{a non-negative \code{double} inferior to \code{1}, the 
 minimum rate of differentially methylated sites.}
@@ -146,13 +145,15 @@ raw methylation data of one sample.}
 
 \item{runAnalysis}{a \code{logical}, if \code{TRUE}, two files are saved 
 for each simulation:
-1. The first file is the methylObj... file formated with the \code{methylkit} 
-package in a S4 \code{methylBase} object (with the \code{methylKit} 
-functions: \code{filterByCoverage}, \code{normalizeCoverage} and 
-\code{unite}).
-2. The second file contains a S4 \code{calculateDiffMeth} object generate 
-with the \code{methylKit} functions \code{calculateDiffMeth} on the 
-first file.}
+\itemize{
+\item 1. The first file is the methylObj... file formated with 
+the \code{methylkit} package in a S4 \code{methylBase} object 
+(with the \code{methylKit} functions: \code{filterByCoverage}, 
+\code{normalizeCoverage} and \code{unite}).
+\item 2. The second file contains a S4 \code{calculateDiffMeth} object 
+generated with the \code{methylKit} functions \code{calculateDiffMeth} on 
+the first file.
+}}
 
 \item{nbCores}{a positive \code{integer}, the number of cores to use when
 creating the simulated datasets. Default: \code{1} and always 
