@@ -740,7 +740,8 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' }}
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
-#' @importFrom methylKit read filterByCoverage normalizeCoverage unite calculateDiffMeth get.methylDiff getData tileMethylCounts methRead
+#' @importFrom methylKit read filterByCoverage normalizeCoverage unite 
+#' calculateDiffMeth get.methylDiff getData tileMethylCounts methRead
 #' @importFrom GenomicRanges GRanges
 #' @importFrom IRanges IRanges
 #' @importFrom stats rpois
