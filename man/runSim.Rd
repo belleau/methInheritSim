@@ -185,13 +185,17 @@ Default: \code{TRUE}.}
 
 \item{runAnalysis}{a \code{logical}, if \code{TRUE}, two files are saved 
 for each simulation:
-1. The first file is the methylObj... file formated with the \code{methylkit} 
-package in a S4 \code{methylBase} object (with the \code{methylKit} 
+\itemize{
+\item 1. The first file is the methylObj... file formated with 
+the \code{methylkit} 
+package in a S4 \code{methylBase} object (using the \code{methylKit} 
 functions: \code{filterByCoverage}, \code{normalizeCoverage} and 
 \code{unite}).
-2. The second file contains a S4 \code{calculateDiffMeth} object generate 
-with the \code{methylKit} functions \code{calculateDiffMeth} on the 
+\item 2. The second file contains a S4 \code{calculateDiffMeth} object 
+generated 
+using the \code{methylKit} functions \code{calculateDiffMeth} on the 
 first file.
+}
 Default: \code{FALSE}.}
 
 \item{nbCores}{a positive \code{integer}, the number of cores used when
