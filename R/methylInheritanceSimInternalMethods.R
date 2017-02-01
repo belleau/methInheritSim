@@ -1203,9 +1203,9 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("meanCov must be a positive integer or numeric")
     }
     
-    ## Validate that context is not one of the CpG, CHG, CHH or none
-    if( !(context %in% c("CpG","CHG","CHH","none"))) {
-        stop("context is not one of the CpG, CHG, CHH or none")
+    ## Validate that context is a character string
+    if(!is.character(context)) {
+        stop("context must be a character string")
     }
     
     ## Validate that assembly is a character string

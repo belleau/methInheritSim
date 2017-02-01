@@ -2223,6 +2223,41 @@ test.validateRunSimParameters_assembly_double <- function() {
     checkEquals(obs, exp, message)
 }
 
+test.validateRunSimParameters_context_double <- function() {
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
+                                                        fileID = "F1", 
+                                                        nbSynCHR = 1, 
+                                                        methData = samplesForChrSynthetic,
+                                                        nbBlock = 2, nbCpG = 2,
+                                                        vNbSample = 2, 
+                                                        nbGeneration = 3, 
+                                                        vpDiff = 0.2, vpDiffsd = 0.1, 
+                                                        vDiff = 0.2, 
+                                                        vInheritance = 0.2,
+                                                        propInherite = 0.6, 
+                                                        rateDiff = 0.4, 
+                                                        minRate = 0.1, 
+                                                        propHetero = 0.3, 
+                                                        minReads = 4, 
+                                                        maxPercReads = 99.9, 
+                                                        context = 0.332, assembly = "hg19",
+                                                        meanCov = 10, n = 3, 
+                                                        keepDiff = FALSE, saveGRanges = FALSE, 
+                                                        saveMethylKit = FALSE,
+                                                        runAnalysis = FALSE,
+                                                        nbCores = 1, vSeed = -1),
+        error=conditionMessage)
+    
+    exp <- "context must be a character string"
+    
+    message <- paste0("test.validateRunSimParameters_context_double() ",
+                      "- Double as context parameter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+
 test.validateRunSimParameters_meanCov_string <- function() {
     obs <- tryCatch(
         methylInheritanceSim:::validateRunSimParameters(outputDir = "test",
