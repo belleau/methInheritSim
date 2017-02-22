@@ -97,4 +97,3 @@ propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
 Pascal Belleau
 }
 \keyword{internal}
-

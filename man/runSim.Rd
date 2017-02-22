@@ -257,4 +257,3 @@ unlink(temp_dir, recursive = TRUE, force = FALSE)
 \author{
 Pascal Belleau
 }
-

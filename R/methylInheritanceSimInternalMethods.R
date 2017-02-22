@@ -651,7 +651,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' correspond to the \code{hi.perc} parameter in the \code{methylKit} package.
 #' 
 #' @param context a string of \code{character}, the short description of the 
-#' methylation context, such as "CpG", "CpH", "CHH", etc.. 
+#' methylation context, such as "CpG", "CpH", "CHH", etc.. Default: "CpG"
 #' 
 #' @param assembly a string of \code{character}, the short description of the 
 #' genome assembly, such as "mm9", "hg18", etc..
@@ -753,7 +753,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                         propDiff, propDiffsd, diffValue, propInheritance, 
                         rateDiff , minRate, propInherite, 
                         propHetero, minReads, maxPercReads,
-                        context, assembly, meanCov, diffRes, 
+                        context = "CpG", assembly, meanCov, diffRes, 
                         saveGRanges,
                         saveMethylKit, runAnalysis) {
     
@@ -1203,9 +1203,9 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
         stop("meanCov must be a positive integer or numeric")
     }
     
-    ## Validate that context is not one of the CpG, CHG, CHH or none
-    if( !(context %in% c("CpG","CHG","CHH","none"))) {
-        stop("context is not one of the CpG, CHG, CHH or none")
+    ## Validate that context is a character string
+    if(!is.character(context)) {
+        stop("context must be a character string")
     }
     
     ## Validate that assembly is a character string

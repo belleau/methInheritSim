@@ -42,4 +42,3 @@ nbBlock = 10, nbCpG = 20)
 Pascal Belleau
 }
 \keyword{internal}
-

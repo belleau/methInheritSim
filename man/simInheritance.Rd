@@ -6,8 +6,9 @@
 \usage{
 simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
   generation, stateInfo, propDiff, propDiffsd, diffValue, propInheritance,
-  rateDiff, minRate, propInherite, propHetero, minReads, maxPercReads, context,
-  assembly, meanCov, diffRes, saveGRanges, saveMethylKit, runAnalysis)
+  rateDiff, minRate, propInherite, propHetero, minReads, maxPercReads,
+  context = "CpG", assembly, meanCov, diffRes, saveGRanges, saveMethylKit,
+  runAnalysis)
 }
 \arguments{
 \item{pathOut}{a string of \code{character} or \code{NULL}, the path 
@@ -104,7 +105,7 @@ both CpG sites and tiles analysis. The parameter
 correspond to the \code{hi.perc} parameter in the \code{methylKit} package.}
 
 \item{context}{a string of \code{character}, the short description of the 
-methylation context, such as "CpG", "CpH", "CHH", etc..}
+methylation context, such as "CpG", "CpH", "CHH", etc.. Default: "CpG"}
 
 \item{assembly}{a string of \code{character}, the short description of the 
 genome assembly, such as "mm9", "hg18", etc..}
@@ -215,4 +216,3 @@ unlink(temp_dir, recursive = TRUE, force = FALSE)
 Pascal Belleau, Astrid Deschenes
 }
 \keyword{internal}
-

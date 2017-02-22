@@ -34,4 +34,3 @@ methylInheritanceSim:::estBetaAlpha(c(0.5,0.1))
 Pascal Belleau
 }
 \keyword{internal}
-
