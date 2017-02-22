@@ -651,7 +651,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' correspond to the \code{hi.perc} parameter in the \code{methylKit} package.
 #' 
 #' @param context a string of \code{character}, the short description of the 
-#' methylation context, such as "CpG", "CpH", "CHH", etc.. 
+#' methylation context, such as "CpG", "CpH", "CHH", etc.. Default: "CpG"
 #' 
 #' @param assembly a string of \code{character}, the short description of the 
 #' genome assembly, such as "mm9", "hg18", etc..
@@ -753,7 +753,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                         propDiff, propDiffsd, diffValue, propInheritance, 
                         rateDiff , minRate, propInherite, 
                         propHetero, minReads, maxPercReads,
-                        context, assembly, meanCov, diffRes, 
+                        context = "CpG", assembly, meanCov, diffRes, 
                         saveGRanges,
                         saveMethylKit, runAnalysis) {
     

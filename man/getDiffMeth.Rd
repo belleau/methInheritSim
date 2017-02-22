@@ -84,4 +84,3 @@ propInherite = 0.3)
 Pascal Belleau, Astrid Deschenes
 }
 \keyword{internal}
-

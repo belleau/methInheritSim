@@ -192,4 +192,3 @@ saveMethylKit = FALSE, runAnalysis = FALSE, nbCores = 1, vSeed = -1)
 Pascal Belleau, Astrid Deschenes
 }
 \keyword{internal}
-

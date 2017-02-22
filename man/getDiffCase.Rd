@@ -57,4 +57,3 @@ diffCase = round(6 * 0.9))
 Pascal Belleau, Astrid Deschenes
 }
 \keyword{internal}
-
