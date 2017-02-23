@@ -1,6 +1,6 @@
-#' methylInheritanceSim: Simulation TODO
+#' methylInheritanceSim: Simulating Whole-Genome Inherited Bisulphite Sequencing Data
 #'
-#' This package does a simulation of multigeneration of bisulfite data
+#' This package generates simulations of multigeneration of bisulfite data.
 #'
 #' @docType package
 #'
@@ -17,7 +17,8 @@
 #'
 #' @seealso
 #' \itemize{
-#' \item \code{\link{runSim}} { TODO }
+#' \item \code{\link{runSim}} { for simulating a multigeneration methylation 
+#' experiment with inheritance }
 #' }
 #'
 #' @keywords package
@@ -65,23 +66,32 @@ NULL
 #' ## Loading dataset
 #' data(samplesForChrSynthetic)
 #'
+#' ## Set the output directory where files will be created
+#' temp_dir <- "test_samplesForChrSynthetic"
+#' 
 #' ## Create 4 simulated dataset (nbSimulation) 
 #' ## over 3 generations (nbGenration = 3) with
 #' ## 6 cases and 6 controls (nNbsample = 6) using only one set
 #' ## of parameters (vpDiff = 0.85, vpDiffsd = 0.1, vDiff = 0.8)
-#' \dontrun{runSim(outputDir = temp_dir, fileID = "F1", nbSynCHR = 1, 
-#' methData = samplesForChrSynthetic, nbSimulation = 4, 
-#' nbBlock = 10, nbCpG = 20,
-#' nbGeneration = 3, vNbSample = c(6), vpDiff = c(0.85), 
-#' vpDiffsd = c(0.1), vDiff = c(0.8), 
-#' vInheritance = c(0.5), propInherite = 0.3,
-#' rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, 
-#' nbCores = 1, vSeed = 32)}
+#' runSim(outputDir = temp_dir, fileID = "F1", nbSynCHR = 1, 
+#'     methData = samplesForChrSynthetic, nbSimulation = 4, 
+#'     nbBlock = 10, nbCpG = 20,
+#'     nbGeneration = 3, vNbSample = c(6), vpDiff = c(0.85), 
+#'     vpDiffsd = c(0.1), vDiff = c(0.8), 
+#'     vInheritance = c(0.5), propInherite = 0.3,
+#'     rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, 
+#'     nbCores = 1, vSeed = 32)
 #'
+#' ## Delete the output directory and its content
+#' if (dir.exists(temp_dir)) {
+#'     unlink(temp_dir, recursive = TRUE, force = FALSE)
+#' }
+#' 
 NULL
 
 
-#' TODO
+#' A \code{list} containing methylation information used by some internal 
+#' functions (for demo purpose. 
 #' 
 #' @name dataSimExample
 #'
@@ -101,16 +111,20 @@ NULL
 #' indicates, using \code{1}, the positions where the CpG sites are
 #' differentially methylated.
 #' \item \code{stateInherite} a \code{vector} of \code{integer} (\code{0} and 
-#' \code{1})
-#' with length corresponding the length of \code{stateInfo}. The 
+#' \code{1}) with length corresponding the length of \code{stateInfo}. The 
 #' \code{vector}
 #' indicates, using \code{1}, the positions where the CpG values are
 #' inherited.
 #' }
-#' \item \code{treatment} a \code{vector} of \code{integer} TODO
-#' \item \code{sample.id} a \code{list} of 3 \code{list}. Each of the 3 
+#' \item \code{treatment} a \code{vector} of \code{integer} (\code{0} 
+#' and \code{1}) with length corresponding the number of samples. The 
+#' \code{vector} indicates which samples are control (0) which samples are 
+#' case (1).
+#' \item \code{sample.id} a \code{list} of 3 \code{list}. Each entry of the
+#' \code{list} correspond to one generation (first entry = first generation, 
+#' etc..). Each  
 #' \code{list} contains a \code{list} of 12 entries each containing a string
-#' of \code{character}, the name of the sample. TODO
+#' of \code{character}, the name of the sample. 
 #' }
 #'
 #' @return  a \code{list} containing:
@@ -131,10 +145,15 @@ NULL
 #' indicates, using \code{1}, the positions where the CpG values are
 #' inherited.
 #' }
-#' \item \code{treatment} a \code{vector} of \code{integer} TODO
-#' \item \code{sample.id} a \code{list} of 3 \code{list}. Each of the 3 
+#' \item \code{treatment} a \code{vector} of \code{integer} (\code{0} 
+#' and \code{1}) with length corresponding the number of samples. The 
+#' \code{vector} indicates which samples are control (0) which samples are 
+#' case (1).
+#' \item \code{sample.id} a \code{list} of 3 \code{list}. Each entry of the
+#' \code{list} correspond to one generation (first entry = first generation, 
+#' etc..). Each  
 #' \code{list} contains a \code{list} of 12 entries each containing a string
-#' of \code{character}, the name of the sample. TODO
+#' of \code{character}, the name of the sample.
 #' }
 #'
 #' @seealso
@@ -152,5 +171,9 @@ NULL
 #' ## Loading dataset
 #' data(dataSimExample)
 #'
-#' ## TODO
+#' ## Identify differentially methylated sites and among those, the ones
+#' ## that are inherited
+#' methylInheritanceSim:::getDiffMeth(stateInfo = dataSimExample$stateInfo, 
+#'     rateDiff = 0.2, minRate = 0.3,propInherite = 0.3)
+#' 
 NULL

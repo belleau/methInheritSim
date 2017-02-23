@@ -9,12 +9,15 @@ getDiffMeth(stateInfo, rateDiff, minRate, propInherite, c = 1, b = -0.1,
   endLength = 1000)
 }
 \arguments{
-\item{stateInfo}{a GRanges that contains the CpG (or methylated sites).
-The GRamges have four metadata from the real dataset:
-chrOri the chromosome from the real dataset
-startOri the position of the site in the real dataset
-meanCTRL the mean of the control in the real dataset
-varCTRL the variance of the control in the real dataset.}
+\item{stateInfo}{a \code{GRanges} that contains the CpG (or methylated 
+sites).
+The \code{GRanges} have four metadata from the real dataset:
+\itemize{
+\item chrOri, the chromosome from the real dataset
+\item startOri, the position of the site in the real dataset
+\item meanCTRL, the mean of the control in the real dataset
+\item varCTRL, the variance of the control in the real dataset
+}}
 
 \item{rateDiff}{a positive \code{double} inferior to \code{1}, the mean of 
 the chance that a site is differentially 
@@ -75,9 +78,9 @@ data(dataSimExample)
 
 ## Identify differentially methylated sites and among those, the ones
 ## that are inherited
-diffRes <- methylInheritanceSim:::getDiffMeth(stateInfo = 
-dataSimExample$stateInfo, rateDiff = 0.3, minRate = 0.3,
-propInherite = 0.3)
+methylInheritanceSim:::getDiffMeth(stateInfo = 
+    dataSimExample$stateInfo, rateDiff = 0.3, minRate = 0.3,
+    propInherite = 0.3)
 
 }
 \author{

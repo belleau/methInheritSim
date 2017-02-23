@@ -4,13 +4,14 @@
 \name{methylInheritanceSim-package}
 \alias{methylInheritanceSim-package}
 \alias{methylInheritanceSim}
-\title{methylInheritanceSim: Simulation TODO}
+\title{methylInheritanceSim: Simulating Whole-Genome Inherited Bisulphite Sequencing Data}
 \description{
-This package does a simulation of multigeneration of bisulfite data
+This package generates simulations of multigeneration of bisulfite data.
 }
 \seealso{
 \itemize{
-\item \code{\link{runSim}} { TODO }
+\item \code{\link{runSim}} { for simulating a multigeneration methylation 
+experiment with inheritance }
 }
 }
 \author{
