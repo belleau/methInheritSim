@@ -32,18 +32,26 @@ used to test the \code{runSim} function.
 ## Loading dataset
 data(samplesForChrSynthetic)
 
+## Set the output directory where files will be created
+temp_dir <- "test_samplesForChrSynthetic"
+
 ## Create 4 simulated dataset (nbSimulation) 
 ## over 3 generations (nbGenration = 3) with
 ## 6 cases and 6 controls (nNbsample = 6) using only one set
 ## of parameters (vpDiff = 0.85, vpDiffsd = 0.1, vDiff = 0.8)
-\dontrun{runSim(outputDir = temp_dir, fileID = "F1", nbSynCHR = 1, 
-methData = samplesForChrSynthetic, nbSimulation = 4, 
-nbBlock = 10, nbCpG = 20,
-nbGeneration = 3, vNbSample = c(6), vpDiff = c(0.85), 
-vpDiffsd = c(0.1), vDiff = c(0.8), 
-vInheritance = c(0.5), propInherite = 0.3,
-rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, 
-nbCores = 1, vSeed = 32)}
+runSim(outputDir = temp_dir, fileID = "F1", nbSynCHR = 1, 
+    methData = samplesForChrSynthetic, nbSimulation = 4, 
+    nbBlock = 10, nbCpG = 20,
+    nbGeneration = 3, vNbSample = c(6), vpDiff = c(0.85), 
+    vpDiffsd = c(0.1), vDiff = c(0.8), 
+    vInheritance = c(0.5), propInherite = 0.3,
+    rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, 
+    nbCores = 1, vSeed = 32)
+
+## Delete the output directory and its content
+if (dir.exists(temp_dir)) {
+    unlink(temp_dir, recursive = TRUE, force = FALSE)
+}
 
 }
 \seealso{

@@ -63,7 +63,11 @@ TODO
 ## Loading dataset
 data(dataSimExample)
 
-## TODO
+## Identify differentially methylated sites and among those, the ones
+## that are inherited
+methylInheritanceSim:::getDiffMeth(stateInfo = dataSimExample$stateInfo, 
+rateDiff = 0.2, minRate = 0.3,propInherite = 0.3)
+
 }
 \seealso{
 \itemize{
