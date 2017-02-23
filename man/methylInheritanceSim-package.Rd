@@ -4,9 +4,7 @@
 \name{methylInheritanceSim-package}
 \alias{methylInheritanceSim-package}
 \alias{methylInheritanceSim}
-\title{methylInheritanceSim: Simulation of a multigeneration methylation case 
-versus control experiment with inheritance relation using a real control 
-dataset}
+\title{methylInheritanceSim: Simulating Whole-Genome Inherited Bisulphite Sequencing Data}
 \description{
 This package generates simulations of multigeneration of bisulfite data.
 }

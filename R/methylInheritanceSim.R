@@ -1,6 +1,4 @@
-#' methylInheritanceSim: Simulation of a multigeneration methylation case 
-#' versus control experiment with inheritance relation using a real control 
-#' dataset
+#' methylInheritanceSim: Simulating Whole-Genome Inherited Bisulphite Sequencing Data
 #'
 #' This package generates simulations of multigeneration of bisulfite data.
 #'

@@ -318,7 +318,7 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
 #' 
 #' ## Generate a stateInfo object using samples
 #' stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = 
-#' samplesForChrSynthetic, nbBlock = 1, nbCpG = 3)
+#'     samplesForChrSynthetic, nbBlock = 1, nbCpG = 3)
 #' 
 #' ## Generate a stateDiff object with length corresponding to
 #' ## nbBlock * nbCpG from stateInformation
@@ -328,8 +328,9 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
 #' 
 #' ## Create a simulation using stateInfo and stateDiff
 #' methylInheritanceSim:::getSim(nbCtrl = 3, nbCase = 2, generation = 3, 
-#' stateInfo = stateInformation, stateDiff = stateDiff, diffValue = 10, 
-#' propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
+#'     stateInfo = stateInformation, stateDiff = stateDiff, diffValue = 10, 
+#'     propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, 
+#'     propHetero = 0.1)
 #'
 #' @author Pascal Belleau
 #' @importFrom msm rtnorm
@@ -358,8 +359,8 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
     
     case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
                             stateDiff$stateDiff), 1, getDiffCase, nb=nbCase, 
-                            sDiff = diffValue, diffCase = diffCase 
-                            ))
+                            sDiff = diffValue, diffCase = diffCase))
+    
     # TODO change meanCTRL.meanCTRL in meanCTRL
     #tmpCol <- matrix(mcols(stateInfo)[3]$meanCTRL, nc = 1)
     res[[1]] <- GRanges(seqnames = seqnames(stateInfo),
@@ -412,12 +413,15 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #' @description Identify the site positions where the cases are differentially 
 #' methylated and, among those, the one that are inherited.
 #'
-#' @param stateInfo a GRanges that contains the CpG (or methylated sites).
-#' The GRamges have four metadata from the real dataset:
-#' chrOri the chromosome from the real dataset
-#' startOri the position of the site in the real dataset
-#' meanCTRL the mean of the control in the real dataset
-#' varCTRL the variance of the control in the real dataset.
+#' @param stateInfo a \code{GRanges} that contains the CpG (or methylated 
+#' sites).
+#' The \code{GRanges} have four metadata from the real dataset:
+#' \itemize{
+#' \item chrOri, the chromosome from the real dataset
+#' \item startOri, the position of the site in the real dataset
+#' \item meanCTRL, the mean of the control in the real dataset
+#' \item varCTRL, the variance of the control in the real dataset
+#' }
 #'
 #' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
 #' the chance that a site is differentially 
@@ -473,9 +477,9 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #' 
 #' ## Identify differentially methylated sites and among those, the ones
 #' ## that are inherited
-#' diffRes <- methylInheritanceSim:::getDiffMeth(stateInfo = 
-#' dataSimExample$stateInfo, rateDiff = 0.3, minRate = 0.3,
-#' propInherite = 0.3)
+#' methylInheritanceSim:::getDiffMeth(stateInfo = 
+#'     dataSimExample$stateInfo, rateDiff = 0.3, minRate = 0.3,
+#'     propInherite = 0.3)
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom BiocGenerics start
