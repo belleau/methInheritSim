@@ -90,7 +90,8 @@ NULL
 NULL
 
 
-#' TODO
+#' A \code{list} containing methylation information used by some internal 
+#' functions (for demo purpose. 
 #' 
 #' @name dataSimExample
 #'
@@ -110,16 +111,20 @@ NULL
 #' indicates, using \code{1}, the positions where the CpG sites are
 #' differentially methylated.
 #' \item \code{stateInherite} a \code{vector} of \code{integer} (\code{0} and 
-#' \code{1})
-#' with length corresponding the length of \code{stateInfo}. The 
+#' \code{1}) with length corresponding the length of \code{stateInfo}. The 
 #' \code{vector}
 #' indicates, using \code{1}, the positions where the CpG values are
 #' inherited.
 #' }
-#' \item \code{treatment} a \code{vector} of \code{integer} TODO
-#' \item \code{sample.id} a \code{list} of 3 \code{list}. Each of the 3 
+#' \item \code{treatment} a \code{vector} of \code{integer} (\code{0} 
+#' and \code{1}) with length corresponding the number of samples. The 
+#' \code{vector} indicates which samples are control (0) which samples are 
+#' case (1).
+#' \item \code{sample.id} a \code{list} of 3 \code{list}. Each entry of the
+#' \code{list} correspond to one generation (first entry = first generation, 
+#' etc..). Each  
 #' \code{list} contains a \code{list} of 12 entries each containing a string
-#' of \code{character}, the name of the sample. TODO
+#' of \code{character}, the name of the sample. 
 #' }
 #'
 #' @return  a \code{list} containing:
@@ -140,10 +145,15 @@ NULL
 #' indicates, using \code{1}, the positions where the CpG values are
 #' inherited.
 #' }
-#' \item \code{treatment} a \code{vector} of \code{integer} TODO
-#' \item \code{sample.id} a \code{list} of 3 \code{list}. Each of the 3 
+#' \item \code{treatment} a \code{vector} of \code{integer} (\code{0} 
+#' and \code{1}) with length corresponding the number of samples. The 
+#' \code{vector} indicates which samples are control (0) which samples are 
+#' case (1).
+#' \item \code{sample.id} a \code{list} of 3 \code{list}. Each entry of the
+#' \code{list} correspond to one generation (first entry = first generation, 
+#' etc..). Each  
 #' \code{list} contains a \code{list} of 12 entries each containing a string
-#' of \code{character}, the name of the sample. TODO
+#' of \code{character}, the name of the sample.
 #' }
 #'
 #' @seealso
@@ -164,6 +174,6 @@ NULL
 #' ## Identify differentially methylated sites and among those, the ones
 #' ## that are inherited
 #' methylInheritanceSim:::getDiffMeth(stateInfo = dataSimExample$stateInfo, 
-#' rateDiff = 0.2, minRate = 0.3,propInherite = 0.3)
+#'     rateDiff = 0.2, minRate = 0.3,propInherite = 0.3)
 #' 
 NULL
