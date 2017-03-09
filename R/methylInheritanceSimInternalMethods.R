@@ -1255,3 +1255,416 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
     
     return(0)
 }
+
+
+#' @title Parameters validation for the \code{\link{runSim}} function. Only
+#' numerical parameters are validated.
+#'
+#' @description Validation of all parameters needed by the public
+#' \code{\link{runSim}} function.Only numerical parameters are validated.
+#'
+#' @param nbSynCHR a positive \code{integer}, the number of distinct 
+#' synthetic chromosomes that will be generated.
+#' 
+#' @param nbSimulation a positive \code{integer}, the number of simulations 
+#' for each parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
+#' \code{vInheritance}).
+#'
+#' @param nbBlock a positive \code{integer}, the number of blocks used 
+#' for sampling.
+#'
+#' @param nbCpG a positive \code{integer}, the number of consecutive CpG 
+#' positions used for sampling from \code{methInfo}.
+#'
+#' @param vNbSample a \code{vector} of positive \code{integer}, the number of 
+#' methData (CTRL) and cases in the the simulation dataset. In 
+#' the simulated dataset, the number of CTRL equals the number of Case. 
+#' The number of CTRL do not need to be equal to the number of Case in
+#' the real dataset.
+#'
+#' @param nbGeneration a positive \code{integer}, the number of generations.
+#'
+#' @param vpDiff a \code{double} superior to \code{0} and inferior or equal 
+#' to \code{1}, the mean value for the proportion of samples that will have,
+#' for a specific position, differentially methylated values. It can be 
+#' interpreted as the penetrance.
+#' 
+#' @param vpDiffsd a non-negative \code{double}, the standard deviation 
+#' associated to the \code{propDiff}.
+#'
+#' @param vDiff a positive \code{double} between [0,1], the proportion of 
+#' C/T for a case differentially methylated follow a beta distribution 
+#' where the mean is shifted of \code{vDiff} from the CTRL distribution
+#'
+#' @param vInheritance a positive \code{double} between [0,1], the 
+#' proportion of cases that inherited differentially sites.
+#' 
+#' @param propInherite a non-negative \code{double} inferior or equal to 
+#' \code{1}, the proportion of differentially methylated site
+#' are inherated
+#'
+#' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
+#' the chance that a site is differentially methylated.
+#'
+#' @param minRate a non-negative \code{double} inferior to \code{1}, the 
+#' minimum rate of differentially methylated sites.
+#'
+#' @param propHetero a positive \code{double} between [0,1], the 
+#' reduction of vDiff for the second and following generations.
+#' 
+#' @param minReads a positive \code{integer} Bases and regions having lower
+#' coverage than this count are discarded. The parameter
+#' correspond to the \code{lo.count} parameter in the \code{methylKit} package.
+#' 
+#' @param maxPercReads a \code{double} between [0,100], the percentile of read
+#' counts that is going to be used as upper cutoff. Bases ore regions
+#' having higher
+#' coverage than this percentile are discarded. Parameter used for both CpG
+#' sites and tiles analysis. The parameter
+#' correspond to the \code{hi.perc} parameter in the  \code{methylKit} package.
+#' 
+#' @param meanCov a positive \code{integer} represent the mean of the coverage
+#' at the CpG site Default: \code{80}.
+#' 
+#' @param nbCores a positive \code{integer}, the number of cores to use when
+#' creating the simulated datasets. Default: \code{1} and always 
+#' \code{1} for Windows.
+#' 
+#' @param vSeed a \code{integer}, a seed used when reproducible results are
+#' needed. When a value inferior or equal to zero is given, a random integer
+#' is used. Default: \code{-1}.
+#' 
+#' @return \code{0} indicating that the function has been successful.
+#'
+#' @examples
+#'
+#' ## Load dataset
+#' data("samplesForChrSynthetic")
+#'
+#' ## The function returns 0 when all paramaters are valid
+#' methylInheritanceSim:::validateRunSimNumberParameters(nbSynCHR = 1, 
+#' nbSimulation = 2, nbBlock = 10, nbCpG = 4, vNbSample = 10, 
+#' nbGeneration = 3, vpDiff =0.2, vpDiffsd = 0.3, vDiff = 0.4, 
+#' vInheritance = 0.2, propInherite = 0.5, rateDiff = 0.2, minRate = 0.1, 
+#' propHetero = 0.2, minReads = 10, maxPercReads = 99.1, meanCov = 80, 
+#' nbCores = 1, vSeed = -1)
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @importFrom S4Vectors isSingleInteger isSingleNumber
+#' @keywords internal
+validateRunSimNumberParameters <-function(nbSynCHR, nbSimulation, nbBlock, 
+                                    nbCpG, vNbSample, nbGeneration, vpDiff, 
+                                    vpDiffsd, vDiff, vInheritance,
+                                    propInherite, rateDiff, minRate, 
+                                    propHetero, minReads, maxPercReads, 
+                                    meanCov, nbCores, vSeed) {
+
+    ## Validate that nbSynCHR is an positive integer
+    if (!(isSingleInteger(nbSynCHR) || isSingleNumber(nbSynCHR)) ||
+        as.integer(nbSynCHR) < 1) {
+        stop("nbSynCHR must be a positive integer or numeric")
+    }
+    
+    ## Validate that nbSimulation is an positive integer
+    if (!(isSingleInteger(nbSimulation) || isSingleNumber(nbSimulation)) ||
+        as.integer(nbSimulation) < 1) {
+        stop("nbSimulation must be a positive integer or numeric")
+    }
+    
+    ## Validate that nbBlock is an positive integer
+    if (!(isSingleInteger(nbBlock) || isSingleNumber(nbBlock)) ||
+        as.integer(nbBlock) < 1) {
+        stop("nbBlock must be a positive integer or numeric")
+    }
+    
+    ## Validate that nbCpG is an positive integer
+    if (!(isSingleInteger(nbCpG) || isSingleNumber(nbCpG)) ||
+        as.integer(nbCpG) < 1) {
+        stop("nbCpG must be a positive integer or numeric")
+    }
+    
+    ## Validate that nbGeneration is an positive integer
+    if (!(isSingleInteger(nbGeneration) || isSingleNumber(nbGeneration)) ||
+        as.integer(nbGeneration) < 1) {
+        stop("nbGeneration must be a positive integer or numeric")
+    }
+    
+    ## Validate that vNbSample is a vector of distinct positive integer
+    if (! is.numeric(vNbSample) || anyDuplicated(vNbSample) > 0 ||
+        any(vNbSample < 1) || ! all(as.integer(vNbSample) == vNbSample)) {
+        stop("vNbSample must be a vector of distinct positive integer")
+    }
+    
+    ## Validate that vpDiff is an positive double include in (0,1]
+    if (! is.numeric(vpDiff) || anyDuplicated(vpDiff) > 0 ||
+        any(vpDiff <= 0.00) || any(vpDiff > 1.00)) {
+        stop(paste0("vpDiff must be a vector of distinct positive double ", 
+                    "include in (0,1]"))
+    }
+    
+    ## Validate that vpDiffsd is an non-negative double
+    if (! is.numeric(vpDiffsd) || any(vpDiffsd < 0.00) ) {
+        stop("vpDiffsd must be a vector of non-negative double")
+    }
+    
+    ## Validate that vpDiff and vpDiffsd must be the same length
+    if (length(vpDiff) != length(vpDiffsd)) {
+        stop("vpDiff and vpDiffsd must be the same length")
+    }
+    
+    ## Validate that vDiff is a vector of distinct non-negative double 
+    ## include in  [0,1]
+    if (! is.numeric(vDiff) || anyDuplicated(vDiff) > 0 ||
+        any(vDiff < 0.00) || any(vDiff > 1.00)) {
+        stop(paste0("vDiff must be a vector of distinct non-negative double", 
+                    " include in [0,1]"))
+    }
+    
+    ## Validate that vInheritance is a vector of distinct non-negative double 
+    ## include in [0,1]
+    if (! is.numeric(vInheritance) || anyDuplicated(vInheritance) > 0 ||
+        any(vInheritance < 0.00) || any(vInheritance > 1.00)) {
+        stop(paste0("vInheritance must be a vector of distinct non-negative ", 
+                    "double include in [0,1]"))
+    }
+    
+    ## TODO finish unit test
+    ## Validate that rateDiff is an positive double include in (0,1)
+    if (!(isSingleNumber(rateDiff)) || rateDiff <= 0.00 || rateDiff >= 1.00) {
+        stop("rateDiff must be a positive double include in (0,1)")
+    }
+    
+    ## Validate that minRate is an non-negative double include in [0,1)
+    if (!(isSingleNumber(minRate)) || minRate < 0.00 || minRate >= 1.00) {
+        stop("minRate must be a non-negative double include in [0,1)")
+    }
+    
+    ## Validate that propInherite is a non-negative double include in [0,1]
+    if (!(isSingleNumber(propInherite)) ||
+        propInherite < 0.00 || propInherite > 1.00) {
+        stop("propInherite must be a non-negative double include in [0,1]")
+    }
+    
+    
+    ## Validate that propHetero is an non-negative double include in [0,1]
+    if (!(isSingleNumber(propHetero)) ||
+        propHetero < 0.00 || propHetero > 1.00) {
+        stop("propHetero must be a non-negative double include in [0,1]")
+    }
+    
+    ## Validate that minReads is an positive integer
+    if (!(isSingleInteger(minReads) || isSingleNumber(minReads)) ||
+        as.integer(minReads) < 1) {
+        stop("minReads must be a positive integer or numeric")
+    }
+    
+    ## Validate that maxPercReads is an positive double between [0,100]
+    if (!(isSingleNumber(maxPercReads)) ||
+        maxPercReads < 0.00 || maxPercReads > 100.00) {
+        stop("maxPercReads must be a positive double between [0,100]")
+    }
+    
+    ## Validate that meanCov is an positive integer
+    if (!(isSingleInteger(meanCov) || isSingleNumber(meanCov)) ||
+        as.integer(meanCov) < 1) {
+        stop("meanCov must be a positive integer or numeric")
+    }
+    
+    ## Validate that nbCores is an positive integer
+    if (!(isSingleInteger(nbCores) || isSingleNumber(nbCores)) ||
+        as.integer(nbCores) < 1) {
+        stop("nbCores must be a positive integer or numeric")
+    }
+    
+    ## Validate that nbCores is set to 1 on Windows system
+    if (Sys.info()["sysname"] == "Windows" && as.integer(nbCores) != 1) {
+        stop("nbCores must be 1 on a Windows system.")
+    }
+    
+    ## Validate that vSeed is an integer
+    if (!(isSingleInteger(vSeed) || isSingleNumber(vSeed))) {
+        stop("vSeed must be an integer or numeric")
+    }
+    
+    return(0)
+}
+
+
+#' @title Parameters validation for the \code{\link{runSim}} function. Only 
+#' logical parameters are validated.
+#'
+#' @description Validation of all parameters needed by the public
+#' \code{\link{runSim}} function. Only logical parameters are validated.
+#' 
+#' @param keepDiff \code{logical} if true, the differentially methyled sites
+#' will be the same for each parameter (\code{vpDiff}, 
+#' \code{vDiff} and \code{vInheritance}). Default: \code{FALSE}.
+#' 
+#' @param saveGRanges a \code{logical}, when \code{true}, the package save two 
+#' files type. The first generate for each simulation contains a \code{list}. 
+#' The length of the \code{list} corresponds to the number of generation. 
+#' The generation are stored in order (first entry = first generation, 
+#' second entry = second generation, etc..). All samples related to one 
+#' generations are contained in a \code{GRangesList}. 
+#' The \code{GRangeaList} store a \code{list} of \code{GRanges}. Each 
+#' \code{GRanges} stores the raw mehylation data of one sample.
+#' The second file a numeric \code{vector} denoting controls and cases 
+#' (a file is generates by entry in the \code{vector} parameters 
+#' \code{vNbSample}).
+#' 
+#' @param saveMethylKit a \code{logical}, when \code{TRUE}, for each 
+#' simulations save a file contains a \code{list}. The length of the 
+#' \code{list} corresponds to the number of generation. The generation are 
+#' stored in order (first entry = first generation, 
+#' second entry = second generation, etc..). All samples related to one 
+#' generations are contained in a S4 \code{methylRawList} object. The 
+#' \code{methylRawList} object contains two Slots:
+#' 1. treatment: A numeric \code{vector} denoting controls and cases.
+#' 2. .Data: A \code{list} of \code{methylRaw} objects. Each object stores the 
+#' raw methylation data of one sample.
+#' 
+#' @param runAnalysis a \code{logical}, if \code{TRUE}, two files are saved 
+#' for each simulation:
+#' \itemize{
+#' \item 1. The first file is the methylObj... file formated with 
+#' the \code{methylkit} package in a S4 \code{methylBase} object 
+#' (with the \code{methylKit} functions: \code{filterByCoverage}, 
+#' \code{normalizeCoverage} and \code{unite}).
+#' \item 2. The second file contains a S4 \code{calculateDiffMeth} object 
+#' generated with the \code{methylKit} functions \code{calculateDiffMeth} on 
+#' the first file.
+#' }
+#' 
+#' @return \code{0} indicating that the function has been successful.
+#'
+#' @examples
+#'
+#' ## Load dataset
+#' data("samplesForChrSynthetic")
+#'
+#' ## The function returns 0 when all paramaters are valid
+#' methylInheritanceSim:::validateRunSimLogicalParameters(keepDiff = FALSE, 
+#' saveGRanges = TRUE, saveMethylKit = FALSE, runAnalysis = FALSE)
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @importFrom S4Vectors isSingleInteger isSingleNumber
+#' @keywords internal
+validateRunSimLogicalParameters <-function(keepDiff, saveGRanges, 
+                                            saveMethylKit, runAnalysis) {
+    
+    ## Validate that keepDiff is a logical
+    if (!is.logical(keepDiff)) {
+        stop("keepDiff must be a logical")
+    }
+    
+    ## Validate that saveGRanges is a logical
+    if (!is.logical(saveGRanges)) {
+        stop("saveGRanges must be a logical")
+    }
+    
+    ## Validate that saveMethylKit is a logical
+    if (!is.logical(saveMethylKit)) {
+        stop("saveMethylKit must be a logical")
+    }
+    
+    ## Validate that runAnalysis is a logical
+    if (!is.logical(runAnalysis)) {
+        stop("runAnalysis must be a logical")
+    }
+    
+    return(0)
+}
+
+
+#' @title Parameters validation for the \code{\link{runSim}} function
+#'
+#' @description Validation of all parameters needed by the public
+#' \code{\link{runSim}} function.
+#'
+#' @param outputDir a string of \code{character} or \code{NULL}, the path 
+#' where the 
+#' files created by the function will be saved. When \code{NULL}, the files
+#' are saved in the current directory. Default: \code{NULL}.
+#'
+#' @param fileID a string of \code{character}, a identifiant that will be 
+#' included in each output file name. Each output 
+#' file name is 
+#' composed of those elements, separated by "_":
+#' \itemize{ 
+#' \item a type name, ex: methylGR, methylObj, etc..
+#' \item a \code{fileID}
+#' \item the chromosome number, a number between 1 and \code{nbSynCHR}
+#' \item the number of samples, a number in the \code{vNbSample} \code{vector}
+#' \item the mean proportion of samples that has,
+#' for a specific position, differentially methylated values, a 
+#' number in the \code{vpDiff} \code{vector}
+#' \item the proportion of 
+#' C/T for a case differentially methylated that follows a shifted beta 
+#' distribution, a
+#' number in the \code{vDiff} \code{vector}
+#' \item the 
+#' proportion of cases that inherits differentially sites, a number in the
+#' \code{vInheritance} \code{vector}
+#' \item the identifiant for the simulation, a number 
+#' between 1 and \code{nbSimulation}
+#' \item the file extension ".rds"
+#' }
+#'
+#' @param methData an object of class \code{methylBase}, the CpG information
+#' from controls (CTRL) that will be used to create the sythetic chromosome. 
+#' The \code{methData} object can also contain information from cases but 
+#' only the controls will be used.
+#' 
+#' @param context a string of \code{character}, the methylation context 
+#' string, ex: CpG,CpH,CHH, etc. 
+#' Default: \code{"CpG"}.
+#' 
+#' @param assembly a string of \code{character}, the short description of the 
+#' genome assembly. Ex: mm9,hg18 etc.
+#' Default: \code{"Rnor_5.0"}
+#' 
+#' @return \code{0} indicating that the function has been successful.
+#'
+#' @examples
+#'
+#' ## Load dataset
+#' data("samplesForChrSynthetic")
+#'
+#' ## The function returns 0 when all paramaters are valid
+#' methylInheritanceSim:::validateRunSimOtherParameters(
+#' outputDir = "test", fileID = "test", methData = samplesForChrSynthetic, 
+#' context = "CpG", assembly = "Rnor_5.0")
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @importFrom S4Vectors isSingleInteger isSingleNumber
+#' @keywords internal
+validateRunSimOtherParameters <-function(outputDir, fileID, methData, 
+                                    context, assembly) {
+    
+    ## Validate that the outputDir is an not empty string
+    if (!is.null(outputDir) && !is.character(outputDir)) {
+        stop("outputDir must be a character string or NULL")
+    }
+    
+    ## Validate that the fileID is an not empty string
+    if (!is.null(fileID) && !is.character(fileID)) {
+        stop("fileID must be a character string or NULL")
+    }
+    
+    ## Validate that the methData is a methylBase object
+    if (!"methylBase" %in% class(methData)) {
+        stop("methData must be an object of class \"methyBase\"")
+    }
+    
+    ## Validate that context is a character string
+    if(!is.character(context)) {
+        stop("context must be a character string")
+    }
+    
+    ## Validate that assembly is a character string
+    if (!is.character(assembly)) {
+        stop("assembly must be a character string")
+    }
+    
+    return(0)
+}
