@@ -1258,10 +1258,10 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
 
 
 #' @title Parameters validation for the \code{\link{runSim}} function. Only
-#' numerical parameters are validated.
+#' integer parameters are validated.
 #'
 #' @description Validation of all parameters needed by the public
-#' \code{\link{runSim}} function.Only numerical parameters are validated.
+#' \code{\link{runSim}} function. Only integer parameters are validated.
 #'
 #' @param nbSynCHR a positive \code{integer}, the number of distinct 
 #' synthetic chromosomes that will be generated.
@@ -1283,45 +1283,10 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
 #' the real dataset.
 #'
 #' @param nbGeneration a positive \code{integer}, the number of generations.
-#'
-#' @param vpDiff a \code{double} superior to \code{0} and inferior or equal 
-#' to \code{1}, the mean value for the proportion of samples that will have,
-#' for a specific position, differentially methylated values. It can be 
-#' interpreted as the penetrance.
-#' 
-#' @param vpDiffsd a non-negative \code{double}, the standard deviation 
-#' associated to the \code{propDiff}.
-#'
-#' @param vDiff a positive \code{double} between [0,1], the proportion of 
-#' C/T for a case differentially methylated follow a beta distribution 
-#' where the mean is shifted of \code{vDiff} from the CTRL distribution
-#'
-#' @param vInheritance a positive \code{double} between [0,1], the 
-#' proportion of cases that inherited differentially sites.
-#' 
-#' @param propInherite a non-negative \code{double} inferior or equal to 
-#' \code{1}, the proportion of differentially methylated site
-#' are inherated
-#'
-#' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
-#' the chance that a site is differentially methylated.
-#'
-#' @param minRate a non-negative \code{double} inferior to \code{1}, the 
-#' minimum rate of differentially methylated sites.
-#'
-#' @param propHetero a positive \code{double} between [0,1], the 
-#' reduction of vDiff for the second and following generations.
 #' 
 #' @param minReads a positive \code{integer} Bases and regions having lower
 #' coverage than this count are discarded. The parameter
 #' correspond to the \code{lo.count} parameter in the \code{methylKit} package.
-#' 
-#' @param maxPercReads a \code{double} between [0,100], the percentile of read
-#' counts that is going to be used as upper cutoff. Bases ore regions
-#' having higher
-#' coverage than this percentile are discarded. Parameter used for both CpG
-#' sites and tiles analysis. The parameter
-#' correspond to the \code{hi.perc} parameter in the  \code{methylKit} package.
 #' 
 #' @param meanCov a positive \code{integer} represent the mean of the coverage
 #' at the CpG site Default: \code{80}.
@@ -1337,26 +1302,18 @@ validateRunSimParameters <-function(outputDir, fileID, nbSynCHR, methData,
 #' @return \code{0} indicating that the function has been successful.
 #'
 #' @examples
-#'
-#' ## Load dataset
-#' data("samplesForChrSynthetic")
-#'
+#' 
 #' ## The function returns 0 when all paramaters are valid
-#' methylInheritanceSim:::validateRunSimNumberParameters(nbSynCHR = 1, 
+#' methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
 #' nbSimulation = 2, nbBlock = 10, nbCpG = 4, vNbSample = 10, 
-#' nbGeneration = 3, vpDiff =0.2, vpDiffsd = 0.3, vDiff = 0.4, 
-#' vInheritance = 0.2, propInherite = 0.5, rateDiff = 0.2, minRate = 0.1, 
-#' propHetero = 0.2, minReads = 10, maxPercReads = 99.1, meanCov = 80, 
+#' nbGeneration = 3, minReads = 10, meanCov = 80, 
 #' nbCores = 1, vSeed = -1)
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom S4Vectors isSingleInteger isSingleNumber
 #' @keywords internal
-validateRunSimNumberParameters <-function(nbSynCHR, nbSimulation, nbBlock, 
-                                    nbCpG, vNbSample, nbGeneration, vpDiff, 
-                                    vpDiffsd, vDiff, vInheritance,
-                                    propInherite, rateDiff, minRate, 
-                                    propHetero, minReads, maxPercReads, 
+validateRunSimIntegerParameters <-function(nbSynCHR, nbSimulation, nbBlock, 
+                                    nbCpG, vNbSample, nbGeneration, minReads, 
                                     meanCov, nbCores, vSeed) {
 
     ## Validate that nbSynCHR is an positive integer
@@ -1394,6 +1351,96 @@ validateRunSimNumberParameters <-function(nbSynCHR, nbSimulation, nbBlock,
         any(vNbSample < 1) || ! all(as.integer(vNbSample) == vNbSample)) {
         stop("vNbSample must be a vector of distinct positive integer")
     }
+    
+    ## Validate that minReads is an positive integer
+    if (!(isSingleInteger(minReads) || isSingleNumber(minReads)) ||
+        as.integer(minReads) < 1) {
+        stop("minReads must be a positive integer or numeric")
+    }
+    
+    ## Validate that meanCov is an positive integer
+    if (!(isSingleInteger(meanCov) || isSingleNumber(meanCov)) ||
+        as.integer(meanCov) < 1) {
+        stop("meanCov must be a positive integer or numeric")
+    }
+    
+    ## Validate that nbCores is an positive integer
+    if (!(isSingleInteger(nbCores) || isSingleNumber(nbCores)) ||
+        as.integer(nbCores) < 1) {
+        stop("nbCores must be a positive integer or numeric")
+    }
+    
+    ## Validate that nbCores is set to 1 on Windows system
+    if (Sys.info()["sysname"] == "Windows" && as.integer(nbCores) != 1) {
+        stop("nbCores must be 1 on a Windows system.")
+    }
+    
+    ## Validate that vSeed is an integer
+    if (!(isSingleInteger(vSeed) || isSingleNumber(vSeed))) {
+        stop("vSeed must be an integer or numeric")
+    }
+    
+    return(0)
+}
+
+
+#' @title Parameters validation for the \code{\link{runSim}} function. Only
+#' double parameters are validated.
+#'
+#' @description Validation of all parameters needed by the public
+#' \code{\link{runSim}} function. Only double parameters are validated.
+#'
+#' @param vpDiff a \code{double} superior to \code{0} and inferior or equal 
+#' to \code{1}, the mean value for the proportion of samples that will have,
+#' for a specific position, differentially methylated values. It can be 
+#' interpreted as the penetrance.
+#' 
+#' @param vpDiffsd a non-negative \code{double}, the standard deviation 
+#' associated to the \code{propDiff}.
+#'
+#' @param vDiff a positive \code{double} between [0,1], the proportion of 
+#' C/T for a case differentially methylated follow a beta distribution 
+#' where the mean is shifted of \code{vDiff} from the CTRL distribution
+#'
+#' @param vInheritance a positive \code{double} between [0,1], the 
+#' proportion of cases that inherited differentially sites.
+#' 
+#' @param propInherite a non-negative \code{double} inferior or equal to 
+#' \code{1}, the proportion of differentially methylated site
+#' are inherated
+#'
+#' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
+#' the chance that a site is differentially methylated.
+#'
+#' @param minRate a non-negative \code{double} inferior to \code{1}, the 
+#' minimum rate of differentially methylated sites.
+#'
+#' @param propHetero a positive \code{double} between [0,1], the 
+#' reduction of vDiff for the second and following generations.
+#' 
+#' @param maxPercReads a \code{double} between [0,100], the percentile of read
+#' counts that is going to be used as upper cutoff. Bases ore regions
+#' having higher
+#' coverage than this percentile are discarded. Parameter used for both CpG
+#' sites and tiles analysis. The parameter
+#' correspond to the \code{hi.perc} parameter in the  \code{methylKit} package.
+#' 
+#' @return \code{0} indicating that the function has been successful.
+#'
+#' @examples
+#'
+#' ## The function returns 0 when all paramaters are valid
+#' methylInheritanceSim:::validateRunSimDoubleParameters(vpDiff =0.2, 
+#' vpDiffsd = 0.3, vDiff = 0.4, vInheritance = 0.2, propInherite = 0.5, 
+#' rateDiff = 0.2, minRate = 0.1, propHetero = 0.2, maxPercReads = 99.1)
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @importFrom S4Vectors isSingleInteger isSingleNumber
+#' @keywords internal
+validateRunSimDoubleParameters <-function(vpDiff, vpDiffsd, vDiff, 
+                                        vInheritance,propInherite, rateDiff, 
+                                        minRate, propHetero, minReads, 
+                                        maxPercReads) {
     
     ## Validate that vpDiff is an positive double include in (0,1]
     if (! is.numeric(vpDiff) || anyDuplicated(vpDiff) > 0 ||
@@ -1452,38 +1499,10 @@ validateRunSimNumberParameters <-function(nbSynCHR, nbSimulation, nbBlock,
         stop("propHetero must be a non-negative double include in [0,1]")
     }
     
-    ## Validate that minReads is an positive integer
-    if (!(isSingleInteger(minReads) || isSingleNumber(minReads)) ||
-        as.integer(minReads) < 1) {
-        stop("minReads must be a positive integer or numeric")
-    }
-    
     ## Validate that maxPercReads is an positive double between [0,100]
     if (!(isSingleNumber(maxPercReads)) ||
         maxPercReads < 0.00 || maxPercReads > 100.00) {
         stop("maxPercReads must be a positive double between [0,100]")
-    }
-    
-    ## Validate that meanCov is an positive integer
-    if (!(isSingleInteger(meanCov) || isSingleNumber(meanCov)) ||
-        as.integer(meanCov) < 1) {
-        stop("meanCov must be a positive integer or numeric")
-    }
-    
-    ## Validate that nbCores is an positive integer
-    if (!(isSingleInteger(nbCores) || isSingleNumber(nbCores)) ||
-        as.integer(nbCores) < 1) {
-        stop("nbCores must be a positive integer or numeric")
-    }
-    
-    ## Validate that nbCores is set to 1 on Windows system
-    if (Sys.info()["sysname"] == "Windows" && as.integer(nbCores) != 1) {
-        stop("nbCores must be 1 on a Windows system.")
-    }
-    
-    ## Validate that vSeed is an integer
-    if (!(isSingleInteger(vSeed) || isSingleNumber(vSeed))) {
-        stop("vSeed must be an integer or numeric")
     }
     
     return(0)

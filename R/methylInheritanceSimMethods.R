@@ -257,15 +257,18 @@ runSim <- function(outputDir = NULL, fileID = "s",
                     runAnalysis = FALSE,
                     nbCores = 1, vSeed = -1) {
     
-    ## Validate numerical parameters
-    validateRunSimNumberParameters(nbSynCHR = nbSynCHR, nbSimulation = 
+    ## Validate double parameters
+    validateRunSimDoubleParameters(vpDiff = vpDiff, vpDiffsd = vpDiffsd, 
+                    vDiff = vDiff, vInheritance = vInheritance, 
+                    propInherite = propInherite, rateDiff = rateDiff, 
+                    minRate = minRate, propHetero = propHetero, 
+                    minReads = minReads, maxPercReads = maxPercReads)
+    
+    ## Validate integer parameters
+    validateRunSimIntegerParameters(nbSynCHR = nbSynCHR, nbSimulation = 
                     nbSimulation, nbBlock = nbBlock, nbCpG  = nbCpG, 
-                    vNbSample = vNbSample, nbGeneration = nbGeneration, 
-                    vpDiff = vpDiff, vpDiffsd = vpDiffsd, vDiff = vDiff,  
-                    vInheritance = vInheritance, propInherite = propInherite, 
-                    rateDiff = rateDiff, minRate = minRate, propHetero = 
-                    propHetero, minReads = minReads, maxPercReads = 
-                    maxPercReads, meanCov = meanCov, nbCores = nbCores, 
+                    vNbSample = vNbSample, nbGeneration = nbGeneration,    
+                    minReads = minReads, meanCov = meanCov, nbCores = nbCores, 
                     vSeed = vSeed) 
     
     ## Validate logical parameters
@@ -275,8 +278,8 @@ runSim <- function(outputDir = NULL, fileID = "s",
     
     ## Validate other parameters
     validateRunSimOtherParameters(outputDir = outputDir, fileID = fileID, 
-                                    methData = methData, context = context, 
-                                    assembly = assembly)
+                    methData = methData, context = context, 
+                    assembly = assembly)
     
     ## Fix seed
     if (vSeed <= -1) {
