@@ -257,25 +257,29 @@ runSim <- function(outputDir = NULL, fileID = "s",
                     runAnalysis = FALSE,
                     nbCores = 1, vSeed = -1) {
     
-    validateRunSimParameters(outputDir = outputDir, fileID = fileID, 
-                                nbSynCHR = nbSynCHR, methData = methData,
-                                nbSimulation = nbSimulation,
-                                nbBlock = nbBlock, nbCpG  = nbCpG,
-                                vNbSample = vNbSample, 
-                                nbGeneration = nbGeneration, 
-                                vpDiff = vpDiff, vpDiffsd = vpDiffsd, 
-                                vDiff = vDiff, 
-                                vInheritance = vInheritance,
-                                propInherite = propInherite, 
-                                rateDiff, minRate, propHetero, 
-                                minReads = minReads, 
-                                maxPercReads = maxPercReads, 
-                                context = context, assembly = assembly,
-                                meanCov = meanCov, keepDiff = keepDiff,
-                                saveGRanges = saveGRanges, 
-                                saveMethylKit = saveMethylKit,
-                                runAnalysis = runAnalysis,
-                                nbCores = nbCores, vSeed = vSeed)
+    ## Validate double parameters
+    validateRunSimDoubleParameters(vpDiff = vpDiff, vpDiffsd = vpDiffsd, 
+                    vDiff = vDiff, vInheritance = vInheritance, 
+                    propInherite = propInherite, rateDiff = rateDiff, 
+                    minRate = minRate, propHetero = propHetero, 
+                    minReads = minReads, maxPercReads = maxPercReads)
+    
+    ## Validate integer parameters
+    validateRunSimIntegerParameters(nbSynCHR = nbSynCHR, nbSimulation = 
+                    nbSimulation, nbBlock = nbBlock, nbCpG  = nbCpG, 
+                    vNbSample = vNbSample, nbGeneration = nbGeneration,    
+                    minReads = minReads, meanCov = meanCov, nbCores = nbCores, 
+                    vSeed = vSeed) 
+    
+    ## Validate logical parameters
+    validateRunSimLogicalParameters(keepDiff = keepDiff, saveGRanges = 
+                    saveGRanges, saveMethylKit = saveMethylKit,
+                    runAnalysis = runAnalysis)
+    
+    ## Validate other parameters
+    validateRunSimOtherParameters(outputDir = outputDir, fileID = fileID, 
+                    methData = methData, context = context, 
+                    assembly = assembly)
     
     ## Fix seed
     if (vSeed <= -1) {
