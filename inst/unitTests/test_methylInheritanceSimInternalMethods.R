@@ -258,6 +258,20 @@ test.validateRunSimOtherParameters_context_double <- function() {
     checkEquals(obs, exp, message)
 }
 
+test.validateRunSimOtherParameters_good_01 <- function() {
+    obs <- tryCatch(methylInheritanceSim:::validateRunSimOtherParameters(outputDir = "test",
+                                fileID = "F1", methData = samplesForChrSynthetic,
+                                context = "hi", assembly = "hg19"),
+        error=conditionMessage)
+    
+    exp <- 0
+    
+    message <- paste0("test.validateRunSimOtherParameters_good_01() ",
+                      "- All good parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
 
 ###################################################
 ## validateRunSimLogicalParameters() function
@@ -351,6 +365,21 @@ test.validateRunSimLogicalParameters_keepDiff_double <- function() {
     
     checkEquals(obs, exp, message)
 }
+
+test.validateRunSimLogicalParameters_good_01 <- function() {
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimLogicalParameters(keepDiff = TRUE, 
+            saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE),
+        error=conditionMessage)
+    
+    exp <- 0
+    
+    message <- paste0("test.validateRunSimLogicalParameters_good_01() ",
+                      "- All good parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
 
 ###################################################
 ## validateRunSimIntegerParameters() function
@@ -1223,6 +1252,22 @@ test.validateRunSimDoubleParameters_rateDiff_vector <- function() {
     
     message <- paste0("test.validateRunSimDoubleParameters_rateDiff_vector() ",
                       "- Vector as rateDiff parameter did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimDoubleParameters_good_01 <- function() {
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimDoubleParameters(
+            vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
+            propInherite = 0.6, rateDiff = 0.2, minRate = 0.1, 
+            propHetero = 0.3, maxPercReads = 99.9),
+        error=conditionMessage)
+    
+    exp <- 0
+    
+    message <- paste0("test.validateRunSimDoubleParameters_good_01() ",
+                      "- All good parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
