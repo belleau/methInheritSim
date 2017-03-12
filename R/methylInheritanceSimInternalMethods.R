@@ -655,7 +655,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' correspond to the \code{hi.perc} parameter in the \code{methylKit} package.
 #' 
 #' @param context a string of \code{character}, the short description of the 
-#' methylation context, such as "CpG", "CpH", "CHH", etc.. Default: "CpG"
+#' methylation context, such as "CpG", "CpH", "CHH", etc..
 #' 
 #' @param assembly a string of \code{character}, the short description of the 
 #' genome assembly, such as "mm9", "hg18", etc..
@@ -757,7 +757,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                         propDiff, propDiffsd, diffValue, propInheritance, 
                         rateDiff , minRate, propInherite, 
                         propHetero, minReads, maxPercReads,
-                        context = "CpG", assembly, meanCov, diffRes, 
+                        context, assembly, meanCov, diffRes, 
                         saveGRanges,
                         saveMethylKit, runAnalysis) {
     
@@ -767,27 +767,9 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
             dir.create(pathOut, showWarnings = TRUE)
     }
     
-    alreadyDone <- TRUE
-    if(! (file.exists(paste0(pathOut, "/stateDiff_", pref, "_", k, ".rds"))) 
-        || ! (file.exists(paste0(pathOut, 
-                                    "/simV0.1_", pref, "_", k, ".rds")))) {
-        alreadyDone <- FALSE
-    }
-    if(saveGRanges && 
-        ! (file.exists(paste0(pathOut, "/methylGR_", pref, "_", k,".rds")))) {
-            alreadyDone <- FALSE
-       }
-    if(saveMethylKit &&
-        ! (file.exists(paste0(pathOut, 
-                                "/methylObj_", pref, "_", k, ".rds")))) {
-        alreadyDone <- FALSE
-    }
-    if(runAnalysis &&
-        ( ! (file.exists(paste0(pathOut, "/meth_", pref, "_", k,".rds")))
-            || ! (file.exists(paste0(pathOut, 
-                                    "/methDiff_", pref, "_", k, ".rds"))))) {
-        alreadyDone <- FALSE
-    }
+    # Test if the simulation has already been done
+    alreadyDone <- testIfAlreadyDone(pathOut, pref, k, saveGRanges, 
+                                        saveMethylKit, runAnalysis)
     
     if (!(alreadyDone)) {
         if (is.null(diffRes)) {
@@ -887,6 +869,59 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
     return(0)
 }
 
+#' @title Test if a specific simulation has already be done.
+#'
+#' @description Test if a specific simulation has already be done.
+#' 
+#' @param pathOut a string of \code{character}, the path 
+#' where the files are saved.
+#' 
+#' @param preference a string of \code{character} representing the 
+#' parameters of specific simulation.
+#' 
+#' @param id a positive \code{integer}, a ID for the current simulation.
+#' 
+#' @param saveGRanges a \code{logical}, when \code{true}, files containing 
+#' \code{GRangeaList} are saved.
+#' 
+#' @param saveMethylKit a \code{logical}, when \code{TRUE}, files 
+#' \code{methylRawList} object are saved.
+#' 
+#' @param runAnalysis a \code{logical}, when \code{TRUE}, two files related
+#' to the analysis are saved.
+#' 
+#' @return \code{logical} indicating if the simulation has already done.
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @keywords internal
+testIfAlreadyDone <- function(pathOut, preference, id, saveGRanges, 
+                                saveMethylKit, runAnalysis) {
+    
+    extension <- paste0(preference, "_", id, ".rds")
+    
+    alreadyDone <- TRUE
+    
+    if(! (file.exists(paste0(pathOut, "/stateDiff_", extension))) 
+        || ! (file.exists(paste0(pathOut, "/simV0.1_", extension)))) {
+        alreadyDone <- FALSE
+    }
+    if(saveGRanges && 
+        ! (file.exists(paste0(pathOut, "/methylGR_", extension)))) {
+        alreadyDone <- FALSE
+    }
+    if(saveMethylKit &&
+        ! (file.exists(paste0(pathOut, "/methylObj_", extension)))) {
+        alreadyDone <- FALSE
+    }
+    if(runAnalysis &&
+        (! (file.exists(paste0(pathOut, "/meth_", extension)))
+            || ! (file.exists(paste0(pathOut, "/methDiff_", extension))))) {
+        alreadyDone <- FALSE
+    }
+    
+    return(alreadyDone)
+}
+    
 
 #' @title Parameters validation for the \code{\link{runSim}} function. Only
 #' integer parameters are validated.
@@ -943,7 +978,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom S4Vectors isSingleInteger isSingleNumber
 #' @keywords internal
-validateRunSimIntegerParameters <-function(nbSynCHR, nbSimulation, nbBlock, 
+validateRunSimIntegerParameters <- function(nbSynCHR, nbSimulation, nbBlock, 
                                     nbCpG, vNbSample, nbGeneration, minReads, 
                                     meanCov, nbCores, vSeed) {
 
