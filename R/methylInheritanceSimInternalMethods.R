@@ -721,21 +721,15 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' data(dataSimExample)
 #' 
 #' \dontrun{methylInheritanceSim:::simInheritance(pathOut = temp_dir,
-#' pref = paste0("S1_", "6_0.9_0.8_0.5"),
-#' k = 1, nbCtrl = 6, nbCase = 6, 
+#' pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
 #' treatment = dataSimExample$treatment, 
 #' sample.id = dataSimExample$sample.id,
-#' generation = 3, 
-#' stateInfo = dataSimExample$stateInfo,
+#' generation = 3, stateInfo = dataSimExample$stateInfo,
 #' propDiff = 0.9, propDiffsd = 0.1,
-#' diffValue = 0.8,
-#' propInheritance = 0.5,
+#' diffValue = 0.8, propInheritance = 0.5,
 #' rateDiff = 0.3, minRate = 0.3,
-#' propInherite = 0.3, 
-#' propHetero = 0.5,
-#' saveGRanges = FALSE,
-#' saveMethylKit = FALSE,
-#' runAnalysis = FALSE
+#' propInherite = 0.3, propHetero = 0.5,
+#' saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE
 #' )}
 #' 
 #' ## Delete temp_dir
@@ -758,8 +752,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                         rateDiff , minRate, propInherite, 
                         propHetero, minReads, maxPercReads,
                         context, assembly, meanCov, diffRes, 
-                        saveGRanges,
-                        saveMethylKit, runAnalysis) {
+                        saveGRanges, saveMethylKit, runAnalysis) {
     
     # Test if the simulation was done before
     # if just a part of the simulation is done it do it again
@@ -803,19 +796,16 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                 coverage <- rpois( length(stateInfo), meanCov) + 1
                 
                 testM <- GRanges(seqnames = seqnames( stateInfo), 
-                                    ranges = ranges(stateInfo),
-                                    strand = strand(stateInfo),
-                                    coverage = coverage,
-                                    numCs = round(coverage * 
+                            ranges = ranges(stateInfo), 
+                            strand = strand(stateInfo), coverage = coverage,
+                            numCs = round(coverage * 
                                             unlist(mcols(simV0.1[[i]])[4+j])))
                 if(saveMethylKit){
                     obj<-new("methylRaw", data.frame(chr = seqnames( testM), 
-                                        start = start(testM), 
-                                        end = end(testM),
-                                        strand = strand(testM),
-                                        coverage = testM$coverage, 
-                                        numCs = testM$numCs,
-                                        numTs = testM$coverage - testM$numCs),
+                                start = start(testM), end = end(testM),
+                                strand = strand(testM),
+                                coverage = testM$coverage, numCs = testM$numCs,
+                                numTs = testM$coverage - testM$numCs),
                             sample.id = sample.id[[i]][[j]], 
                             assembly = assembly,
                             context = context, resolution = 'base')
@@ -839,9 +829,8 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
             
             if (runAnalysis) {
                 filtered.myobj <- filterByCoverage(myobj[[i]],
-                                        lo.count = minReads, 
-                                        lo.perc = NULL, hi.count = NULL,
-                                        hi.perc = maxPercReads)
+                                    lo.count = minReads, lo.perc = NULL, 
+                                    hi.count = NULL, hi.perc = maxPercReads)
                 filtered.myobj <- normalizeCoverage(filtered.myobj, "median")
                 meth[[i]]   <- unite(filtered.myobj, destrand = FALSE)
                 myDiff[[i]] <- calculateDiffMeth(meth[[i]])
@@ -891,6 +880,14 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' to the analysis are saved.
 #' 
 #' @return \code{logical} indicating if the simulation has already done.
+#' 
+#' @examples
+#' 
+#' ## Return TRUE when the a specified simulation has already be done;
+#' ## otherwise, return FALSE.
+#' methylInheritanceSim:::testIfAlreadyDone(pathOut = ".", 
+#' preference = "S1_6_0.9_0.8_0.5", id = 33, 
+#' saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
 #' @keywords internal
