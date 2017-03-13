@@ -248,38 +248,24 @@ runSim <- function(outputDir = NULL, fileID = "s",
                     vpDiffsd = c(0.1), vDiff = c(0.8), 
                     vInheritance = c(0.5),
                     rateDiff = 0.01, minRate = 0.01, propInherite = 0.3,
-                    propHetero = 0.5, 
-                    minReads = 10, 
+                    propHetero = 0.5, minReads = 10, 
                     maxPercReads = 99.9, meanCov = 80,
                     context = "CpG", assembly="Rnor_5.0",
                     keepDiff = FALSE,
                     saveGRanges = TRUE, saveMethylKit = TRUE,
-                    runAnalysis = FALSE,
-                    nbCores = 1, vSeed = -1) {
+                    runAnalysis = FALSE, nbCores = 1, vSeed = -1) {
     
-    ## Validate double parameters
-    validateRunSimDoubleParameters(vpDiff = vpDiff, vpDiffsd = vpDiffsd, 
-                    vDiff = vDiff, vInheritance = vInheritance, 
-                    propInherite = propInherite, rateDiff = rateDiff, 
-                    minRate = minRate, propHetero = propHetero, 
-                    minReads = minReads, maxPercReads = maxPercReads)
-    
-    ## Validate integer parameters
-    validateRunSimIntegerParameters(nbSynCHR = nbSynCHR, nbSimulation = 
-                    nbSimulation, nbBlock = nbBlock, nbCpG  = nbCpG, 
-                    vNbSample = vNbSample, nbGeneration = nbGeneration,    
-                    minReads = minReads, meanCov = meanCov, nbCores = nbCores, 
-                    vSeed = vSeed) 
-    
-    ## Validate logical parameters
-    validateRunSimLogicalParameters(keepDiff = keepDiff, saveGRanges = 
-                    saveGRanges, saveMethylKit = saveMethylKit,
-                    runAnalysis = runAnalysis)
-    
-    ## Validate other parameters
-    validateRunSimOtherParameters(outputDir = outputDir, fileID = fileID, 
-                    methData = methData, context = context, 
-                    assembly = assembly)
+    ## Validate all parameters
+    validateRunSimParameters(vpDiff = vpDiff, vpDiffsd = vpDiffsd, 
+        vDiff = vDiff, vInheritance = vInheritance, propInherite = 
+        propInherite, rateDiff = rateDiff, minRate = minRate, propHetero = 
+        propHetero, maxPercReads = maxPercReads, nbSynCHR = nbSynCHR, 
+        nbSimulation = nbSimulation, nbBlock = nbBlock, nbCpG = nbCpG, 
+        vNbSample = vNbSample, nbGeneration = nbGeneration, minReads = minReads, 
+        meanCov = meanCov, nbCores = nbCores, vSeed = vSeed, keepDiff = 
+        keepDiff, saveGRanges = saveGRanges, saveMethylKit = saveMethylKit, 
+        runAnalysis = runAnalysis, outputDir = outputDir, fileID = fileID, 
+        methData = methData, context = context, assembly = assembly)
     
     ## Fix seed
     if (vSeed <= -1) {
@@ -356,9 +342,9 @@ runSim <- function(outputDir = NULL, fileID = "s",
                                             propInheritance)
                             
                         a <- mclapply(1:nbSimulation, FUN = simInheritance, 
-                                        pathOut = outputDir, 
-                                        pref = prefBase, nbCtrl = nbCtrl,
-                                        nbCase = nbCase, treatment = treatment, 
+                                        pathOut = outputDir, pref = prefBase, 
+                                        nbCtrl = nbCtrl, nbCase = nbCase, 
+                                        treatment = treatment, 
                                         sample.id = sample.id, 
                                         generation = nbGeneration,
                                         stateInfo = res, rateDiff = rateDiff,
@@ -371,8 +357,7 @@ runSim <- function(outputDir = NULL, fileID = "s",
                                         propHetero = propHetero, 
                                         minReads = minReads, 
                                         maxPercReads = maxPercReads,
-                                        context = context, 
-                                        assembly = assembly,
+                                        context = context, assembly = assembly,
                                         meanCov = meanCov, diffRes = diffRes,
                                         saveGRanges = saveGRanges,
                                         saveMethylKit = saveMethylKit,

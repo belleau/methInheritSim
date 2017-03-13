@@ -6,7 +6,7 @@
 double parameters are validated.}
 \usage{
 validateRunSimDoubleParameters(vpDiff, vpDiffsd, vDiff, vInheritance,
-  propInherite, rateDiff, minRate, propHetero, minReads, maxPercReads)
+  propInherite, rateDiff, minRate, propHetero, maxPercReads)
 }
 \arguments{
 \item{vpDiff}{a \code{double} superior to \code{0} and inferior or equal 

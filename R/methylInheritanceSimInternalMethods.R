@@ -920,6 +920,214 @@ testIfAlreadyDone <- function(pathOut, preference, id, saveGRanges,
 }
     
 
+#' @title Parameters validation for the \code{\link{runSim}} function. 
+#'
+#' @description Validation of all parameters needed by the public
+#' \code{\link{runSim}} function. 
+#' 
+#' @param vpDiff a \code{double} superior to \code{0} and inferior or equal 
+#' to \code{1}, the mean value for the proportion of samples that will have,
+#' for a specific position, differentially methylated values. It can be 
+#' interpreted as the penetrance.
+#' 
+#' @param vpDiffsd a non-negative \code{double}, the standard deviation 
+#' associated to the \code{propDiff}.
+#'
+#' @param vDiff a positive \code{double} between [0,1], the proportion of 
+#' C/T for a case differentially methylated follow a beta distribution 
+#' where the mean is shifted of \code{vDiff} from the CTRL distribution
+#'
+#' @param vInheritance a positive \code{double} between [0,1], the 
+#' proportion of cases that inherited differentially sites.
+#' 
+#' @param propInherite a non-negative \code{double} inferior or equal to 
+#' \code{1}, the proportion of differentially methylated site
+#' are inherated
+#'
+#' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
+#' the chance that a site is differentially methylated.
+#'
+#' @param minRate a non-negative \code{double} inferior to \code{1}, the 
+#' minimum rate of differentially methylated sites.
+#'
+#' @param propHetero a positive \code{double} between [0,1], the 
+#' reduction of vDiff for the second and following generations.
+#' 
+#' @param maxPercReads a \code{double} between [0,100], the percentile of read
+#' counts that is going to be used as upper cutoff. Bases ore regions
+#' having higher
+#' coverage than this percentile are discarded. Parameter used for both CpG
+#' sites and tiles analysis. The parameter
+#' correspond to the \code{hi.perc} parameter in the  \code{methylKit} package.
+#'
+#' @param nbSynCHR a positive \code{integer}, the number of distinct 
+#' synthetic chromosomes that will be generated.
+#' 
+#' @param nbSimulation a positive \code{integer}, the number of simulations 
+#' for each parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
+#' \code{vInheritance}).
+#'
+#' @param nbBlock a positive \code{integer}, the number of blocks used 
+#' for sampling.
+#'
+#' @param nbCpG a positive \code{integer}, the number of consecutive CpG 
+#' positions used for sampling from \code{methInfo}.
+#'
+#' @param vNbSample a \code{vector} of positive \code{integer}, the number of 
+#' methData (CTRL) and cases in the the simulation dataset. In 
+#' the simulated dataset, the number of CTRL equals the number of Case. 
+#' The number of CTRL do not need to be equal to the number of Case in
+#' the real dataset.
+#'
+#' @param nbGeneration a positive \code{integer}, the number of generations.
+#' 
+#' @param minReads a positive \code{integer} Bases and regions having lower
+#' coverage than this count are discarded. The parameter
+#' correspond to the \code{lo.count} parameter in the \code{methylKit} package.
+#' 
+#' @param meanCov a positive \code{integer} represent the mean of the coverage
+#' at the CpG site Default: \code{80}.
+#' 
+#' @param nbCores a positive \code{integer}, the number of cores to use when
+#' creating the simulated datasets. Default: \code{1} and always 
+#' \code{1} for Windows.
+#' 
+#' @param vSeed a \code{integer}, a seed used when reproducible results are
+#' needed. When a value inferior or equal to zero is given, a random integer
+#' is used. Default: \code{-1}.
+#' 
+#' @param keepDiff \code{logical} if true, the differentially methyled sites
+#' will be the same for each parameter (\code{vpDiff}, 
+#' \code{vDiff} and \code{vInheritance}). Default: \code{FALSE}.
+#' 
+#' @param saveGRanges a \code{logical}, when \code{true}, the package save two 
+#' files type. The first generate for each simulation contains a \code{list}. 
+#' The length of the \code{list} corresponds to the number of generation. 
+#' The generation are stored in order (first entry = first generation, 
+#' second entry = second generation, etc..). All samples related to one 
+#' generations are contained in a \code{GRangesList}. 
+#' The \code{GRangeaList} store a \code{list} of \code{GRanges}. Each 
+#' \code{GRanges} stores the raw mehylation data of one sample.
+#' The second file a numeric \code{vector} denoting controls and cases 
+#' (a file is generates by entry in the \code{vector} parameters 
+#' \code{vNbSample}).
+#' 
+#' @param saveMethylKit a \code{logical}, when \code{TRUE}, for each 
+#' simulations save a file contains a \code{list}. The length of the 
+#' \code{list} corresponds to the number of generation. The generation are 
+#' stored in order (first entry = first generation, 
+#' second entry = second generation, etc..). All samples related to one 
+#' generations are contained in a S4 \code{methylRawList} object. The 
+#' \code{methylRawList} object contains two Slots:
+#' 1. treatment: A numeric \code{vector} denoting controls and cases.
+#' 2. .Data: A \code{list} of \code{methylRaw} objects. Each object stores the 
+#' raw methylation data of one sample.
+#' 
+#' @param runAnalysis a \code{logical}, if \code{TRUE}, two files are saved 
+#' for each simulation:
+#' \itemize{
+#' \item 1. The first file is the methylObj... file formated with 
+#' the \code{methylkit} package in a S4 \code{methylBase} object 
+#' (with the \code{methylKit} functions: \code{filterByCoverage}, 
+#' \code{normalizeCoverage} and \code{unite}).
+#' \item 2. The second file contains a S4 \code{calculateDiffMeth} object 
+#' generated with the \code{methylKit} functions \code{calculateDiffMeth} on 
+#' the first file.
+#' }
+#' 
+#' @param outputDir a string of \code{character} or \code{NULL}, the path 
+#' where the 
+#' files created by the function will be saved. When \code{NULL}, the files
+#' are saved in the current directory. 
+#'
+#' @param fileID a string of \code{character}, a identifiant that will be 
+#' included in each output file name. Each output 
+#' file name is 
+#' composed of those elements, separated by "_":
+#' \itemize{ 
+#' \item a type name, ex: methylGR, methylObj, etc..
+#' \item a \code{fileID}
+#' \item the chromosome number, a number between 1 and \code{nbSynCHR}
+#' \item the number of samples, a number in the \code{vNbSample} \code{vector}
+#' \item the mean proportion of samples that has,
+#' for a specific position, differentially methylated values, a 
+#' number in the \code{vpDiff} \code{vector}
+#' \item the proportion of 
+#' C/T for a case differentially methylated that follows a shifted beta 
+#' distribution, a
+#' number in the \code{vDiff} \code{vector}
+#' \item the 
+#' proportion of cases that inherits differentially sites, a number in the
+#' \code{vInheritance} \code{vector}
+#' \item the identifiant for the simulation, a number 
+#' between 1 and \code{nbSimulation}
+#' \item the file extension ".rds"
+#' }
+#'
+#' @param methData an object of class \code{methylBase}, the CpG information
+#' from controls (CTRL) that will be used to create the sythetic chromosome. 
+#' The \code{methData} object can also contain information from cases but 
+#' only the controls will be used.
+#' 
+#' @param context a string of \code{character}, the methylation context 
+#' string, ex: CpG,CpH,CHH, etc. 
+#' 
+#' @param assembly a string of \code{character}, the short description of the 
+#' genome assembly. Ex: mm9,hg18 etc.
+#' 
+#' @return \code{0} indicating that the function has been successful.
+#'
+#' @examples
+#'
+#' ## Load dataset
+#' data("samplesForChrSynthetic")
+#' 
+#' ## The function returns 0 when all paramaters are valid
+#' methylInheritanceSim:::validateRunSimParameters(vpDiff =0.2, 
+#' vpDiffsd = 0.3, vDiff = 0.4, vInheritance = 0.2, propInherite = 0.5, 
+#' rateDiff = 0.2, minRate = 0.1, propHetero = 0.2, maxPercReads = 99.1, 
+#' nbSynCHR = 1, nbSimulation = 2, nbBlock = 10, nbCpG = 4, vNbSample = 10, 
+#' nbGeneration = 3, minReads = 10, meanCov = 80, 
+#' nbCores = 1, vSeed = -1, keepDiff = FALSE, saveGRanges = TRUE, 
+#' saveMethylKit = FALSE, runAnalysis = FALSE, outputDir = "test", 
+#' fileID = "test", methData = samplesForChrSynthetic, 
+#' context = "CpG", assembly = "Rnor_5.0")
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @importFrom S4Vectors isSingleInteger isSingleNumber
+#' @keywords internal
+validateRunSimParameters <- function(vpDiff, vpDiffsd, vDiff, vInheritance, 
+            propInherite, rateDiff, minRate, propHetero,
+            maxPercReads, nbSynCHR, nbSimulation, nbBlock, nbCpG, 
+            vNbSample, nbGeneration, minReads, meanCov, nbCores, 
+            vSeed, keepDiff, saveGRanges, saveMethylKit,
+            runAnalysis, outputDir, fileID, methData, context, assembly) {
+    
+    ## Validate double parameters
+    validateRunSimDoubleParameters(vpDiff = vpDiff, vpDiffsd = vpDiffsd, 
+                vDiff = vDiff, vInheritance = vInheritance, 
+                propInherite = propInherite, rateDiff = rateDiff, 
+                minRate = minRate, propHetero = propHetero,
+                maxPercReads = maxPercReads)
+    
+    ## Validate integer parameters
+    validateRunSimIntegerParameters(nbSynCHR = nbSynCHR, nbSimulation = 
+                nbSimulation, nbBlock = nbBlock, nbCpG  = nbCpG, 
+                vNbSample = vNbSample, nbGeneration = nbGeneration,    
+                minReads = minReads, meanCov = meanCov, nbCores = nbCores, 
+                vSeed = vSeed) 
+    
+    ## Validate logical parameters
+    validateRunSimLogicalParameters(keepDiff = keepDiff, saveGRanges = 
+                saveGRanges, saveMethylKit = saveMethylKit,
+                runAnalysis = runAnalysis)
+    
+    ## Validate other parameters
+    validateRunSimOtherParameters(outputDir = outputDir, fileID = fileID, 
+                methData = methData, context = context, assembly = assembly)
+}
+
+
 #' @title Parameters validation for the \code{\link{runSim}} function. Only
 #' integer parameters are validated.
 #'
@@ -1102,8 +1310,7 @@ validateRunSimIntegerParameters <- function(nbSynCHR, nbSimulation, nbBlock,
 #' @keywords internal
 validateRunSimDoubleParameters <-function(vpDiff, vpDiffsd, vDiff, 
                                         vInheritance,propInherite, rateDiff, 
-                                        minRate, propHetero, minReads, 
-                                        maxPercReads) {
+                                        minRate, propHetero, maxPercReads) {
     
     ## Validate that vpDiff is an positive double include in (0,1]
     if (! is.numeric(vpDiff) || anyDuplicated(vpDiff) > 0 ||
@@ -1258,15 +1465,17 @@ validateRunSimLogicalParameters <-function(keepDiff, saveGRanges,
 }
 
 
-#' @title Parameters validation for the \code{\link{runSim}} function
+#' @title Parameters validation for the \code{\link{runSim}} function. Only 
+#' parameters other than double, integer and logical are validated.
 #'
 #' @description Validation of all parameters needed by the public
-#' \code{\link{runSim}} function.
+#' \code{\link{runSim}} function. Only parameters other than double, integer
+#' and logical are validated.
 #'
 #' @param outputDir a string of \code{character} or \code{NULL}, the path 
 #' where the 
 #' files created by the function will be saved. When \code{NULL}, the files
-#' are saved in the current directory. Default: \code{NULL}.
+#' are saved in the current directory. 
 #'
 #' @param fileID a string of \code{character}, a identifiant that will be 
 #' included in each output file name. Each output 
@@ -1299,11 +1508,9 @@ validateRunSimLogicalParameters <-function(keepDiff, saveGRanges,
 #' 
 #' @param context a string of \code{character}, the methylation context 
 #' string, ex: CpG,CpH,CHH, etc. 
-#' Default: \code{"CpG"}.
 #' 
 #' @param assembly a string of \code{character}, the short description of the 
 #' genome assembly. Ex: mm9,hg18 etc.
-#' Default: \code{"Rnor_5.0"}
 #' 
 #' @return \code{0} indicating that the function has been successful.
 #'

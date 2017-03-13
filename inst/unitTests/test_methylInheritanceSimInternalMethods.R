@@ -1089,7 +1089,7 @@ test.validateRunSimDoubleParameters_propHetero_sup_to_1 <- function() {
     obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
                 propInherite = 0.8, rateDiff = 0.8, minRate = 0.1, 
-                propHetero = 1.001, minReads = 2, maxPercReads = 99.9),
+                propHetero = 1.001, maxPercReads = 99.9),
         error=conditionMessage)
     
     exp <- "propHetero must be a non-negative double include in [0,1]"

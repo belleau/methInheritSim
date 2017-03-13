@@ -2,7 +2,8 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{validateRunSimOtherParameters}
 \alias{validateRunSimOtherParameters}
-\title{Parameters validation for the \code{\link{runSim}} function}
+\title{Parameters validation for the \code{\link{runSim}} function. Only 
+parameters other than double, integer and logical are validated.}
 \usage{
 validateRunSimOtherParameters(outputDir, fileID, methData, context, assembly)
 }
@@ -10,7 +11,7 @@ validateRunSimOtherParameters(outputDir, fileID, methData, context, assembly)
 \item{outputDir}{a string of \code{character} or \code{NULL}, the path 
 where the 
 files created by the function will be saved. When \code{NULL}, the files
-are saved in the current directory. Default: \code{NULL}.}
+are saved in the current directory.}
 
 \item{fileID}{a string of \code{character}, a identifiant that will be 
 included in each output file name. Each output 
@@ -42,19 +43,18 @@ The \code{methData} object can also contain information from cases but
 only the controls will be used.}
 
 \item{context}{a string of \code{character}, the methylation context 
-string, ex: CpG,CpH,CHH, etc. 
-Default: \code{"CpG"}.}
+string, ex: CpG,CpH,CHH, etc.}
 
 \item{assembly}{a string of \code{character}, the short description of the 
-genome assembly. Ex: mm9,hg18 etc.
-Default: \code{"Rnor_5.0"}}
+genome assembly. Ex: mm9,hg18 etc.}
 }
 \value{
 \code{0} indicating that the function has been successful.
 }
 \description{
 Validation of all parameters needed by the public
-\code{\link{runSim}} function.
+\code{\link{runSim}} function. Only parameters other than double, integer
+and logical are validated.
 }
 \examples{
 
