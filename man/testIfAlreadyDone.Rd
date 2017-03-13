@@ -31,6 +31,15 @@ to the analysis are saved.}
 \description{
 Test if a specific simulation has already be done.
 }
+\examples{
+
+## Return TRUE when the a specified simulation has already be done;
+## otherwise, return FALSE.
+methylInheritanceSim:::testIfAlreadyDone(pathOut = ".", 
+preference = "S1_6_0.9_0.8_0.5", id = 33, 
+saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
+
+}
 \author{
 Pascal Belleau, Astrid Deschenes
 }

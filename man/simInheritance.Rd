@@ -188,21 +188,15 @@ temp_dir <- "test_simInheritance"
 data(dataSimExample)
 
 \dontrun{methylInheritanceSim:::simInheritance(pathOut = temp_dir,
-pref = paste0("S1_", "6_0.9_0.8_0.5"),
-k = 1, nbCtrl = 6, nbCase = 6, 
+pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
 treatment = dataSimExample$treatment, 
 sample.id = dataSimExample$sample.id,
-generation = 3, 
-stateInfo = dataSimExample$stateInfo,
+generation = 3, stateInfo = dataSimExample$stateInfo,
 propDiff = 0.9, propDiffsd = 0.1,
-diffValue = 0.8,
-propInheritance = 0.5,
+diffValue = 0.8, propInheritance = 0.5,
 rateDiff = 0.3, minRate = 0.3,
-propInherite = 0.3, 
-propHetero = 0.5,
-saveGRanges = FALSE,
-saveMethylKit = FALSE,
-runAnalysis = FALSE
+propInherite = 0.3, propHetero = 0.5,
+saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE
 )}
 
 ## Delete temp_dir
