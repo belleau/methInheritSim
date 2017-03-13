@@ -1255,6 +1255,32 @@ validateRunSimIntegerParameters <- function(nbSynCHR, nbSimulation, nbBlock,
 }
 
 
+#' @title Fix seed value.
+#'
+#' @description Fix seed value when specified value is -1.
+#'
+#' @param vSeed a \code{integer}, a seed used when reproducible results are
+#' needed. When a value inferior or equal to zero is given, a random integer
+#' is used. 
+#' 
+#' @examples 
+#' 
+#' ## Return vSeed value when value is not -1
+#' methylInheritanceSim:::fixSeed(vSeed = 10)
+#' 
+#' ## Return new value when value is -1
+#' methylInheritanceSim:::fixSeed(vSeed = -1)
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @keywords internal
+fixSeed <- function(vSeed) {
+    if (vSeed <= -1) {
+        tSeed <- as.numeric(Sys.time())
+        vSeed <- 1e8 * (tSeed - floor(tSeed))
+    }
+    return(vSeed)
+}
+
 #' @title Parameters validation for the \code{\link{runSim}} function. Only
 #' double parameters are validated.
 #'

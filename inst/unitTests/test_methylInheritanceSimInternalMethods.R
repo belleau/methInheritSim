@@ -1272,3 +1272,24 @@ test.validateRunSimDoubleParameters_good_01 <- function() {
     checkEquals(obs, exp, message)
 }
 
+
+###################################################
+## fixSeed() function
+###################################################
+
+test.fixSeed_value_not_minus_one <- function() {
+    
+    set.seed(1010)
+    obs <- tryCatch(
+        methylInheritanceSim:::fixSeed(vSeed = 101),
+        error=conditionMessage)
+    
+    exp <- 101
+    
+    message <- paste0("test.fixSeed_value_minus_one() ",
+                "- vSeed not equal -1 did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+

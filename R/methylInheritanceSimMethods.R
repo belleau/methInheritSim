@@ -268,11 +268,7 @@ runSim <- function(outputDir = NULL, fileID = "s",
         methData = methData, context = context, assembly = assembly)
     
     ## Fix seed
-    if (vSeed <= -1) {
-        tSeed <- as.numeric(Sys.time())
-        vSeed <- 1e8 * (tSeed - floor(tSeed))
-    }
-    set.seed(vSeed)
+    set.seed(fixSeed(vSeed))
     
     if (!is.null(outputDir) && !dir.exists(outputDir)) {
         dir.create(outputDir, showWarnings = TRUE)
