@@ -275,7 +275,7 @@ getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff,
 #' 
 #' ## Get the proportion of C/T for each case at a specific site.
 #' set.seed(2010)
-#' methylInheritanceSim:::getDiffCase2(c(0.9814562, 0.0003607153, 0), 
+#' methylInheritanceSim:::getDiffCase(c(0.9814562, 0.0003607153, 0), 
 #' nb=6, sDiff = 0.8, diffCase = round(6 * 0.9))
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
