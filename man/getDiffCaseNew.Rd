@@ -41,7 +41,7 @@ selected as differentially methylated or not.
 
 ## Get the proportion of C/T for each case at a specific site.
 set.seed(2010)
-methylInheritanceSim:::getDiffCase(ctrlMean = 0.9814562, ctrlVar = 
+methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.9814562, ctrlVar = 
 0.0003607153, selectedAsDM = 0, nb=6, sDiff = 0.8, 
 diffCase = round(6 * 0.9))
 
