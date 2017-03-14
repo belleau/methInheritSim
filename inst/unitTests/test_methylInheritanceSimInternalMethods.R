@@ -134,6 +134,57 @@ test.getSim_good_01 <- function() {
 
 
 ###################################################
+## getSimNew() function
+###################################################
+
+test.getSimNew_good_01 <- function() {
+    
+    set.seed(22212)
+    
+    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+                                                    nbBlock = 1, nbCpG = 3)
+    
+    stateDiff <- c(1, 0, 1)
+    stateInherite <- c(1, 0, 0)
+    
+    obs <- methylInheritanceSim:::getSimNew(nbCtrl = 2, nbCase = 3, generation = 2, 
+                                         stateInfo = stateInformation, stateDiff = stateDiff, 
+                                         stateInherite = stateInherite, diffValue = 10, 
+                                         propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
+    
+    exp <- GRangesList()
+    
+    exp[[1]] <- GRanges(seqnames = seqnames(stateInformation),
+                        ranges = ranges(stateInformation),
+                        strand =  strand(stateInformation),
+                        meanDiff = c(0.000000000000000, 0.288519632432523, 1.000000000000000), 
+                        meanCTRL = mcols(stateInformation)[3],
+                        partitionCase = c(2, 0, 2), partitionCtrl = c(1, 3, 1),
+                        ctrl.V1 = c(0.599248212271003, 0.104673052925196, 0.0163259007084415),
+                        ctrl.V2 = c(0.660878027594768, 0.0737704350938676, 0.00412068310774805),
+                        case.V1 = c(0.000000000000000, 0.297550189486176, 1.000000000000000),
+                        case.V2 = c(0.000000000000000, 0.152428811636903, 1.000000000000000),
+                        case.V3 = c(0.140108118897419, 0.22397752927231, 0.0242355851971473))
+    
+    exp[[2]] <- GRanges(seqnames = seqnames(stateInformation),
+                        ranges = ranges(stateInformation),
+                        strand =  strand(stateInformation),
+                        meanDiff = c(0.000000000000000, 0.288519632432523, 0.0103452693986541), 
+                        meanCTRL = mcols(stateInformation)[3],
+                        partitionCase = c(2, 0, 0), partitionCtrl = c(1, 3, 3),
+                        ctrl.V1 = c(0.0851227837846553, 0.281923948948365, 0.0198953426761693),
+                        ctrl.V2 = c(0.393339608860298, 0.118756249033386, 0.019181448769631),
+                        case.V1 = c(1.000000000000000, 0.274490475976465, 0.0345473331486896),
+                        case.V2 = c(0.000000000000000, 0.140418843034454, 0.000824070856929141),
+                        case.V3 = c(0.935659881913647, 0.282094425404783, 0.0143114682779736))
+    
+    message <- paste0("test.getSimNew_good_01() ",
+                      "- Valid parameters for getSim() did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+###################################################
 ## getDiffMeth() function
 ###################################################
 
@@ -1294,4 +1345,37 @@ test.fixSeed_value_not_minus_one <- function() {
     checkEquals(obs, exp, message)
 }
 
+###################################################
+## calculateNbDiffCase() function
+###################################################
 
+test.calculateNbDiffCase_good_01 <- function() {
+    
+    set.seed(1010)
+    obs <- tryCatch(
+            methylInheritanceSim:::calculateNbDiffCase(nbCase = 12, 
+                        propDiff = 0.8, propDiffSd = 0.6), 
+            error=conditionMessage)
+    
+    exp <- 7
+    
+    message <- paste0("test.calculateNbDiffCase_good_01() ",
+                      "- Parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.calculateNbDiffCase_good_sd_small <- function() {
+    
+    obs <- tryCatch({set.seed(1010)
+                methylInheritanceSim:::calculateNbDiffCase(nbCase = 6, 
+                    propDiff = 0.8, propDiffSd  = 0.000000001)}, 
+            error=conditionMessage)
+    
+    exp <- 5
+    
+    message <- paste0("test.calculateNbDiffCase_good_sd_small() ",
+                      "- Parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
