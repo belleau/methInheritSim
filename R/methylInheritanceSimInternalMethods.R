@@ -180,16 +180,12 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
 #' @description Simulate the proportion of C/T for each case at the sites 
 #' selected as differentially methylated or not.
 #' 
+#' @param ctrlMean, a \code{double}, the mean of the CTRL at the site.
 #'
-#' @param x a \code{vector} of \code{double} containing 3 entries: 
-#' \itemize{
-#' \item the mean of the CTRL at this sites
-#' \item the variance of the CTRL at this sites
-#' \item \code{1} if the site is selected as differentially methylated, 
-#' otherwise \code{0}
-#' }
-#'
-#' @param nb an \code{integer}, the number of cases.
+#' @param ctrlVar, a \code{double}, the variance of the CTRL at the site.
+#' 
+#' @param selectedAsDM, a \code{integer}, \code{1} if the site is selected as 
+#' differentially methylated, otherwise \code{0}.
 #'
 #' @param sDiff a non-negative \code{double} 
 #' included in [0,1], the proportion of C/T for a case differentially 
@@ -209,40 +205,97 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
 #' }
 #'
 #' @examples
-#'
-#' ## Create vector containing 3 + nb entries:
-#' ## 1 - The mean of the CTRL at this sites
-#' ## 2 - The variance of the CTRL at this sites
-#' ## 3 - 1 when DMS; otherwise 0
-#' x <- c(0.9814562, 0.0003607153, 0)
 #' 
 #' ## Get the proportion of C/T for each case at a specific site.
-#' methylInheritanceSim:::getDiffCase(x=x, nb=6, sDiff = 0.8, 
+#' set.seed(2010)
+#' methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.9814562, ctrlVar = 
+#' 0.0003607153, selectedAsDM = 0, nb=6, sDiff = 0.8, 
 #' diffCase = round(6 * 0.9))
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom stats rbeta
 #' @keywords internal
-getDiffCase <- function(x, nb, sDiff, diffCase) {
+getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff, 
+                            diffCase) {
     
     meanDiff <- 0
     
+    if(selectedAsDM == 0) {
+        val <- rbeta(nb, estBetaAlpha(c(ctrlMean, ctrlVar)), 
+                        estBetaBeta(c(ctrlMean, ctrlVar)))
+        meanDiff <- ctrlMean
+        partitionDiff <- c(0, nb)
+    } else {
+        meanDiff <- ifelse(ctrlMean < 0.5, min(1, ctrlMean + sDiff),
+                            max(0, ctrlMean - sDiff))
+        
+        partitionDiff <- c(diffCase, nb - diffCase)
+        
+        val <- c(rbeta(partitionDiff[1], estBetaAlpha(c(ctrlMean, ctrlVar)), 
+                    estBetaBeta(c(meanDiff, ctrlVar))),
+                    rbeta(partitionDiff[2], estBetaAlpha(c(ctrlMean, ctrlVar, selectedAsDM)), 
+                    estBetaBeta(c(ctrlMean, ctrlVar, selectedAsDM))))
+    }
+    
+    return(c(meanDiff, partitionDiff, val))
+}
+
+#' @title Get a proportion C/T for each case for the sites selected as
+#' differentially methylated or not
+#'
+#' @description Simulate the proportion of C/T for each case at the sites 
+#' selected as differentially methylated or not.
+#'
+#' @param x a \code{vector} of \code{double} containing 3 entries: 
+#' \itemize{
+#' \item the mean of the CTRL at this sites
+#' \item the variance of the CTRL at this sites
+#' \item \code{1} if the site is selected as differentially methylated, 
+#' otherwise \code{0}
+#' }
+#'
+#' @param sDiff a non-negative \code{double} 
+#' included in [0,1], the proportion of C/T for a case differentially 
+#' methylated that follows 
+#' a beta distribution where the mean is shifted of \code{vDiff} 
+#' from the CTRL distribution.
+#'
+#' @param diffCase an \code{integer}, the number of cases differentially at 
+#' the selected as differentially methylated site.
+#'
+#' @return a \code{vector} containing 3 + nb entries:
+#' \itemize{
+#' \item mean of proportion of C/T of the differentially methylated case
+#' \item The number of case simulate with shifted distribution
+#' \item The number of case simulate with the control distribution
+#' \item the proportion of C/T for each case
+#' }
+#'
+#' @examples
+#' 
+#' ## Get the proportion of C/T for each case at a specific site.
+#' set.seed(2010)
+#' methylInheritanceSim:::getDiffCase2(c(0.9814562, 0.0003607153, 0), 
+#' nb=6, sDiff = 0.8, diffCase = round(6 * 0.9))
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @importFrom stats rbeta
+#' @keywords internal
+getDiffCase <- function(x, nb, sDiff, diffCase) {
+    meanDiff <- 0
     if(x[3] == 0) {
         val <- rbeta(nb, estBetaAlpha(x[1:2]), estBetaBeta(x[1:2]))
         meanDiff <- x[1]
         partitionDiff <- c(0, nb)
     } else {
         meanDiff <- ifelse(x[1] < 0.5,
-                            min(1, x[1] + sDiff),
-                            max(0, x[1] - sDiff))
-        
+                           min(1, x[1] + sDiff),
+                           max(0, x[1] - sDiff))
         partitionDiff <- c(diffCase, nb - diffCase)
-        
         val <- c(rbeta(partitionDiff[1], estBetaAlpha(c(meanDiff, x[2])),
-                    estBetaBeta(c(meanDiff, x[2]))),
-                    rbeta(partitionDiff[2], estBetaAlpha(x), estBetaBeta(x)))
+                       estBetaBeta(c(meanDiff, x[2]))),
+                 rbeta(partitionDiff[2], estBetaAlpha(x), estBetaBeta(x)))
     }
-    
     return(c(meanDiff, partitionDiff, val))
 }
 
@@ -394,6 +447,7 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
                         stateDiff$stateInherite), 1,
                         getDiffCase, nb = nbCase, sDiff = diffCur, 
                         diffCase = diffCase))
+        
         
         res[[i]] <- GRanges(seqnames = seqnames(stateInfo),
                         ranges = ranges(stateInfo),
