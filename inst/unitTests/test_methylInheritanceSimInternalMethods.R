@@ -45,22 +45,43 @@ test.estBetaBeta_good_01 <- function() {
 }
 
 ###################################################
+## getDiffCaseNew() function
+###################################################
+
+test.getDiffCaseNew_good_01 <- function() {
+    set.seed(322)
+    
+    #x <- c(0.14562, 0.0003607153, 1)
+    obs <- methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.14562,
+                ctrlVar = 0.0003607153, selectedAsDM = 1, nb = 4, sDiff = 0.8,
+                diffCase = 3)
+    exp <- c(0.945620000000, 3.000000000000, 1.000000000000, 0.947694615429,
+             0.965193968711, 0.906084052941, 0.122224066759)
+    
+    message <- paste0("test.getDiffCaseNew_good_01() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+
+###################################################
 ## getDiffCase() function
 ###################################################
 
 # test.getDiffCase_good_01 <- function() {
 #     set.seed(322)
-#     
+# 
 #     #x <- c(0.14562, 0.0003607153, 1)
-#     obs <- methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.14562, 
-#                 ctrlVar = 0.0003607153, selectedAsDM = 1, nb = 4, sDiff = 0.8, 
+#     obs <- methylInheritanceSim:::getDiffCase(ctrlMean = 0.14562,
+#                 ctrlVar = 0.0003607153, selectedAsDM = 1, nb = 4, sDiff = 0.8,
 #                 diffCase = 3)
-#     exp <- c(0.945620000000, 3.000000000000, 1.000000000000, 0.947694615429, 
+#     exp <- c(0.945620000000, 3.000000000000, 1.000000000000, 0.947694615429,
 #              0.965193968711, 0.906084052941, 0.122224066759)
-#     
+# 
 #     message <- paste0("test.getDiffCase_good_01() ",
 #                     "- Valid parameters did not generated expected results.")
-#     
+# 
 #     checkEquals(obs, exp, message)
 # }
 # 

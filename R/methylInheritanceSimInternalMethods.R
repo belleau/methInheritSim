@@ -231,7 +231,7 @@ getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff,
         
         partitionDiff <- c(diffCase, nb - diffCase)
         
-        val <- c(rbeta(partitionDiff[1], estBetaAlpha(c(ctrlMean, ctrlVar)), 
+        val <- c(rbeta(partitionDiff[1], estBetaAlpha(c(meanDiff, ctrlVar)), 
                     estBetaBeta(c(meanDiff, ctrlVar))),
                     rbeta(partitionDiff[2], estBetaAlpha(c(ctrlMean, ctrlVar, selectedAsDM)), 
                     estBetaBeta(c(ctrlMean, ctrlVar, selectedAsDM))))
