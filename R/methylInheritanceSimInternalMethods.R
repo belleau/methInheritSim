@@ -233,7 +233,8 @@ getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff,
         
         val <- c(rbeta(partitionDiff[1], estBetaAlpha(c(meanDiff, ctrlVar)), 
                     estBetaBeta(c(meanDiff, ctrlVar))),
-                    rbeta(partitionDiff[2], estBetaAlpha(c(ctrlMean, ctrlVar, selectedAsDM)), 
+                    rbeta(partitionDiff[2], estBetaAlpha(c(ctrlMean, ctrlVar, 
+                    selectedAsDM)), 
                     estBetaBeta(c(ctrlMean, ctrlVar, selectedAsDM))))
     }
     
@@ -391,9 +392,8 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
 getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff, 
                 stateInherite, diffValue, propDiff, propDiffsd = 0.1, 
                 propInheritance, propHetero) {
-    
-    inR <- propDiff
-    
+
+    ## Returned object
     res <- GRangesList()
     
     ## Calculate the number of differentially methylated cases
@@ -404,16 +404,18 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
         rbeta(nb, estBetaAlpha(x), estBetaBeta(x))}, nb = nbCtrl))
     
     case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
-                          stateDiff), 1, getDiffCase, nb=nbCase, 
-                    sDiff = diffValue, diffCase = diffCase))
+                stateDiff), 1, function(x, nbCase, diffValue, diffCase) 
+                {getDiffCaseNew(x[1], x[2], x[3], nbCase, diffValue, 
+                diffCase)}, nbCase = nbCase, diffValue = diffValue, 
+                diffCase = diffCase))
     
     # TODO change meanCTRL.meanCTRL in meanCTRL
     #tmpCol <- matrix(mcols(stateInfo)[3]$meanCTRL, nc = 1)
     res[[1]] <- GRanges(seqnames = seqnames(stateInfo),
-                        ranges = ranges(stateInfo), strand =  strand(stateInfo),
-                        meanDiff = case[, 1], meanCTRL = mcols(stateInfo)[3],
-                        partitionCase = case[, 2], partitionCtrl = case[, 3],
-                        ctrl = ctrl, case = case[, 4:length(case[1,])])
+                    ranges = ranges(stateInfo), strand =  strand(stateInfo),
+                    meanDiff = case[, 1], meanCTRL = mcols(stateInfo)[3],
+                    partitionCase = case[, 2], partitionCtrl = case[, 3],
+                    ctrl = ctrl, case = case[, 4:length(case[1,])])
     
     for(i in 2:generation)
     {
@@ -433,11 +435,10 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
         ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x, nb) {
             rbeta(nb, estBetaAlpha(x), estBetaBeta(x))}, nb = nbCtrl))
         
-        # matrix(unlist(mcols(stateInfo)[3:4]), nc = 2) is a matrix with 
-        # foreach position a row with meanCTRL, varianceCTRL 
-        case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]), ncol = 2),
-                    stateInherite), 1, getDiffCase, nb = nbCase, 
-                    sDiff = diffCur, diffCase = diffCase))
+        case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
+                stateInherite), 1, function(x, nbCase, diffCur, diffCase) 
+                {getDiffCaseNew(x[1], x[2], x[3], nbCase, diffCur, diffCase)},
+                nbCase = nbCase, diffCur = diffCur, diffCase = diffCase))
         
         res[[i]] <- GRanges(seqnames = seqnames(stateInfo),
                         ranges = ranges(stateInfo), strand =  strand(stateInfo),
@@ -788,12 +789,10 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' @title Simulate a multigeneration methylation experiment with inheritance
 #'
 #' @description Simulate a multigeneration methylation case versus control 
-#' experiment 
-#' with inheritance relation using a real control dataset. 
+#' experiment with inheritance relation using a real control dataset. 
 #' 
-#' The simulation can 
-#' be parametrized to fit different models. The number of cases and controls, 
-#' the proportion of the case affected 
+#' The simulation can  be parametrized to fit different models. The number of 
+#' cases and controls, the proportion of the case affected 
 #' by the treatment (penetrance), the effect of the treatment on the mean of 
 #' the distribution, the proportion of sites inherited, the proportion of the 
 #' differentially methylated sites from the precedent generation inherited, 
@@ -809,9 +808,8 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' are saved in the current directory.
 #'
 #' @param pref a string of \code{character} representing the parameters of
-#' specific simulation
-#' the string is 
-#' composed of those elements, separated by "_":
+#' specific simulation the string is composed of those elements, separated 
+#' by "_":
 #' \itemize{ 
 #' \item a \code{fileID}
 #' \item the chromosome number, a number between 1 and \code{nbSynCHR}
@@ -828,7 +826,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' \code{vInheritance} \code{vector}
 #' }
 #'
-#' @param k a positive \code{integer}, a Id for the current simulation.
+#' @param k a positive \code{integer}, an ID for the current simulation.
 #'
 #' @param nbCtrl a positive \code{integer}, the number of controls.
 #'
@@ -842,13 +840,17 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' @param generation a positive \code{integer}, the number of generations
 #' simulated.
 #'
-#' @param stateInfo a GRanges that contains the CpG (or methylated sites).
-#' The GRamges have four metadata from the real dataset:
-#' chrOri the chromosome from the real dataset
-#' startOri the position of the site in the real dataset
-#' meanCTRL the mean of the control in the real dataset
-#' varCTRL the variance of the control in the real dataset.
-#'
+#' @param stateInfo a \code{GRanges} that contains the CpG (or 
+#' methylated sites).
+#' The \code{GRanges} have four metadata from the real dataset:
+#' \itemize{
+#' \item chrOri a \code{numeric}, the chromosome from the real dataset
+#' \item startOri a \code{numeric}, the position of the site in the real dataset
+#' \item meanCTRL a \code{numeric}, the mean of the control in the real dataset
+#' \item varCTRL a \code{numeric}, the variance of the control in the real 
+#' dataset.
+#' }
+#' 
 #' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
 #' the chance that a site is differentially methylated.
 #'
@@ -964,12 +966,10 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' 
 #' \dontrun{methylInheritanceSim:::simInheritance(pathOut = temp_dir,
 #' pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
-#' treatment = dataSimExample$treatment, 
-#' sample.id = dataSimExample$sample.id,
+#' treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
 #' generation = 3, stateInfo = dataSimExample$stateInfo,
 #' propDiff = 0.9, propDiffsd = 0.1,
-#' diffValue = 0.8, propInheritance = 0.5,
-#' rateDiff = 0.3, minRate = 0.3,
+#' diffValue = 0.8, propInheritance = 0.5, rateDiff = 0.3, minRate = 0.3,
 #' propInherite = 0.3, propHetero = 0.5,
 #' saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE
 #' )}
@@ -1499,6 +1499,8 @@ validateRunSimIntegerParameters <- function(nbSynCHR, nbSimulation, nbBlock,
 #' @param vSeed a \code{integer}, a seed used when reproducible results are
 #' needed. When a value inferior or equal to zero is given, a random integer
 #' is used. 
+#' 
+#' @return a \code{double}, the seed value.
 #' 
 #' @examples 
 #' 
