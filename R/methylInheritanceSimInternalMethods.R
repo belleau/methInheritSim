@@ -789,12 +789,10 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' @title Simulate a multigeneration methylation experiment with inheritance
 #'
 #' @description Simulate a multigeneration methylation case versus control 
-#' experiment 
-#' with inheritance relation using a real control dataset. 
+#' experiment with inheritance relation using a real control dataset. 
 #' 
-#' The simulation can 
-#' be parametrized to fit different models. The number of cases and controls, 
-#' the proportion of the case affected 
+#' The simulation can  be parametrized to fit different models. The number of 
+#' cases and controls, the proportion of the case affected 
 #' by the treatment (penetrance), the effect of the treatment on the mean of 
 #' the distribution, the proportion of sites inherited, the proportion of the 
 #' differentially methylated sites from the precedent generation inherited, 
@@ -810,9 +808,8 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' are saved in the current directory.
 #'
 #' @param pref a string of \code{character} representing the parameters of
-#' specific simulation
-#' the string is 
-#' composed of those elements, separated by "_":
+#' specific simulation the string is composed of those elements, separated 
+#' by "_":
 #' \itemize{ 
 #' \item a \code{fileID}
 #' \item the chromosome number, a number between 1 and \code{nbSynCHR}
@@ -829,7 +826,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' \code{vInheritance} \code{vector}
 #' }
 #'
-#' @param k a positive \code{integer}, a Id for the current simulation.
+#' @param k a positive \code{integer}, an ID for the current simulation.
 #'
 #' @param nbCtrl a positive \code{integer}, the number of controls.
 #'
@@ -843,13 +840,17 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' @param generation a positive \code{integer}, the number of generations
 #' simulated.
 #'
-#' @param stateInfo a GRanges that contains the CpG (or methylated sites).
-#' The GRamges have four metadata from the real dataset:
-#' chrOri the chromosome from the real dataset
-#' startOri the position of the site in the real dataset
-#' meanCTRL the mean of the control in the real dataset
-#' varCTRL the variance of the control in the real dataset.
-#'
+#' @param stateInfo a \code{GRanges} that contains the CpG (or 
+#' methylated sites).
+#' The \code{GRanges} have four metadata from the real dataset:
+#' \itemize{
+#' \item chrOri a \code{numeric}, the chromosome from the real dataset
+#' \item startOri a \code{numeric}, the position of the site in the real dataset
+#' \item meanCTRL a \code{numeric}, the mean of the control in the real dataset
+#' \item varCTRL a \code{numeric}, the variance of the control in the real 
+#' dataset.
+#' }
+#' 
 #' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
 #' the chance that a site is differentially methylated.
 #'
@@ -965,12 +966,10 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' 
 #' \dontrun{methylInheritanceSim:::simInheritance(pathOut = temp_dir,
 #' pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
-#' treatment = dataSimExample$treatment, 
-#' sample.id = dataSimExample$sample.id,
+#' treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
 #' generation = 3, stateInfo = dataSimExample$stateInfo,
 #' propDiff = 0.9, propDiffsd = 0.1,
-#' diffValue = 0.8, propInheritance = 0.5,
-#' rateDiff = 0.3, minRate = 0.3,
+#' diffValue = 0.8, propInheritance = 0.5, rateDiff = 0.3, minRate = 0.3,
 #' propInherite = 0.3, propHetero = 0.5,
 #' saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE
 #' )}
