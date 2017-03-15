@@ -233,7 +233,8 @@ getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff,
         
         val <- c(rbeta(partitionDiff[1], estBetaAlpha(c(meanDiff, ctrlVar)), 
                     estBetaBeta(c(meanDiff, ctrlVar))),
-                    rbeta(partitionDiff[2], estBetaAlpha(c(ctrlMean, ctrlVar, selectedAsDM)), 
+                    rbeta(partitionDiff[2], estBetaAlpha(c(ctrlMean, ctrlVar, 
+                    selectedAsDM)), 
                     estBetaBeta(c(ctrlMean, ctrlVar, selectedAsDM))))
     }
     
@@ -391,9 +392,8 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
 getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff, 
                 stateInherite, diffValue, propDiff, propDiffsd = 0.1, 
                 propInheritance, propHetero) {
-    
-    inR <- propDiff
-    
+
+    ## Returned object
     res <- GRangesList()
     
     ## Calculate the number of differentially methylated cases
@@ -404,16 +404,18 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
         rbeta(nb, estBetaAlpha(x), estBetaBeta(x))}, nb = nbCtrl))
     
     case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
-                          stateDiff), 1, getDiffCase, nb=nbCase, 
-                    sDiff = diffValue, diffCase = diffCase))
+                stateDiff), 1, function(x, nbCase, diffValue, diffCase) 
+                {getDiffCaseNew(x[1], x[2], x[3], nbCase, diffValue, 
+                diffCase)}, nbCase = nbCase, diffValue = diffValue, 
+                diffCase = diffCase))
     
     # TODO change meanCTRL.meanCTRL in meanCTRL
     #tmpCol <- matrix(mcols(stateInfo)[3]$meanCTRL, nc = 1)
     res[[1]] <- GRanges(seqnames = seqnames(stateInfo),
-                        ranges = ranges(stateInfo), strand =  strand(stateInfo),
-                        meanDiff = case[, 1], meanCTRL = mcols(stateInfo)[3],
-                        partitionCase = case[, 2], partitionCtrl = case[, 3],
-                        ctrl = ctrl, case = case[, 4:length(case[1,])])
+                    ranges = ranges(stateInfo), strand =  strand(stateInfo),
+                    meanDiff = case[, 1], meanCTRL = mcols(stateInfo)[3],
+                    partitionCase = case[, 2], partitionCtrl = case[, 3],
+                    ctrl = ctrl, case = case[, 4:length(case[1,])])
     
     for(i in 2:generation)
     {
@@ -433,11 +435,10 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
         ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x, nb) {
             rbeta(nb, estBetaAlpha(x), estBetaBeta(x))}, nb = nbCtrl))
         
-        # matrix(unlist(mcols(stateInfo)[3:4]), nc = 2) is a matrix with 
-        # foreach position a row with meanCTRL, varianceCTRL 
-        case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]), ncol = 2),
-                    stateInherite), 1, getDiffCase, nb = nbCase, 
-                    sDiff = diffCur, diffCase = diffCase))
+        case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
+                stateInherite), 1, function(x, nbCase, diffCur, diffCase) 
+                {getDiffCaseNew(x[1], x[2], x[3], nbCase, diffCur, diffCase)},
+                nbCase = nbCase, diffCur = diffCur, diffCase = diffCase))
         
         res[[i]] <- GRanges(seqnames = seqnames(stateInfo),
                         ranges = ranges(stateInfo), strand =  strand(stateInfo),
@@ -1499,6 +1500,8 @@ validateRunSimIntegerParameters <- function(nbSynCHR, nbSimulation, nbBlock,
 #' @param vSeed a \code{integer}, a seed used when reproducible results are
 #' needed. When a value inferior or equal to zero is given, a random integer
 #' is used. 
+#' 
+#' @return a \code{double}, the seed value.
 #' 
 #' @examples 
 #' 

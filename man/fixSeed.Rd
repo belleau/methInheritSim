@@ -11,6 +11,9 @@ fixSeed(vSeed)
 needed. When a value inferior or equal to zero is given, a random integer
 is used.}
 }
+\value{
+a \code{double}, the seed value.
+}
 \description{
 Fix seed value when specified value is -1.
 }
