@@ -1561,3 +1561,104 @@ test.testIfAlreadyDone_false_001 <- function() {
     
     checkEquals(obs, exp, message)
 }
+
+
+###################################################
+## simEachGeneration() function
+###################################################
+
+test.getSimNew_good_02 <- function() {
+    
+    set.seed(22212)
+    
+    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+                                                               nbBlock = 1, nbCpG = 3)
+    
+    stateDiff <- c(1, 1, 1)
+    stateInherite <- c(0, 0, 1)
+    
+    obs <- methylInheritanceSim:::getSimNew(nbCtrl = 2, nbCase = 3, generation = 2, 
+                                            stateInfo = stateInformation, stateDiff = stateDiff, 
+                                            stateInherite = stateInherite, diffValue = 10, 
+                                            propDiff = 0.6, propDiffsd = 0.3, propInheritance = 0.7, propHetero = 0.2)
+    
+    exp <- GRangesList()
+    
+    exp[[1]] <- GRanges(seqnames = seqnames(stateInformation),
+                        ranges = ranges(stateInformation),
+                        strand =  strand(stateInformation),
+                        meanDiff = c(0.000000000000000, 1.000000000000000, 1.000000000000000), 
+                        meanCTRL = mcols(stateInformation)[3],
+                        partitionCase = c(2, 2, 2), partitionCtrl = c(1, 1, 1),
+                        ctrl.V1 = c(0.599248212271003, 0.104673052925196, 0.0163259007084415),
+                        ctrl.V2 = c(0.660878027594768, 0.0737704350938676, 0.00412068310774805),
+                        case.V1 = c(0.000000000000000, 1.000000000000000, 1.000000000000000),
+                        case.V2 = c(0.000000000000000, 1.000000000000000, 1.000000000000000),
+                        case.V3 = c(0.140108118897419, 0.152428811636903, 0.0242355851971473))
+    
+    exp[[2]] <- GRanges(seqnames = seqnames(stateInformation),
+                        ranges = ranges(stateInformation),
+                        strand =  strand(stateInformation),
+                        meanDiff = c(0.534404290296076, 0.288519632432523, 1.000000000000000), 
+                        meanCTRL = mcols(stateInformation)[3],
+                        partitionCase = c(0, 0, 1), partitionCtrl = c(3, 3, 2),
+                        ctrl.V1 = c(0.0851227837846553, 0.281923948948365, 0.0198953426761693),
+                        ctrl.V2 = c(0.393339608860298, 0.118756249033386, 0.019181448769631),
+                        case.V1 = c(0.960713455049359, 0.140418843034454, 1.000000000000000),
+                        case.V2 = c(0.935659881913647, 0.282094425404783, 0.0137838586380334),
+                        case.V3 = c(0.495670278966184, 0.476562011603015, 0.00593249270592643))
+    
+    message <- paste0("test.getSimNew_good_02() ",
+                      "- Valid parameters for getSim() did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+###################################################
+## getDiffMeth() function
+###################################################
+
+test.getDiffMeth_good_01 <- function() {
+    set.seed(3222)
+    
+    t<-dataSimExample$stateInfo[1:10,]
+    
+    obs <- methylInheritanceSim:::getDiffMeth(stateInfo = 
+                                                  t, rateDiff = 0.3, minRate = 0.1,
+                                              propInherite = 0.2)
+    
+    exp <- list()
+    exp$stateDiff <- c(0, 0, 0, 0, 0, 1, 1, 0, 1, 1)
+    exp$stateInherite <- c(0, 0, 0, 0, 0, 1, 0, 0, 0, 0)
+    
+    message <- paste0("test.getDiffMeth_good_01() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+
+###################################################
+## getSyntheticChr() function
+###################################################
+
+test.getSyntheticChr_good_01 <- function() {
+    
+    set.seed(322)
+    
+    obs <- methylInheritanceSim:::getSyntheticChr(methInfo = 
+                                                      samplesForChrSynthetic, nbBlock = 1, nbCpG = 2)
+    
+    exp <- GenomicRanges::GRanges(seqnames = rep("S", 2), 
+                                  ranges = IRanges::IRanges(start = c(1000, 2514), 
+                                                            end = c(1000, 2514)),
+                                  strand = rep("+", 2), chrOri = rep(1, 2),
+                                  startOri = c(11690624, 11692138), 
+                                  meanCTRL = c(0.934017763674095, 0.957297904589756),
+                                  varCTRL = c(0.00293610808482296, 0.00038750651540637))
+    
+    message <- paste0("test.getSyntheticChr_good_01() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
