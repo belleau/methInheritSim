@@ -35,6 +35,44 @@ estBetaAlpha <- function(valCtrl, minVal = 1e-06){
 }
 
 
+#' @title Estimate the alpha parameter of a Beta distribution
+#'
+#' @description Estimate the alpha parameter from the mean and the variance
+#' of a Beta distribution.
+#'
+#' @param meanCtrl a \code{double}, the mean of the controls (CTRL) at a 
+#' specific CpG site.
+#' 
+#' @param varCtrl a \code{double}, the variance of the controls 
+#' (CTRL) at a specific CpG site.
+#'
+#' @param minVal a \code{double}, the minimum value accepted for the mean
+#' value. If \code{meanCtrl} is smaller than 
+#' \code{minVal}, then \code{minVal} is used in the calculation of the alpha
+#' parameter. 
+#' Default: \code{1e-06}.
+#'
+#' @return a \code{double}, the alpha parameter of a Beta distribution.
+#'
+#' @examples
+#'
+#' ## Estimate alpha parameters with mean = 0.5 and variance = 0.1
+#' methylInheritanceSim:::estBetaAlphaNew(meanCtrl = 0.5, varCtrl = 0.1)
+#'
+#' @author Pascal Belleau, Astrid Deschenes
+#' @keywords internal
+estBetaAlphaNew <- function(meanCtrl, varCtrl, minVal = 1e-06){
+    
+    mu <- max(meanCtrl, minVal)
+    
+    sigma2 <- max(varCtrl, ifelse(mu < 0.01, min(minVal, mu/1000), minVal))
+    
+    # mu must be smaller than 1 
+    mu <- min(mu, 1 - min(0.001, sigma2 * 10^(-log10(minVal)/2)))
+    
+    return(max(0, -mu * (sigma2 + mu^2 - mu) / sigma2))
+}
+
 #' @title Estimate the beta parameter of a beta distribution
 #'
 #' @description Estimate the beta parameter from the mean and the variance
@@ -65,6 +103,46 @@ estBetaBeta <- function(valCtrl, minVal = 1e-06) {
     
     # variance is at least minVal or mu / 1000
     sigma2 <- max(valCtrl[2], ifelse(mu < 0.01, min(minVal, mu/1000), minVal))
+    
+    # mu must be smaller than 1. 
+    mu <- min(mu, 1 - min(0.001, sigma2 * 10^(-log10(minVal)/2)))
+    
+    return(max(0, (sigma2 + mu^2 - mu) * (mu -1) / sigma2))
+}
+
+
+#' @title Estimate the beta parameter of a beta distribution
+#'
+#' @description Estimate the beta parameter from the mean and the variance
+#' of a beta distribution.
+#'
+#' @param meanCtrl  a \code{double}, the mean of the controls (CTRL) at a 
+#' specific CpG site.
+#' 
+#' @param varCtrl  a \code{double}, the variance of the controls (CTRL) at a 
+#' specific CpG site.
+#'
+#' @param minVal a \code{double}, the minimum value accepted for the mean
+#' value. If \code{meanCtrl} is smaller than 
+#' \code{minVal}, then \code{minVal} is used in the calculation of the beta
+#' paramter. 
+#' Default: \code{1e-06}.
+#'
+#' @return a \code{double}, the beta parameter of a Beta distribution.
+#'
+#' @examples
+#'
+#' ## Estimate beta parameters with mean = 0.5, variance = 0.1
+#' methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.5, varCtrl=0.1)
+#'
+#' @author Pascal Belleau, Astrid Deschenes
+#' @keywords internal
+estBetaBetaNew <- function(meanCtrl, varCtrl, minVal = 1e-06) {
+    
+    mu <- max(meanCtrl, minVal)
+    
+    # variance is at least minVal or mu / 1000
+    sigma2 <- max(varCtrl, ifelse(mu < 0.01, min(minVal, mu/1000), minVal))
     
     # mu must be smaller than 1. 
     mu <- min(mu, 1 - min(0.001, sigma2 * 10^(-log10(minVal)/2)))
@@ -223,8 +301,8 @@ getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff,
     
     if(selectedAsDM == 0) {
         ## Site selected as not differentially methylated
-        val <- rbeta(nb, estBetaAlpha(ctrlMean, ctrlVar), 
-                        estBetaBeta(ctrlMean, ctrlVar))
+        val <- rbeta(nb, estBetaAlphaNew(ctrlMean, ctrlVar), 
+                        estBetaBetaNew(ctrlMean, ctrlVar))
         meanDiff <- ctrlMean
         partitionDiff <- c(0, nb)
     } else {
@@ -234,10 +312,10 @@ getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff,
         
         partitionDiff <- c(diffCase, nb - diffCase)
         
-        val <- c(rbeta(partitionDiff[1], estBetaAlpha(meanDiff, ctrlVar), 
-                    estBetaBeta(meanDiff, ctrlVar)),
-                    rbeta(partitionDiff[2], estBetaAlpha(ctrlMean, ctrlVar), 
-                    estBetaBeta(ctrlMean, ctrlVar)))
+        val <- c(rbeta(partitionDiff[1], estBetaAlphaNew(meanDiff, ctrlVar), 
+                    estBetaBetaNew(meanDiff, ctrlVar)),
+                    rbeta(partitionDiff[2], estBetaAlphaNew(ctrlMean, ctrlVar), 
+                    estBetaBetaNew(ctrlMean, ctrlVar)))
     }
     
     return(c(meanDiff, partitionDiff, val))
@@ -1353,8 +1431,8 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
         ## Generate data formatted for methylKit
         ## TODO : decrire ce que ca fait
         ## TODO : solve bug
-        simData <- simEachGenerationWithBug(simulation = simV0.1, nbCtrl = nbCtrl, 
-                        nbCase = nbCase,
+        simData <- simEachGenerationWithBug(simulation = simV0.1, 
+                        nbCtrl = nbCtrl, nbCase = nbCase,
                         treatment = treatment, sample.id = sample.id,
                         generation = generation, stateInfo = stateInfo, 
                         minReads = minReads, maxPercReads = maxPercReads, 
@@ -1434,7 +1512,7 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @param meanCov a positive \code{integer}, the mean of the coverage
 #' at the simulated CpG sites.
 #' 
-#' #' @param saveGRanges a \code{logical}, when \code{true}, the package save two 
+#' @param saveGRanges a \code{logical}, when \code{true}, the package save two 
 #' files type. The first generate for each simulation contains a \code{list}. 
 #' The length of the \code{list} corresponds to the number of generation. 
 #' The generation are stored in order (first entry = first generation, 
@@ -1510,10 +1588,10 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @importFrom methods new
 #' @importFrom BiocGenerics start end strand
 #' @keywords internal
-simEachGenerationWithBug <- function(simulation, nbCtrl, nbCase, treatment, sample.id,
-                        generation, stateInfo, minReads, maxPercReads,
-                        context, assembly, meanCov, saveGRanges, saveMethylKit, 
-                        runAnalysis) {
+simEachGenerationWithBug <- function(simulation, nbCtrl, nbCase, treatment, 
+                        sample.id, generation, stateInfo, minReads, 
+                        maxPercReads, context, assembly, meanCov, saveGRanges, 
+                        saveMethylKit, runAnalysis) {
     ## Returned objects
     myobj <- list()
     myGR <- list()

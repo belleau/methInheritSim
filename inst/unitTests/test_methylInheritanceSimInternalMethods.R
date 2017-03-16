@@ -27,6 +27,47 @@ test.estBetaAlpha_good_01 <- function() {
     checkEquals(obs, exp, message)
 }
 
+test.estBetaAlpha_good_02 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaAlpha(c(0.5, 0.2), 0.4)
+    
+    exp <- 0
+    
+    message <- paste0("test.estBetaAlpha_good_02() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+
+
+###################################################
+## estBetaAlphaNew() function
+###################################################
+
+test.estBetaAlphaNew_good_01 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaAlphaNew(0.5, 0.2, 0.00001)
+    
+    exp <- 0.125
+    
+    message <- paste0("test.estBetaAlphaNew_good_01() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.estBetaAlphaNew_good_02 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaAlphaNew(0.5, 0.2, 0.4)
+    
+    exp <- 0
+    
+    message <- paste0("test.estBetaAlphaNew_good_02() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
 
 ###################################################
 ## estBetaBeta() function
@@ -39,6 +80,70 @@ test.estBetaBeta_good_01 <- function() {
     exp <- 0.035
     
     message <- paste0("test.estBetaBeta_good_01() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.estBetaBeta_good_02 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaBeta(c(0.3, 0.2), 0.35)
+    
+    exp <- 0
+    
+    message <- paste0("test.estBetaBeta_good_02() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.estBetaBeta_good_03 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaBeta(c(0.2, 0.002), 0.00001)
+    
+    exp <- 63.2
+    
+    message <- paste0("test.estBetaBeta_good_03() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+###################################################
+## estBetaBetaNew() function
+###################################################
+
+test.estBetaBetaNew_good_01 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.3, varCtrl=0.2, 0.00001)
+    
+    exp <- 0.035
+    
+    message <- paste0("test.estBetaBetaNew_good_01() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.estBetaBetaNew_good_02 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.3, varCtrl=0.2, 0.35)
+    
+    exp <- 0
+    
+    message <- paste0("test.estBetaBetaNew_good_02() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.estBetaBeta_good_03 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.2, varCtrl=0.002, 0.00001)
+    
+    exp <- 63.2
+    
+    message <- paste0("test.estBetaBeta_good_03() ",
                       "- Valid parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
@@ -68,8 +173,8 @@ test.getDiffCaseNew_good_no_DMS <- function() {
     set.seed(22)
     
     obs <- methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.14562,
-                                                 ctrlVar = 0.0003607153, selectedAsDM = 0, nb = 4, sDiff = 0.8,
-                                                 diffCase = 3)
+                    ctrlVar = 0.0003607153, selectedAsDM = 0, nb = 4, sDiff = 0.8,
+                    diffCase = 3)
     exp <- c(0.1456200000, 0.000000000000, 4.000000000000, 0.1348148850,
              0.1698118247, 0.1520623197, 0.1411707002)
     
@@ -84,8 +189,8 @@ test.getDiffCaseNew_good_02 <- function() {
     set.seed(322)
     
     obs <- methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.14562,
-                                        ctrlVar = 0.0003607153, selectedAsDM = 1, nb = 4, sDiff = 0.1,
-                                        diffCase = 3)
+                    ctrlVar = 0.0003607153, selectedAsDM = 1, nb = 4, sDiff = 0.1,
+                    diffCase = 3)
     exp <- c(0.2456200000, 3.000000000000, 1.000000000000, 0.2435759950,
              0.2230879838, 0.2761777813, 0.1222240668)
     

@@ -51,9 +51,9 @@ methylation context, such as "CpG", "CpH", "CHH", etc..}
 genome assembly, such as "mm9", "hg18", etc..}
 
 \item{meanCov}{a positive \code{integer}, the mean of the coverage
-at the simulated CpG sites.
+at the simulated CpG sites.}
 
-#' @param saveGRanges a \code{logical}, when \code{true}, the package save two 
+\item{saveGRanges}{a \code{logical}, when \code{true}, the package save two 
 files type. The first generate for each simulation contains a \code{list}. 
 The length of the \code{list} corresponds to the number of generation. 
 The generation are stored in order (first entry = first generation, 

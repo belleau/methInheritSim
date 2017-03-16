@@ -28,8 +28,8 @@ methylated.}
 a \code{vector} containing 3 + nb \code{double}:
 \itemize{
 \item The mean proportion of C/T of the differentially methylated cases
-\item The number of cases simulated with shifted distribution
-\item The number of cases simulated with the control distribution
+\item The number of cases simulated using shifted distribution
+\item The number of cases simulated using the control distribution
 \item The proportion of C/T for each case
 }
 }
