@@ -156,7 +156,6 @@ test.estBetaBeta_good_03 <- function() {
 test.getDiffCaseNew_good_01 <- function() {
     set.seed(322)
     
-    #x <- c(0.14562, 0.0003607153, 1)
     obs <- methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.14562,
                 ctrlVar = 0.0003607153, selectedAsDM = 1, nb = 4, sDiff = 0.8,
                 diffCase = 3)
@@ -173,8 +172,8 @@ test.getDiffCaseNew_good_no_DMS <- function() {
     set.seed(22)
     
     obs <- methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.14562,
-                    ctrlVar = 0.0003607153, selectedAsDM = 0, nb = 4, sDiff = 0.8,
-                    diffCase = 3)
+                ctrlVar = 0.0003607153, selectedAsDM = 0, nb = 4, sDiff = 0.8,
+                diffCase = 3)
     exp <- c(0.1456200000, 0.000000000000, 4.000000000000, 0.1348148850,
              0.1698118247, 0.1520623197, 0.1411707002)
     
@@ -189,8 +188,8 @@ test.getDiffCaseNew_good_02 <- function() {
     set.seed(322)
     
     obs <- methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.14562,
-                    ctrlVar = 0.0003607153, selectedAsDM = 1, nb = 4, sDiff = 0.1,
-                    diffCase = 3)
+                ctrlVar = 0.0003607153, selectedAsDM = 1, nb = 4, sDiff = 0.1,
+                diffCase = 3)
     exp <- c(0.2456200000, 3.000000000000, 1.000000000000, 0.2435759950,
              0.2230879838, 0.2761777813, 0.1222240668)
     
@@ -351,6 +350,56 @@ test.getSim_good_02 <- function() {
 }
 
 
+test.getSim_good_03 <- function() {
+    
+    set.seed(25212)
+    
+    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+                            nbBlock = 1, nbCpG = 3)
+    
+    stateDiff <- list()
+    stateDiff[["stateDiff"]] <- c(1, 1, 1)
+    stateDiff[["stateInherite"]] <- c(1, 1, 1)
+    
+    obs <- methylInheritanceSim:::getSim(nbCtrl = 3, nbCase = 3, generation = 2, 
+                stateInfo = stateInformation, stateDiff = stateDiff, diffValue = 0.4, 
+                propDiff = 0.8, propDiffsd = 0.3, propInheritance = 0.7, propHetero = 0.2)
+    
+    exp <- GRangesList()
+    
+    exp[[1]] <- GRanges(seqnames = seqnames(stateInformation),
+                        ranges = ranges(stateInformation),
+                        strand =  strand(stateInformation),
+                        meanDiff = c(0.558913110086267, 0.449962615641849, 0.479661899006178), 
+                        meanCTRL = mcols(stateInformation)[3],
+                        partitionCase = c(2, 2, 2), partitionCtrl = c(1, 1, 1),
+                        ctrl.V1 = c(0.999890625604128, 0.0224875348296994, 0.145194054662506),
+                        ctrl.V2 = c(0.972502722616637, 0.186942812560022, 0.0673588416556606),
+                        ctrl.V3 = c(0.987586164771293, 0.020569016934098, 0.131640777446695),
+                        case.V1 = c(0.421402396211426, 0.448889310453412, 0.473769208188253),
+                        case.V2 = c(0.447204191206416, 0.448558536584455, 0.543957006411924),
+                        case.V3 = c(0.999997880496921, 0.0584002453973412, 0.0385719160422928))
+    
+    exp[[2]] <- GRanges(seqnames = seqnames(stateInformation),
+                        ranges = ranges(stateInformation),
+                        strand =  strand(stateInformation),
+                        meanDiff = c(0.878913110086267, 0.129962615641849, 0.159661899006178), 
+                        meanCTRL = mcols(stateInformation)[3],
+                        partitionCase = c(2, 2, 2), partitionCtrl = c(1, 1, 1),
+                        ctrl.V1 = c(0.99998519489511, 0.0315260421172793, 0.079646895269669),
+                        ctrl.V2 = c(0.986784892583002, 0.0131363053820546, 0.0409011080082275),
+                        ctrl.V3 = c(0.998699787293772, 0.0549282859188099, 0.12809374105219),
+                        case.V1 = c(0.749498444969622, 0.146170576424504, 0.16625757987502),
+                        case.V2 = c(0.935273128088281, 0.204586530901366, 0.137162736236601),
+                        case.V3 = c(0.958785951984364, 0.0640823013094492, 0.122777372842008))
+    
+    message <- paste0("test.getSim_good_03() ",
+                      "- Valid parameters for getSim() did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+
 ###################################################
 ## getSimNew() function
 ###################################################
@@ -449,6 +498,55 @@ test.getSimNew_good_02 <- function() {
     checkEquals(obs, exp, message)
 }
 
+
+test.getSimNew_good_03 <- function() {
+    
+    set.seed(25212)
+    
+    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+                                                               nbBlock = 1, nbCpG = 3)
+    
+    stateDiff <- list()
+    stateDiff <- c(1, 1, 1)
+    stateInherite <- c(1, 1, 1)
+    
+    obs <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 3, generation = 2, 
+                stateInfo = stateInformation, stateDiff = stateDiff, stateInherite = stateInherite, diffValue = 0.4, 
+                propDiff = 0.8, propDiffsd = 0.3, propInheritance = 0.7, propHetero = 0.2)
+    
+    exp <- GRangesList()
+    
+    exp[[1]] <- GRanges(seqnames = seqnames(stateInformation),
+                        ranges = ranges(stateInformation),
+                        strand =  strand(stateInformation),
+                        meanDiff = c(0.558913110086267, 0.449962615641849, 0.479661899006178), 
+                        meanCTRL = mcols(stateInformation)[3],
+                        partitionCase = c(2, 2, 2), partitionCtrl = c(1, 1, 1),
+                        ctrl.V1 = c(0.999890625604128, 0.0224875348296994, 0.145194054662506),
+                        ctrl.V2 = c(0.972502722616637, 0.186942812560022, 0.0673588416556606),
+                        ctrl.V3 = c(0.987586164771293, 0.020569016934098, 0.131640777446695),
+                        case.V1 = c(0.421402396211426, 0.448889310453412, 0.473769208188253),
+                        case.V2 = c(0.447204191206416, 0.448558536584455, 0.543957006411924),
+                        case.V3 = c(0.999997880496921, 0.0584002453973412, 0.0385719160422928))
+    
+    exp[[2]] <- GRanges(seqnames = seqnames(stateInformation),
+                        ranges = ranges(stateInformation),
+                        strand =  strand(stateInformation),
+                        meanDiff = c(0.878913110086267, 0.129962615641849, 0.159661899006178), 
+                        meanCTRL = mcols(stateInformation)[3],
+                        partitionCase = c(2, 2, 2), partitionCtrl = c(1, 1, 1),
+                        ctrl.V1 = c(0.99998519489511, 0.0315260421172793, 0.079646895269669),
+                        ctrl.V2 = c(0.986784892583002, 0.0131363053820546, 0.0409011080082275),
+                        ctrl.V3 = c(0.998699787293772, 0.0549282859188099, 0.12809374105219),
+                        case.V1 = c(0.749498444969622, 0.146170576424504, 0.16625757987502),
+                        case.V2 = c(0.935273128088281, 0.204586530901366, 0.137162736236601),
+                        case.V3 = c(0.958785951984364, 0.0640823013094492, 0.122777372842008))
+    
+    message <- paste0("test.getSimNew_good_03() ",
+                      "- Valid parameters for getSim() did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
 ###################################################
 ## getDiffMeth() function
 ###################################################
