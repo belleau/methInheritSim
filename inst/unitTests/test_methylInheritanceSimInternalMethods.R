@@ -27,6 +27,47 @@ test.estBetaAlpha_good_01 <- function() {
     checkEquals(obs, exp, message)
 }
 
+test.estBetaAlpha_good_02 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaAlpha(c(0.5, 0.2), 0.4)
+    
+    exp <- 0
+    
+    message <- paste0("test.estBetaAlpha_good_02() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+
+
+###################################################
+## estBetaAlphaNew() function
+###################################################
+
+test.estBetaAlphaNew_good_01 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaAlphaNew(0.5, 0.2, 0.00001)
+    
+    exp <- 0.125
+    
+    message <- paste0("test.estBetaAlphaNew_good_01() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.estBetaAlphaNew_good_02 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaAlphaNew(0.5, 0.2, 0.4)
+    
+    exp <- 0
+    
+    message <- paste0("test.estBetaAlphaNew_good_02() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
 
 ###################################################
 ## estBetaBeta() function
@@ -39,6 +80,70 @@ test.estBetaBeta_good_01 <- function() {
     exp <- 0.035
     
     message <- paste0("test.estBetaBeta_good_01() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.estBetaBeta_good_02 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaBeta(c(0.3, 0.2), 0.35)
+    
+    exp <- 0
+    
+    message <- paste0("test.estBetaBeta_good_02() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.estBetaBeta_good_03 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaBeta(c(0.2, 0.002), 0.00001)
+    
+    exp <- 63.2
+    
+    message <- paste0("test.estBetaBeta_good_03() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+###################################################
+## estBetaBetaNew() function
+###################################################
+
+test.estBetaBetaNew_good_01 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.3, varCtrl=0.2, 0.00001)
+    
+    exp <- 0.035
+    
+    message <- paste0("test.estBetaBetaNew_good_01() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.estBetaBetaNew_good_02 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.3, varCtrl=0.2, 0.35)
+    
+    exp <- 0
+    
+    message <- paste0("test.estBetaBetaNew_good_02() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.estBetaBeta_good_03 <- function() {
+    
+    obs <- methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.2, varCtrl=0.002, 0.00001)
+    
+    exp <- 63.2
+    
+    message <- paste0("test.estBetaBeta_good_03() ",
                       "- Valid parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
@@ -68,8 +173,8 @@ test.getDiffCaseNew_good_no_DMS <- function() {
     set.seed(22)
     
     obs <- methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.14562,
-                                                 ctrlVar = 0.0003607153, selectedAsDM = 0, nb = 4, sDiff = 0.8,
-                                                 diffCase = 3)
+                    ctrlVar = 0.0003607153, selectedAsDM = 0, nb = 4, sDiff = 0.8,
+                    diffCase = 3)
     exp <- c(0.1456200000, 0.000000000000, 4.000000000000, 0.1348148850,
              0.1698118247, 0.1520623197, 0.1411707002)
     
@@ -84,8 +189,8 @@ test.getDiffCaseNew_good_02 <- function() {
     set.seed(322)
     
     obs <- methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.14562,
-                                        ctrlVar = 0.0003607153, selectedAsDM = 1, nb = 4, sDiff = 0.1,
-                                        diffCase = 3)
+                    ctrlVar = 0.0003607153, selectedAsDM = 1, nb = 4, sDiff = 0.1,
+                    diffCase = 3)
     exp <- c(0.2456200000, 3.000000000000, 1.000000000000, 0.2435759950,
              0.2230879838, 0.2761777813, 0.1222240668)
     
@@ -1558,6 +1663,107 @@ test.testIfAlreadyDone_false_001 <- function() {
     
     message <- paste0("test.testIfAlreadyDone_false_001() ",
                       "- Parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+
+###################################################
+## simEachGeneration() function
+###################################################
+
+test.getSimNew_good_02 <- function() {
+    
+    set.seed(22212)
+    
+    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+                                                               nbBlock = 1, nbCpG = 3)
+    
+    stateDiff <- c(1, 1, 1)
+    stateInherite <- c(0, 0, 1)
+    
+    obs <- methylInheritanceSim:::getSimNew(nbCtrl = 2, nbCase = 3, generation = 2, 
+                                            stateInfo = stateInformation, stateDiff = stateDiff, 
+                                            stateInherite = stateInherite, diffValue = 10, 
+                                            propDiff = 0.6, propDiffsd = 0.3, propInheritance = 0.7, propHetero = 0.2)
+    
+    exp <- GRangesList()
+    
+    exp[[1]] <- GRanges(seqnames = seqnames(stateInformation),
+                        ranges = ranges(stateInformation),
+                        strand =  strand(stateInformation),
+                        meanDiff = c(0.000000000000000, 1.000000000000000, 1.000000000000000), 
+                        meanCTRL = mcols(stateInformation)[3],
+                        partitionCase = c(2, 2, 2), partitionCtrl = c(1, 1, 1),
+                        ctrl.V1 = c(0.599248212271003, 0.104673052925196, 0.0163259007084415),
+                        ctrl.V2 = c(0.660878027594768, 0.0737704350938676, 0.00412068310774805),
+                        case.V1 = c(0.000000000000000, 1.000000000000000, 1.000000000000000),
+                        case.V2 = c(0.000000000000000, 1.000000000000000, 1.000000000000000),
+                        case.V3 = c(0.140108118897419, 0.152428811636903, 0.0242355851971473))
+    
+    exp[[2]] <- GRanges(seqnames = seqnames(stateInformation),
+                        ranges = ranges(stateInformation),
+                        strand =  strand(stateInformation),
+                        meanDiff = c(0.534404290296076, 0.288519632432523, 1.000000000000000), 
+                        meanCTRL = mcols(stateInformation)[3],
+                        partitionCase = c(0, 0, 1), partitionCtrl = c(3, 3, 2),
+                        ctrl.V1 = c(0.0851227837846553, 0.281923948948365, 0.0198953426761693),
+                        ctrl.V2 = c(0.393339608860298, 0.118756249033386, 0.019181448769631),
+                        case.V1 = c(0.960713455049359, 0.140418843034454, 1.000000000000000),
+                        case.V2 = c(0.935659881913647, 0.282094425404783, 0.0137838586380334),
+                        case.V3 = c(0.495670278966184, 0.476562011603015, 0.00593249270592643))
+    
+    message <- paste0("test.getSimNew_good_02() ",
+                      "- Valid parameters for getSim() did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+###################################################
+## getDiffMeth() function
+###################################################
+
+test.getDiffMeth_good_01 <- function() {
+    set.seed(3222)
+    
+    t<-dataSimExample$stateInfo[1:10,]
+    
+    obs <- methylInheritanceSim:::getDiffMeth(stateInfo = 
+                                                  t, rateDiff = 0.3, minRate = 0.1,
+                                              propInherite = 0.2)
+    
+    exp <- list()
+    exp$stateDiff <- c(0, 0, 0, 0, 0, 1, 1, 0, 1, 1)
+    exp$stateInherite <- c(0, 0, 0, 0, 0, 1, 0, 0, 0, 0)
+    
+    message <- paste0("test.getDiffMeth_good_01() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+
+###################################################
+## getSyntheticChr() function
+###################################################
+
+test.getSyntheticChr_good_01 <- function() {
+    
+    set.seed(322)
+    
+    obs <- methylInheritanceSim:::getSyntheticChr(methInfo = 
+                                                      samplesForChrSynthetic, nbBlock = 1, nbCpG = 2)
+    
+    exp <- GenomicRanges::GRanges(seqnames = rep("S", 2), 
+                                  ranges = IRanges::IRanges(start = c(1000, 2514), 
+                                                            end = c(1000, 2514)),
+                                  strand = rep("+", 2), chrOri = rep(1, 2),
+                                  startOri = c(11690624, 11692138), 
+                                  meanCTRL = c(0.934017763674095, 0.957297904589756),
+                                  varCTRL = c(0.00293610808482296, 0.00038750651540637))
+    
+    message <- paste0("test.getSyntheticChr_good_01() ",
+                      "- Valid parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }

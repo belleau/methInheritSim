@@ -2,17 +2,17 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{getDiffCaseNew}
 \alias{getDiffCaseNew}
-\title{Get a proportion C/T for each case for the sites selected as
-differentially methylated or not}
+\title{Get the C/T proportion at a selected site,
+differentially methylated or not, for all cases}
 \usage{
 getDiffCaseNew(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff, diffCase)
 }
 \arguments{
-\item{ctrlMean, }{a \code{double}, the mean of the CTRL at the site.}
+\item{ctrlMean}{a \code{double}, the mean of the CTRL at the site.}
 
-\item{ctrlVar, }{a \code{double}, the variance of the CTRL at the site.}
+\item{ctrlVar}{a \code{double}, the variance of the CTRL at the site.}
 
-\item{selectedAsDM, }{a \code{integer}, \code{1} if the site is selected as 
+\item{selectedAsDM}{a \code{integer}, \code{1} if the site is selected as 
 differentially methylated, otherwise \code{0}.}
 
 \item{sDiff}{a non-negative \code{double} 
@@ -21,26 +21,28 @@ methylated that follows
 a beta distribution where the mean is shifted of \code{vDiff} 
 from the CTRL distribution.}
 
-\item{diffCase}{an \code{integer}, the number of cases differentially at 
-the selected as differentially methylated site.}
+\item{diffCase}{an \code{integer}, the number of cases differentially 
+methylated.}
 }
 \value{
-a \code{vector} containing 3 + nb entries:
+a \code{vector} containing 3 + nb \code{double}:
 \itemize{
-\item mean of proportion of C/T of the differentially methylated case
-\item The number of case simulate with shifted distribution
-\item The number of case simulate with the control distribution
-\item the proportion of C/T for each case
+\item The mean proportion of C/T of the differentially methylated cases
+\item The number of cases simulated using shifted distribution
+\item The number of cases simulated using the control distribution
+\item The proportion of C/T for each case
 }
 }
 \description{
-Simulate the proportion of C/T for each case at the sites 
-selected as differentially methylated or not.
+Simulate the proportion of C/T for each case at a selected 
+site, differentially methylated or not.
 }
 \examples{
 
-## Get the proportion of C/T for each case at a specific site.
+## Fix seed to obtain replicable results
 set.seed(2010)
+
+## Get the proportion of C/T for each case at a specific site.
 methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.9814562, ctrlVar = 
 0.0003607153, selectedAsDM = 0, nb=6, sDiff = 0.8, 
 diffCase = round(6 * 0.9))

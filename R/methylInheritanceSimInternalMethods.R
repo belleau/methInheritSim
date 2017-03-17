@@ -35,6 +35,44 @@ estBetaAlpha <- function(valCtrl, minVal = 1e-06){
 }
 
 
+#' @title Estimate the alpha parameter of a Beta distribution
+#'
+#' @description Estimate the alpha parameter from the mean and the variance
+#' of a Beta distribution.
+#'
+#' @param meanCtrl a \code{double}, the mean of the controls (CTRL) at a 
+#' specific CpG site.
+#' 
+#' @param varCtrl a \code{double}, the variance of the controls 
+#' (CTRL) at a specific CpG site.
+#'
+#' @param minVal a \code{double}, the minimum value accepted for the mean
+#' value. If \code{meanCtrl} is smaller than 
+#' \code{minVal}, then \code{minVal} is used in the calculation of the alpha
+#' parameter. 
+#' Default: \code{1e-06}.
+#'
+#' @return a \code{double}, the alpha parameter of a Beta distribution.
+#'
+#' @examples
+#'
+#' ## Estimate alpha parameters with mean = 0.5 and variance = 0.1
+#' methylInheritanceSim:::estBetaAlphaNew(meanCtrl = 0.5, varCtrl = 0.1)
+#'
+#' @author Pascal Belleau, Astrid Deschenes
+#' @keywords internal
+estBetaAlphaNew <- function(meanCtrl, varCtrl, minVal = 1e-06){
+    
+    mu <- max(meanCtrl, minVal)
+    
+    sigma2 <- max(varCtrl, ifelse(mu < 0.01, min(minVal, mu/1000), minVal))
+    
+    # mu must be smaller than 1 
+    mu <- min(mu, 1 - min(0.001, sigma2 * 10^(-log10(minVal)/2)))
+    
+    return(max(0, -mu * (sigma2 + mu^2 - mu) / sigma2))
+}
+
 #' @title Estimate the beta parameter of a beta distribution
 #'
 #' @description Estimate the beta parameter from the mean and the variance
@@ -65,6 +103,46 @@ estBetaBeta <- function(valCtrl, minVal = 1e-06) {
     
     # variance is at least minVal or mu / 1000
     sigma2 <- max(valCtrl[2], ifelse(mu < 0.01, min(minVal, mu/1000), minVal))
+    
+    # mu must be smaller than 1. 
+    mu <- min(mu, 1 - min(0.001, sigma2 * 10^(-log10(minVal)/2)))
+    
+    return(max(0, (sigma2 + mu^2 - mu) * (mu -1) / sigma2))
+}
+
+
+#' @title Estimate the beta parameter of a beta distribution
+#'
+#' @description Estimate the beta parameter from the mean and the variance
+#' of a beta distribution.
+#'
+#' @param meanCtrl  a \code{double}, the mean of the controls (CTRL) at a 
+#' specific CpG site.
+#' 
+#' @param varCtrl  a \code{double}, the variance of the controls (CTRL) at a 
+#' specific CpG site.
+#'
+#' @param minVal a \code{double}, the minimum value accepted for the mean
+#' value. If \code{meanCtrl} is smaller than 
+#' \code{minVal}, then \code{minVal} is used in the calculation of the beta
+#' paramter. 
+#' Default: \code{1e-06}.
+#'
+#' @return a \code{double}, the beta parameter of a Beta distribution.
+#'
+#' @examples
+#'
+#' ## Estimate beta parameters with mean = 0.5, variance = 0.1
+#' methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.5, varCtrl=0.1)
+#'
+#' @author Pascal Belleau, Astrid Deschenes
+#' @keywords internal
+estBetaBetaNew <- function(meanCtrl, varCtrl, minVal = 1e-06) {
+    
+    mu <- max(meanCtrl, minVal)
+    
+    # variance is at least minVal or mu / 1000
+    sigma2 <- max(varCtrl, ifelse(mu < 0.01, min(minVal, mu/1000), minVal))
     
     # mu must be smaller than 1. 
     mu <- min(mu, 1 - min(0.001, sigma2 * 10^(-log10(minVal)/2)))
@@ -173,18 +251,17 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
 }
 
 
-#' @title Get a proportion C/T for each case for the sites selected as
-#' differentially methylated or not
-#' 
+#' @title Get the C/T proportion at a selected site,
+#' differentially methylated or not, for all cases
 #'
-#' @description Simulate the proportion of C/T for each case at the sites 
-#' selected as differentially methylated or not.
+#' @description Simulate the proportion of C/T for each case at a selected 
+#' site, differentially methylated or not.
 #' 
-#' @param ctrlMean, a \code{double}, the mean of the CTRL at the site.
+#' @param ctrlMean a \code{double}, the mean of the CTRL at the site.
 #'
-#' @param ctrlVar, a \code{double}, the variance of the CTRL at the site.
+#' @param ctrlVar a \code{double}, the variance of the CTRL at the site.
 #' 
-#' @param selectedAsDM, a \code{integer}, \code{1} if the site is selected as 
+#' @param selectedAsDM a \code{integer}, \code{1} if the site is selected as 
 #' differentially methylated, otherwise \code{0}.
 #'
 #' @param sDiff a non-negative \code{double} 
@@ -193,21 +270,23 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
 #' a beta distribution where the mean is shifted of \code{vDiff} 
 #' from the CTRL distribution.
 #'
-#' @param diffCase an \code{integer}, the number of cases differentially at 
-#' the selected as differentially methylated site.
+#' @param diffCase an \code{integer}, the number of cases differentially 
+#' methylated.
 #'
-#' @return a \code{vector} containing 3 + nb entries:
+#' @return a \code{vector} containing 3 + nb \code{double}:
 #' \itemize{
-#' \item mean of proportion of C/T of the differentially methylated case
-#' \item The number of case simulate with shifted distribution
-#' \item The number of case simulate with the control distribution
-#' \item the proportion of C/T for each case
+#' \item The mean proportion of C/T of the differentially methylated cases
+#' \item The number of cases simulated using shifted distribution
+#' \item The number of cases simulated using the control distribution
+#' \item The proportion of C/T for each case
 #' }
 #'
 #' @examples
 #' 
-#' ## Get the proportion of C/T for each case at a specific site.
+#' ## Fix seed to obtain replicable results
 #' set.seed(2010)
+#' 
+#' ## Get the proportion of C/T for each case at a specific site.
 #' methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.9814562, ctrlVar = 
 #' 0.0003607153, selectedAsDM = 0, nb=6, sDiff = 0.8, 
 #' diffCase = round(6 * 0.9))
@@ -221,21 +300,22 @@ getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff,
     meanDiff <- 0
     
     if(selectedAsDM == 0) {
-        val <- rbeta(nb, estBetaAlpha(c(ctrlMean, ctrlVar)), 
-                        estBetaBeta(c(ctrlMean, ctrlVar)))
+        ## Site selected as not differentially methylated
+        val <- rbeta(nb, estBetaAlphaNew(ctrlMean, ctrlVar), 
+                        estBetaBetaNew(ctrlMean, ctrlVar))
         meanDiff <- ctrlMean
         partitionDiff <- c(0, nb)
     } else {
+        ## Site selected as differentially methylated
         meanDiff <- ifelse(ctrlMean < 0.5, min(1, ctrlMean + sDiff),
                             max(0, ctrlMean - sDiff))
         
         partitionDiff <- c(diffCase, nb - diffCase)
         
-        val <- c(rbeta(partitionDiff[1], estBetaAlpha(c(meanDiff, ctrlVar)), 
-                    estBetaBeta(c(meanDiff, ctrlVar))),
-                    rbeta(partitionDiff[2], estBetaAlpha(c(ctrlMean, ctrlVar, 
-                    selectedAsDM)), 
-                    estBetaBeta(c(ctrlMean, ctrlVar, selectedAsDM))))
+        val <- c(rbeta(partitionDiff[1], estBetaAlphaNew(meanDiff, ctrlVar), 
+                    estBetaBetaNew(meanDiff, ctrlVar)),
+                    rbeta(partitionDiff[2], estBetaAlphaNew(ctrlMean, ctrlVar), 
+                    estBetaBetaNew(ctrlMean, ctrlVar)))
     }
     
     return(c(meanDiff, partitionDiff, val))
@@ -290,12 +370,12 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
         partitionDiff <- c(0, nb)
     } else {
         meanDiff <- ifelse(x[1] < 0.5,
-                           min(1, x[1] + sDiff),
-                           max(0, x[1] - sDiff))
+                            min(1, x[1] + sDiff),
+                            max(0, x[1] - sDiff))
         partitionDiff <- c(diffCase, nb - diffCase)
         val <- c(rbeta(partitionDiff[1], estBetaAlpha(c(meanDiff, x[2])),
-                       estBetaBeta(c(meanDiff, x[2]))),
-                 rbeta(partitionDiff[2], estBetaAlpha(x), estBetaBeta(x)))
+                        estBetaBeta(c(meanDiff, x[2]))),
+                rbeta(partitionDiff[2], estBetaAlpha(x), estBetaBeta(x)))
     }
     return(c(meanDiff, partitionDiff, val))
 }
@@ -381,7 +461,7 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
 #'     propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, 
 #'     propHetero = 0.1)
 #'
-#' @author Pascal Belleau
+#' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom msm rtnorm
 #' @importFrom GenomicRanges GRangesList GRanges
 #' @importFrom GenomeInfoDb seqnames
@@ -390,7 +470,7 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
 #' @importFrom S4Vectors mcols
 #' @keywords internal
 getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff, 
-                stateInherite, diffValue, propDiff, propDiffsd = 0.1, 
+                stateInherite, diffValue, propDiff, propDiffsd, 
                 propInheritance, propHetero) {
 
     ## Returned object
@@ -961,18 +1041,24 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #'
 #' @examples
 #'
+#' ## Create a temporaty directory to hold the generated files
 #' temp_dir <- "test_simInheritance"
 #' data(dataSimExample)
+#' 
+#' ## Generate a stateDiff object with length corresponding to
+#' ## nbBlock * nbCpG from stateInformation
+#' stateDiff <- list()
+#' stateDiff[["stateDiff"]] <- c(1, 0, 1)
+#' stateDiff[["stateInherite"]] <- c(1, 0, 0)
 #' 
 #' \dontrun{methylInheritanceSim:::simInheritance(pathOut = temp_dir,
 #' pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
 #' treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
-#' generation = 3, stateInfo = dataSimExample$stateInfo,
-#' propDiff = 0.9, propDiffsd = 0.1,
+#' generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
+#' propDiff = 0.9, propDiffsd = 0.1, diffRes = stateDiff,
 #' diffValue = 0.8, propInheritance = 0.5, rateDiff = 0.3, minRate = 0.3,
-#' propInherite = 0.3, propHetero = 0.5,
-#' saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE
-#' )}
+#' propInherite = 0.3, propHetero = 0.5, meanCov = 30, assembly = "RNOR_5.0",
+#' saveGRanges = TRUE, saveMethylKit = TRUE, runAnalysis = TRUE)}
 #' 
 #' ## Delete temp_dir
 #' \dontrun{if (dir.exists(temp_dir)) {
@@ -989,12 +1075,11 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' @importFrom BiocGenerics start end strand
 #' @keywords internal
 simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment, 
-                        sample.id, generation, stateInfo,
-                        propDiff, propDiffsd, diffValue, propInheritance, 
-                        rateDiff , minRate, propInherite, 
-                        propHetero, minReads, maxPercReads,
-                        context, assembly, meanCov, diffRes, 
-                        saveGRanges, saveMethylKit, runAnalysis) {
+                    sample.id, generation, stateInfo, propDiff, propDiffsd, 
+                    diffValue, propInheritance, rateDiff , minRate, 
+                    propInherite, propHetero, minReads, maxPercReads,
+                    context, assembly, meanCov, diffRes, saveGRanges, 
+                    saveMethylKit, runAnalysis) {
     
     # Test if the simulation was done before
     # if just a part of the simulation is done it do it again
@@ -1021,8 +1106,8 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                     propDiff, propDiffsd = propDiffsd,propInheritance = 
                     propInheritance, propHetero = propHetero)
         
-        saveRDS(diffRes,file = paste0(pathOut, "/stateDiff_", extension))
-        saveRDS(simV0.1,file = paste0(pathOut, "/simV0.1_", extension))
+        saveRDS(diffRes, file = paste0(pathOut, "/stateDiff_", extension))
+        saveRDS(simV0.1, file = paste0(pathOut, "/simV0.1_", extension))
         
         myobj <- list()
         myGR <- list()
@@ -1033,8 +1118,8 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
         for(i in 1:generation) {
             outList <- list()
             outGR <- GRangesList() 
-            for(j in 1:(nbCtrl+nbCase)){
-                coverage <- rpois( length(stateInfo), meanCov) + 1
+            for(j in 1:(nbCtrl + nbCase)){
+                coverage <- rpois(length(stateInfo), meanCov) + 1
                 
                 testM <- GRanges(seqnames = seqnames( stateInfo), 
                             ranges = ranges(stateInfo), 
@@ -1042,7 +1127,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                             numCs = round(coverage * 
                                             unlist(mcols(simV0.1[[i]])[4+j])))
                 if(saveMethylKit){
-                    obj<-new("methylRaw", data.frame(chr = seqnames( testM), 
+                    obj <- new("methylRaw", data.frame(chr = seqnames( testM), 
                                 start = start(testM), end = end(testM),
                                 strand = strand(testM),
                                 coverage = testM$coverage, numCs = testM$numCs,
@@ -1051,10 +1136,10 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                             assembly = assembly,
                             context = context, resolution = 'base')
                     
-                    outList[[j]]<-obj
+                    outList[[j]] <- obj
                 }
                 if (saveGRanges) {
-                    outGR[[j]]<-testM
+                    outGR[[j]] <- testM
                 }
             }
             myMat[[i]] <- outList
@@ -1095,6 +1180,530 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
     return(0)
 }
 
+#' @title Simulate a multigenerational methylation experiment with inheritance
+#'
+#' @description Simulate a multigenerational methylation case versus control 
+#' experiment with inheritance relation using a real control dataset. 
+#' 
+#' The simulation can be parametrized to fit different models. The number of 
+#' cases and controls, the proportion of the case affected 
+#' by the treatment (penetrance), the effect of the treatment on the mean of 
+#' the distribution, the proportion of sites inherited, the proportion of the 
+#' differentially methylated sites from the precedent generation inherited, 
+#' etc..
+#' 
+#' The function simulates a multigeneration dataset like a bisulfite 
+#' sequencing experiment. The simulation includes the information about 
+#' control and case for each generation.
+#'
+#' @param pathOut a string of \code{character} or \code{NULL}, the path 
+#' where the 
+#' files created by the function will be saved. When \code{NULL}, the files
+#' are saved in the current directory.
+#'
+#' @param pref a string of \code{character} representing the parameters of
+#' specific simulation the string is composed of those elements, separated 
+#' by "_":
+#' \itemize{ 
+#' \item a \code{fileID}
+#' \item the chromosome number, a number between 1 and \code{nbSynCHR}
+#' \item the number of samples, a number in the \code{vNbSample} \code{vector}
+#' \item the mean proportion of samples that has,
+#' for a specific position, differentially methylated values, a 
+#' number in the \code{vpDiff} \code{vector}
+#' \item the proportion of 
+#' C/T for a case differentially methylated that follows a shifted beta 
+#' distribution, a
+#' number in the \code{vDiff} \code{vector}
+#' \item the 
+#' proportion of cases that inherits differentially sites, a number in the
+#' \code{vInheritance} \code{vector}
+#' }
+#'
+#' @param k a positive \code{integer}, an ID for the current simulation.
+#'
+#' @param nbCtrl a positive \code{integer}, the number of controls.
+#'
+#' @param nbCase a positive \code{integer}, the number of cases.
+#'
+#' @param treatment a numeric vector denoting controls and cases
+#'
+#' @param sample.id a matrix the name of each samples for each generation (row)
+#' and each case and control (column).
+#'
+#' @param generation a positive \code{integer}, the number of generations
+#' simulated.
+#'
+#' @param stateInfo a \code{GRanges} that contains the CpG (or 
+#' methylated sites).
+#' The \code{GRanges} have four metadata from the real dataset:
+#' \itemize{
+#' \item chrOri a \code{numeric}, the chromosome from the real dataset
+#' \item startOri a \code{numeric}, the position of the site in the real dataset
+#' \item meanCTRL a \code{numeric}, the mean of the control in the real dataset
+#' \item varCTRL a \code{numeric}, the variance of the control in the real 
+#' dataset.
+#' }
+#'
+#' @param rateDiff a positive \code{double} inferior to \code{1}, the mean of 
+#' the chance that a site is differentially methylated.
+#'
+#' @param minRate a non-negative \code{double} inferior to \code{1}, the 
+#' minimum rate for differentially methylated sites.
+#' Default: \code{0.01}.
+#'
+#' @param propInherite a non-negative \code{double} inferior or equal 
+#' to \code{1}, 
+#' the proportion of differentially methylated regions that 
+#' are inherated.
+#'
+#' @param diffValue a non-negative \code{double} 
+#' included in [0,1], the proportion of C/T for a case differentially 
+#' methylated that follows 
+#' a beta distribution where the mean is shifted by \code{vDiff} 
+#' from the CTRL distribution.
+#'
+#' @param propDiff a \code{double} superior to 
+#' \code{0} and inferior or equal 
+#' to \code{1}, the mean value for the proportion of samples that will have,
+#' for a specific position, differentially methylated values. It can be 
+#' interpreted as the penetrance.
+#'
+#' @param propDiffsd a non-negative \code{double}, the 
+#' standard deviation associated to the \code{vpDiff}. Note that 
+#' \code{vpDiff} and \code{vpDiffsd} must be the same length.
+#'
+#' @param propInheritance a non-negative \code{double} 
+#' included in [0,1], the proportion of cases 
+#' that inherits differentially methylated sites.
+#'
+#' @param propHetero a non-negative \code{double} between [0,1], the 
+#' reduction of \code{vDiff} for the second and following generations.
+#'
+#' @param minReads a positive \code{integer}, sites and regions having lower
+#' coverage than this count are discarded. The parameter
+#' corresponds to the \code{lo.count} parameter in 
+#' the \code{methylKit} package.
+#' 
+#' @param maxPercReads a \code{double} between [0,100], the percentile of read
+#' counts that is going to be used as upper cutoff. Sites and regions
+#' having higher
+#' coverage than \code{maxPercReads} are discarded. This parameter is used for 
+#' both CpG sites and tiles analysis. The parameter
+#' correspond to the \code{hi.perc} parameter in the \code{methylKit} package.
+#' 
+#' @param context a string of \code{character}, the short description of the 
+#' methylation context, such as "CpG", "CpH", "CHH", etc..
+#' 
+#' @param assembly a string of \code{character}, the short description of the 
+#' genome assembly, such as "mm9", "hg18", etc..
+#' 
+#' @param meanCov a positive \code{integer}, the mean of the coverage
+#' at the simulated CpG sites.
+#' 
+#' @param diffRes a \code{list} with 2 entries:
+#' \itemize{
+#' \item \code{stateDiff} a \code{vector} of \code{integer} (\code{0} 
+#' and \code{1}) with length corresponding the length of \code{stateInfo}.
+#' The \code{vector}
+#' indicates, using a \code{1}, the positions where the CpG sites are
+#' differentially methylated.
+#' \item \code{stateInherite} a \code{vector} of \code{integer} (\code{0} and 
+#' \code{1})
+#' with length corresponding the length of \code{stateInfo}. The 
+#' \code{vector}
+#' indicates, using a \code{1}, the positions where the CpG values are
+#' inherited.
+#' } when is \code{NULL} generate a new ones with \code{getDiffMeth}.
+#'
+#' @param saveGRanges a \code{logical}, when \code{true}, the package save two 
+#' files type. The first generate for each simulation contains a \code{list}. 
+#' The length of the \code{list} corresponds to the number of generation. 
+#' The generation are stored in order (first entry = first generation, 
+#' second entry = second generation, etc..). All samples related to one 
+#' generations are contained in a \code{GRangesList}. 
+#' The \code{GRangeaList} store a \code{list} of \code{GRanges}. Each 
+#' \code{GRanges} stores the raw mehylation data of one sample.
+#' The second file a numeric \code{vector} denoting controls and cases 
+#' (a file is generates by entry in the \code{vector} parameters 
+#' \code{vNbSample}).
+#' 
+#' @param saveMethylKit a \code{logical}, when \code{TRUE}, the package save 
+#' a file contains a \code{list}. The length of the 
+#' \code{list} corresponds to the number of generation. The generation are 
+#' stored in order (first entry = first generation, 
+#' second entry = second generation, etc..). All samples related to one 
+#' generations are contained in a S4 \code{methylRawList} object. The 
+#' \code{methylRawList} object contains two Slots:
+#' 1. treatment: A numeric \code{vector} denoting controls and cases.
+#' 2. .Data: A \code{list} of \code{methylRaw} objects. Each object stores the 
+#' raw methylation data of one sample.
+#' 
+#' @param runAnalysis a \code{logical}, if \code{TRUE}, two files are saved :
+#' \itemize{
+#' \item 1. The first file is the methylObj... file formated 
+#' with the \code{methylkit} package in a S4 \code{methylBase} 
+#' object (with the \code{methylKit} 
+#' functions: \code{filterByCoverage}, \code{normalizeCoverage} and 
+#' \code{unite}).
+#' \item 2. The second file contains a S4 \code{calculateDiffMeth} object 
+#' generated with the \code{methylKit} functions \code{calculateDiffMeth} 
+#' using the first file.
+#' }
+#' 
+#' @return \code{0} indicating that the function has been successful.
+#'
+#' @examples
+#'
+#' ## Name of the directory that will contained the generated files
+#' temp_dir <- "test_simInheritance"
+#' 
+#' ## Load dataset
+#' data(dataSimExample)
+#' 
+#' ## Generate a stateDiff object with length corresponding to
+#' ## nbBlock * nbCpG from stateInformation
+#' stateDiff <- list()
+#' stateDiff[["stateDiff"]] <- c(1, 0, 1)
+#' stateDiff[["stateInherite"]] <- c(1, 0, 0)
+#' 
+#' ## Simulate multigenerational methylation experiment with inheritance
+#' methylInheritanceSim:::simInheritanceNew(pathOut = temp_dir,
+#'     pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
+#'     treatment = dataSimExample$treatment, 
+#'     sample.id = dataSimExample$sample.id,
+#'     generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
+#'     propDiff = 0.9, propDiffsd = 0.1, diffValue = 0.8, 
+#'     propInheritance = 0.5, rateDiff = 0.3, minRate = 0.3,
+#'     propInherite = 0.3, propHetero = 0.5, minReads = 10, maxPercReads = 99, 
+#'     assembly="RNOR_5.0", context="Cpg", meanCov = 40, diffRes = stateDiff,
+#'     saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
+#' 
+#' ## Delete directory
+#' if (dir.exists(temp_dir)) {
+#'     unlink(temp_dir, recursive = TRUE, force = FALSE)
+#' }
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @keywords internal
+simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment, 
+                        sample.id, generation, stateInfo, propDiff, propDiffsd, 
+                        diffValue, propInheritance, rateDiff, minRate, 
+                        propInherite, propHetero, minReads, maxPercReads,
+                        context, assembly, meanCov, diffRes, saveGRanges, 
+                        saveMethylKit, runAnalysis) {
+    
+    # Test if the simulation was done before
+    # if just a part of the simulation is done it do it again
+    if (!is.null(pathOut) && !dir.exists(pathOut)) {
+        dir.create(pathOut, showWarnings = TRUE)
+    }
+    
+    # Test if the simulation has already been done
+    alreadyDone <- testIfAlreadyDone(pathOut, pref, k, saveGRanges, 
+                                        saveMethylKit, runAnalysis)
+    
+    if (!(alreadyDone)) {
+        # Create extension used for all saved files
+        extension <- paste0(pref, "_", k, ".rds")
+        
+        if (is.null(diffRes)) {
+            ## Generate the stataeDiff and stateInherite data needed
+            ## for the simulation
+            diffRes <- getDiffMeth(stateInfo = stateInfo, rateDiff = rateDiff, 
+                                minRate = minRate, propInherite = propInherite)
+        }
+        
+        ## Simulate multigenerational methylation experiment
+        ## Premiere generation seulement ?
+        simV0.1 <- getSimNew(nbCtrl = nbCtrl, nbCase = nbCase, 
+                        generation = generation, stateInfo = stateInfo, 
+                        stateDiff = diffRes$stateDiff, 
+                        stateInherite = diffRes$stateInherite,
+                        diffValue = diffValue, 
+                        propDiff = propDiff, propDiffsd = propDiffsd, 
+                        propInheritance = propInheritance, 
+                        propHetero = propHetero)
+        
+        saveRDS(diffRes, file = paste0(pathOut, "/stateDiff_", extension))
+        saveRDS(simV0.1, file = paste0(pathOut, "/simV0.1_", extension))
+        
+        ## Generate data formatted for methylKit
+        ## TODO : decrire ce que ca fait
+        ## TODO : solve bug
+        simData <- simEachGenerationWithBug(simulation = simV0.1, 
+                        nbCtrl = nbCtrl, nbCase = nbCase,
+                        treatment = treatment, sample.id = sample.id,
+                        generation = generation, stateInfo = stateInfo, 
+                        minReads = minReads, maxPercReads = maxPercReads, 
+                        context = context, assembly = assembly, 
+                        meanCov = meanCov, saveGRanges = saveGRanges, 
+                        saveMethylKit = saveMethylKit, 
+                        runAnalysis = runAnalysis)
+        
+        ## Save results
+        saveData(pathOut = pathOut, extension = extension, 
+                    gRanges = simData$myGR, methylData = simData$myObj, 
+                    methUnit = simData$meth, diffData = simData$myDiff,
+                    saveGRanges = saveGRanges, saveMethylKit = saveMethylKit,
+                    runAnalysis = runAnalysis)
+    }
+    
+    return(0)
+}
+
+#' @title Simulate a multigeneration methylation experiment with inheritance
+#'
+#' @description Simulate a multigeneration methylation case versus control 
+#' experiment with inheritance relation using a real control dataset. 
+#' 
+#' The simulation can  be parametrized to fit different models. The number of 
+#' cases and controls, the proportion of the case affected 
+#' by the treatment (penetrance), the effect of the treatment on the mean of 
+#' the distribution, the proportion of sites inherited, the proportion of the 
+#' differentially methylated sites from the precedent generation inherited, 
+#' etc..
+#' 
+#' The function simulates a multigeneration dataset like a bisulfite 
+#' sequencing experiment. The simulation includes the information about 
+#' control and case for each generation.
+#'
+#' @param nbCtrl a positive \code{integer}, the number of controls.
+#'
+#' @param nbCase a positive \code{integer}, the number of cases.
+#'
+#' @param treatment a numeric vector denoting controls and cases
+#'
+#' @param sample.id a matrix the name of each samples for each generation (row)
+#' and each case and control (column).
+#'
+#' @param generation a positive \code{integer}, the number of generations
+#' simulated.
+#'
+#' @param stateInfo a \code{GRanges} that contains the CpG (or 
+#' methylated sites).
+#' The \code{GRanges} have four metadata from the real dataset:
+#' \itemize{
+#' \item chrOri a \code{numeric}, the chromosome from the real dataset
+#' \item startOri a \code{numeric}, the position of the site in the real dataset
+#' \item meanCTRL a \code{numeric}, the mean of the control in the real dataset
+#' \item varCTRL a \code{numeric}, the variance of the control in the real 
+#' dataset.
+#' }
+#'
+#' @param minReads a positive \code{integer}, sites and regions having lower
+#' coverage than this count are discarded. The parameter
+#' corresponds to the \code{lo.count} parameter in 
+#' the \code{methylKit} package.
+#' 
+#' @param maxPercReads a \code{double} between [0,100], the percentile of read
+#' counts that is going to be used as upper cutoff. Sites and regions
+#' having higher
+#' coverage than \code{maxPercReads} are discarded. This parameter is used for 
+#' both CpG sites and tiles analysis. The parameter
+#' correspond to the \code{hi.perc} parameter in the \code{methylKit} package.
+#' 
+#' @param context a string of \code{character}, the short description of the 
+#' methylation context, such as "CpG", "CpH", "CHH", etc..
+#' 
+#' @param assembly a string of \code{character}, the short description of the 
+#' genome assembly, such as "mm9", "hg18", etc..
+#' 
+#' @param meanCov a positive \code{integer}, the mean of the coverage
+#' at the simulated CpG sites.
+#' 
+#' @param saveGRanges a \code{logical}, when \code{true}, the package save two 
+#' files type. The first generate for each simulation contains a \code{list}. 
+#' The length of the \code{list} corresponds to the number of generation. 
+#' The generation are stored in order (first entry = first generation, 
+#' second entry = second generation, etc..). All samples related to one 
+#' generations are contained in a \code{GRangesList}. 
+#' The \code{GRangeaList} store a \code{list} of \code{GRanges}. Each 
+#' \code{GRanges} stores the raw mehylation data of one sample.
+#' The second file a numeric \code{vector} denoting controls and cases 
+#' (a file is generates by entry in the \code{vector} parameters 
+#' \code{vNbSample}).
+#' 
+#' @param saveMethylKit a \code{logical}, when \code{TRUE}, the package save 
+#' a file contains a \code{list}. The length of the 
+#' \code{list} corresponds to the number of generation. The generation are 
+#' stored in order (first entry = first generation, 
+#' second entry = second generation, etc..). All samples related to one 
+#' generations are contained in a S4 \code{methylRawList} object. The 
+#' \code{methylRawList} object contains two Slots:
+#' 1. treatment: A numeric \code{vector} denoting controls and cases.
+#' 2. .Data: A \code{list} of \code{methylRaw} objects. Each object stores the 
+#' raw methylation data of one sample.
+#' 
+#' @param runAnalysis a \code{logical}, if \code{TRUE}, two files are saved :
+#' \itemize{
+#' \item 1. The first file is the methylObj... file formated 
+#' with the \code{methylkit} package in a S4 \code{methylBase} 
+#' object (with the \code{methylKit} 
+#' functions: \code{filterByCoverage}, \code{normalizeCoverage} and 
+#' \code{unite}).
+#' \item 2. The second file contains a S4 \code{calculateDiffMeth} object 
+#' generated with the \code{methylKit} functions \code{calculateDiffMeth} 
+#' using the first file.
+#' }
+#' 
+#' @return \code{0} indicating that the function has been successful.
+#'
+#' @examples
+#'
+#' ## Load dataset
+#' data("samplesForChrSynthetic")
+#' data("dataSimExample")
+#' 
+#' ## Generate a stateInfo object using samples
+#' stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = 
+#'     samplesForChrSynthetic, nbBlock = 1, nbCpG = 3)
+#' 
+#' ## Generate a stateDiff and stateInherite objects with length corresponding 
+#' ## to nbBlock * nbCpG from stateInformation
+#' stateDiff  <- c(1, 0, 1)
+#' stateInherite <- c(1, 0, 0)
+#' 
+#' ## Create simulation
+#' sim <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 2, 
+#'     generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
+#'     stateInherite = stateInherite, diffValue = 10, 
+#'     propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, 
+#'     propHetero = 0.1)
+#' 
+#' ## TODO
+#' methylInheritanceSim:::simEachGenerationWithBug(simulation = sim, 
+#' nbCtrl = 3, nbCase = 2, treatment = c(0,0,0,1,1), 
+#' sample.id = dataSimExample$sample.id,
+#' generation = 3, stateInfo = stateInformation, minReads = 10, 
+#' maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
+#' saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @importFrom methylKit read filterByCoverage normalizeCoverage unite 
+#' calculateDiffMeth get.methylDiff getData tileMethylCounts methRead
+#' @importFrom GenomicRanges GRanges
+#' @importFrom IRanges IRanges
+#' @importFrom stats rpois
+#' @importFrom methods new
+#' @importFrom BiocGenerics start end strand
+#' @keywords internal
+simEachGenerationWithBug <- function(simulation, nbCtrl, nbCase, treatment, 
+                        sample.id, generation, stateInfo, minReads, 
+                        maxPercReads, context, assembly, meanCov, saveGRanges, 
+                        saveMethylKit, runAnalysis) {
+    ## Returned objects
+    myobj <- list()
+    myGR <- list()
+    meth <- list()
+    myDiff <- list()
+    
+    for(i in 1:generation) {
+        outList <- list()
+        outGR <- GRangesList() 
+        for(j in 1:(nbCtrl + nbCase)) {
+            coverage <- rpois(length(stateInfo), meanCov) + 1
+            
+            testM <- GRanges(seqnames = seqnames(stateInfo), 
+                        ranges = ranges(stateInfo), strand = strand(stateInfo), 
+                        coverage = coverage, numCs = round(coverage * 
+                        unlist(mcols(simulation[[i]])[4+j])))
+            
+            if(saveMethylKit) {
+                obj <- new("methylRaw", data.frame(chr = seqnames(testM), 
+                        start = start(testM), end = end(testM), 
+                        strand = strand(testM), coverage = testM$coverage, 
+                        numCs = testM$numCs, numTs = testM$coverage - 
+                        testM$numCs), sample.id = sample.id[[i]][[j]], 
+                        assembly = assembly, context = context, 
+                        resolution = 'base')
+                
+                outList[[j]] <- obj
+            }
+            if (saveGRanges) {
+                outGR[[j]] <- testM
+            }
+        }
+        
+        if (saveMethylKit) {
+            myobj[[i]] <- new("methylRawList", outList,
+                                treatment = treatment)
+        }
+        
+        if (saveGRanges) {
+            myGR[[i]] <- outList
+        }
+        
+        if (runAnalysis) {
+            filtered.myobj <- filterByCoverage(myobj[[i]],
+                                    lo.count = minReads, lo.perc = NULL, 
+                                    hi.count = NULL, hi.perc = maxPercReads)
+            filtered.myobj <- normalizeCoverage(filtered.myobj, "median")
+            meth[[i]]   <- unite(filtered.myobj, destrand = FALSE)
+            myDiff[[i]] <- calculateDiffMeth(meth[[i]])
+        }
+    }
+    
+    return(list("myObj" = myobj, "myGR" = myGR, "meth" = meth, 
+                    "myDiff" = myDiff))
+}
+#' @title Save data created during the simulation
+#'
+#' @description Save data created during the simulation.
+#' 
+#' @param pathOut a string of \code{character}, the path 
+#' where the files are saved.
+#' 
+#' @param extension a string of \code{character} representing the extension
+#' that will be given to the saved files.
+#' 
+#' @param gRanges a \code{list} of \code{methylRawList}  TODO
+#' 
+#' @param methylData a \code{list} of \code{methylRawList}, the results
+#' of the normalization of the coverage.
+#' 
+#' @param methUnit a \code{list} of \code{methylBase}, the results of the
+#' base filtering for all samples. 
+#' 
+#' @param diffData a \code{list} of \code{methylDiff}, the results of the
+#' calculation of differential methylation statistics.
+#' 
+#' @param saveGRanges a \code{logical}, when \code{true}, files containing 
+#' \code{GRangeaList} are saved.
+#' 
+#' @param saveMethylKit a \code{logical}, when \code{TRUE}, files 
+#' \code{methylRawList} object are saved.
+#' 
+#' @param runAnalysis a \code{logical}, when \code{TRUE}, two files related
+#' to the analysis are saved.
+#' 
+#' @return \code{0} indicating that the function has been successful.
+#' 
+#' @examples
+#' 
+#' ## TODO
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @keywords internal
+saveData <- function(pathOut, extension, gRanges, methylData, methUnit, 
+                diffData, saveGRanges, saveMethylKit, runAnalysis) {
+    
+    if (saveGRanges) {
+        saveRDS(gRanges, file = paste0(pathOut, "/methylGR_", extension))
+    }
+    
+    if (saveMethylKit) {
+        saveRDS(methylData, file = paste0(pathOut, "/methylObj_", extension))
+    }
+    
+    if (runAnalysis) {
+        saveRDS(methUnit, file = paste0(pathOut, "/meth_", extension))
+        saveRDS(diffData, file = paste0(pathOut, "/methDiff_", extension))
+    }
+    
+    return(0)
+}
+
 #' @title Test if a specific simulation has already be done.
 #'
 #' @description Test if a specific simulation has already be done.
@@ -1120,7 +1729,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' 
 #' @examples
 #' 
-#' ## Return TRUE when the a specified simulation has already be done;
+#' ## Return TRUE when the specified simulation has already be done;
 #' ## otherwise, return FALSE.
 #' methylInheritanceSim:::testIfAlreadyDone(pathOut = ".", 
 #' preference = "S1_6_0.9_0.8_0.5", id = 33, 

@@ -6,7 +6,7 @@
 each control and case}
 \usage{
 getSimNew(nbCtrl, nbCase, generation, stateInfo, stateDiff, stateInherite,
-  diffValue, propDiff, propDiffsd = 0.1, propInheritance, propHetero)
+  diffValue, propDiff, propDiffsd, propInheritance, propHetero)
 }
 \arguments{
 \item{nbCtrl}{a positive \code{integer}, the number of controls.}
@@ -90,6 +90,6 @@ methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 2, generation = 3,
 
 }
 \author{
-Pascal Belleau
+Pascal Belleau, Astrid Deschenes
 }
 \keyword{internal}
