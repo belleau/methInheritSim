@@ -1592,6 +1592,125 @@ test.validateRunSimDoubleParameters_good_01 <- function() {
 
 
 ###################################################
+## validateRunSimParameters() function
+###################################################
+
+test.validateRunSimParameters_good_01 <- function() {
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimParameters (
+            vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
+            propInherite = 0.6, rateDiff = 0.2, minRate = 0.1, 
+            propHetero = 0.3, maxPercReads = 99.9, 
+            nbSynCHR = 1, nbSimulation = 1, nbBlock = 1, nbCpG = 3, 
+            vNbSample = 6, nbGeneration = 3, minReads = 10, meanCov = 40, 
+            nbCores = 1, vSeed = 1010, keepDiff = TRUE, saveGRanges = FALSE, 
+            saveMethylKit = FALSE, runAnalysis = FALSE, 
+            outputDir = "toto", fileID = "4_10_3",
+            methData = samplesForChrSynthetic, 
+            context = "Cpg", assembly = "RNOR_5.0"),
+        error=conditionMessage)
+    
+    exp <- 0
+    
+    message <- paste0("test.validateRunSimParameters_good_01() ",
+                      "- All good parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_double_validation <- function() {
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimParameters (
+            vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
+            propInherite = 0.6, rateDiff = "hi", minRate = 0.1, 
+            propHetero = 0.3, maxPercReads = 99.9, 
+            nbSynCHR = 1, nbSimulation = 1, nbBlock = 1, nbCpG = 3, 
+            vNbSample = 6, nbGeneration = 3, minReads = 10, meanCov = 40, 
+            nbCores = 1, vSeed = 1010, keepDiff = TRUE, saveGRanges = FALSE, 
+            saveMethylKit = FALSE, runAnalysis = FALSE, 
+            outputDir = "toto", fileID = "4_10_3",
+            methData = samplesForChrSynthetic, 
+            context = "Cpg", assembly = "RNOR_5.0"),
+        error=conditionMessage)
+    
+    exp <- "rateDiff must be a positive double include in (0,1)"
+    
+    message <- paste0("test.validateRunSimParameters_double_validation() ",
+                      "- A string instead of a double did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_logical_validation <- function() {
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimParameters (
+            vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
+            propInherite = 0.6, rateDiff = 0.2, minRate = 0.1, 
+            propHetero = 0.3, maxPercReads = 99.9, 
+            nbSynCHR = 1, nbSimulation = 1, nbBlock = 1, nbCpG = 3, 
+            vNbSample = 6, nbGeneration = 3, minReads = 10, meanCov = 40, 
+            nbCores = 1, vSeed = 1010, keepDiff = TRUE, saveGRanges = 0.22, 
+            saveMethylKit = FALSE, runAnalysis = FALSE, 
+            outputDir = "toto", fileID = "4_10_3",
+            methData = samplesForChrSynthetic, 
+            context = "Cpg", assembly = "RNOR_5.0"),
+        error=conditionMessage)
+    
+    exp <- "saveGRanges must be a logical"
+    
+    message <- paste0("test.validateRunSimParameters_logical_validation() ",
+                      "- All double instead of a logical did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_other_validation <- function() {
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimParameters (
+            vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
+            propInherite = 0.6, rateDiff = 0.2, minRate = 0.1, 
+            propHetero = 0.3, maxPercReads = 99.9, 
+            nbSynCHR = 1, nbSimulation = 1, nbBlock = 1, nbCpG = 3, 
+            vNbSample = 6, nbGeneration = 3, minReads = 10, meanCov = 40, 
+            nbCores = 1, vSeed = 1010, keepDiff = TRUE, saveGRanges = TRUE, 
+            saveMethylKit = FALSE, runAnalysis = FALSE, 
+            outputDir = "toto", fileID = 0.33,
+            methData = samplesForChrSynthetic, 
+            context = "Cpg", assembly = "RNOR_5.0"),
+        error=conditionMessage)
+    
+    exp <- "fileID must be a character string or NULL"
+    
+    message <- paste0("test.validateRunSimParameters_other_validation() ",
+                      "- All double instead of a string did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.validateRunSimParameters_integer_validation <- function() {
+    obs <- tryCatch(
+        methylInheritanceSim:::validateRunSimParameters (
+            vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
+            propInherite = 0.6, rateDiff = 0.2, minRate = 0.1, 
+            propHetero = 0.3, maxPercReads = 99.9, 
+            nbSynCHR = 1, nbSimulation = "home", nbBlock = 1, nbCpG = 3, 
+            vNbSample = 6, nbGeneration = 3, minReads = 10, meanCov = 40, 
+            nbCores = 1, vSeed = 1010, keepDiff = TRUE, saveGRanges = TRUE, 
+            saveMethylKit = FALSE, runAnalysis = FALSE, 
+            outputDir = "toto", fileID = "5_3",
+            methData = samplesForChrSynthetic, 
+            context = "Cpg", assembly = "RNOR_5.0"),
+        error=conditionMessage)
+    
+    exp <- "nbSimulation must be a positive integer or numeric"
+    
+    message <- paste0("test.validateRunSimParameters_integer_validation() ",
+                      "- All string instead of a integer did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+###################################################
 ## fixSeed() function
 ###################################################
 
