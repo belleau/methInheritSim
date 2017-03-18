@@ -425,14 +425,14 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
 #' @param propHetero a non-negative \code{double} between [0,1], the 
 #' reduction of \code{vDiff} for the second and following generations.
 #'
-#' @return a \code{GRangesList} object contains information about the 
-#' simulation. The file have four metadata related to real dataset:
+#' @return a \code{GRangesList}, the object contains information about the 
+#' simulation. The file have four metadata related to the real dataset:
 #' \itemize{
-#' \item meanDiff, the means of the shifted distribution
-#' \item meanCTRL, the means of the control distribution
-#' \item partitionCase, the number of cases simulated with the shifted 
-#' distribution
-#' \item partitionCtrl, the number of cases simulated with the control 
+#' \item meanDiff, the means of the shifted distribution.
+#' \item meanCTRL, the means of the control distribution.
+#' \item partitionCase, the number of cases simulated using the shifted 
+#' distribution.
+#' \item partitionCtrl, the number of cases simulated using the control 
 #' distribution and a metadata for each cases and controls 
 #' the proportion of C/T.
 #' }
@@ -454,7 +454,7 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
 #' stateDiff  <- c(1, 0, 1)
 #' stateInherite <- c(1, 0, 0)
 #' 
-#' ## Create a simulation using stateInfo and stateDiff
+#' ## Create a simulation using stateInformation, stateDiff and stateInherite
 #' methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 2, generation = 3, 
 #'     stateInfo = stateInformation, stateDiff = stateDiff, 
 #'     stateInherite = stateInherite, diffValue = 10, 
@@ -524,7 +524,7 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
                         ranges = ranges(stateInfo), strand =  strand(stateInfo),
                         meanDiff = case[, 1], meanCTRL = mcols(stateInfo)[3],
                         partitionCase = case[, 2], partitionCtrl = case[, 3],
-                        ctrl = ctrl, case = case[,4:length(case[1,])])
+                        ctrl = ctrl, case = case[, 4:length(case[1,])])
     }
     
     return(res)

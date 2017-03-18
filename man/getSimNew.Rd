@@ -48,14 +48,14 @@ proportion of case that inherite differentially methylated sites.}
 reduction of \code{vDiff} for the second and following generations.}
 }
 \value{
-a \code{GRangesList} object contains information about the 
-simulation. The file have four metadata related to real dataset:
+a \code{GRangesList}, the object contains information about the 
+simulation. The file have four metadata related to the real dataset:
 \itemize{
-\item meanDiff, the means of the shifted distribution
-\item meanCTRL, the means of the control distribution
-\item partitionCase, the number of cases simulated with the shifted 
-distribution
-\item partitionCtrl, the number of cases simulated with the control 
+\item meanDiff, the means of the shifted distribution.
+\item meanCTRL, the means of the control distribution.
+\item partitionCase, the number of cases simulated using the shifted 
+distribution.
+\item partitionCtrl, the number of cases simulated using the control 
 distribution and a metadata for each cases and controls 
 the proportion of C/T.
 }
@@ -81,7 +81,7 @@ stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo =
 stateDiff  <- c(1, 0, 1)
 stateInherite <- c(1, 0, 0)
 
-## Create a simulation using stateInfo and stateDiff
+## Create a simulation using stateInformation, stateDiff and stateInherite
 methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 2, generation = 3, 
     stateInfo = stateInformation, stateDiff = stateDiff, 
     stateInherite = stateInherite, diffValue = 10, 
