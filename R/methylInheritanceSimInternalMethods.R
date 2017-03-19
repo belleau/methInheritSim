@@ -1457,7 +1457,7 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @description Simulate a multigeneration methylation case versus control 
 #' experiment with inheritance relation using a real control dataset. 
 #' 
-#' The simulation can  be parametrized to fit different models. The number of 
+#' The simulation can be parametrized to fit different models. The number of 
 #' cases and controls, the proportion of the case affected 
 #' by the treatment (penetrance), the effect of the treatment on the mean of 
 #' the distribution, the proportion of sites inherited, the proportion of the 
@@ -1647,6 +1647,8 @@ simEachGenerationWithBug <- function(simulation, nbCtrl, nbCase, treatment,
     return(list("myObj" = myobj, "myGR" = myGR, "meth" = meth, 
                     "myDiff" = myDiff))
 }
+
+
 #' @title Save data created during the simulation
 #'
 #' @description Save data created during the simulation.
