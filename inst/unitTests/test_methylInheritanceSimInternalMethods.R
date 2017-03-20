@@ -1869,8 +1869,7 @@ test.calculateNbDiffCase_good_sd_small <- function() {
 
 test.testIfAlreadyDone_false_001 <- function() {
     
-    obs <- tryCatch({set.seed(1010)
-        methylInheritanceSim:::testIfAlreadyDone(pathOut = ".",
+    obs <- tryCatch({methylInheritanceSim:::testIfAlreadyDone(pathOut = ".",
                                 preference = "AEI", id = 10200011,
                                 saveGRanges = FALSE, saveMethylKit = FALSE,
                                 runAnalysis = FALSE)}, 
@@ -1884,6 +1883,53 @@ test.testIfAlreadyDone_false_001 <- function() {
     checkEquals(obs, exp, message)
 }
 
+test.testIfAlreadyDone_false_002 <- function() {
+    
+    obs <- tryCatch({methylInheritanceSim:::testIfAlreadyDone(pathOut = ".",
+                                preference = "AEI", id = 10200021,
+                                saveGRanges = TRUE, saveMethylKit = FALSE,
+                                runAnalysis = FALSE)}, 
+        error=conditionMessage)
+    
+    exp <- FALSE
+    
+    message <- paste0("test.testIfAlreadyDone_false_002() ",
+                      "- Parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.testIfAlreadyDone_false_003 <- function() {
+    
+    obs <- tryCatch({methylInheritanceSim:::testIfAlreadyDone(pathOut = ".",
+                                    preference = "AEI", id = 10202021,
+                                    saveGRanges = FALSE, saveMethylKit = TRUE,
+                                    runAnalysis = FALSE)}, 
+                    error=conditionMessage)
+    
+    exp <- FALSE
+    
+    message <- paste0("test.testIfAlreadyDone_false_003() ",
+                      "- Parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+test.testIfAlreadyDone_false_003 <- function() {
+    
+    obs <- tryCatch({methylInheritanceSim:::testIfAlreadyDone(pathOut = ".",
+                            preference = "AEI", id = 10222021,
+                            saveGRanges = FALSE, saveMethylKit = FALSE,
+                            runAnalysis = TRUE)}, 
+                    error=conditionMessage)
+    
+    exp <- FALSE
+    
+    message <- paste0("test.testIfAlreadyDone_false_003() ",
+                      "- Parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
 
 ###################################################
 ## simEachGeneration() function
@@ -1984,3 +2030,180 @@ test.getSyntheticChr_good_01 <- function() {
     
     checkEquals(obs, exp, message)
 }
+
+###################################################
+## simInheritance() function
+###################################################
+
+test.simInheritance_001 <- function() {
+    
+    temp_dir <- "simInheritance_001"
+    
+    stateDiff <- list()
+    stateDiff[["stateDiff"]] <- c(1, 0, 1)
+    stateDiff[["stateInherite"]] <- c(1, 0, 0)
+    
+    pref = "S1_6_0.9_0.8_0.5"
+    
+    set.seed(1022211)
+    
+    methylInheritanceSim:::simInheritance(pathOut = temp_dir,
+                                             pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
+                                             treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
+                                             generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
+                                             propDiff = 0.3, propDiffsd = 0.1, diffValue = 0.4, 
+                                             propInheritance = 0.5, rateDiff = 0.3, minRate = 0.3,
+                                             propInherite = 0.3, propHetero = 0.5, minReads = 10, maxPercReads = 99, 
+                                             assembly="RNOR_5.0", context="Cpg", meanCov = 40, diffRes = stateDiff,
+                                             saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
+    
+    checkTrue(file.exists(paste0(temp_dir, "/simV0.1_", pref, "_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/stateDiff_", pref, "_1.rds")))
+    
+    obsA <- readRDS(paste0(temp_dir, "/simV0.1_", pref, "_1.rds"))
+    
+    obsB <- readRDS(paste0(temp_dir, "/stateDiff_", pref, "_1.rds"))
+    
+    expA_01 <- GenomicRanges::GRanges(seqnames = rep("S", 3), 
+                                      ranges = IRanges::IRanges(start = c(1000, 1038, 1061), 
+                                                                end = c(1000, 1038, 1061)),
+                                      strand = rep("+", 3), 
+                                      meanDiff = c(0.581456213959732, 0.98720191508078, 0.591465190869137), 
+                                      meanCTRL.meanCTRL = c(0.981456213959732, 0.98720191508078, 0.991465190869137),
+                                      partitionCase = c(1, 0, 1), partitionCtrl = c(1, 2, 1),
+                                      ctrl.V1 = c(0.965762614001235, 0.989802034851579, 0.99493764010319),
+                                      ctrl.V2 = c(0.998157064048423, 0.990140423002109, 0.998725359354295),
+                                      case.V1 = c(0.565030506723245, 0.984007596913212, 0.596109858589778),
+                                      case.V2 = c(0.971297235048743, 0.995951445476427, 0.983912507813916)
+    )
+    
+    expA_02 <- GenomicRanges::GRanges(seqnames = rep("S", 3), 
+                                      ranges = IRanges::IRanges(start = c(1000, 1038, 1061), 
+                                                                end = c(1000, 1038, 1061)),
+                                      strand = rep("+", 3), 
+                                      meanDiff = c(0.781456213959732, 0.98720191508078, 0.991465190869137), 
+                                      meanCTRL.meanCTRL = c(0.981456213959732, 0.98720191508078, 0.991465190869137),
+                                      partitionCase = c(0, 0, 0), partitionCtrl = c(2, 2, 2),
+                                      ctrl.V1 = c(0.993284935389844, 0.994683456177534, 0.991836135973971),
+                                      ctrl.V2 = c(0.996819782343076, 0.992060001214114, 0.95774752683318),
+                                      case.V1 = c(0.987046268678369, 0.996191533238895, 0.999325606332785),
+                                      case.V2 = c(0.998751494085842, 0.99679989523906, 0.999875895212403)
+    )
+    
+    expA_03 <- GenomicRanges::GRanges(seqnames = rep("S", 3), 
+                                      ranges = IRanges::IRanges(start = c(1000, 1038, 1061), 
+                                                                end = c(1000, 1038, 1061)),
+                                      strand = rep("+", 3), 
+                                      meanDiff = c(0.781456213959732, 0.98720191508078, 0.991465190869137), 
+                                      meanCTRL.meanCTRL = c(0.981456213959732, 0.98720191508078, 0.991465190869137),
+                                      partitionCase = c(0, 0, 0), partitionCtrl = c(2, 2, 2),
+                                      ctrl.V1 = c(0.982955148466405, 0.99375655446083, 0.997292420254736),
+                                      ctrl.V2 = c(0.976433855312209, 0.970577990158609, 0.999528942183618),
+                                      case.V1 = c(0.965176751427782, 0.934997728804191, 0.970239614281013),
+                                      case.V2 = c(0.961234834897086, 0.929809760271278, 0.994619422251482)
+    )
+    
+    
+    message <- paste0("test.simInheritance_001() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    expA <- GRangesList(list(expA_01, expA_02, expA_03))
+    
+    checkEquals(obsA, expA, message)
+    checkEquals(obsB$stateDiff, c(1,0,1), message)
+    checkEquals(obsB$stateInherite, c(1,0,0), message)
+    
+    if (dir.exists(temp_dir)) {
+        unlink(temp_dir, recursive = TRUE, force = FALSE)
+    }
+}
+
+
+###################################################
+## simInheritanceNew() function
+###################################################
+
+test.simInheritanceNew_001 <- function() {
+    
+    temp_dir <- "simInheritanceNew_001"
+    
+    stateDiff <- list()
+    stateDiff[["stateDiff"]] <- c(1, 0, 1)
+    stateDiff[["stateInherite"]] <- c(1, 0, 0)
+    
+    pref = "S1_6_0.9_0.8_0.5"
+    
+    set.seed(1022211)
+    
+    methylInheritanceSim:::simInheritanceNew(pathOut = temp_dir,
+        pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
+        treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
+                        generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
+                        propDiff = 0.3, propDiffsd = 0.1, diffValue = 0.4, 
+                        propInheritance = 0.5, rateDiff = 0.3, minRate = 0.3,
+                        propInherite = 0.3, propHetero = 0.5, minReads = 10, maxPercReads = 99, 
+                        assembly="RNOR_5.0", context="Cpg", meanCov = 40, diffRes = stateDiff,
+                        saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
+    
+    checkTrue(file.exists(paste0(temp_dir, "/simV0.1_", pref, "_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/stateDiff_", pref, "_1.rds")))
+    
+    obsA <- readRDS(paste0(temp_dir, "/simV0.1_", pref, "_1.rds"))
+    
+    obsB <- readRDS(paste0(temp_dir, "/stateDiff_", pref, "_1.rds"))
+    
+    expA_01 <- GenomicRanges::GRanges(seqnames = rep("S", 3), 
+                                  ranges = IRanges::IRanges(start = c(1000, 1038, 1061), 
+                                                            end = c(1000, 1038, 1061)),
+                                  strand = rep("+", 3), 
+                                  meanDiff = c(0.581456213959732, 0.98720191508078, 0.591465190869137), 
+                                  meanCTRL.meanCTRL = c(0.981456213959732, 0.98720191508078, 0.991465190869137),
+                                  partitionCase = c(1, 0, 1), partitionCtrl = c(1, 2, 1),
+                                  ctrl.V1 = c(0.965762614001235, 0.989802034851579, 0.99493764010319),
+                                  ctrl.V2 = c(0.998157064048423, 0.990140423002109, 0.998725359354295),
+                                  case.V1 = c(0.565030506723245, 0.984007596913212, 0.596109858589778),
+                                  case.V2 = c(0.971297235048743, 0.995951445476427, 0.983912507813916)
+                                  )
+    
+    expA_02 <- GenomicRanges::GRanges(seqnames = rep("S", 3), 
+                                      ranges = IRanges::IRanges(start = c(1000, 1038, 1061), 
+                                                                end = c(1000, 1038, 1061)),
+                                      strand = rep("+", 3), 
+                                      meanDiff = c(0.781456213959732, 0.98720191508078, 0.991465190869137), 
+                                      meanCTRL.meanCTRL = c(0.981456213959732, 0.98720191508078, 0.991465190869137),
+                                      partitionCase = c(0, 0, 0), partitionCtrl = c(2, 2, 2),
+                                      ctrl.V1 = c(0.993284935389844, 0.994683456177534, 0.991836135973971),
+                                      ctrl.V2 = c(0.996819782343076, 0.992060001214114, 0.95774752683318),
+                                      case.V1 = c(0.987046268678369, 0.996191533238895, 0.999325606332785),
+                                      case.V2 = c(0.998751494085842, 0.99679989523906, 0.999875895212403)
+    )
+    
+    expA_03 <- GenomicRanges::GRanges(seqnames = rep("S", 3), 
+                                      ranges = IRanges::IRanges(start = c(1000, 1038, 1061), 
+                                                                end = c(1000, 1038, 1061)),
+                                      strand = rep("+", 3), 
+                                      meanDiff = c(0.781456213959732, 0.98720191508078, 0.991465190869137), 
+                                      meanCTRL.meanCTRL = c(0.981456213959732, 0.98720191508078, 0.991465190869137),
+                                      partitionCase = c(0, 0, 0), partitionCtrl = c(2, 2, 2),
+                                      ctrl.V1 = c(0.982955148466405, 0.99375655446083, 0.997292420254736),
+                                      ctrl.V2 = c(0.976433855312209, 0.970577990158609, 0.999528942183618),
+                                      case.V1 = c(0.965176751427782, 0.934997728804191, 0.970239614281013),
+                                      case.V2 = c(0.961234834897086, 0.929809760271278, 0.994619422251482)
+    )
+    
+    
+    message <- paste0("test.simInheritanceNew_001() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    expA <- GRangesList(list(expA_01, expA_02, expA_03))
+    
+    checkEquals(obsA, expA, message)
+    checkEquals(obsB$stateDiff, c(1,0,1), message)
+    checkEquals(obsB$stateInherite, c(1,0,0), message)
+    
+    if (dir.exists(temp_dir)) {
+         unlink(temp_dir, recursive = TRUE, force = FALSE)
+    }
+}
+                                                    
+                                                    
