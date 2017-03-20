@@ -290,15 +290,15 @@ runSim <- function(outputDir = NULL, fileID = "s",
             nbCtrl <- nbSample
             nbCase <- nbSample
             
-            # Define tretment and sample.id 
+            # Define treatment and sample.id 
             treatment <- c(rep(0,nbSample), rep(1,nbSample))
             if(saveGRanges){
                 saveRDS(treatment, file = paste0(outputDir, "/treatment_", 
                                             adPrefSample, ".rds"))
             }
             
+            # Define  sample.id 
             sample.id <- list()
-            
             for (i in 1:(2*nbSample)) {
                 if (i <= nbSample) {
                     for(j in 1:nbGeneration) {

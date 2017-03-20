@@ -201,7 +201,8 @@ treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
 generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
 propDiff = 0.9, propDiffsd = 0.1, diffRes = stateDiff,
 diffValue = 0.8, propInheritance = 0.5, rateDiff = 0.3, minRate = 0.3,
-propInherite = 0.3, propHetero = 0.5, meanCov = 30, assembly = "RNOR_5.0",
+propInherite = 0.3, propHetero = 0.5, meanCov = 30, 
+assembly = "RNOR_5.0", context = "CPG", minReads = 10, maxPercReads = 99,
 saveGRanges = TRUE, saveMethylKit = TRUE, runAnalysis = TRUE)}
 
 ## Delete temp_dir
