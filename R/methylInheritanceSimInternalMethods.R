@@ -264,16 +264,19 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
 #' @param selectedAsDM a \code{integer}, \code{1} if the site is selected as 
 #' differentially methylated, otherwise \code{0}.
 #'
+#' @param nbCase a \code{integer}, the number of cases.
+#' 
 #' @param sDiff a non-negative \code{double} 
 #' included in [0,1], the proportion of C/T for a case differentially 
 #' methylated that follows 
 #' a beta distribution where the mean is shifted of \code{vDiff} 
 #' from the CTRL distribution.
 #'
-#' @param diffCase an \code{integer}, the number of cases differentially 
+#' @param nbDiffCase an \code{integer}, the number of cases differentially 
 #' methylated.
 #'
-#' @return a \code{vector} containing 3 + nb \code{double}:
+#' @return a \code{vector} containing 3 + \code{nbCase} entries of type 
+#' \code{double}:
 #' \itemize{
 #' \item The mean proportion of C/T of the differentially methylated cases
 #' \item The number of cases simulated using shifted distribution
@@ -288,29 +291,29 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
 #' 
 #' ## Get the proportion of C/T for each case at a specific site.
 #' methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.9814562, ctrlVar = 
-#' 0.0003607153, selectedAsDM = 0, nb=6, sDiff = 0.8, 
-#' diffCase = round(6 * 0.9))
+#' 0.0003607153, selectedAsDM = 0, nbCase=6, sDiff = 0.8, 
+#' nbDiffCase = round(6 * 0.9))
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom stats rbeta
 #' @keywords internal
-getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff, 
-                            diffCase) {
+getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nbCase, sDiff, 
+                            nbDiffCase) {
     
     meanDiff <- 0
     
     if(selectedAsDM == 0) {
         ## Site selected as not differentially methylated
-        val <- rbeta(nb, estBetaAlphaNew(ctrlMean, ctrlVar), 
+        val <- rbeta(nbCase, estBetaAlphaNew(ctrlMean, ctrlVar), 
                         estBetaBetaNew(ctrlMean, ctrlVar))
         meanDiff <- ctrlMean
-        partitionDiff <- c(0, nb)
+        partitionDiff <- c(0, nbCase)
     } else {
         ## Site selected as differentially methylated
         meanDiff <- ifelse(ctrlMean < 0.5, min(1, ctrlMean + sDiff),
                             max(0, ctrlMean - sDiff))
         
-        partitionDiff <- c(diffCase, nb - diffCase)
+        partitionDiff <- c(nbDiffCase, nbCase - nbDiffCase)
         
         val <- c(rbeta(partitionDiff[1], estBetaAlphaNew(meanDiff, ctrlVar), 
                     estBetaBetaNew(meanDiff, ctrlVar)),
@@ -335,6 +338,8 @@ getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff,
 #' otherwise \code{0}
 #' }
 #'
+#' @param nb a \code{integer}, the number of cases.
+#' 
 #' @param sDiff a non-negative \code{double} 
 #' included in [0,1], the proportion of C/T for a case differentially 
 #' methylated that follows 

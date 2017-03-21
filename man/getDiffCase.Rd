@@ -16,6 +16,8 @@ getDiffCase(x, nb, sDiff, diffCase)
 otherwise \code{0}
 }}
 
+\item{nb}{a \code{integer}, the number of cases.}
+
 \item{sDiff}{a non-negative \code{double} 
 included in [0,1], the proportion of C/T for a case differentially 
 methylated that follows 

@@ -20,7 +20,8 @@
 #' @param outputDir a string of \code{character} or \code{NULL}, the path 
 #' where the 
 #' files created by the function will be saved. When \code{NULL}, the files
-#' are saved in outputDir in the current directory. Default: \code{NULL}.
+#' are saved in a directory called "outputDir" that is located in 
+#' the current directory. Default: \code{NULL}.
 #'
 #' @param fileID a string of \code{character}, a identifiant that will be 
 #' included in each output file name. Each output 
@@ -270,6 +271,7 @@ runSim <- function(outputDir = NULL, fileID = "s",
     
     ## Fix seed
     set.seed(fixSeed(vSeed))
+    
     if(is.null(outputDir)){
         outputDir = "outputDir"
     }
