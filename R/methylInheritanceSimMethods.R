@@ -270,15 +270,22 @@ runSim <- function(outputDir = NULL, fileID = "s",
         context = context, assembly = assembly)
     
     ## Fix seed
+    RNGkind("L'Ecuyer-CMRG")
     set.seed(fixSeed(vSeed))
     
-    if(is.null(outputDir)){
-        outputDir = "outputDir"
-    }
-    if(!dir.exists(outputDir)){
-        dir.create(outputDir, showWarnings = TRUE)
+    if(is.null(outputDir)) {
+        outputDir <- "outputDir"
     }
     
+    ## Remove ending slash
+    if(substring(outputDir, nchar(outputDir), nchar(outputDir)) == "/") {
+        outputDir <- substring(outputDir, 1, nchar(outputDir) - 1)
+    }
+    
+    ## Create directory
+    if(!dir.exists(outputDir)) {
+        dir.create(outputDir, showWarnings = TRUE)
+    }
     
     for(s in 1:nbSynCHR) {
         
