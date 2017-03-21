@@ -1234,7 +1234,8 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #'
 #' @param nbCase a positive \code{integer}, the number of cases.
 #'
-#' @param treatment a numeric vector denoting controls and cases
+#' @param treatment a \code{vector} of integer denoting controls and cases. The
+#' \code{vector} length must correspond to the sum of cases and controls.
 #'
 #' @param sample.id a matrix the name of each samples for each generation (row)
 #' and each case and control (column).

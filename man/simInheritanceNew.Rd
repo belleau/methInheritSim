@@ -40,7 +40,8 @@ proportion of cases that inherits differentially sites, a number in the
 
 \item{nbCase}{a positive \code{integer}, the number of cases.}
 
-\item{treatment}{a numeric vector denoting controls and cases}
+\item{treatment}{a \code{vector} of integer denoting controls and cases. The
+\code{vector} length must correspond to the sum of cases and controls.}
 
 \item{sample.id}{a matrix the name of each samples for each generation (row)
 and each case and control (column).}
