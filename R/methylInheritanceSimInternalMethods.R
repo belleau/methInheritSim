@@ -481,7 +481,8 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
                                         propDiffSd = propDiffsd)
     
     ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x, nb){
-        rbeta(nb, estBetaAlpha(x), estBetaBeta(x))}, nb = nbCtrl))
+        rbeta(nb, estBetaAlphaNew(x[1], x[2]), estBetaBetaNew(x[1], x[2]))},
+        nb = nbCtrl))
     
     case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
                 stateDiff), 1, function(x, nbCase, diffValue, diffCase) 
@@ -513,7 +514,8 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
         # Note mcols(stateInfo)[3:4] is a matrix with foreach position a row 
         # meanCTRL, varianceCTRL
         ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x, nb) {
-            rbeta(nb, estBetaAlpha(x), estBetaBeta(x))}, nb = nbCtrl))
+            rbeta(nb, estBetaAlphaNew(x[1], x[2]), estBetaBetaNew(x[1], x[2]))},
+            nb = nbCtrl))
         
         case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
                 stateInherite), 1, function(x, nbCase, diffCur, diffCase) 
