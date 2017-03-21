@@ -2363,9 +2363,9 @@ test.simInheritanceNew_diffRes_NULL <- function() {
     }
 }
  
-test.simInheritanceNew_save_TRUE <- function() {
+test.simInheritanceNew_saveGRanges_TRUE <- function() {
     
-    temp_dir <- "simInheritanceNew_save_TRUE"
+    temp_dir <- "simInheritanceNew_saveGRanges_TRUE"
     
     pref = "S1_6_0.9_0.8_0.3"
     
@@ -2373,8 +2373,8 @@ test.simInheritanceNew_save_TRUE <- function() {
     
     sampleID <- list()
     sampleID[[1]] <- list("1_1", "1_2", "1_3", "1_4")
-    sampleID[[1]] <- list("2_1", "2_2", "2_3", "2_4")
-    sampleID[[1]] <- list("3_1", "3_2", "3_3", "3_4")
+    sampleID[[2]] <- list("2_1", "2_2", "2_3", "2_4")
+    sampleID[[3]] <- list("3_1", "3_2", "3_3", "3_4")
     
     methylInheritanceSim:::simInheritanceNew(pathOut = temp_dir,
                                 pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
@@ -2399,53 +2399,53 @@ test.simInheritanceNew_save_TRUE <- function() {
                                       ranges = IRanges::IRanges(start = c(1000, 1038, 1061),
                                                                 end = c(1000, 1038, 1061)),
                                       strand = rep("+", 3),
-                                      meanDiff = c(0.981456213959732, 0.68720191508078 , 0.691465190869137),
+                                      meanDiff = c(0.661456213959732, 0.98720191508078 , 0.671465190869137),
                                       meanCTRL.meanCTRL = c(0.981456213959732, 0.98720191508078, 0.991465190869137),
-                                      partitionCase = c(0, 1, 1), partitionCtrl = c(2, 1, 1),
-                                      ctrl.V1 = c(0.980405366890465, 0.986409829956374, 0.904795963240746),
-                                      ctrl.V2 = c(0.929665588115341, 0.981403800451126, 0.99696121383443),
-                                      case.V1 = c(0.967830792739589, 0.702550883295416, 0.683578328213083),
-                                      case.V2 = c(0.991596262178303, 0.994776962242735, 0.957878906176306)
+                                      partitionCase = c(1, 0, 1), partitionCtrl = c(1, 2, 1),
+                                      ctrl.V1 = c(0.985138973501651, 0.994352676705209, 0.997152045841383),
+                                      ctrl.V2 = c(0.999356286203539, 0.956946767638153, 0.993679915803624),
+                                      case.V1 = c(0.673440460748842, 0.996378572252127, 0.685307020644639),
+                                      case.V2 = c(0.992193492009494, 0.970646786573561, 0.984602636334363)
     )
 
     expA_02 <- GenomicRanges::GRanges(seqnames = rep("S", 3),
                                       ranges = IRanges::IRanges(start = c(1000, 1038, 1061),
                                                                 end = c(1000, 1038, 1061)),
                                       strand = rep("+", 3),
-                                      meanDiff = c(0.981456213959732, 0.80720191508078, 0.811465190869137),
+                                      meanDiff = c(0.981456213959732, 0.98720191508078, 0.991465190869137),
                                       meanCTRL.meanCTRL = c(0.981456213959732, 0.98720191508078, 0.991465190869137),
-                                      partitionCase = c(0, 1, 1), partitionCtrl = c(2, 1, 1),
-                                      ctrl.V1 = c(0.98822985553992, 0.979963548035665, 0.99980239380256),
-                                      ctrl.V2 = c(0.996994140414723, 0.954115772022289, 0.98886421783845),
-                                      case.V1 = c(0.977768449003788, 0.808780405265338, 0.821550385656033),
-                                      case.V2 = c(0.984957410039115, 0.99531216553522, 0.973207250124185)
+                                      partitionCase = c(0, 0, 0), partitionCtrl = c(2, 2, 2),
+                                      ctrl.V1 = c(0.995819865253582, 0.998804046362085, 0.981024294172973),
+                                      ctrl.V2 = c(0.985741837588672, 0.993989191533387, 0.999318420358833),
+                                      case.V1 = c(0.995689488001639, 0.995234901080396, 0.980455170735616),
+                                      case.V2 = c(0.994475519231408, 0.985737562045015, 0.976069838301402)
     )
 
     expA_03 <- GenomicRanges::GRanges(seqnames = rep("S", 3),
                                       ranges = IRanges::IRanges(start = c(1000, 1038, 1061),
                                                                 end = c(1000, 1038, 1061)),
                                       strand = rep("+", 3),
-                                      meanDiff = c(0.981456213959732, 0.80720191508078, 0.811465190869137),
+                                      meanDiff = c(0.981456213959732, 0.98720191508078, 0.991465190869137),
                                       meanCTRL.meanCTRL = c(0.981456213959732, 0.98720191508078, 0.991465190869137),
                                       partitionCase = c(0, 0, 0), partitionCtrl = c(2, 2, 2),
-                                      ctrl.V1 = c(0.995045148055923, 0.986799274399891, 0.996865263430278),
-                                      ctrl.V2 = c(0.992783863201566, 0.975460428136066, 0.992805282909862),
-                                      case.V1 = c(0.94472919453394, 0.996687514947743, 0.999929013471419),
-                                      case.V2 = c(0.972333959759893, 0.991803664258718, 0.998985460163771)
+                                      ctrl.V1 = c(0.973568319095094, 0.974062630653083, 0.999038035583776),
+                                      ctrl.V2 = c(0.997994564848677, 0.970964498276891, 0.989303882856854),
+                                      case.V1 = c(0.988002379181952, 0.986204793093944, 0.984274060618534),
+                                      case.V2 = c(0.980530184730523, 0.999069145947362, 0.999911242227282)
     )
 
 
-    message <- paste0("test.simInheritanceNew_save_TRUE() ",
+    message <- paste0("test.simInheritanceNew_saveGRanges_TRUE() ",
                       "- Valid parameters did not generated expected results.")
 
     expA <- GRangesList(list(expA_01, expA_02, expA_03))
-# 
-#     checkEquals(obsA, expA, message)
-#     checkEquals(obsB$stateDiff, c(0,1,1), message)
-#     checkEquals(obsB$stateInherite, c(0,1,1), message)
-# 
-#     if (dir.exists(temp_dir)) {
-#         unlink(temp_dir, recursive = TRUE, force = FALSE)
-#     }
+
+    checkEquals(obsA, expA, message)
+    checkEquals(obsB$stateDiff, c(1,0,1), message)
+    checkEquals(obsB$stateInherite, c(0,0,0), message)
+
+    if (dir.exists(temp_dir)) {
+        unlink(temp_dir, recursive = TRUE, force = FALSE)
+    }
 }                                                   
                                                     
