@@ -5,7 +5,7 @@
 \title{Get the C/T proportion at a selected site,
 differentially methylated or not, for all cases}
 \usage{
-getDiffCaseNew(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff, diffCase)
+getDiffCaseNew(ctrlMean, ctrlVar, selectedAsDM, nbCase, sDiff, nbDiffCase)
 }
 \arguments{
 \item{ctrlMean}{a \code{double}, the mean of the CTRL at the site.}
@@ -15,17 +15,20 @@ getDiffCaseNew(ctrlMean, ctrlVar, selectedAsDM, nb, sDiff, diffCase)
 \item{selectedAsDM}{a \code{integer}, \code{1} if the site is selected as 
 differentially methylated, otherwise \code{0}.}
 
+\item{nbCase}{a \code{integer}, the number of cases.}
+
 \item{sDiff}{a non-negative \code{double} 
 included in [0,1], the proportion of C/T for a case differentially 
 methylated that follows 
 a beta distribution where the mean is shifted of \code{vDiff} 
 from the CTRL distribution.}
 
-\item{diffCase}{an \code{integer}, the number of cases differentially 
+\item{nbDiffCase}{an \code{integer}, the number of cases differentially 
 methylated.}
 }
 \value{
-a \code{vector} containing 3 + nb \code{double}:
+a \code{vector} containing 3 + \code{nbCase} entries of type 
+\code{double}:
 \itemize{
 \item The mean proportion of C/T of the differentially methylated cases
 \item The number of cases simulated using shifted distribution
@@ -44,8 +47,8 @@ set.seed(2010)
 
 ## Get the proportion of C/T for each case at a specific site.
 methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.9814562, ctrlVar = 
-0.0003607153, selectedAsDM = 0, nb=6, sDiff = 0.8, 
-diffCase = round(6 * 0.9))
+0.0003607153, selectedAsDM = 0, nbCase=6, sDiff = 0.8, 
+nbDiffCase = round(6 * 0.9))
 
 }
 \author{

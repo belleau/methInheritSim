@@ -20,7 +20,8 @@
 #' @param outputDir a string of \code{character} or \code{NULL}, the path 
 #' where the 
 #' files created by the function will be saved. When \code{NULL}, the files
-#' are saved in outputDir in the current directory. Default: \code{NULL}.
+#' are saved in a directory called "outputDir" that is located in 
+#' the current directory. Default: \code{NULL}.
 #'
 #' @param fileID a string of \code{character}, a identifiant that will be 
 #' included in each output file name. Each output 
@@ -239,7 +240,7 @@
 #' }
 #' 
 #' @author Pascal Belleau
-#' @importFrom parallel mclapply
+#' @importFrom parallel mclapply nextRNGSubStream
 #' @export
 runSim <- function(outputDir = NULL, fileID = "s", 
                     nbSynCHR = 1, methData, 
@@ -269,14 +270,22 @@ runSim <- function(outputDir = NULL, fileID = "s",
         context = context, assembly = assembly)
     
     ## Fix seed
+    RNGkind("L'Ecuyer-CMRG")
     set.seed(fixSeed(vSeed))
-    if(is.null(outputDir)){
-        outputDir = "outputDir"
-    }
-    if(!dir.exists(outputDir)){
-        dir.create(outputDir, showWarnings = TRUE)
+    
+    if(is.null(outputDir)) {
+        outputDir <- "outputDir"
     }
     
+    ## Remove ending slash
+    if(substring(outputDir, nchar(outputDir), nchar(outputDir)) == "/") {
+        outputDir <- substring(outputDir, 1, nchar(outputDir) - 1)
+    }
+    
+    ## Create directory
+    if(!dir.exists(outputDir)) {
+        dir.create(outputDir, showWarnings = TRUE)
+    }
     
     for(s in 1:nbSynCHR) {
         
@@ -293,15 +302,15 @@ runSim <- function(outputDir = NULL, fileID = "s",
             nbCtrl <- nbSample
             nbCase <- nbSample
             
-            # Define tretment and sample.id 
+            # Define treatment and sample.id 
             treatment <- c(rep(0,nbSample), rep(1,nbSample))
             if(saveGRanges){
                 saveRDS(treatment, file = paste0(outputDir, "/treatment_", 
                                             adPrefSample, ".rds"))
             }
             
+            # Define  sample.id 
             sample.id <- list()
-            
             for (i in 1:(2*nbSample)) {
                 if (i <= nbSample) {
                     for(j in 1:nbGeneration) {
@@ -340,30 +349,51 @@ runSim <- function(outputDir = NULL, fileID = "s",
                         prefBase <- paste0(adPrefSample , "_", propDiff, 
                                             "_", diffValue, "_", 
                                             propInheritance)
-                            
-                        a <- mclapply(1:nbSimulation, FUN = simInheritance, 
-                                        pathOut = outputDir, pref = prefBase, 
-                                        nbCtrl = nbCtrl, nbCase = nbCase, 
-                                        treatment = treatment, 
-                                        sample.id = sample.id, 
-                                        generation = nbGeneration,
-                                        stateInfo = res, rateDiff = rateDiff,
-                                        minRate = minRate, 
-                                        propInherite = propInherite,
-                                        diffValue = diffValue, 
-                                        propDiff = propDiff,
-                                        propDiffsd = propDiffsd, 
-                                        propInheritance = propInheritance,
-                                        propHetero = propHetero, 
-                                        minReads = minReads, 
-                                        maxPercReads = maxPercReads,
-                                        context = context, assembly = assembly,
-                                        meanCov = meanCov, diffRes = diffRes,
-                                        saveGRanges = saveGRanges,
-                                        saveMethylKit = saveMethylKit,
-                                        runAnalysis = runAnalysis, 
-                                        mc.cores = nbCores,
-                                        mc.preschedule = FALSE)
+                        if (nbCores > 1) {
+                            .Random.seed <- nextRNGSubStream(.Random.seed)
+                            a <- mclapply(1:nbSimulation, FUN = simInheritance, 
+                                    pathOut = outputDir, pref = prefBase, 
+                                    nbCtrl = nbCtrl, nbCase = nbCase, 
+                                    treatment = treatment, 
+                                    sample.id = sample.id, 
+                                    generation = nbGeneration,
+                                    stateInfo = res, rateDiff = rateDiff,
+                                    minRate = minRate, 
+                                    propInherite = propInherite,
+                                    diffValue = diffValue, propDiff = propDiff,
+                                    propDiffsd = propDiffsd, 
+                                    propInheritance = propInheritance,
+                                    propHetero = propHetero, 
+                                    minReads = minReads, 
+                                    maxPercReads = maxPercReads,
+                                    context = context, assembly = assembly,
+                                    meanCov = meanCov, diffRes = diffRes,
+                                    saveGRanges = saveGRanges,
+                                    saveMethylKit = saveMethylKit,
+                                    runAnalysis = runAnalysis)
+                        } else {
+                            a <- lapply(1:nbSimulation, FUN = simInheritance, 
+                                    pathOut = outputDir, pref = prefBase, 
+                                    nbCtrl = nbCtrl, nbCase = nbCase, 
+                                    treatment = treatment, 
+                                    sample.id = sample.id, 
+                                    generation = nbGeneration,
+                                    stateInfo = res, rateDiff = rateDiff,
+                                    minRate = minRate, 
+                                    propInherite = propInherite,
+                                    diffValue = diffValue, 
+                                    propDiff = propDiff,
+                                    propDiffsd = propDiffsd, 
+                                    propInheritance = propInheritance,
+                                    propHetero = propHetero, 
+                                    minReads = minReads, 
+                                    maxPercReads = maxPercReads,
+                                    context = context, assembly = assembly,
+                                    meanCov = meanCov, diffRes = diffRes,
+                                    saveGRanges = saveGRanges,
+                                    saveMethylKit = saveMethylKit,
+                                    runAnalysis = runAnalysis)
+                        }
                     }
                 }
             }
