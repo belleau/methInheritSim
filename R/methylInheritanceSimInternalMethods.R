@@ -1618,7 +1618,7 @@ simEachGenerationWithBug <- function(simulation, nbCtrl, nbCase, treatment,
                         coverage = coverage, numCs = round(coverage * 
                         unlist(mcols(simulation[[i]])[4+j])))
             
-            if(saveMethylKit) {
+            if(saveMethylKit || runAnalysis) {
                 obj <- new("methylRaw", data.frame(chr = seqnames(testM), 
                         start = start(testM), end = end(testM), 
                         strand = strand(testM), coverage = testM$coverage, 
@@ -1634,7 +1634,7 @@ simEachGenerationWithBug <- function(simulation, nbCtrl, nbCase, treatment,
             }
         }
         
-        if (saveMethylKit) {
+        if (saveMethylKit || runAnalysis) {
             myobj[[i]] <- new("methylRawList", outList,
                                 treatment = treatment)
         }
