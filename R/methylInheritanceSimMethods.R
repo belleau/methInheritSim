@@ -313,14 +313,14 @@ runSim <- function(outputDir = NULL, fileID = "s",
             sample.id <- list()
             for (i in 1:(2*nbSample)) {
                 if (i <= nbSample) {
-                    for(j in 1:nbGeneration) {
-                        if(i == 1){
+                    for (j in 1:nbGeneration) {
+                        if(i == 1) {
                             sample.id[[j]] <- list()
                         }
                         sample.id[[j]][[i]] <- paste0("F", j, "_", i, "_C")
                     }
                 } else {
-                    for(j in 1:nbGeneration){
+                    for (j in 1:nbGeneration) {
                         sample.id[[j]][[i]] <- paste0("F", j, "_", i, "_OC")
                     }
                 }

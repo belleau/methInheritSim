@@ -54,11 +54,13 @@ test.runSim_good_001 <- function() {
     checkTrue(file.exists(paste0(temp_dir, "/stateInfo_F1_1.rds")))
     checkTrue(file.exists(paste0(temp_dir, "/treatment_F1_1_6.rds")))
     
+    ## Check treatment file
     expTreatment <- c(0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1)
     obsTreatment <- readRDS(paste0(temp_dir, "/treatment_F1_1_6.rds"))
     
     checkEquals(obsTreatment, expTreatment)
     
+    ## Check stateInfo file
     expStateInfo <- GenomicRanges::GRanges(seqnames = rep("S", 8), 
                                 ranges = IRanges::IRanges(start = c(1000, 1003, 1022, 1029, 11029, 11048, 11052, 11058), 
                                                               end = c(1000, 1003, 1022, 1029, 11029, 11048, 11052, 11058)),
@@ -75,6 +77,7 @@ test.runSim_good_001 <- function() {
     
     checkEquals(obsTreatment, expTreatment)
     
+    ## Check stateDiff files
     expStateDiff_1 <- list(stateDiff = c(0, 1, 0, 0, 0, 1, 1, 1), stateInherite = rep(0, 8))
     expStateDiff_2 <- list(stateDiff = c(1, 1, 1, 0, 1, 0, 1, 1), stateInherite = c(0, 0, 0, 0, 1, 0, 1, 1))
     obsStateDiff_1 <- readRDS(paste0(temp_dir, "/stateDiff_F1_1_6_0.9_0.8_0.5_1.rds"))
@@ -83,14 +86,7 @@ test.runSim_good_001 <- function() {
     checkEquals(obsStateDiff_1, expStateDiff_1)
     checkEquals(obsStateDiff_2, expStateDiff_2)
     
-    expStateDiff_1 <- list(stateDiff = c(0, 1, 0, 0, 0, 1, 1, 1), stateInherite = rep(0, 8))
-    expStateDiff_2 <- list(stateDiff = c(1, 1, 1, 0, 1, 0, 1, 1), stateInherite = c(0, 0, 0, 0, 1, 0, 1, 1))
-    obsStateDiff_1 <- readRDS(paste0(temp_dir, "/stateDiff_F1_1_6_0.9_0.8_0.5_1.rds"))
-    obsStateDiff_2 <- readRDS(paste0(temp_dir, "/stateDiff_F1_1_6_0.9_0.8_0.5_2.rds"))
-    
-    checkEquals(obsStateDiff_1, expStateDiff_1)
-    checkEquals(obsStateDiff_2, expStateDiff_2)
-    
+    ## Check methDiff files
     obsMethDiff_1 <- readRDS(paste0(temp_dir, "/methDiff_F1_1_6_0.9_0.8_0.5_1.rds"))
     obsMethDiff_2 <- readRDS(paste0(temp_dir, "/methDiff_F1_1_6_0.9_0.8_0.5_2.rds"))
     
@@ -124,51 +120,110 @@ test.runSim_good_001 <- function() {
     checkEquals(obsMethDiff_2[[2]]@destranded, FALSE, message)
     checkEquals(obsMethDiff_2[[3]]@destranded, FALSE, message)
     
+    ## check MethylGR files
     obsMethylGR_1 <- readRDS(paste0(temp_dir, "/methylGR_F1_1_6_0.9_0.8_0.5_1.rds"))
+    obsMethylGR_2 <- readRDS(paste0(temp_dir, "/methylGR_F1_1_6_0.9_0.8_0.5_2.rds"))
+    
     methylGR_1_1_1 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                       start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                       end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                       strand = strand("+"),
-                                       coverage = c(89, 77, 71, 72, 83, 94, 92, 70), 
-                                       numCs = c(88, 75,  0,  2,  0,  0,  0,  1),
-                                       numTs = c(1, 2, 71, 70, 83, 94, 92, 69)),
-               sample.id = "F1_1_C", assembly = "Rnor_5.0",
-               context = "CpG", resolution = 'base')
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(89, 77, 71, 72, 83, 94, 92, 70), 
+                        numCs = c(88, 75,  0,  2,  0,  0,  0,  1),
+                        numTs = c(1, 2, 71, 70, 83, 94, 92, 69)),
+                        sample.id = "F1_1_C", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
     
     methylGR_1_1_4 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"),
-                                                  coverage = c(90, 87, 79, 78, 90, 82, 78, 87), 
-                                                  numCs = c(84, 82, 0, 1, 0, 1, 2, 1),
-                                                  numTs = c(6, 5, 79, 77, 90, 81, 76, 86)),
-                          sample.id = "F1_4_C", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(90, 87, 79, 78, 90, 82, 78, 87), 
+                        numCs = c(84, 82, 0, 1, 0, 1, 2, 1),
+                        numTs = c(6, 5, 79, 77, 90, 81, 76, 86)),
+                        sample.id = "F1_4_C", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
     
     methylGR_1_1_7 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"),
-                                                  coverage = c(74, 79, 80, 92, 82, 106, 87, 84), 
-                                                  numCs = c(73, 15, 1, 0, 0, 84, 71, 68),
-                                                  numTs = c(1, 64, 79, 92, 82, 22, 16, 16)),
-                          sample.id = "F1_7_OC", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(74, 79, 80, 92, 82, 106, 87, 84), 
+                        numCs = c(73, 15, 1, 0, 0, 84, 71, 68),
+                        numTs = c(1, 64, 79, 92, 82, 22, 16, 16)),
+                        sample.id = "F1_7_OC", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
     
     methylGR_1_1_9 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"),
-                                                  coverage = c(81, 84, 86, 84, 72, 72, 86, 72), 
-                                                  numCs = c(76, 15, 0, 1, 0, 58, 70, 58),
-                                                  numTs = c(5, 69, 86, 83, 72, 14, 16, 14)),
-                          sample.id = "F1_9_OC", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(81, 84, 86, 84, 72, 72, 86, 72), 
+                        numCs = c(76, 15, 0, 1, 0, 58, 70, 58),
+                        numTs = c(5, 69, 86, 83, 72, 14, 16, 14)),
+                        sample.id = "F1_9_OC", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
+    
+    methylGR_1_2_2 <- new("methylRaw", data.frame(chr = rep("S", 8), 
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(80, 91, 77, 92, 79, 74, 72, 83), 
+                        numCs = c(79, 84, 22,  5,  0,  0,  1,  2),
+                        numTs = c(1, 7, 55, 87, 79, 74, 71, 81)),
+                        sample.id = "F2_2_C", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
+    
+    methylGR_1_2_5 <- new("methylRaw", data.frame(chr = rep("S", 8), 
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(85, 69, 72, 105, 67, 61, 74, 96), 
+                        numCs = c(73, 67, 8, 1, 0, 1, 4, 1),
+                        numTs = c(12, 2, 64, 104, 67, 60, 70, 95)),
+                        sample.id = "F2_5_C", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
+    
+    methylGR_1_2_8 <- new("methylRaw", data.frame(chr = rep("S", 8), 
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(84, 98, 79, 70, 93, 86, 92, 77), 
+                        numCs = c(84, 91, 2, 8, 1, 0, 6, 1),
+                        numTs = c(0, 7, 77, 62, 92, 86, 86, 76)),
+                        sample.id = "F2_8_OC", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
+    
+    methylGR_1_3_3 <- new("methylRaw", data.frame(chr = rep("S", 8), 
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(90, 90, 97, 83, 76, 82, 87, 85), 
+                        numCs = c(86, 87, 10, 4, 4, 0, 1, 1),
+                        numTs = c(4, 3, 87, 79, 72, 82, 86, 84)),
+                        sample.id = "F3_3_C", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
+    
+    methylGR_1_3_11 <- new("methylRaw", data.frame(chr = rep("S", 8), 
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(92, 81, 74, 79, 80, 98, 65, 75), 
+                        numCs = c(89, 79, 8, 2, 1, 0, 1, 1),
+                        numTs = c(3, 2, 66, 77, 79, 98, 64, 74)),
+                        sample.id = "F3_11_OC", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
+    
+    methylGR_2_1_3 <- new("methylRaw", data.frame(chr = rep("S", 8), 
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(75, 79, 80, 81, 87, 83, 67, 66), 
+                        numCs = c(63, 77, 14, 0, 0, 0, 2, 1),
+                        numTs = c(12, 2, 66, 81, 87, 83, 65, 65)),
+                        sample.id = "F1_3_C", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
     
     checkEquals(obsMethylGR_1[[1]][[1]], methylGR_1_1_1)
     checkEquals(obsMethylGR_1[[1]][[4]], methylGR_1_1_4)
     checkEquals(obsMethylGR_1[[1]][[7]], methylGR_1_1_7)
     checkEquals(obsMethylGR_1[[1]][[9]], methylGR_1_1_9)
+    checkEquals(obsMethylGR_1[[2]][[2]], methylGR_1_2_2)
+    checkEquals(obsMethylGR_1[[2]][[5]], methylGR_1_2_5)
+    checkEquals(obsMethylGR_1[[2]][[8]], methylGR_1_2_8)
+    checkEquals(obsMethylGR_1[[3]][[3]], methylGR_1_3_3)
+    checkEquals(obsMethylGR_1[[3]][[11]], methylGR_1_3_11)
+    checkEquals(obsMethylGR_2[[1]][[3]], methylGR_2_1_3)
     
     if (dir.exists(temp_dir)) {
         unlink(temp_dir, recursive = TRUE, force = FALSE)
