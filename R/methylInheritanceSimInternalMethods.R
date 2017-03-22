@@ -1440,7 +1440,7 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
         ## Generate data formatted for methylKit
         ## TODO : decrire ce que ca fait
         ## TODO : solve bug
-        simData <- simEachGenerationWithBug(simulation = simV0.1, 
+        simData <- simEachGeneration(simulation = simV0.1, 
                         nbCtrl = nbCtrl, nbCase = nbCase,
                         treatment = treatment, sample.id = sample.id,
                         generation = generation, stateInfo = stateInfo, 
@@ -1581,7 +1581,7 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #'     propHetero = 0.1)
 #' 
 #' ## TODO
-#' methylInheritanceSim:::simEachGenerationWithBug(simulation = sim, 
+#' methylInheritanceSim:::simEachGeneration(simulation = sim, 
 #' nbCtrl = 3, nbCase = 2, treatment = c(0,0,0,1,1), 
 #' sample.id = dataSimExample$sample.id,
 #' generation = 3, stateInfo = stateInformation, minReads = 10, 
@@ -1597,7 +1597,7 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' @importFrom methods new
 #' @importFrom BiocGenerics start end strand
 #' @keywords internal
-simEachGenerationWithBug <- function(simulation, nbCtrl, nbCase, treatment, 
+simEachGeneration <- function(simulation, nbCtrl, nbCase, treatment, 
                         sample.id, generation, stateInfo, minReads, 
                         maxPercReads, context, assembly, meanCov, saveGRanges, 
                         saveMethylKit, runAnalysis) {
@@ -1618,16 +1618,15 @@ simEachGenerationWithBug <- function(simulation, nbCtrl, nbCase, treatment,
                         coverage = coverage, numCs = round(coverage * 
                         unlist(mcols(simulation[[i]])[4+j])))
             
-            if(saveMethylKit || runAnalysis) {
-                obj <- new("methylRaw", data.frame(chr = seqnames(testM), 
+            if(saveMethylKit || runAnalysis || saveGRanges) {
+                outList[[j]] <- new("methylRaw", 
+                        data.frame(chr = seqnames(testM), 
                         start = start(testM), end = end(testM), 
                         strand = strand(testM), coverage = testM$coverage, 
                         numCs = testM$numCs, numTs = testM$coverage - 
                         testM$numCs), sample.id = sample.id[[i]][[j]], 
                         assembly = assembly, context = context, 
                         resolution = 'base')
-                
-                outList[[j]] <- obj
             }
             if (saveGRanges) {
                 outGR[[j]] <- testM
@@ -1635,8 +1634,7 @@ simEachGenerationWithBug <- function(simulation, nbCtrl, nbCase, treatment,
         }
         
         if (saveMethylKit || runAnalysis) {
-            myobj[[i]] <- new("methylRawList", outList,
-                                treatment = treatment)
+            myobj[[i]] <- new("methylRawList", outList, treatment = treatment)
         }
         
         if (saveGRanges) {
@@ -1649,6 +1647,8 @@ simEachGenerationWithBug <- function(simulation, nbCtrl, nbCase, treatment,
                                     hi.count = NULL, hi.perc = maxPercReads)
             filtered.myobj <- normalizeCoverage(filtered.myobj, "median")
             meth[[i]]   <- unite(filtered.myobj, destrand = FALSE)
+            
+            ## TODO : when meth[[i]] 0 row, methylkit throw error
             myDiff[[i]] <- calculateDiffMeth(meth[[i]])
         }
     }

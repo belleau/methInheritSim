@@ -2448,4 +2448,251 @@ test.simInheritanceNew_saveGRanges_TRUE <- function() {
         unlink(temp_dir, recursive = TRUE, force = FALSE)
     }
 }                                                   
-                                                    
+                       
+
+###################################################
+## simEachGeneration() function
+###################################################
+                             
+test.simEachGeneration_all_save_false <- function() {
+    
+    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+                                                               nbBlock = 1, nbCpG = 3)
+    
+    stateDiff  <- c(1, 0, 1)
+    stateInherite <- c(1, 0, 0)
+    
+    sim <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 1, 
+            generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
+            stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
+            propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
+    
+    obs <- methylInheritanceSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 1, treatment = c(0,0,0,1), 
+                sample.id = dataSimExample$sample.id, generation = 3, stateInfo = stateInformation, minReads = 10, 
+                maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
+                saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
+    
+    message <- paste0("test.simEachGeneration_all_save_false() - ",
+                      "All logicial parameters to FALSE did not generate expected results.")
+    checkEquals(obs$myObj, list())
+    checkEquals(obs$myGR, list())
+    checkEquals(obs$meth, list())
+    checkEquals(obs$myDiff, list())
+}
+
+test.simEachGeneration_all_saveGRanges_true <- function() {
+    
+    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+                                                               nbBlock = 1, nbCpG = 3)
+    
+    stateDiff  <- c(1, 0, 1)
+    stateInherite <- c(1, 0, 0)
+    
+    sim <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 1, 
+                                            generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
+                                            stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
+                                            propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
+    
+    obs <- methylInheritanceSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 1, treatment = c(0,0,0,1), 
+                                                    sample.id = dataSimExample$sample.id, generation = 3, stateInfo = stateInformation, minReads = 10, 
+                                                    maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
+                                                    saveGRanges = TRUE, saveMethylKit = FALSE, runAnalysis = FALSE)
+    
+    message <- paste0("test.simEachGeneration_all_saveGRanges_true() - ",
+                      "saveGRanges to TRUE did not generate expected results.")
+    checkEquals(obs$myObj, list())
+    ## TODO
+    ##checkEquals(obs$myGR, list())
+    checkEquals(obs$meth, list())
+    checkEquals(obs$myDiff, list())
+}
+
+test.simEachGeneration_all_saveMethylKit_true <- function() {
+    
+    set.seed(10112)
+    
+    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+                                                               nbBlock = 1, nbCpG = 3)
+    
+    stateDiff  <- c(1, 0, 1)
+    stateInherite <- c(1, 0, 0)
+    
+    sampleID <- list()
+    sampleID[[1]] <- list("F1_1_C", "F1_2_C", "F1_3_OC")
+    sampleID[[2]] <- list("F2_1_C", "F2_2_C", "F2_3_OC")
+    sampleID[[3]] <- list("F3_1_C", "F3_2_C", "F3_3_OC")
+    
+    sim <- methylInheritanceSim:::getSimNew(nbCtrl = 2, nbCase = 1, 
+                generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
+                stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
+                propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
+    
+    obs <- methylInheritanceSim:::simEachGeneration(simulation = sim, nbCtrl = 2, nbCase = 1, treatment = c(0,0,1), 
+                sample.id = sampleID, generation = 3, stateInfo = stateInformation, minReads = 10, 
+                maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
+                saveGRanges = FALSE, saveMethylKit = TRUE, runAnalysis = FALSE)
+    
+    expGR_1 <- list()
+    expGR_1[[1]] <- new("methylRaw", data.frame(chr = rep("S", 3), 
+                    start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                    strand = strand(rep("+", 3)), coverage = c(71, 90, 95), 
+                    numCs = c(0, 1, 1), numTs = c(71, 89, 94)), sample.id = "F1_1_C", 
+                    assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_1[[2]] <- new("methylRaw", data.frame(chr = rep("S", 3),  
+                    start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                    strand = strand(rep("+", 3)), coverage = c(93, 92, 93), 
+                    numCs = c(1, 4, 0), numTs = c(92, 88, 93)), sample.id = "F1_2_C", 
+                    assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_1[[3]] <- new("methylRaw", data.frame(chr = rep("S", 3), 
+                    start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                    strand = strand(rep("+", 3)), coverage = c(89, 87, 92), 
+                    numCs = c(80, 2, 92), numTs = c(9, 85, 0)), sample.id = "F1_3_OC", 
+                    assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_2 <- list()
+    expGR_2[[1]] <- new("methylRaw", data.frame(chr = rep("S", 3), 
+                        start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                        strand = strand(rep("+", 3)), coverage = c(90, 85, 79), 
+                        numCs = c(0, 0, 1), numTs = c(90, 85, 78)), sample.id = "F2_1_C", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_2[[2]] <- new("methylRaw", data.frame(chr = rep("S", 3),  
+                        start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                        strand = strand(rep("+", 3)), coverage = c(73, 93, 78), 
+                        numCs = c(0, 2, 0), numTs = c(73, 91, 78)), sample.id = "F2_2_C", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_2[[3]] <- new("methylRaw", data.frame(chr = rep("S", 3), 
+                        start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                        strand = strand(rep("+", 3)), coverage = c(83, 79, 78), 
+                        numCs = c(83, 1, 0), numTs = c(0, 78, 78)), sample.id = "F2_3_OC", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_3 <- list()
+    expGR_3[[1]] <- new("methylRaw", data.frame(chr = rep("S", 3), 
+                        start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                        strand = strand(rep("+", 3)), coverage = c(80, 73, 84), 
+                        numCs = c(0, 0, 1), numTs = c(80, 73, 83)), sample.id = "F3_1_C", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_3[[2]] <- new("methylRaw", data.frame(chr = rep("S", 3),  
+                        start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                        strand = strand(rep("+", 3)), coverage = c(77, 80, 94), 
+                        numCs = c(0, 2, 2), numTs = c(77, 78, 92)), sample.id = "F3_2_C", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_3[[3]] <- new("methylRaw", data.frame(chr = rep("S", 3), 
+                        start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                        strand = strand(rep("+", 3)), coverage = c(86, 79, 79), 
+                        numCs = c(86, 2, 0), numTs = c(0, 77, 79)), sample.id = "F3_3_OC", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR <- list()
+    expGR[[1]] <- new("methylRawList", expGR_1, treatment = c(0, 0, 1))
+    expGR[[2]] <- new("methylRawList", expGR_2, treatment = c(0, 0, 1))
+    expGR[[3]] <- new("methylRawList", expGR_3, treatment = c(0, 0, 1))
+    
+    message <- paste0("test.simEachGeneration_all_saveMethylKit_true() - ",
+                      "saveMethylKit to TRUE did not generate expected results.")
+    
+    checkEquals(obs$myObj, expGR, message)
+    checkEquals(obs$myGR, list(), message)
+    checkEquals(obs$meth, list(), message)
+    checkEquals(obs$myDiff, list(), message)
+}
+
+
+test.simEachGeneration_all_runAnalysis_true <- function() {
+    
+    set.seed(1222122)
+    
+    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+                                                               nbBlock = 1, nbCpG = 4)
+    
+    stateDiff  <- c(1, 0, 1, 1)
+    stateInherite <- c(1, 0, 0, 1)
+    
+    sampleID <- list()
+    sampleID[[1]] <- list("F1_1_C", "F1_2_C", "F1_3_C", "F1_1_OC", "F1_2_OC", "F1_3_OC")
+    sampleID[[2]] <- list("F2_1_C", "F2_2_C", "F2_3_C", "F2_1_OC", "F2_2_OC", "F2_3_OC")
+    sampleID[[3]] <- list("F3_1_C", "F3_2_C", "F3_3_C", "F3_1_OC", "F3_2_OC", "F3_3_OC")
+    
+    sim <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 3, 
+                                            generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
+                                            stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
+                                            propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
+    
+    obs <- methylInheritanceSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 3, treatment = c(0,0,0, 1, 1,1), 
+                            sample.id = sampleID, generation = 3, stateInfo = stateInformation, minReads = 3, 
+                            maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
+                            saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = TRUE)
+    
+    expGR_1 <- list()
+    expGR_1[[1]] <- new("methylRaw", data.frame(chr = rep("S", 3), 
+                                                start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                                                strand = strand(rep("+", 3)), coverage = c(71, 90, 95), 
+                                                numCs = c(0, 1, 1), numTs = c(71, 89, 94)), sample.id = "F1_1_C", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_1[[2]] <- new("methylRaw", data.frame(chr = rep("S", 3),  
+                                                start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                                                strand = strand(rep("+", 3)), coverage = c(93, 92, 93), 
+                                                numCs = c(1, 4, 0), numTs = c(92, 88, 93)), sample.id = "F1_2_C", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_1[[3]] <- new("methylRaw", data.frame(chr = rep("S", 3), 
+                                                start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                                                strand = strand(rep("+", 3)), coverage = c(89, 87, 92), 
+                                                numCs = c(80, 2, 92), numTs = c(9, 85, 0)), sample.id = "F1_3_OC", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_2 <- list()
+    expGR_2[[1]] <- new("methylRaw", data.frame(chr = rep("S", 3), 
+                                                start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                                                strand = strand(rep("+", 3)), coverage = c(90, 85, 79), 
+                                                numCs = c(0, 0, 1), numTs = c(90, 85, 78)), sample.id = "F2_1_C", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_2[[2]] <- new("methylRaw", data.frame(chr = rep("S", 3),  
+                                                start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                                                strand = strand(rep("+", 3)), coverage = c(73, 93, 78), 
+                                                numCs = c(0, 2, 0), numTs = c(73, 91, 78)), sample.id = "F2_2_C", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_2[[3]] <- new("methylRaw", data.frame(chr = rep("S", 3), 
+                                                start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                                                strand = strand(rep("+", 3)), coverage = c(83, 79, 78), 
+                                                numCs = c(83, 1, 0), numTs = c(0, 78, 78)), sample.id = "F2_3_OC", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_3 <- list()
+    expGR_3[[1]] <- new("methylRaw", data.frame(chr = rep("S", 3), 
+                                                start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                                                strand = strand(rep("+", 3)), coverage = c(80, 73, 84), 
+                                                numCs = c(0, 0, 1), numTs = c(80, 73, 83)), sample.id = "F3_1_C", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_3[[2]] <- new("methylRaw", data.frame(chr = rep("S", 3),  
+                                                start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                                                strand = strand(rep("+", 3)), coverage = c(77, 80, 94), 
+                                                numCs = c(0, 2, 2), numTs = c(77, 78, 92)), sample.id = "F3_2_C", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR_3[[3]] <- new("methylRaw", data.frame(chr = rep("S", 3), 
+                                                start = c(1000, 1011, 1017), end = c(1000, 1011, 1017), 
+                                                strand = strand(rep("+", 3)), coverage = c(86, 79, 79), 
+                                                numCs = c(86, 2, 0), numTs = c(0, 77, 79)), sample.id = "F3_3_OC", 
+                        assembly = "RNOR_5.0", context = "Cpg", resolution = 'base')
+    expGR <- list()
+    expGR[[1]] <- new("methylRawList", expGR_1, treatment = c(0, 0, 1))
+    expGR[[2]] <- new("methylRawList", expGR_2, treatment = c(0, 0, 1))
+    expGR[[3]] <- new("methylRawList", expGR_3, treatment = c(0, 0, 1))
+    
+    
+    expDiff <- list()
+    expDiff[[1]] <- new("methylDiff", data.frame(chr = c("S"), start = c(1000), end = c(1000), 
+                        strand = strand(c("+")), pvalue=c(1.079053269533417e-72),
+                        qvalue = c(0), meth.diff=c(63.066202090592341)), sample.ids = unlist(sampleID[[1]]), destranded = FALSE,
+                        assembly = "RNOR_5.0", context = "Cpg", treatment = c(0,0,0,1,1,1), resolution = 'base')
+    expDiff[[2]] <- new("methylDiff", data.frame(chr = c("S"), start = c(1021), end = c(1021), 
+                        strand = strand(c("+")), pvalue=c(0.710492384389323),
+                        qvalue = c(0), meth.diff=c(0.421067968237779)), sample.ids = unlist(sampleID[[2]]), destranded = FALSE,
+                        assembly = "RNOR_5.0", context = "Cpg", treatment = c(0,0,0,1,1,1), resolution = 'base')
+    expDiff[[3]] <- new("methylDiff", data.frame(chr = c("S"), start = c(1037), end = c(1037), 
+                        strand = strand(c("+")), pvalue=c(2.227413948761407e-57),
+                        qvalue = c(-3.681152020132998e-73), meth.diff=c(63.994307400379505)), sample.ids = unlist(sampleID[[3]]), destranded = FALSE,
+                        assembly = "RNOR_5.0", context = "Cpg", treatment = c(0,0,0,1,1,1), resolution = 'base')
+    
+    message <- paste0("test.simEachGeneration_all_runAnalysis_true() - ",
+                      "runAnalysis to TRUE did not generate expected results.")
+    
+    checkEquals(length(obs$myObj), 3, message)
+    checkEquals(obs$myGR, list(), message)
+    checkEquals(length(obs$meth), 3, message)
+    checkEquals(obs$myDiff, expDiff, message)
+}
