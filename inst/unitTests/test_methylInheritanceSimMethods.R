@@ -214,6 +214,52 @@ test.runSim_good_001 <- function() {
                         sample.id = "F1_3_C", assembly = "Rnor_5.0",
                         context = "CpG", resolution = 'base')
     
+    methylGR_2_1_10 <- new("methylRaw", data.frame(chr = rep("S", 8), 
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(81, 86, 88, 87, 91, 95, 79, 81), 
+                        numCs = c(14, 16, 74,  5, 73,  0, 65, 67),
+                        numTs = c(67, 70, 14, 82, 18, 95, 14, 14)),
+                        sample.id = "F1_10_OC", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
+    
+    methylGR_2_2_2 <- new("methylRaw", data.frame(chr = rep("S", 8), 
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(77, 93, 75, 83, 102, 72, 89, 88), 
+                        numCs = c(77, 92, 3, 4, 1, 0, 2, 1),
+                        numTs = c(0, 1, 72, 79, 101, 72, 87, 87)),
+                        sample.id = "F2_2_C", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
+    
+    methylGR_2_2_7 <- new("methylRaw", data.frame(chr = rep("S", 8), 
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(90, 78, 82, 79, 82, 80, 89, 73), 
+                        numCs = c(79, 76, 3, 1, 33, 3, 38, 30),
+                        numTs = c(11, 2, 79, 78, 49, 77, 51, 43)),
+                        sample.id = "F2_7_OC", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
+    
+    methylGR_2_3_4 <- new("methylRaw", data.frame(chr = rep("S", 8), 
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(90, 80, 87, 71, 89, 73, 73, 66), 
+                        numCs = c(88, 74, 1, 5, 0, 1, 5, 0),
+                        numTs = c(2, 6, 86, 66, 89, 72, 68, 66)),
+                        sample.id = "F3_4_C", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
+    
+    methylGR_2_3_12 <- new("methylRaw", data.frame(chr = rep("S", 8), 
+                        start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
+                        strand = strand("+"), coverage = c(84, 79, 77, 83, 65, 85, 81, 77), 
+                        numCs = c(83, 74, 9, 1, 0, 0, 2, 1),
+                        numTs = c(1, 5, 68, 82, 65, 85, 79, 76)),
+                        sample.id = "F3_12_OC", assembly = "Rnor_5.0",
+                        context = "CpG", resolution = 'base')
+    
+    
     checkEquals(obsMethylGR_1[[1]][[1]], methylGR_1_1_1)
     checkEquals(obsMethylGR_1[[1]][[4]], methylGR_1_1_4)
     checkEquals(obsMethylGR_1[[1]][[7]], methylGR_1_1_7)
@@ -224,6 +270,11 @@ test.runSim_good_001 <- function() {
     checkEquals(obsMethylGR_1[[3]][[3]], methylGR_1_3_3)
     checkEquals(obsMethylGR_1[[3]][[11]], methylGR_1_3_11)
     checkEquals(obsMethylGR_2[[1]][[3]], methylGR_2_1_3)
+    checkEquals(obsMethylGR_2[[1]][[10]], methylGR_2_1_10)
+    checkEquals(obsMethylGR_2[[2]][[2]], methylGR_2_2_2)
+    checkEquals(obsMethylGR_2[[2]][[7]], methylGR_2_2_7)
+    checkEquals(obsMethylGR_2[[3]][[4]], methylGR_2_3_4)
+    checkEquals(obsMethylGR_2[[3]][[12]], methylGR_2_3_12)
     
     if (dir.exists(temp_dir)) {
         unlink(temp_dir, recursive = TRUE, force = FALSE)
@@ -252,6 +303,45 @@ test.runSim_NULL_outputDir <- function() {
     
     if (dir.exists("outputDir")) {
         unlink("outputDir", recursive = TRUE, force = FALSE)
+    }
+}
+
+test.runSim_keepDiff_true <- function() {
+    
+    temp_dir = "runSim_keepDiff_true"
+    
+    ## Create 1simulated dataset (nbSimulation = 1)
+    ## over 2 generations (nbGeneration = 2) with
+    ## 2 cases and 2 controls (vNbsample = 2) using only one set
+    ## of parameters (vpDiff = 0.85, vpDiffsd = 0.1, vDiff = 0.8)
+    result <- runSim(outputDir = temp_dir, fileID = "F1", nbSynCHR = 2,
+                     methData = samplesForChrSynthetic, nbSimulation = 1, keepDiff = TRUE,
+                     nbBlock = 2, nbCpG = 4, nbGeneration = 2, vNbSample = c(2), vpDiff = c(0.85),
+                     vpDiffsd = c(0.1), vDiff = c(0.8), vInheritance = c(0.5), propInherite = 0.6,
+                     rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, nbCores = 1, vSeed = 21132, 
+                     saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
+    
+    
+    message <- paste0("test.runSim_keepDiff_true() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(result, 0, message)
+    checkTrue(file.exists(temp_dir))
+    checkTrue(file.exists(paste0(temp_dir, "/simV0.1_F1_1_2_0.85_0.8_0.5_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/simV0.1_F1_2_2_0.85_0.8_0.5_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/stateInfo_F1_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/stateInfo_F1_2.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/stateDiff_F1_1_2_0.85_0.8_0.5_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/stateDiff_F1_2_2_0.85_0.8_0.5_1.rds")))
+    
+    ## check MethylGR files
+    sim_1 <- readRDS(paste0(temp_dir, "/simV0.1_F1_1_2_0.85_0.8_0.5_1.rds"))
+    sim_2 <- readRDS(paste0(temp_dir, "/simV0.1_F1_2_2_0.85_0.8_0.5_1.rds"))
+    
+    checkTrue(any(start(sim_1[[1]]@ranges) != start(sim_2[[1]]@ranges)))
+    
+    if (dir.exists(temp_dir)) {
+        unlink(temp_dir, recursive = TRUE, force = FALSE)
     }
 }
 
