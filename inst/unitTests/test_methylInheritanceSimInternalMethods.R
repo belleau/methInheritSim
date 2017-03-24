@@ -2721,3 +2721,52 @@ test.simEachGeneration_all_runAnalysis_true <- function() {
     checkEquals(length(obs$meth), 3, message)
     checkEquals(obs$myDiff, expDiff, message)
 }
+
+test.simEachGeneration_empty_meth <- function() {
+    
+    set.seed(1222122)
+    
+    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+                                                                    nbBlock = 1, nbCpG = 2)
+    
+    stateDiff  <- c(1, 1)
+    stateInherite <- c(1, 0)
+    
+    sampleID <- list()
+    sampleID[[1]] <- list("F1_1_C", "F1_2_C", "F1_3_C", "F1_1_OC", "F1_2_OC", "F1_3_OC")
+    sampleID[[2]] <- list("F2_1_C", "F2_2_C", "F2_3_C", "F2_1_OC", "F2_2_OC", "F2_3_OC")
+    sampleID[[3]] <- list("F3_1_C", "F3_2_C", "F3_3_C", "F3_1_OC", "F3_2_OC", "F3_3_OC")
+    
+    sim <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 3, 
+                generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
+                stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
+                propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
+    
+    obs <- methylInheritanceSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 3, treatment = c(0,0,0, 1, 1,1), 
+                sample.id = sampleID, generation = 3, stateInfo = stateInformation, minReads = 3, 
+                maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
+                saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = TRUE)
+    
+    
+    expDiff <- list()
+    expDiff[[1]] <- new("methylDiff", data.frame(chr = character(), start = integer(), end = integer(), 
+                        strand = strand(), pvalue = double(), qvalue = double(), meth.diff= double()),
+                        sample.ids = unlist(sampleID[[1]]), destranded = FALSE,
+                        assembly = "RNOR_5.0", context = "Cpg", treatment = c(0,0,0,1,1,1), resolution = 'base')
+    expDiff[[2]] <- new("methylDiff", data.frame(chr = character(), start = integer(), end = integer(), 
+                        strand = strand(), pvalue = double(), qvalue = double(), meth.diff= double()), 
+                        sample.ids = unlist(sampleID[[2]]), destranded = FALSE,
+                        assembly = "RNOR_5.0", context = "Cpg", treatment = c(0,0,0,1,1,1), resolution = 'base')
+    expDiff[[3]] <- new("methylDiff", data.frame(chr = character(), start = integer(), end = integer(), 
+                        strand = strand(), pvalue = double(), qvalue = double(), meth.diff= double()), 
+                        sample.ids = unlist(sampleID[[3]]), destranded = FALSE,
+                        assembly = "RNOR_5.0", context = "Cpg", treatment = c(0,0,0,1,1,1), resolution = 'base')
+    
+    message <- paste0("test.simEachGeneration_empty_meth() - ",
+                      "runAnalysis to TRUE did not generate expected results.")
+    
+    checkEquals(length(obs$myObj), 3, message)
+    checkEquals(obs$myGR, list(), message)
+    checkEquals(length(obs$meth), 3, message)
+    checkEquals(obs$myDiff, expDiff, message)
+}

@@ -1590,7 +1590,8 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom methylKit read filterByCoverage normalizeCoverage unite 
-#' calculateDiffMeth get.methylDiff getData tileMethylCounts methRead
+#' calculateDiffMeth get.methylDiff getData tileMethylCounts methRead 
+#' getSampleID getAssembly getContext getTreatment
 #' @importFrom GenomicRanges GRanges
 #' @importFrom IRanges IRanges
 #' @importFrom stats rpois
@@ -1646,10 +1647,25 @@ simEachGeneration <- function(simulation, nbCtrl, nbCase, treatment,
                                     lo.count = minReads, lo.perc = NULL, 
                                     hi.count = NULL, hi.perc = maxPercReads)
             filtered.myobj <- normalizeCoverage(filtered.myobj, "median")
-            meth[[i]]   <- unite(filtered.myobj, destrand = FALSE)
+            meth[[i]]   <- suppressWarnings(unite(filtered.myobj, 
+                                                    destrand = FALSE))
             
-            ## TODO : when meth[[i]] 0 row, methylkit throw error
-            myDiff[[i]] <- calculateDiffMeth(meth[[i]])
+            if (nrow(meth[[i]]) > 0) {
+                myDiff[[i]] <- calculateDiffMeth(meth[[i]])
+            } else {
+                ## calculateDiffMeth throws an error when meth is empty
+                ## Create an empty methylDiff
+                myDiff[[i]] <- new("methylDiff", data.frame(chr = character(), 
+                                start = integer(), end = integer(), 
+                                strand = strand(), pvalue = double(), 
+                                qvalue = double(), meth.diff = double()),
+                                sample.ids = getSampleID(meth[[i]]), 
+                                destranded = FALSE,
+                                assembly = getAssembly(meth[[i]]), 
+                                context = getContext(meth[[i]]), 
+                                treatment = getTreatment(meth[[i]]), 
+                                resolution = 'base')
+            }
         }
     }
     

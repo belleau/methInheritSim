@@ -365,7 +365,6 @@ test.runSimNew_good_001 <- function() {
                      rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, nbCores = 1, vSeed = 232, 
                      saveGRanges = T, saveMethylKit = T, runAnalysis = T)
     
-    
     message <- paste0("test.runSimNew_good_001() ",
                       "- Valid parameters did not generated expected results.")
     
