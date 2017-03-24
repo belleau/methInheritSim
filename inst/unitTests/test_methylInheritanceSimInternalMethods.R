@@ -2043,11 +2043,11 @@ test.createSampleID_good_01() {
     
     exp <- list()
     exp[[1]] <- list("F1_1_C", "F1_2_C", "F1_3_C", "F1_4_C", "F1_5_C",
-                     "F1_1_C", "F1_2_OC", "F1_3_OC", "F1_4_OC", "F1_5_OC")
+                     "F1_6_OC", "F1_7_OC", "F1_8_OC", "F1_9_OC", "F1_10_OC")
     exp[[2]] <- list("F2_1_C", "F2_2_C", "F2_3_C", "F2_4_C", "F2_5_C",
-                     "F2_1_C", "F2_2_OC", "F2_3_OC", "F2_4_OC", "F2_5_OC")
+                     "F2_6_OC", "F2_7_OC", "F2_8_OC", "F2_9_OC", "F2_10_OC")
     exp[[3]] <- list("F3_1_C", "F3_2_C", "F3_3_C", "F3_4_C", "F3_5_C",
-                     "F3_1_C", "F3_2_OC", "F3_3_OC", "F3_4_OC", "F3_5_OC")
+                     "F3_6_OC", "F3_7_OC", "F3_8_OC", "F3_9_OC", "F3_10_OC")
     
     message <- paste0("test.createSampleID_good_01() ",
                       "- Valid parameters did not generated expected results.")
