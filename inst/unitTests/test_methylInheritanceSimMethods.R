@@ -8,6 +8,7 @@
 ###  Test setup
 
 library("GenomicRanges")
+library("IRanges")
 
 data(samplesForChrSynthetic)
 data(dataSimExample)
@@ -338,7 +339,7 @@ test.runSim_keepDiff_true <- function() {
     sim_1 <- readRDS(paste0(temp_dir, "/simV0.1_F1_1_2_0.85_0.8_0.5_1.rds"))
     sim_2 <- readRDS(paste0(temp_dir, "/simV0.1_F1_2_2_0.85_0.8_0.5_1.rds"))
     
-    checkTrue(any(start(sim_1[[1]]@ranges) != start(sim_2[[1]]@ranges)))
+    checkTrue(any(IRanges::start(sim_1[[1]]) != IRanges::start(sim_2[[1]])))
     
     if (dir.exists(temp_dir)) {
         unlink(temp_dir, recursive = TRUE, force = FALSE)
@@ -644,7 +645,7 @@ test.runSimNew_keepDiff_true <- function() {
     ## over 2 generations (nbGeneration = 2) with
     ## 2 cases and 2 controls (vNbsample = 2) using only one set
     ## of parameters (vpDiff = 0.85, vpDiffsd = 0.1, vDiff = 0.8)
-    result <- runSimNew(outputDir = temp_dir, fileID = "F1", nbSynCHR = 2,
+    result <- runSimNew(outputDir = paste0(temp_dir, "/"), fileID = "F1", nbSynCHR = 2,
                      methData = samplesForChrSynthetic, nbSimulation = 1, keepDiff = TRUE,
                      nbBlock = 2, nbCpG = 4, nbGeneration = 2, vNbSample = c(2), vpDiff = c(0.85),
                      vpDiffsd = c(0.1), vDiff = c(0.8), vInheritance = c(0.5), propInherite = 0.6,
@@ -668,7 +669,7 @@ test.runSimNew_keepDiff_true <- function() {
     sim_1 <- readRDS(paste0(temp_dir, "/simV0.1_F1_1_2_0.85_0.8_0.5_1.rds"))
     sim_2 <- readRDS(paste0(temp_dir, "/simV0.1_F1_2_2_0.85_0.8_0.5_1.rds"))
     
-    checkTrue(any(start(sim_1[[1]]@ranges) != start(sim_2[[1]]@ranges)))
+    checkTrue(any(IRanges::start(sim_1[[1]]) != IRanges::start(sim_2[[1]])))
     
     if (dir.exists(temp_dir)) {
         unlink(temp_dir, recursive = TRUE, force = FALSE)

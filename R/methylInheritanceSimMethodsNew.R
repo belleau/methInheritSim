@@ -252,8 +252,7 @@ runSimNew <- function(outputDir = NULL, fileID = "s",
                     propHetero = 0.5, minReads = 10, 
                     maxPercReads = 99.9, meanCov = 80,
                     context = "CpG", assembly="Rnor_5.0",
-                    keepDiff = FALSE,
-                    saveGRanges = TRUE, saveMethylKit = TRUE,
+                    keepDiff = FALSE, saveGRanges = TRUE, saveMethylKit = TRUE,
                     runAnalysis = FALSE, nbCores = 1, vSeed = -1) {
     
     ## Validate all parameters
@@ -316,29 +315,29 @@ runSimNew <- function(outputDir = NULL, fileID = "s",
             ## Obtain the positions of the DMS when those have to be
             ## the same in all generated simulation
             if (keepDiff == TRUE) {
-                diffRes <- getDiffMeth(stateInfo = res,
-                                    rateDiff = rateDiff, minRate = minRate,
-                                    propInherite = propInherite)
+                diffRes <- getDiffMeth(stateInfo = res, rateDiff = rateDiff, 
+                                minRate = minRate, propInherite = propInherite)
             } else {
                 diffRes <- NULL
             }
             
-            for (i in 1:length(vInheritance)) {
-                for(j in 1:length(vpDiff)) {
+            for (i in seq_len(length(vInheritance))) {
+                for(j in seq_len(length(vpDiff))) {
                     propDiff <- vpDiff[j]
                     propDiffsd <- vpDiffsd[j]
-                    for (k in 1:length(vDiff)) {
+                    
+                    for (k in seq_len(length(vDiff))) {
                         diffValue <- vDiff[k]
                         
                         propInheritance <- ifelse(vInheritance[i] >= 0, 
                                                   vInheritance[i], vpDiff[j])
                         
                         prefBase <- paste0(adPrefSample , "_", propDiff, 
-                                           "_", diffValue, "_", 
-                                           propInheritance)
+                                        "_", diffValue, "_", propInheritance)
+                        
                         if (nbCores > 1) {
                             .Random.seed <- nextRNGSubStream(.Random.seed)
-                            a <- mclapply(1:nbSimulation, 
+                            a <- mclapply(seq_len(nbSimulation), 
                                     FUN = simInheritanceNew, 
                                     pathOut = outputDir, pref = prefBase, 
                                     nbCtrl = nbCtrl, nbCase = nbCase, 
@@ -364,7 +363,7 @@ runSimNew <- function(outputDir = NULL, fileID = "s",
                             ## transformed on lapply on Windows. This case
                             ## created unrepoducible results between Windows
                             ## and other OS.
-                            a <- lapply(1:nbSimulation, 
+                            a <- lapply(seq_len(nbSimulation), 
                                     FUN = simInheritanceNew, 
                                     pathOut = outputDir, pref = prefBase, 
                                     nbCtrl = nbCtrl, nbCase = nbCase, 
