@@ -192,7 +192,7 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
     seqChr <- unique(methInfo$chr) # list of Chr
     
     # Sample nbBlock chromosomes, the same can be sample more than once
-    chr <- seqChr[sample(1:length(seqChr), nbBlock, replace=TRUE)]
+    chr <- seqChr[sample(seq_len(length(seqChr)), nbBlock, replace=TRUE)]
     
     # The position of the CTRL
     posCTRL <- which(methInfo@treatment == 0)
@@ -211,7 +211,7 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
     # First position
     l <- 1000
     
-    for(i in 1:nbBlock){ # For each block of CpG
+    for(i in seq_len(nbBlock)){ # For each block of CpG
         
         # Select a position in the block
         v <- round(runif(1, 0, 1) *
@@ -1608,10 +1608,10 @@ simEachGeneration <- function(simulation, nbCtrl, nbCase, treatment,
     meth <- list()
     myDiff <- list()
     
-    for(i in 1:generation) {
+    for(i in seq_len(generation)) {
         outList <- list()
         outGR <- GRangesList() 
-        for(j in 1:(nbCtrl + nbCase)) {
+        for(j in seq_len((nbCtrl + nbCase))) {
             coverage <- rpois(length(stateInfo), meanCov) + 1
             
             testM <- GRanges(seqnames = seqnames(stateInfo), 
@@ -2484,16 +2484,16 @@ createSampleID <- function(nbGeneration, nbSample) {
     
     sample.id <- list()
     
-    for (i in 1:(2 * nbSample)) {
+    for (i in seq_len(2 * nbSample)) {
         if (i <= nbSample) {
-            for (j in 1:nbGeneration) {
+            for (j in seq_len(nbGeneration)) {
                 if(i == 1) {
                     sample.id[[j]] <- list()
                 }
                 sample.id[[j]][[i]] <- paste0("F", j, "_", i, "_C")
             }
         } else {
-            for (j in 1:nbGeneration) {
+            for (j in seq_len(nbGeneration)) {
                 sample.id[[j]][[i]] <- paste0("F", j, "_", i, "_OC")
             }
         }
