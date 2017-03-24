@@ -2031,6 +2031,31 @@ test.getSyntheticChr_good_01 <- function() {
     checkEquals(obs, exp, message)
 }
 
+
+###################################################
+## createSampleID() function
+###################################################
+
+test.createSampleID_good_01() {
+    
+    obs <- methylInheritanceSim:::createSampleID(nbGeneration = 3, 
+                                                nbSample = 5)
+    
+    exp <- list()
+    exp[[1]] <- list("F1_1_C", "F1_2_C", "F1_3_C", "F1_4_C", "F1_5_C",
+                     "F1_1_C", "F1_2_OC", "F1_3_OC", "F1_4_OC", "F1_5_OC")
+    exp[[2]] <- list("F2_1_C", "F2_2_C", "F2_3_C", "F2_4_C", "F2_5_C",
+                     "F2_1_C", "F2_2_OC", "F2_3_OC", "F2_4_OC", "F2_5_OC")
+    exp[[3]] <- list("F3_1_C", "F3_2_C", "F3_3_C", "F3_4_C", "F3_5_C",
+                     "F3_1_C", "F3_2_OC", "F3_3_OC", "F3_4_OC", "F3_5_OC")
+    
+    message <- paste0("test.createSampleID_good_01() ",
+                      "- Valid parameters did not generated expected results.")
+    
+    checkEquals(obs, exp, message)
+}
+
+
 ###################################################
 ## simInheritance() function
 ###################################################
