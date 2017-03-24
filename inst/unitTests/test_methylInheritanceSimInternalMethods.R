@@ -2036,7 +2036,7 @@ test.getSyntheticChr_good_01 <- function() {
 ## createSampleID() function
 ###################################################
 
-test.createSampleID_good_01() {
+test.createSampleID_good_01 <-function() {
     
     obs <- methylInheritanceSim:::createSampleID(nbGeneration = 3, 
                                                 nbSample = 5)
