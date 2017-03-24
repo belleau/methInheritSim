@@ -17,7 +17,7 @@ data(dataSimExample)
 
 test.estBetaAlpha_good_01 <- function() {
     
-    obs <- methylInheritanceSim:::estBetaAlpha(c(0.5, 0.2), 0.00001)
+    obs <- methInheritSim:::estBetaAlpha(c(0.5, 0.2), 0.00001)
     
     exp <- 0.125
     
@@ -29,7 +29,7 @@ test.estBetaAlpha_good_01 <- function() {
 
 test.estBetaAlpha_good_02 <- function() {
     
-    obs <- methylInheritanceSim:::estBetaAlpha(c(0.5, 0.2), 0.4)
+    obs <- methInheritSim:::estBetaAlpha(c(0.5, 0.2), 0.4)
     
     exp <- 0
     
@@ -47,7 +47,7 @@ test.estBetaAlpha_good_02 <- function() {
 
 test.estBetaAlphaNew_good_01 <- function() {
     
-    obs <- methylInheritanceSim:::estBetaAlphaNew(0.5, 0.2, 0.00001)
+    obs <- methInheritSim:::estBetaAlphaNew(0.5, 0.2, 0.00001)
     
     exp <- 0.125
     
@@ -59,7 +59,7 @@ test.estBetaAlphaNew_good_01 <- function() {
 
 test.estBetaAlphaNew_good_02 <- function() {
     
-    obs <- methylInheritanceSim:::estBetaAlphaNew(0.5, 0.2, 0.4)
+    obs <- methInheritSim:::estBetaAlphaNew(0.5, 0.2, 0.4)
     
     exp <- 0
     
@@ -75,7 +75,7 @@ test.estBetaAlphaNew_good_02 <- function() {
 
 test.estBetaBeta_good_01 <- function() {
     
-    obs <- methylInheritanceSim:::estBetaBeta(c(0.3, 0.2), 0.00001)
+    obs <- methInheritSim:::estBetaBeta(c(0.3, 0.2), 0.00001)
     
     exp <- 0.035
     
@@ -87,7 +87,7 @@ test.estBetaBeta_good_01 <- function() {
 
 test.estBetaBeta_good_02 <- function() {
     
-    obs <- methylInheritanceSim:::estBetaBeta(c(0.3, 0.2), 0.35)
+    obs <- methInheritSim:::estBetaBeta(c(0.3, 0.2), 0.35)
     
     exp <- 0
     
@@ -99,7 +99,7 @@ test.estBetaBeta_good_02 <- function() {
 
 test.estBetaBeta_good_03 <- function() {
     
-    obs <- methylInheritanceSim:::estBetaBeta(c(0.2, 0.002), 0.00001)
+    obs <- methInheritSim:::estBetaBeta(c(0.2, 0.002), 0.00001)
     
     exp <- 63.2
     
@@ -115,7 +115,7 @@ test.estBetaBeta_good_03 <- function() {
 
 test.estBetaBetaNew_good_01 <- function() {
     
-    obs <- methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.3, varCtrl=0.2, 0.00001)
+    obs <- methInheritSim:::estBetaBetaNew(meanCtrl=0.3, varCtrl=0.2, 0.00001)
     
     exp <- 0.035
     
@@ -127,7 +127,7 @@ test.estBetaBetaNew_good_01 <- function() {
 
 test.estBetaBetaNew_good_02 <- function() {
     
-    obs <- methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.3, varCtrl=0.2, 0.35)
+    obs <- methInheritSim:::estBetaBetaNew(meanCtrl=0.3, varCtrl=0.2, 0.35)
     
     exp <- 0
     
@@ -139,7 +139,7 @@ test.estBetaBetaNew_good_02 <- function() {
 
 test.estBetaBeta_good_03 <- function() {
     
-    obs <- methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.2, varCtrl=0.002, 0.00001)
+    obs <- methInheritSim:::estBetaBetaNew(meanCtrl=0.2, varCtrl=0.002, 0.00001)
     
     exp <- 63.2
     
@@ -156,7 +156,7 @@ test.estBetaBeta_good_03 <- function() {
 test.getDiffCaseNew_good_01 <- function() {
     set.seed(322)
     
-    obs <- methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.14562,
+    obs <- methInheritSim:::getDiffCaseNew(ctrlMean = 0.14562,
                 ctrlVar = 0.0003607153, selectedAsDM = 1, nbCase = 4, sDiff = 0.8,
                 nbDiffCase = 3)
     exp <- c(0.945620000000, 3.000000000000, 1.000000000000, 0.947694615429,
@@ -171,7 +171,7 @@ test.getDiffCaseNew_good_01 <- function() {
 test.getDiffCaseNew_good_no_DMS <- function() {
     set.seed(22)
     
-    obs <- methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.14562,
+    obs <- methInheritSim:::getDiffCaseNew(ctrlMean = 0.14562,
                 ctrlVar = 0.0003607153, selectedAsDM = 0, nbCase = 4, sDiff = 0.8,
                 nbDiffCase = 3)
     exp <- c(0.1456200000, 0.000000000000, 4.000000000000, 0.1348148850,
@@ -187,7 +187,7 @@ test.getDiffCaseNew_good_02 <- function() {
     
     set.seed(322)
     
-    obs <- methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.14562,
+    obs <- methInheritSim:::getDiffCaseNew(ctrlMean = 0.14562,
                 ctrlVar = 0.0003607153, selectedAsDM = 1, nbCase = 4, sDiff = 0.1,
                 nbDiffCase = 3)
     exp <- c(0.2456200000, 3.000000000000, 1.000000000000, 0.2435759950,
@@ -208,7 +208,7 @@ test.getDiffCase_good_01 <- function() {
     set.seed(322)
 
     x <- c(0.14562, 0.0003607153, 1)
-    obs <- methylInheritanceSim:::getDiffCase(x = x, nb = 4, sDiff = 0.8,
+    obs <- methInheritSim:::getDiffCase(x = x, nb = 4, sDiff = 0.8,
                 diffCase = 3)
     exp <- c(0.945620000000, 3.000000000000, 1.000000000000, 0.947694615429,
              0.965193968711, 0.906084052941, 0.122224066759)
@@ -223,7 +223,7 @@ test.getDiffCase_good_no_DMS <- function() {
     set.seed(22)
 
     x <- c(0.14562, 0.0003607153, 0)
-    obs <- methylInheritanceSim:::getDiffCase(x = x, nb = 4, sDiff = 0.8,
+    obs <- methInheritSim:::getDiffCase(x = x, nb = 4, sDiff = 0.8,
                 diffCase = 3)
     exp <- c(0.1456200000, 0.000000000000, 4.000000000000, 0.1348148850,
              0.1698118247, 0.1520623197, 0.1411707002)
@@ -239,7 +239,7 @@ test.getDiffCase_good_02 <- function() {
     set.seed(322)
     
     x <- c(0.14562, 0.0003607153, 1)
-    obs <- methylInheritanceSim:::getDiffCase(x = x, nb = 4, sDiff = 0.1,
+    obs <- methInheritSim:::getDiffCase(x = x, nb = 4, sDiff = 0.1,
                     diffCase = 3)
     exp <- c(0.2456200000, 3.000000000000, 1.000000000000, 0.2435759950,
              0.2230879838, 0.2761777813, 0.1222240668)
@@ -258,14 +258,14 @@ test.getSim_good_01 <- function() {
     
     set.seed(22212)
     
-    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+    stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
                                                                 nbBlock = 1, nbCpG = 3)
     
     stateDiff <- list()
     stateDiff[["stateDiff"]] <- c(1, 0, 1)
     stateDiff[["stateInherite"]] <- c(1, 0, 0)
 
-    obs <- methylInheritanceSim:::getSim(nbCtrl = 2, nbCase = 3, generation = 2, 
+    obs <- methInheritSim:::getSim(nbCtrl = 2, nbCase = 3, generation = 2, 
                 stateInfo = stateInformation, stateDiff = stateDiff, diffValue = 10, 
                 propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
     
@@ -306,14 +306,14 @@ test.getSim_good_02 <- function() {
     
     set.seed(22212)
     
-    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+    stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
                                                                nbBlock = 1, nbCpG = 3)
     
     stateDiff <- list()
     stateDiff[["stateDiff"]] <- c(1, 1, 1)
     stateDiff[["stateInherite"]] <- c(0, 0, 1)
     
-    obs <- methylInheritanceSim:::getSim(nbCtrl = 2, nbCase = 3, generation = 2, 
+    obs <- methInheritSim:::getSim(nbCtrl = 2, nbCase = 3, generation = 2, 
                                          stateInfo = stateInformation, stateDiff = stateDiff, diffValue = 10, 
                                          propDiff = 0.6, propDiffsd = 0.3, propInheritance = 0.7, propHetero = 0.2)
     
@@ -354,14 +354,14 @@ test.getSim_good_03 <- function() {
     
     set.seed(25212)
     
-    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+    stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
                             nbBlock = 1, nbCpG = 3)
     
     stateDiff <- list()
     stateDiff[["stateDiff"]] <- c(1, 1, 1)
     stateDiff[["stateInherite"]] <- c(1, 1, 1)
     
-    obs <- methylInheritanceSim:::getSim(nbCtrl = 3, nbCase = 3, generation = 2, 
+    obs <- methInheritSim:::getSim(nbCtrl = 3, nbCase = 3, generation = 2, 
                 stateInfo = stateInformation, stateDiff = stateDiff, diffValue = 0.4, 
                 propDiff = 0.8, propDiffsd = 0.3, propInheritance = 0.7, propHetero = 0.2)
     
@@ -408,13 +408,13 @@ test.getSimNew_good_01 <- function() {
     
     set.seed(22212)
     
-    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+    stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
                                                     nbBlock = 1, nbCpG = 3)
     
     stateDiff <- c(1, 0, 1)
     stateInherite <- c(1, 0, 0)
     
-    obs <- methylInheritanceSim:::getSimNew(nbCtrl = 2, nbCase = 3, generation = 2, 
+    obs <- methInheritSim:::getSimNew(nbCtrl = 2, nbCase = 3, generation = 2, 
                                         stateInfo = stateInformation, stateDiff = stateDiff, 
                                         stateInherite = stateInherite, diffValue = 10, 
                                         propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
@@ -455,13 +455,13 @@ test.getSimNew_good_02 <- function() {
     
     set.seed(22212)
     
-    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+    stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
                                                                nbBlock = 1, nbCpG = 3)
     
     stateDiff <- c(1, 1, 1)
     stateInherite <- c(0, 0, 1)
     
-    obs <- methylInheritanceSim:::getSimNew(nbCtrl = 2, nbCase = 3, generation = 2, 
+    obs <- methInheritSim:::getSimNew(nbCtrl = 2, nbCase = 3, generation = 2, 
                                     stateInfo = stateInformation, stateDiff = stateDiff, 
                                     stateInherite = stateInherite, diffValue = 10, 
                                     propDiff = 0.6, propDiffsd = 0.3, propInheritance = 0.7, propHetero = 0.2)
@@ -503,14 +503,14 @@ test.getSimNew_good_03 <- function() {
     
     set.seed(25212)
     
-    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+    stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
                                                                nbBlock = 1, nbCpG = 3)
     
     stateDiff <- list()
     stateDiff <- c(1, 1, 1)
     stateInherite <- c(1, 1, 1)
     
-    obs <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 3, generation = 2, 
+    obs <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 3, generation = 2, 
                 stateInfo = stateInformation, stateDiff = stateDiff, stateInherite = stateInherite, diffValue = 0.4, 
                 propDiff = 0.8, propDiffsd = 0.3, propInheritance = 0.7, propHetero = 0.2)
     
@@ -556,7 +556,7 @@ test.getDiffMeth_good_01 <- function() {
     
     t<-dataSimExample$stateInfo[1:10,]
     
-    obs <- methylInheritanceSim:::getDiffMeth(stateInfo = 
+    obs <- methInheritSim:::getDiffMeth(stateInfo = 
                     t, rateDiff = 0.3, minRate = 0.1,
                     propInherite = 0.2)
                                                             
@@ -579,7 +579,7 @@ test.getSyntheticChr_good_01 <- function() {
     
     set.seed(322)
     
-    obs <- methylInheritanceSim:::getSyntheticChr(methInfo = 
+    obs <- methInheritSim:::getSyntheticChr(methInfo = 
                                 samplesForChrSynthetic, nbBlock = 1, nbCpG = 2)
     
     exp <- GenomicRanges::GRanges(seqnames = rep("S", 2), 
@@ -602,7 +602,7 @@ test.getSyntheticChr_good_01 <- function() {
 ###################################################
 
 test.validateRunSimOtherParameters_outputDir_number <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimOtherParameters(outputDir = 33,
+    obs <- tryCatch(methInheritSim:::validateRunSimOtherParameters(outputDir = 33,
                             fileID = "F1", methData = samplesForChrSynthetic,
                             context = "CpG", assembly = "hg19"),
                     error=conditionMessage)
@@ -616,7 +616,7 @@ test.validateRunSimOtherParameters_outputDir_number <- function() {
 }
 
 test.validateRunSimOtherParameters_fileID_number <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimOtherParameters(outputDir = "test",
+    obs <- tryCatch(methInheritSim:::validateRunSimOtherParameters(outputDir = "test",
                             fileID = 2, methData = samplesForChrSynthetic,
                             context = "CpG", assembly = "hg19"),
                     error=conditionMessage)
@@ -631,7 +631,7 @@ test.validateRunSimOtherParameters_fileID_number <- function() {
 
 test.validateRunSimOtherParameters_methBase_number <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimOtherParameters(outputDir = "test",
+        methInheritSim:::validateRunSimOtherParameters(outputDir = "test",
                         fileID = "F1", methData = 33, context = "CpG", assembly = "hg19"),
         error=conditionMessage)
     
@@ -645,7 +645,7 @@ test.validateRunSimOtherParameters_methBase_number <- function() {
 
 test.validateRunSimOtherParameters_assembly_double <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimOtherParameters(outputDir = "test",
+        methInheritSim:::validateRunSimOtherParameters(outputDir = "test",
                     fileID = "F1", methData = samplesForChrSynthetic,
                     context = "CpG", assembly = 0.44),
         error=conditionMessage)
@@ -660,7 +660,7 @@ test.validateRunSimOtherParameters_assembly_double <- function() {
 
 test.validateRunSimOtherParameters_context_double <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimOtherParameters(outputDir = "test",
+        methInheritSim:::validateRunSimOtherParameters(outputDir = "test",
                                                         fileID = "F1", 
                                                         methData = samplesForChrSynthetic,
                                                         context = 0.332, assembly = "hg19"),
@@ -675,7 +675,7 @@ test.validateRunSimOtherParameters_context_double <- function() {
 }
 
 test.validateRunSimOtherParameters_good_01 <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimOtherParameters(outputDir = "test",
+    obs <- tryCatch(methInheritSim:::validateRunSimOtherParameters(outputDir = "test",
                                 fileID = "F1", methData = samplesForChrSynthetic,
                                 context = "hi", assembly = "hg19"),
         error=conditionMessage)
@@ -696,7 +696,7 @@ test.validateRunSimOtherParameters_good_01 <- function() {
 
 test.validateRunSimLogicalParameters_keepDiff_double <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimLogicalParameters(keepDiff = 0.22, 
+        methInheritSim:::validateRunSimLogicalParameters(keepDiff = 0.22, 
                                 saveGRanges = FALSE, saveMethylKit = FALSE,
                                 runAnalysis = FALSE),
         error=conditionMessage)
@@ -711,7 +711,7 @@ test.validateRunSimLogicalParameters_keepDiff_double <- function() {
 
 test.validateRunSimLogicalParameters_saveGRanges_double <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimLogicalParameters(keepDiff = TRUE, 
+        methInheritSim:::validateRunSimLogicalParameters(keepDiff = TRUE, 
                                     saveGRanges = 0.2, saveMethylKit = FALSE,
                                     runAnalysis = FALSE),
         error=conditionMessage)
@@ -727,7 +727,7 @@ test.validateRunSimLogicalParameters_saveGRanges_double <- function() {
 
 test.validateRunSimLogicalParameters_runAnalysis_double <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimLogicalParameters(keepDiff = TRUE, 
+        methInheritSim:::validateRunSimLogicalParameters(keepDiff = TRUE, 
                                 saveGRanges = FALSE, saveMethylKit = FALSE,
                                 runAnalysis = 0.01),
         error=conditionMessage)
@@ -743,7 +743,7 @@ test.validateRunSimLogicalParameters_runAnalysis_double <- function() {
 
 test.validateRunSimLogicalParameters_saveMethylKit_double <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimLogicalParameters(keepDiff = TRUE, 
+        methInheritSim:::validateRunSimLogicalParameters(keepDiff = TRUE, 
                 saveGRanges = FALSE, saveMethylKit = 0.2, runAnalysis = FALSE),
         error=conditionMessage)
     
@@ -756,7 +756,7 @@ test.validateRunSimLogicalParameters_saveMethylKit_double <- function() {
 }
 
 test.validateRunSimLogicalParameters_runAnalysis_double <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimLogicalParameters(keepDiff = TRUE, 
+    obs <- tryCatch(methInheritSim:::validateRunSimLogicalParameters(keepDiff = TRUE, 
                 saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = 0.33),
             error=conditionMessage)
     
@@ -770,7 +770,7 @@ test.validateRunSimLogicalParameters_runAnalysis_double <- function() {
 
 test.validateRunSimLogicalParameters_keepDiff_double <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimLogicalParameters(keepDiff = 0.22, 
+        methInheritSim:::validateRunSimLogicalParameters(keepDiff = 0.22, 
                 saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE),
         error=conditionMessage)
     
@@ -784,7 +784,7 @@ test.validateRunSimLogicalParameters_keepDiff_double <- function() {
 
 test.validateRunSimLogicalParameters_good_01 <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimLogicalParameters(keepDiff = TRUE, 
+        methInheritSim:::validateRunSimLogicalParameters(keepDiff = TRUE, 
             saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE),
         error=conditionMessage)
     
@@ -802,7 +802,7 @@ test.validateRunSimLogicalParameters_good_01 <- function() {
 ###################################################
 
 test.validateRunSimIntegerParameters_nbSynCHR_not_number <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = "hi", 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = "hi", 
             nbSimulation = 10, nbBlock = 3, nbCpG  = 2, vNbSample = 2, 
             nbGeneration = 3, minReads = 2, meanCov = 10, nbCores = 1, vSeed = -1),
         error=conditionMessage)
@@ -817,7 +817,7 @@ test.validateRunSimIntegerParameters_nbSynCHR_not_number <- function() {
 
 
 test.validateRunSimIntegerParameters_nbSynCHR_vector_number <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = c(1,2), 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = c(1,2), 
             nbSimulation = 10, nbBlock = 3, nbCpG  = 2,
                 vNbSample = 2, nbGeneration = 3, minReads = 2, meanCov = 10, 
                 nbCores = 1, vSeed = -1),
@@ -832,7 +832,7 @@ test.validateRunSimIntegerParameters_nbSynCHR_vector_number <- function() {
 }
 
 test.validateRunSimIntegerParameters_nbSynCHR_zero <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 0, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 0, 
                 nbSimulation = 10, nbBlock = 3, nbCpG  = 2, vNbSample = 2, nbGeneration = 3, 
                 meanCov = 10, nbCores = 1, vSeed = -1),
             error=conditionMessage)
@@ -846,7 +846,7 @@ test.validateRunSimIntegerParameters_nbSynCHR_zero <- function() {
 }
 
 test.validateRunSimIntegerParameters_nbSimulation_not_number <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                 nbSimulation = "Hi", nbBlock = 3, nbCpG  = 2, vNbSample = 2, 
                 nbGeneration = 3, minReads = 2, maxPercReads = 99.9, meanCov = 10, 
                 nbCores = 1, vSeed = -1),
@@ -862,7 +862,7 @@ test.validateRunSimIntegerParameters_nbSimulation_not_number <- function() {
 
 
 test.validateRunSimIntegerParameters_nbSimulation_not_number <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                 nbSimulation = "Hi", nbBlock = 3, nbCpG  = 2, vNbSample = 2, 
                 nbGeneration = 3, minReads = 2, meanCov = 10, nbCores = 1, vSeed = -1),
             error=conditionMessage)
@@ -876,7 +876,7 @@ test.validateRunSimIntegerParameters_nbSimulation_not_number <- function() {
 }
 
 test.validateRunSimIntegerParameters_nbSimulation_vector_number <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                         nbSimulation = c(1,2), nbBlock = 3, nbCpG  = 2, vNbSample = 2, 
                         nbGeneration = 3,  minReads = 2, 
                         meanCov = 10, nbCores = 1, vSeed = -1),
@@ -891,7 +891,7 @@ test.validateRunSimIntegerParameters_nbSimulation_vector_number <- function() {
 }
 
 test.validateRunSimIntegerParameters_nbSimulation_zero <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                     nbSimulation = 0, nbBlock = 3, nbCpG = 2, vNbSample = 2, 
                     nbGeneration = 3, minReads = 2, 
                     meanCov = 10, nbCores = 1, vSeed = -1),
@@ -907,7 +907,7 @@ test.validateRunSimIntegerParameters_nbSimulation_zero <- function() {
 
 test.validateRunSimIntegerParameters_nbBlock_number_vector <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+        methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                     nbSimulation = 10, nbBlock = c(3, 1), nbCpG  = 2, vNbSample = 2, 
                     nbGeneration = 3, minReads = 2,
                     meanCov = 10, nbCores = 1, vSeed = -1),
@@ -923,7 +923,7 @@ test.validateRunSimIntegerParameters_nbBlock_number_vector <- function() {
 
 test.validateRunSimIntegerParameters_nbBlock_string <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+        methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                     nbSimulation = 10, nbBlock = "hi", nbCpG  = 2, vNbSample = 2, 
                     nbGeneration = 3, minReads = 2, meanCov = 10, 
                     nbCores = 1, vSeed = -1),
@@ -938,7 +938,7 @@ test.validateRunSimIntegerParameters_nbBlock_string <- function() {
 }
 
 test.validateRunSimIntegerParameters_nbBlock_zero <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                         nbSimulation = 10, nbBlock = 0, nbCpG  = 2, vNbSample = 2, 
                         nbGeneration = 3, minReads = 2, meanCov = 10,
                         nbCores = 1, vSeed = -1),
@@ -954,7 +954,7 @@ test.validateRunSimIntegerParameters_nbBlock_zero <- function() {
 
 test.validateRunSimIntegerParameters_nbCpG_number_vector <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+        methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                         nbSimulation = 10, nbBlock = 2, nbCpG = c(3,2), vNbSample = 2, 
                         nbGeneration = 3, minReads = 2, meanCov = 10, 
                         nbCores = 1, vSeed = -1),
@@ -970,7 +970,7 @@ test.validateRunSimIntegerParameters_nbCpG_number_vector <- function() {
 
 test.validateRunSimIntegerParameters_nbCpG_string <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+        methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                 nbSimulation = 10, nbBlock = 2, nbCpG  = "hi", vNbSample = 2, 
                 nbGeneration = 3, minReads = 2,
                 meanCov = 10, nbCores = 1, vSeed = -1),
@@ -985,7 +985,7 @@ test.validateRunSimIntegerParameters_nbCpG_string <- function() {
 }
 
 test.validateRunSimIntegerParameters_nbCpG_zero <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                 nbSimulation = 10, nbBlock = 2, nbCpG  = 0, vNbSample = 2, 
                 nbGeneration = 3, minReads = 2, meanCov = 10,
                 nbCores = 1, vSeed = -1),
@@ -1001,7 +1001,7 @@ test.validateRunSimIntegerParameters_nbCpG_zero <- function() {
 
 test.validateRunSimIntegerParameters_nbGeneration_number_vector <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+        methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
             nbSimulation = 10, nbBlock = 2, nbCpG  = 2, nbGeneration = c(3,2), 
             vNbSample = 2, minReads = 2, meanCov = 10, 
             nbCores = 1, vSeed = -1),
@@ -1016,7 +1016,7 @@ test.validateRunSimIntegerParameters_nbGeneration_number_vector <- function() {
 }
 
 test.validateRunSimIntegerParameters_nbGeneration_string <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
             nbSimulation = 10, nbBlock = 2, nbCpG  = 2, nbGeneration = "Hi",
             vNbSample = 2, minReads = 2, meanCov = 10, 
             nbCores = 1, vSeed = -1),
@@ -1031,7 +1031,7 @@ test.validateRunSimIntegerParameters_nbGeneration_string <- function() {
 }
 
 test.validateRunSimIntegerParameters_nbGeneration_zero <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                 nbSimulation = 10, nbBlock = 2, nbCpG  = 2, nbGeneration = 0,
                 vNbSample = 2, minReads = 2, meanCov = 10,
                 nbCores = 1, vSeed = -1),
@@ -1046,7 +1046,7 @@ test.validateRunSimIntegerParameters_nbGeneration_zero <- function() {
 }
 
 test.validateRunSimIntegerParameters_vNbSample_string <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                 nbSimulation = 10, nbBlock = 2, nbCpG  = 2, nbGeneration = 3,
                 vNbSample = "Hi", minReads = 2, meanCov = 10,
                 nbCores = 1, vSeed = -1),
@@ -1061,7 +1061,7 @@ test.validateRunSimIntegerParameters_vNbSample_string <- function() {
 }
 
 test.validateRunSimIntegerParametersvNbSample_duplicate <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                 nbSimulation = 10, nbBlock = 2, nbCpG  = 2, nbGeneration = 3,
                 vNbSample = c(1, 2, 2), minReads = 2, meanCov = 10,
                 nbCores = 1, vSeed = -1),
@@ -1077,7 +1077,7 @@ test.validateRunSimIntegerParametersvNbSample_duplicate <- function() {
 }
 
 test.validateRunSimIntegerParameters_vNbSample_float <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                 nbSimulation = 10, nbBlock = 2, nbCpG  = 2, nbGeneration = 3,
                 vNbSample = c(1, 2, 2.1), minReads = 2, 
                 meanCov = 10, nbCores = 1, vSeed = -1),
@@ -1093,7 +1093,7 @@ test.validateRunSimIntegerParameters_vNbSample_float <- function() {
 
 test.validateRunSimIntegerParameters_minReads_zero <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+        methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                     nbBlock = 2, nbCpG = 2, vNbSample = 2, nbGeneration = 3, 
                     minReads = 0, meanCov = 10, n = 3, nbCores = 1, vSeed = -1),
         error=conditionMessage)
@@ -1110,7 +1110,7 @@ test.validateRunSimIntegerParameters_minReads_zero <- function() {
 
 test.validateRunSimIntegerParameters_nbCores_string <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+        methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                 nbBlock = 2, nbCpG  = 2, vNbSample = 2, nbGeneration = 3,  
                 minReads = 2, meanCov = 10, n = 3, nbCores = "hi", vSeed = -1),
         error=conditionMessage)
@@ -1125,7 +1125,7 @@ test.validateRunSimIntegerParameters_nbCores_string <- function() {
 }
 
 test.validateRunSimIntegerParameters_nbCores_zero <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- tryCatch(methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                     nbBlock = 2, nbCpG = 2, vNbSample = 2, nbGeneration = 3, 
                     minReads = 2, meanCov = 10, n = 3, nbCores = 0, vSeed = -1),
         error=conditionMessage)
@@ -1140,7 +1140,7 @@ test.validateRunSimIntegerParameters_nbCores_zero <- function() {
 
 test.validateRunSimIntegerParameters_minReads_vector <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+        methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                 nbBlock = 2, nbCpG = 2, vNbSample = 2, nbGeneration = 3, 
                 minReads = c(1, 3), meanCov = 10, n = 3, nbCores = 1, vSeed = -1),
         error=conditionMessage)
@@ -1156,7 +1156,7 @@ test.validateRunSimIntegerParameters_minReads_vector <- function() {
 
 test.validateRunSimIntegerParameters_meanCov_zero <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+        methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
             nbBlock = 2, nbCpG = 2, vNbSample = 2, nbGeneration = 3, 
             minReads = 4, meanCov = 0, n = 3, nbCores = 1, vSeed = -1),
         error=conditionMessage)
@@ -1171,7 +1171,7 @@ test.validateRunSimIntegerParameters_meanCov_zero <- function() {
 
 test.validateRunSimIntegerParameters_vSeed_string <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+        methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
             nbBlock = 2, nbCpG = 2, vNbSample = 2, nbGeneration = 3, 
             minReads = 4, meanCov = 10, n = 3, nbCores = 1, vSeed = "test"),
         error=conditionMessage)
@@ -1186,7 +1186,7 @@ test.validateRunSimIntegerParameters_vSeed_string <- function() {
 
 test.validateRunSimIntegerParameters_meanCov_string <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+        methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                 nbBlock = 2, nbCpG = 2, vNbSample = 2, nbGeneration = 3, 
                 minReads = 4, meanCov = "allo", n = 3, nbCores = 1, vSeed = -1),
         error=conditionMessage)
@@ -1200,7 +1200,7 @@ test.validateRunSimIntegerParameters_meanCov_string <- function() {
 }
 
 test.validateRunSimIntegerParameters_good_01 <- function() {
-    obs <- methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+    obs <- methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
                 nbBlock = 2, nbCpG = 2, vNbSample = 2, nbGeneration = 3, 
                 minReads = 4, meanCov = 10, n = 3, nbCores = 1, vSeed = -1)
     
@@ -1217,7 +1217,7 @@ test.validateRunSimIntegerParameters_good_01 <- function() {
 ###################################################
 
 test.validateRunSimDoubleParameters_vpDiff_string <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = "Hi", vpDiffsd = 0.1, vDiff = 0.8, 
                 vInheritance = 0.5, propInherite = 0.8, rateDiff = 2, minRate = 1, 
                 propHetero = 0.4, maxPercReads = 99.9),
@@ -1232,7 +1232,7 @@ test.validateRunSimDoubleParameters_vpDiff_string <- function() {
 }
 
 test.validateRunSimDoubleParameters_vpDiff_duplicate <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = c(0.5, 0.5, 0.8), vpDiffsd = 0.1, 
                 vDiff = 0.9, vInheritance = 0.5, propInherite = 0.8, rateDiff = 2, 
                 minRate = 1, propHetero = 0.4, maxPercReads = 99.9),
@@ -1248,7 +1248,7 @@ test.validateRunSimDoubleParameters_vpDiff_duplicate <- function() {
 }
 
 test.validateRunSimDoubleParameters_vpDiff_zero <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = c(0.5, 0, 0.8), vpDiffsd = 0.1, vDiff = 0.8, 
                 vInheritance = 0.5,propInherite = 0.8, rateDiff = 2, minRate = 1, 
                 propHetero = 0.4, maxPercReads = 99.9),
@@ -1264,7 +1264,7 @@ test.validateRunSimDoubleParameters_vpDiff_zero <- function() {
 }
 
 test.validateRunSimDoubleParameters_vpDiff_two <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = c(0.5, 2, 0.8), vpDiffsd = 0.1, vDiff = 0.8, 
                 vInheritance = 0.5, propInherite = 0.8, rateDiff = 2, minRate = 1, 
                 propHetero = 0.4, maxPercReads = 99.9),
@@ -1281,7 +1281,7 @@ test.validateRunSimDoubleParameters_vpDiff_two <- function() {
 
 
 test.validateRunSimDoubleParameters_vpDiffsd_string <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.9, vpDiffsd = "Hi", vDiff = 0.8, 
                 vInheritance = 0.5, propInherite = 0.8, rateDiff = 2, 
                 minRate = 1, propHetero = 0.4, maxPercReads = 99.9),
@@ -1296,7 +1296,7 @@ test.validateRunSimDoubleParameters_vpDiffsd_string <- function() {
 }
 
 test.validateRunSimDoubleParameters_vpDiffsd_negative <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.9, vpDiffsd = -1, vDiff = 0.8, 
                 vInheritance = 0.5, propInherite = 0.8, rateDiff = 2, minRate = 1, 
                 propHetero = 0.4, maxPercReads = 99.9),
@@ -1311,7 +1311,7 @@ test.validateRunSimDoubleParameters_vpDiffsd_negative <- function() {
 }
 
 test.validateRunSimDoubleParameters_vpDiffsd_vpDiff <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.9, vpDiffsd = c(0.1, 0.1), vDiff = 0.8, 
                 vInheritance = 0.5, propInherite = 0.8, rateDiff = 2, minRate = 1, 
                 propHetero = 0.4, maxPercReads = 99.9),
@@ -1326,7 +1326,7 @@ test.validateRunSimDoubleParameters_vpDiffsd_vpDiff <- function() {
 }
 
 test.validateRunSimDoubleParameters_vDiff_string <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.9, vpDiffsd = 0.1,  vDiff = "Hi", 
                 vInheritance = 0.5, propInherite = 0.8, rateDiff = 2, minRate = 1, 
                 propHetero = 0.4, maxPercReads = 99.9),
@@ -1341,7 +1341,7 @@ test.validateRunSimDoubleParameters_vDiff_string <- function() {
 }
 
 test.validateRunSimDoubleParameters_vDiff_duplicate <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
             vpDiff = c(0.5), vpDiffsd = 0.1, vDiff = c(0.5, 0.5, 0.8), 
             vInheritance = 0.5, propInherite = 0.8, rateDiff = 2, minRate = 1, 
             propHetero = 0.4, maxPercReads = 99.9),
@@ -1357,7 +1357,7 @@ test.validateRunSimDoubleParameters_vDiff_duplicate <- function() {
 }
 
 test.validateRunSimDoubleParameters_vDiff_negative <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = c(0.5), vpDiffsd = 0.1, vDiff = -1, 
                 vInheritance = 0.5, propInherite = 0.8, rateDiff = 2, minRate = 1, 
                 propHetero = 0.4, maxPercReads = 99.9),
@@ -1373,7 +1373,7 @@ test.validateRunSimDoubleParameters_vDiff_negative <- function() {
 }
 
 test.validateRunSimDoubleParameters_vDiff_two <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                     vpDiff = c(0.5), vpDiffsd = 0.1, vDiff = 2, 
                     vInheritance = 0.5, propInherite = 0.8, rateDiff = 2, 
                     minRate = 1, propHetero = 0.4, maxPercReads = 99.9),
@@ -1388,7 +1388,7 @@ test.validateRunSimDoubleParameters_vDiff_two <- function() {
 }
 
 test.validateRunSimDoubleParameters_vInheritance_string <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                     vpDiff = 0.9, vpDiffsd = 0.1, vDiff = 0.8, 
                     vInheritance = "Hi", propInherite = 0.8, rateDiff = 2, 
                     minRate = 1, propHetero = 0.4, maxPercReads = 99.9),
@@ -1405,7 +1405,7 @@ test.validateRunSimDoubleParameters_vInheritance_string <- function() {
 }
 
 test.validateRunSimDoubleParameters_vInheritance_duplicate <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                         vpDiff = c(0.5), vpDiffsd = 0.1, 
                         vDiff = c(0.5, 0.7, 0.8), vInheritance = c(0.5, 0.5, 0.7),
                         propInherite = 0.8, rateDiff = 2, minRate = 1, propHetero = 0.4, 
@@ -1423,7 +1423,7 @@ test.validateRunSimDoubleParameters_vInheritance_duplicate <- function() {
 }
 
 test.validateRunSimDoubleParameters_vInheritance_negative <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = c(0.5), vpDiffsd = 0.1, vDiff = 0.8, 
                 vInheritance = -1, propInherite = 0.8, rateDiff = 2, minRate = 1, 
                 propHetero = 0.4, maxPercReads = 99.9),
@@ -1440,7 +1440,7 @@ test.validateRunSimDoubleParameters_vInheritance_negative <- function() {
 }
 
 test.validateRunSimDoubleParameters_vInheritance_two <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                         vpDiff = c(0.5), vpDiffsd = 0.1, vDiff = 0.8, 
                         vInheritance = 2, propInherite = 0.8, rateDiff = 2, 
                         minRate = 1, propHetero = 0.4, maxPercReads = 99.9),
@@ -1456,7 +1456,7 @@ test.validateRunSimDoubleParameters_vInheritance_two <- function() {
 }
 
 test.validateRunSimDoubleParameters_minrate_1 <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                     vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
                     propInherite = 0.8, rateDiff = 0.8, minRate = 1, propHetero = 0.4, 
                     maxPercReads = 99.9),
@@ -1472,7 +1472,7 @@ test.validateRunSimDoubleParameters_minrate_1 <- function() {
 
 
 test.validateRunSimDoubleParameters_minrate_vector <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(vpDiff = 0.2, 
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(vpDiff = 0.2, 
                 vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
                 propInherite = 0.8, rateDiff = 0.8, minRate = c(0.01, 0.002), 
                 propHetero = 0.4, maxPercReads = 99.9),
@@ -1487,7 +1487,7 @@ test.validateRunSimDoubleParameters_minrate_vector <- function() {
 }
 
 test.validateRunSimDoubleParameters_propHetero_vector <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
             vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
             propInherite = 0.8, rateDiff = 0.8, minRate = 0.1, propHetero = c(0.4, 0.5), 
             maxPercReads = 99.9),
@@ -1502,7 +1502,7 @@ test.validateRunSimDoubleParameters_propHetero_vector <- function() {
 }
 
 test.validateRunSimDoubleParameters_propHetero_sup_to_1 <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
                 propInherite = 0.8, rateDiff = 0.8, minRate = 0.1, 
                 propHetero = 1.001, maxPercReads = 99.9),
@@ -1517,7 +1517,7 @@ test.validateRunSimDoubleParameters_propHetero_sup_to_1 <- function() {
 }
 
 test.validateRunSimDoubleParameters_propHetero_inf_zero <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                     vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
                     propInherite = 0.8, rateDiff = 0.8, minRate = 0.1, 
                     propHetero = -0.001, maxPercReads = 99.9),
@@ -1533,7 +1533,7 @@ test.validateRunSimDoubleParameters_propHetero_inf_zero <- function() {
 
 
 test.validateRunSimDoubleParameters_propInherite_inf_zero <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
                 propInherite = -0.001, rateDiff = 0.8, minRate = 0.1, 
                 propHetero = 0.03, maxPercReads = 99.9),
@@ -1548,7 +1548,7 @@ test.validateRunSimDoubleParameters_propInherite_inf_zero <- function() {
 }
 
 test.validateRunSimDoubleParameters_propInherite_sup_to_1 <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters( 
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters( 
             vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
             propInherite = 1.001, rateDiff = 0.8, minRate = 0.1, propHetero = 0.3, 
             maxPercReads = 99.9),
@@ -1563,7 +1563,7 @@ test.validateRunSimDoubleParameters_propInherite_sup_to_1 <- function() {
 }
 
 test.validateRunSimDoubleParameters_propInherite_vector <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
                 propInherite = c(0.4, 0.5), rateDiff = 0.8, minRate = 0.1, 
                 propHetero = 0.3, maxPercReads = 99.9),
@@ -1579,7 +1579,7 @@ test.validateRunSimDoubleParameters_propInherite_vector <- function() {
 
 
 test.validateRunSimDoubleParameters_maxPercReads_inf_to_zero <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
                     propInherite = 0.6,  rateDiff = 0.8, minRate = 0.1, 
                     propHetero = 0.3, maxPercReads = -0.01),
@@ -1594,7 +1594,7 @@ test.validateRunSimDoubleParameters_maxPercReads_inf_to_zero <- function() {
 }
 
 test.validateRunSimDoubleParameters_maxPercReads_sup_to_100 <- function() {
-    obs <- tryCatch(methylInheritanceSim:::validateRunSimDoubleParameters(
+    obs <- tryCatch(methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
                 propInherite = 0.6, rateDiff = 0.8, minRate = 0.1, 
                 propHetero = 0.3, maxPercReads = 100.001),
@@ -1610,7 +1610,7 @@ test.validateRunSimDoubleParameters_maxPercReads_sup_to_100 <- function() {
 
 test.validateRunSimDoubleParameters_maxPercReads_vector <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimDoubleParameters(
+        methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
                 propInherite = 0.6, rateDiff = 0.8, minRate = 0.1, propHetero = 0.3, 
                 maxPercReads = c(99.8, 99.6)),
@@ -1626,7 +1626,7 @@ test.validateRunSimDoubleParameters_maxPercReads_vector <- function() {
 
 test.validateRunSimDoubleParameters_rateDiff_1 <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimDoubleParameters(
+        methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
                 propInherite = 0.6, rateDiff = 1, minRate = 0.1, propHetero = 0.3, 
                 maxPercReads = 99.9),
@@ -1642,7 +1642,7 @@ test.validateRunSimDoubleParameters_rateDiff_1 <- function() {
 
 test.validateRunSimDoubleParameters_rateDiff_zero <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimDoubleParameters(
+        methInheritSim:::validateRunSimDoubleParameters(
                 vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
                 propInherite = 0.6, rateDiff = 0, minRate = 0.1, propHetero = 0.3, 
                 maxPercReads = 99.9),
@@ -1658,7 +1658,7 @@ test.validateRunSimDoubleParameters_rateDiff_zero <- function() {
 
 test.validateRunSimDoubleParameters_rateDiff_vector <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimDoubleParameters(
+        methInheritSim:::validateRunSimDoubleParameters(
             vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
             propInherite = 0.6, rateDiff = c(0.02, 0.3), minRate = 0.1, 
             propHetero = 0.3, maxPercReads = 99.9),
@@ -1674,7 +1674,7 @@ test.validateRunSimDoubleParameters_rateDiff_vector <- function() {
 
 test.validateRunSimDoubleParameters_good_01 <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimDoubleParameters(
+        methInheritSim:::validateRunSimDoubleParameters(
             vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
             propInherite = 0.6, rateDiff = 0.2, minRate = 0.1, 
             propHetero = 0.3, maxPercReads = 99.9),
@@ -1695,7 +1695,7 @@ test.validateRunSimDoubleParameters_good_01 <- function() {
 
 test.validateRunSimParameters_good_01 <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimParameters (
+        methInheritSim:::validateRunSimParameters (
             vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
             propInherite = 0.6, rateDiff = 0.2, minRate = 0.1, 
             propHetero = 0.3, maxPercReads = 99.9, 
@@ -1718,7 +1718,7 @@ test.validateRunSimParameters_good_01 <- function() {
 
 test.validateRunSimParameters_double_validation <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimParameters (
+        methInheritSim:::validateRunSimParameters (
             vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
             propInherite = 0.6, rateDiff = "hi", minRate = 0.1, 
             propHetero = 0.3, maxPercReads = 99.9, 
@@ -1741,7 +1741,7 @@ test.validateRunSimParameters_double_validation <- function() {
 
 test.validateRunSimParameters_logical_validation <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimParameters (
+        methInheritSim:::validateRunSimParameters (
             vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
             propInherite = 0.6, rateDiff = 0.2, minRate = 0.1, 
             propHetero = 0.3, maxPercReads = 99.9, 
@@ -1764,7 +1764,7 @@ test.validateRunSimParameters_logical_validation <- function() {
 
 test.validateRunSimParameters_other_validation <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimParameters (
+        methInheritSim:::validateRunSimParameters (
             vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
             propInherite = 0.6, rateDiff = 0.2, minRate = 0.1, 
             propHetero = 0.3, maxPercReads = 99.9, 
@@ -1787,7 +1787,7 @@ test.validateRunSimParameters_other_validation <- function() {
 
 test.validateRunSimParameters_integer_validation <- function() {
     obs <- tryCatch(
-        methylInheritanceSim:::validateRunSimParameters (
+        methInheritSim:::validateRunSimParameters (
             vpDiff = 0.2, vpDiffsd = 0.1, vDiff = 0.2, vInheritance = 0.2,
             propInherite = 0.6, rateDiff = 0.2, minRate = 0.1, 
             propHetero = 0.3, maxPercReads = 99.9, 
@@ -1816,7 +1816,7 @@ test.fixSeed_value_not_minus_one <- function() {
     
     set.seed(1010)
     obs <- tryCatch(
-        methylInheritanceSim:::fixSeed(vSeed = 101),
+        methInheritSim:::fixSeed(vSeed = 101),
         error=conditionMessage)
     
     exp <- 101
@@ -1835,7 +1835,7 @@ test.calculateNbDiffCase_good_01 <- function() {
     
     set.seed(1010)
     obs <- tryCatch(
-            methylInheritanceSim:::calculateNbDiffCase(nbCase = 12, 
+            methInheritSim:::calculateNbDiffCase(nbCase = 12, 
                         propDiff = 0.8, propDiffSd = 0.6), 
             error=conditionMessage)
     
@@ -1850,7 +1850,7 @@ test.calculateNbDiffCase_good_01 <- function() {
 test.calculateNbDiffCase_good_sd_small <- function() {
     
     obs <- tryCatch({set.seed(1010)
-                methylInheritanceSim:::calculateNbDiffCase(nbCase = 6, 
+                methInheritSim:::calculateNbDiffCase(nbCase = 6, 
                     propDiff = 0.8, propDiffSd  = 0.000000001)}, 
             error=conditionMessage)
     
@@ -1869,7 +1869,7 @@ test.calculateNbDiffCase_good_sd_small <- function() {
 
 test.testIfAlreadyDone_false_001 <- function() {
     
-    obs <- tryCatch({methylInheritanceSim:::testIfAlreadyDone(pathOut = ".",
+    obs <- tryCatch({methInheritSim:::testIfAlreadyDone(pathOut = ".",
                                 preference = "AEI", id = 10200011,
                                 saveGRanges = FALSE, saveMethylKit = FALSE,
                                 runAnalysis = FALSE)}, 
@@ -1885,7 +1885,7 @@ test.testIfAlreadyDone_false_001 <- function() {
 
 test.testIfAlreadyDone_false_002 <- function() {
     
-    obs <- tryCatch({methylInheritanceSim:::testIfAlreadyDone(pathOut = ".",
+    obs <- tryCatch({methInheritSim:::testIfAlreadyDone(pathOut = ".",
                                 preference = "AEI", id = 10200021,
                                 saveGRanges = TRUE, saveMethylKit = FALSE,
                                 runAnalysis = FALSE)}, 
@@ -1901,7 +1901,7 @@ test.testIfAlreadyDone_false_002 <- function() {
 
 test.testIfAlreadyDone_false_003 <- function() {
     
-    obs <- tryCatch({methylInheritanceSim:::testIfAlreadyDone(pathOut = ".",
+    obs <- tryCatch({methInheritSim:::testIfAlreadyDone(pathOut = ".",
                                     preference = "AEI", id = 10202021,
                                     saveGRanges = FALSE, saveMethylKit = TRUE,
                                     runAnalysis = FALSE)}, 
@@ -1917,7 +1917,7 @@ test.testIfAlreadyDone_false_003 <- function() {
 
 test.testIfAlreadyDone_false_003 <- function() {
     
-    obs <- tryCatch({methylInheritanceSim:::testIfAlreadyDone(pathOut = ".",
+    obs <- tryCatch({methInheritSim:::testIfAlreadyDone(pathOut = ".",
                             preference = "AEI", id = 10222021,
                             saveGRanges = FALSE, saveMethylKit = FALSE,
                             runAnalysis = TRUE)}, 
@@ -1939,13 +1939,13 @@ test.getSimNew_good_02 <- function() {
     
     set.seed(22212)
     
-    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+    stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
                                                                nbBlock = 1, nbCpG = 3)
     
     stateDiff <- c(1, 1, 1)
     stateInherite <- c(0, 0, 1)
     
-    obs <- methylInheritanceSim:::getSimNew(nbCtrl = 2, nbCase = 3, generation = 2, 
+    obs <- methInheritSim:::getSimNew(nbCtrl = 2, nbCase = 3, generation = 2, 
                                             stateInfo = stateInformation, stateDiff = stateDiff, 
                                             stateInherite = stateInherite, diffValue = 10, 
                                             propDiff = 0.6, propDiffsd = 0.3, propInheritance = 0.7, propHetero = 0.2)
@@ -1991,7 +1991,7 @@ test.getDiffMeth_good_01 <- function() {
     
     t<-dataSimExample$stateInfo[1:10,]
     
-    obs <- methylInheritanceSim:::getDiffMeth(stateInfo = 
+    obs <- methInheritSim:::getDiffMeth(stateInfo = 
                                                   t, rateDiff = 0.3, minRate = 0.1,
                                               propInherite = 0.2)
     
@@ -2014,7 +2014,7 @@ test.getSyntheticChr_good_01 <- function() {
     
     set.seed(322)
     
-    obs <- methylInheritanceSim:::getSyntheticChr(methInfo = 
+    obs <- methInheritSim:::getSyntheticChr(methInfo = 
                                                       samplesForChrSynthetic, nbBlock = 1, nbCpG = 2)
     
     exp <- GenomicRanges::GRanges(seqnames = rep("S", 2), 
@@ -2038,7 +2038,7 @@ test.getSyntheticChr_good_01 <- function() {
 
 test.createSampleID_good_01 <-function() {
     
-    obs <- methylInheritanceSim:::createSampleID(nbGeneration = 3, 
+    obs <- methInheritSim:::createSampleID(nbGeneration = 3, 
                                                 nbSample = 5)
     
     exp <- list()
@@ -2072,7 +2072,7 @@ test.simInheritance_001 <- function() {
     
     set.seed(1022211)
     
-    methylInheritanceSim:::simInheritance(pathOut = temp_dir,
+    methInheritSim:::simInheritance(pathOut = temp_dir,
                                              pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
                                              treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
                                              generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
@@ -2151,7 +2151,7 @@ test.simInheritance_diffRes_NULL <- function() {
     
     set.seed(10211211)
     
-    methylInheritanceSim:::simInheritance(pathOut = temp_dir,
+    methInheritSim:::simInheritance(pathOut = temp_dir,
                                              pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
                                              treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
                                              generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
@@ -2238,7 +2238,7 @@ test.simInheritanceNew_001 <- function() {
     
     set.seed(1022211)
     
-    methylInheritanceSim:::simInheritanceNew(pathOut = temp_dir,
+    methInheritSim:::simInheritanceNew(pathOut = temp_dir,
         pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
         treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
                         generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
@@ -2317,7 +2317,7 @@ test.simInheritanceNew_diffRes_NULL <- function() {
     
     set.seed(10211211)
     
-    methylInheritanceSim:::simInheritanceNew(pathOut = temp_dir,
+    methInheritSim:::simInheritanceNew(pathOut = temp_dir,
                                              pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
                                              treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
                                              generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
@@ -2401,7 +2401,7 @@ test.simInheritanceNew_saveGRanges_TRUE <- function() {
     sampleID[[2]] <- list("2_1", "2_2", "2_3", "2_4")
     sampleID[[3]] <- list("3_1", "3_2", "3_3", "3_4")
     
-    methylInheritanceSim:::simInheritanceNew(pathOut = temp_dir,
+    methInheritSim:::simInheritanceNew(pathOut = temp_dir,
                                 pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
                                 treatment = c(0,0,1,1), sample.id = sampleID,
                                 generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
@@ -2481,18 +2481,18 @@ test.simInheritanceNew_saveGRanges_TRUE <- function() {
                              
 test.simEachGeneration_all_save_false <- function() {
     
-    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+    stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
                                                                nbBlock = 1, nbCpG = 3)
     
     stateDiff  <- c(1, 0, 1)
     stateInherite <- c(1, 0, 0)
     
-    sim <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 1, 
+    sim <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 1, 
             generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
             stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
             propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
     
-    obs <- methylInheritanceSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 1, treatment = c(0,0,0,1), 
+    obs <- methInheritSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 1, treatment = c(0,0,0,1), 
                 sample.id = dataSimExample$sample.id, generation = 3, stateInfo = stateInformation, minReads = 10, 
                 maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
                 saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
@@ -2507,18 +2507,18 @@ test.simEachGeneration_all_save_false <- function() {
 
 test.simEachGeneration_all_saveGRanges_true <- function() {
     
-    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+    stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
                                                                nbBlock = 1, nbCpG = 3)
     
     stateDiff  <- c(1, 0, 1)
     stateInherite <- c(1, 0, 0)
     
-    sim <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 1, 
+    sim <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 1, 
                                             generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
                                             stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
                                             propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
     
-    obs <- methylInheritanceSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 1, treatment = c(0,0,0,1), 
+    obs <- methInheritSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 1, treatment = c(0,0,0,1), 
                                                     sample.id = dataSimExample$sample.id, generation = 3, stateInfo = stateInformation, minReads = 10, 
                                                     maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
                                                     saveGRanges = TRUE, saveMethylKit = FALSE, runAnalysis = FALSE)
@@ -2536,7 +2536,7 @@ test.simEachGeneration_all_saveMethylKit_true <- function() {
     
     set.seed(10112)
     
-    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+    stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
                                                                nbBlock = 1, nbCpG = 3)
     
     stateDiff  <- c(1, 0, 1)
@@ -2547,12 +2547,12 @@ test.simEachGeneration_all_saveMethylKit_true <- function() {
     sampleID[[2]] <- list("F2_1_C", "F2_2_C", "F2_3_OC")
     sampleID[[3]] <- list("F3_1_C", "F3_2_C", "F3_3_OC")
     
-    sim <- methylInheritanceSim:::getSimNew(nbCtrl = 2, nbCase = 1, 
+    sim <- methInheritSim:::getSimNew(nbCtrl = 2, nbCase = 1, 
                 generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
                 stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
                 propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
     
-    obs <- methylInheritanceSim:::simEachGeneration(simulation = sim, nbCtrl = 2, nbCase = 1, treatment = c(0,0,1), 
+    obs <- methInheritSim:::simEachGeneration(simulation = sim, nbCtrl = 2, nbCase = 1, treatment = c(0,0,1), 
                 sample.id = sampleID, generation = 3, stateInfo = stateInformation, minReads = 10, 
                 maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
                 saveGRanges = FALSE, saveMethylKit = TRUE, runAnalysis = FALSE)
@@ -2624,7 +2624,7 @@ test.simEachGeneration_all_runAnalysis_true <- function() {
     
     set.seed(1222122)
     
-    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+    stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
                                                                nbBlock = 1, nbCpG = 4)
     
     stateDiff  <- c(1, 0, 1, 1)
@@ -2635,12 +2635,12 @@ test.simEachGeneration_all_runAnalysis_true <- function() {
     sampleID[[2]] <- list("F2_1_C", "F2_2_C", "F2_3_C", "F2_1_OC", "F2_2_OC", "F2_3_OC")
     sampleID[[3]] <- list("F3_1_C", "F3_2_C", "F3_3_C", "F3_1_OC", "F3_2_OC", "F3_3_OC")
     
-    sim <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 3, 
+    sim <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 3, 
                                             generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
                                             stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
                                             propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
     
-    obs <- methylInheritanceSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 3, treatment = c(0,0,0, 1, 1,1), 
+    obs <- methInheritSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 3, treatment = c(0,0,0, 1, 1,1), 
                             sample.id = sampleID, generation = 3, stateInfo = stateInformation, minReads = 3, 
                             maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
                             saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = TRUE)
@@ -2726,7 +2726,7 @@ test.simEachGeneration_empty_meth <- function() {
     
     set.seed(1222122)
     
-    stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+    stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
                                                                     nbBlock = 1, nbCpG = 2)
     
     stateDiff  <- c(1, 1)
@@ -2737,12 +2737,12 @@ test.simEachGeneration_empty_meth <- function() {
     sampleID[[2]] <- list("F2_1_C", "F2_2_C", "F2_3_C", "F2_1_OC", "F2_2_OC", "F2_3_OC")
     sampleID[[3]] <- list("F3_1_C", "F3_2_C", "F3_3_C", "F3_1_OC", "F3_2_OC", "F3_3_OC")
     
-    sim <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 3, 
+    sim <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 3, 
                 generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
                 stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
                 propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
     
-    obs <- methylInheritanceSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 3, treatment = c(0,0,0, 1, 1,1), 
+    obs <- methInheritSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 3, treatment = c(0,0,0, 1, 1,1), 
                 sample.id = sampleID, generation = 3, stateInfo = stateInformation, minReads = 3, 
                 maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
                 saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = TRUE)

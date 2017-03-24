@@ -1,4 +1,4 @@
-Package: methylInheritanceSim
+Package: methInheritSim
 Type: Package
 Title: Simulating Whole-Genome Inherited Bisulphite Sequencing Data
 Description: Simulate a multigeneration methylation case versus control 

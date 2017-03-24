@@ -174,7 +174,7 @@ Validation of all parameters needed by the public
 data("samplesForChrSynthetic")
 
 ## The function returns 0 when all paramaters are valid
-methylInheritanceSim:::validateRunSimParameters(vpDiff =0.2, 
+methInheritSim:::validateRunSimParameters(vpDiff =0.2, 
 vpDiffsd = 0.3, vDiff = 0.4, vInheritance = 0.2, propInherite = 0.5, 
 rateDiff = 0.2, minRate = 0.1, propHetero = 0.2, maxPercReads = 99.1, 
 nbSynCHR = 1, nbSimulation = 2, nbBlock = 10, nbCpG = 4, vNbSample = 10, 

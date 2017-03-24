@@ -195,7 +195,7 @@ stateDiff <- list()
 stateDiff[["stateDiff"]] <- c(1, 0, 1)
 stateDiff[["stateInherite"]] <- c(1, 0, 0)
 
-\dontrun{methylInheritanceSim:::simInheritance(pathOut = temp_dir,
+\dontrun{methInheritSim:::simInheritance(pathOut = temp_dir,
 pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
 treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
 generation = 3, stateInfo = dataSimExample$stateInfo[1:3],

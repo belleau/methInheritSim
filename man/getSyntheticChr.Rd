@@ -34,7 +34,7 @@ data(samplesForChrSynthetic)
 set.seed(32)
 
 ## Create synthetic chromosome
-methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
 nbBlock = 10, nbCpG = 20)
 
 }

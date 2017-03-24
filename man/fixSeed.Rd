@@ -20,10 +20,10 @@ Fix seed value when specified value is -1.
 \examples{
 
 ## Return vSeed value when value is not -1
-methylInheritanceSim:::fixSeed(vSeed = 10)
+methInheritSim:::fixSeed(vSeed = 10)
 
 ## Return new value when value is -1
-methylInheritanceSim:::fixSeed(vSeed = -1)
+methInheritSim:::fixSeed(vSeed = -1)
 
 }
 \author{

@@ -1,12 +1,13 @@
-#' methylInheritanceSim: Simulating Whole-Genome Inherited Bisulphite Sequencing Data
+#' methInheritSim: Simulating Whole-Genome Inherited Bisulphite Sequencing Data
 #'
-#' This package generates simulations of multigeneration of bisulfite data.
+#' This package generates simulations of multigeneration of bisulfite data 
+#' using a real control dataset.
 #'
 #' @docType package
 #'
-#' @name methylInheritanceSim-package
+#' @name methInheritSim-package
 #'
-#' @aliases methylInheritanceSim-package methylInheritanceSim
+#' @aliases methInheritSim-package methInheritSim
 #'
 #' @author Pascal Belleau,
 #' Astrid Deschênes and 
@@ -173,7 +174,7 @@ NULL
 #'
 #' ## Identify differentially methylated sites and among those, the ones
 #' ## that are inherited
-#' methylInheritanceSim:::getDiffMeth(stateInfo = dataSimExample$stateInfo, 
+#' methInheritSim:::getDiffMeth(stateInfo = dataSimExample$stateInfo, 
 #'     rateDiff = 0.2, minRate = 0.3,propInherite = 0.3)
 #' 
 NULL

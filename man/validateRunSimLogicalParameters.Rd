@@ -61,7 +61,7 @@ Validation of all parameters needed by the public
 data("samplesForChrSynthetic")
 
 ## The function returns 0 when all paramaters are valid
-methylInheritanceSim:::validateRunSimLogicalParameters(keepDiff = FALSE, 
+methInheritSim:::validateRunSimLogicalParameters(keepDiff = FALSE, 
 saveGRanges = TRUE, saveMethylKit = FALSE, runAnalysis = FALSE)
 
 }

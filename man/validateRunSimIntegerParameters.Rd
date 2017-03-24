@@ -55,7 +55,7 @@ Validation of all parameters needed by the public
 \examples{
 
 ## The function returns 0 when all paramaters are valid
-methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
 nbSimulation = 2, nbBlock = 10, nbCpG = 4, vNbSample = 10, 
 nbGeneration = 3, minReads = 10, meanCov = 80, 
 nbCores = 1, vSeed = -1)

@@ -22,7 +22,7 @@ _[OC for case or C for control]"
 \examples{
 
 ## Create sample ID 
-methylInheritanceSim:::createSampleID(nbGeneration = 3, nbSample = 6)
+methInheritSim:::createSampleID(nbGeneration = 3, nbSample = 6)
 
 }
 \author{
