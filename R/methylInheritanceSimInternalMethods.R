@@ -2442,3 +2442,46 @@ validateRunSimOtherParameters <-function(outputDir, fileID, methData,
     
     return(0)
 }
+
+
+#' @title Generate the samples ID for the simulated dataset.
+#'
+#' @description Generate the samples ID for the simulated dataset. The
+#' standard format of the samples ID is : 
+#' "F[Number for the generation]_[Number for the sample]
+#' _[OC for case or C for control]"
+#'
+#' @param nbGeneration a positive \code{integer}, the number of generations
+#' simulated.
+#' 
+#' @param nbSample a positive \code{integer}, 
+#' the number of controls (CTRL) and cases in the simulated dataset.
+#'
+#' @examples
+#'
+#' ## Create sample ID 
+#' methylInheritanceSim:::createSampleID(nbGeneration = 3, nbSample = 6)
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @keywords internal
+createSampleID <- function(nbGeneration, nbSample) {
+    
+    sample.id <- list()
+    
+    for (i in 1:(2 * nbSample)) {
+        if (i <= nbSample) {
+            for (j in 1:nbGeneration) {
+                if(i == 1) {
+                    sample.id[[j]] <- list()
+                }
+                sample.id[[j]][[i]] <- paste0("F", j, "_", i, "_C")
+            }
+        } else {
+            for (j in 1:nbGeneration) {
+                sample.id[[j]][[i]] <- paste0("F", j, "_", i, "_OC")
+            }
+        }
+    }
+    
+    return(sample.id)
+}
