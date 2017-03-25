@@ -6,7 +6,7 @@ output:
     toc: true
 vignette: >
   %\VignetteIndexEntry{Simulating Whole-Genome Inherited Bisulphite Sequencing Data}
-  %\VignettePackage{methylInheritanceSim}
+  %\VignettePackage{methInheritSim}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,17 +17,17 @@ library(knitr)
 ```
 
 <br />
-**Package**: `r Rpackage("methylInheritanceSim")`<br />
-**Authors**: `r packageDescription("methylInheritanceSim")[["Author"]]`<br />
-**Version**: `r packageDescription("methylInheritanceSim")$Version`<br />
+**Package**: `r Rpackage("methInheritSim")`<br />
+**Authors**: `r packageDescription("methInheritSim")[["Author"]]`<br />
+**Version**: `r packageDescription("methInheritSim")$Version`<br />
 **Compiled date**: `r Sys.Date()`<br />
-**License**: `r packageDescription("methylInheritanceSim")[["License"]]`<br />
+**License**: `r packageDescription("methInheritSim")[["License"]]`<br />
 
 
 # Licensing 
 
-The `r Rpackage("methylInheritanceSim")` package and the underlying 
-`r Rpackage("methylInheritanceSim")` code 
+The `r Rpackage("methInheritSim")` package and the underlying 
+`r Rpackage("methInheritSim")` code 
 are distributed under the Artistic license 2.0. You are free to use and 
 redistribute this software. 
 
@@ -57,7 +57,7 @@ offers the option to select the proportion of sites randomly fixed as DMS,
 as well as, the fraction of the cases that inherited the DMS in the 
 subsequent generations. 
 
-The `r Rpackage("methylInheritanceSim")` package generates simulated 
+The `r Rpackage("methInheritSim")` package generates simulated 
 multigenerational 
 DMS datasets that are
 useful to evaluate the power and the false discovery rate 
@@ -65,13 +65,13 @@ of experiment design analyse, such as the
 `r Rpackage("methylInheritance")` package does.
 
 
-# Loading methylInheritanceSim package
+# Loading methInheritSim package
 
-As with any R package, the `r Rpackage("methylInheritanceSim")` package should 
+As with any R package, the `r Rpackage("methInheritSim")` package should 
 first be loaded with the following command:
 
 ```{r loadingPackage, warning=FALSE, message=FALSE}
-library(methylInheritanceSim)
+library(methInheritSim)
 ```
 
 
@@ -152,7 +152,7 @@ The **propHetero** is 0.5 if one of the parent is a control.
 ## The dataset
 
 A dataset containing methylation data (6 cases and 6 controls) has been 
-generated using the `r Rpackage("methylInheritanceSim")` package using a real 
+generated using the `r Rpackage("methInheritSim")` package using a real 
 dataset from Rat experiment (the real dataset is not public yet, so we used a 
 simulation based on it). The data have been formated, using  
 the `r Rpackage("methylkit")` package, into a *methylBase* object 
@@ -289,7 +289,7 @@ the `r Rpackage("methylKit")` functions calculateDiffMeth on the first file.
 
 # Conclusion
 
-The `r Rpackage("methylInheritanceSim")` package generates simulated 
+The `r Rpackage("methInheritSim")` package generates simulated 
 multigenerational DMS datasets. Several simulator parameters can be derived 
 from real dataset provided by the user in order to replicate realistic 
 case-control scenarios. 

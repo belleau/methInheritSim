@@ -199,7 +199,7 @@ stateDiff[["stateDiff"]] <- c(1, 0, 1)
 stateDiff[["stateInherite"]] <- c(1, 0, 0)
 
 ## Simulate multigenerational methylation experiment with inheritance
-methylInheritanceSim:::simInheritanceNew(pathOut = temp_dir,
+methInheritSim:::simInheritanceNew(pathOut = temp_dir,
     pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
     treatment = dataSimExample$treatment, 
     sample.id = dataSimExample$sample.id,

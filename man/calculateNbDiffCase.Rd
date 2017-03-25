@@ -29,7 +29,7 @@ Identify the number of differentially methylated cases.
 set.seed(3122)
 
 ## Obtained the number of differential cases
-methylInheritanceSim:::calculateNbDiffCase(nbCase = 8, 
+methInheritSim:::calculateNbDiffCase(nbCase = 8, 
     propDiff = 0.8, propDiffSd = 0.2)
 
 }

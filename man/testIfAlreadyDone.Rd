@@ -35,7 +35,7 @@ Test if a specific simulation has already be done.
 
 ## Return TRUE when the specified simulation has already be done;
 ## otherwise, return FALSE.
-methylInheritanceSim:::testIfAlreadyDone(pathOut = ".", 
+methInheritSim:::testIfAlreadyDone(pathOut = ".", 
 preference = "S1_6_0.9_0.8_0.5", id = 33, 
 saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
 

@@ -113,7 +113,7 @@ data("samplesForChrSynthetic")
 data("dataSimExample")
 
 ## Generate a stateInfo object using samples
-stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = 
+stateInformation <- methInheritSim:::getSyntheticChr(methInfo = 
     samplesForChrSynthetic, nbBlock = 1, nbCpG = 3)
 
 ## Generate a stateDiff and stateInherite objects with length corresponding 
@@ -122,14 +122,14 @@ stateDiff  <- c(1, 0, 1)
 stateInherite <- c(1, 0, 0)
 
 ## Create simulation
-sim <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 2, 
+sim <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 2, 
     generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
     stateInherite = stateInherite, diffValue = 10, 
     propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, 
     propHetero = 0.1)
 
 ## TODO
-methylInheritanceSim:::simEachGeneration(simulation = sim, 
+methInheritSim:::simEachGeneration(simulation = sim, 
 nbCtrl = 3, nbCase = 2, treatment = c(0,0,0,1,1), 
 sample.id = dataSimExample$sample.id,
 generation = 3, stateInfo = stateInformation, minReads = 10, 

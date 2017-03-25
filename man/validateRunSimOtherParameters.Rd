@@ -62,7 +62,7 @@ and logical are validated.
 data("samplesForChrSynthetic")
 
 ## The function returns 0 when all paramaters are valid
-methylInheritanceSim:::validateRunSimOtherParameters(
+methInheritSim:::validateRunSimOtherParameters(
 outputDir = "test", fileID = "test", methData = samplesForChrSynthetic, 
 context = "CpG", assembly = "Rnor_5.0")
 

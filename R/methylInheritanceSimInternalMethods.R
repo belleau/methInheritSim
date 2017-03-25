@@ -18,7 +18,7 @@
 #' @examples
 #'
 #' ## Estimate alpha parameters with mean = 0.5 and variance = 0.1
-#' methylInheritanceSim:::estBetaAlpha(c(0.5,0.1))
+#' methInheritSim:::estBetaAlpha(c(0.5,0.1))
 #'
 #' @author Pascal Belleau
 #' @keywords internal
@@ -57,7 +57,7 @@ estBetaAlpha <- function(valCtrl, minVal = 1e-06){
 #' @examples
 #'
 #' ## Estimate alpha parameters with mean = 0.5 and variance = 0.1
-#' methylInheritanceSim:::estBetaAlphaNew(meanCtrl = 0.5, varCtrl = 0.1)
+#' methInheritSim:::estBetaAlphaNew(meanCtrl = 0.5, varCtrl = 0.1)
 #'
 #' @author Pascal Belleau, Astrid Deschenes
 #' @keywords internal
@@ -93,7 +93,7 @@ estBetaAlphaNew <- function(meanCtrl, varCtrl, minVal = 1e-06){
 #' @examples
 #'
 #' ## Estimate beta parameters with mean = 0.5, variance = 0.1
-#' methylInheritanceSim:::estBetaBeta(c(0.5,0.1))
+#' methInheritSim:::estBetaBeta(c(0.5,0.1))
 #'
 #' @author Pascal Belleau
 #' @keywords internal
@@ -133,7 +133,7 @@ estBetaBeta <- function(valCtrl, minVal = 1e-06) {
 #' @examples
 #'
 #' ## Estimate beta parameters with mean = 0.5, variance = 0.1
-#' methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.5, varCtrl=0.1)
+#' methInheritSim:::estBetaBetaNew(meanCtrl=0.5, varCtrl=0.1)
 #'
 #' @author Pascal Belleau, Astrid Deschenes
 #' @keywords internal
@@ -178,7 +178,7 @@ estBetaBetaNew <- function(meanCtrl, varCtrl, minVal = 1e-06) {
 #' set.seed(32)
 #' 
 #' ## Create synthetic chromosome
-#' methylInheritanceSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
+#' methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
 #' nbBlock = 10, nbCpG = 20)
 #'
 #' @author Pascal Belleau
@@ -192,7 +192,7 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
     seqChr <- unique(methInfo$chr) # list of Chr
     
     # Sample nbBlock chromosomes, the same can be sample more than once
-    chr <- seqChr[sample(1:length(seqChr), nbBlock, replace=TRUE)]
+    chr <- seqChr[sample(seq_len(length(seqChr)), nbBlock, replace=TRUE)]
     
     # The position of the CTRL
     posCTRL <- which(methInfo@treatment == 0)
@@ -211,7 +211,7 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
     # First position
     l <- 1000
     
-    for(i in 1:nbBlock){ # For each block of CpG
+    for(i in seq_len(nbBlock)){ # For each block of CpG
         
         # Select a position in the block
         v <- round(runif(1, 0, 1) *
@@ -290,7 +290,7 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
 #' set.seed(2010)
 #' 
 #' ## Get the proportion of C/T for each case at a specific site.
-#' methylInheritanceSim:::getDiffCaseNew(ctrlMean = 0.9814562, ctrlVar = 
+#' methInheritSim:::getDiffCaseNew(ctrlMean = 0.9814562, ctrlVar = 
 #' 0.0003607153, selectedAsDM = 0, nbCase=6, sDiff = 0.8, 
 #' nbDiffCase = round(6 * 0.9))
 #' 
@@ -361,7 +361,7 @@ getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nbCase, sDiff,
 #' 
 #' ## Get the proportion of C/T for each case at a specific site.
 #' set.seed(2010)
-#' methylInheritanceSim:::getDiffCase(c(0.9814562, 0.0003607153, 0), 
+#' methInheritSim:::getDiffCase(c(0.9814562, 0.0003607153, 0), 
 #' nb=6, sDiff = 0.8, diffCase = round(6 * 0.9))
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
@@ -451,7 +451,7 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
 #' data("samplesForChrSynthetic")
 #' 
 #' ## Generate a stateInfo object using samples
-#' stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = 
+#' stateInformation <- methInheritSim:::getSyntheticChr(methInfo = 
 #'     samplesForChrSynthetic, nbBlock = 1, nbCpG = 3)
 #' 
 #' ## Generate a stateDiff and stateInherite objects with length corresponding 
@@ -460,7 +460,7 @@ getDiffCase <- function(x, nb, sDiff, diffCase) {
 #' stateInherite <- c(1, 0, 0)
 #' 
 #' ## Create a simulation using stateInformation, stateDiff and stateInherite
-#' methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 2, generation = 3, 
+#' methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 2, generation = 3, 
 #'     stateInfo = stateInformation, stateDiff = stateDiff, 
 #'     stateInherite = stateInherite, diffValue = 10, 
 #'     propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, 
@@ -608,7 +608,7 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #' data("samplesForChrSynthetic")
 #' 
 #' ## Generate a stateInfo object using samples
-#' stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = 
+#' stateInformation <- methInheritSim:::getSyntheticChr(methInfo = 
 #'     samplesForChrSynthetic, nbBlock = 1, nbCpG = 3)
 #' 
 #' ## Generate a stateDiff object with length corresponding to
@@ -618,7 +618,7 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #' stateDiff[["stateInherite"]] <- c(1, 0, 0)
 #' 
 #' ## Create a simulation using stateInfo and stateDiff
-#' methylInheritanceSim:::getSim(nbCtrl = 3, nbCase = 2, generation = 3, 
+#' methInheritSim:::getSim(nbCtrl = 3, nbCase = 2, generation = 3, 
 #'     stateInfo = stateInformation, stateDiff = stateDiff, diffValue = 10, 
 #'     propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, 
 #'     propHetero = 0.1)
@@ -719,7 +719,7 @@ getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
 #' set.seed(3122)
 #' 
 #' ## Obtained the number of differential cases
-#' methylInheritanceSim:::calculateNbDiffCase(nbCase = 8, 
+#' methInheritSim:::calculateNbDiffCase(nbCase = 8, 
 #'     propDiff = 0.8, propDiffSd = 0.2)
 #'
 #' @author Pascal Belleau, Astrid Deschenes
@@ -802,12 +802,12 @@ calculateNbDiffCase <- function(nbCase, propDiff, propDiffSd) {
 #' @examples
 #' 
 #' ## Load dataset containing a list of objects used by 
-#' ## methylInheritanceSim internal functions
+#' ## methInheritSim internal functions
 #' data(dataSimExample)
 #' 
 #' ## Identify differentially methylated sites and among those, the ones
 #' ## that are inherited
-#' methylInheritanceSim:::getDiffMeth(stateInfo = 
+#' methInheritSim:::getDiffMeth(stateInfo = 
 #'     dataSimExample$stateInfo, rateDiff = 0.3, minRate = 0.3,
 #'     propInherite = 0.3)
 #' 
@@ -1058,7 +1058,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' stateDiff[["stateDiff"]] <- c(1, 0, 1)
 #' stateDiff[["stateInherite"]] <- c(1, 0, 0)
 #' 
-#' \dontrun{methylInheritanceSim:::simInheritance(pathOut = temp_dir,
+#' \dontrun{methInheritSim:::simInheritance(pathOut = temp_dir,
 #' pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
 #' treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
 #' generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
@@ -1377,7 +1377,7 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' stateDiff[["stateInherite"]] <- c(1, 0, 0)
 #' 
 #' ## Simulate multigenerational methylation experiment with inheritance
-#' methylInheritanceSim:::simInheritanceNew(pathOut = temp_dir,
+#' methInheritSim:::simInheritanceNew(pathOut = temp_dir,
 #'     pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
 #'     treatment = dataSimExample$treatment, 
 #'     sample.id = dataSimExample$sample.id,
@@ -1565,7 +1565,7 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' data("dataSimExample")
 #' 
 #' ## Generate a stateInfo object using samples
-#' stateInformation <- methylInheritanceSim:::getSyntheticChr(methInfo = 
+#' stateInformation <- methInheritSim:::getSyntheticChr(methInfo = 
 #'     samplesForChrSynthetic, nbBlock = 1, nbCpG = 3)
 #' 
 #' ## Generate a stateDiff and stateInherite objects with length corresponding 
@@ -1574,14 +1574,14 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' stateInherite <- c(1, 0, 0)
 #' 
 #' ## Create simulation
-#' sim <- methylInheritanceSim:::getSimNew(nbCtrl = 3, nbCase = 2, 
+#' sim <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 2, 
 #'     generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
 #'     stateInherite = stateInherite, diffValue = 10, 
 #'     propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, 
 #'     propHetero = 0.1)
 #' 
 #' ## TODO
-#' methylInheritanceSim:::simEachGeneration(simulation = sim, 
+#' methInheritSim:::simEachGeneration(simulation = sim, 
 #' nbCtrl = 3, nbCase = 2, treatment = c(0,0,0,1,1), 
 #' sample.id = dataSimExample$sample.id,
 #' generation = 3, stateInfo = stateInformation, minReads = 10, 
@@ -1590,7 +1590,8 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom methylKit read filterByCoverage normalizeCoverage unite 
-#' calculateDiffMeth get.methylDiff getData tileMethylCounts methRead
+#' calculateDiffMeth get.methylDiff getData tileMethylCounts methRead 
+#' getSampleID getAssembly getContext getTreatment
 #' @importFrom GenomicRanges GRanges
 #' @importFrom IRanges IRanges
 #' @importFrom stats rpois
@@ -1607,10 +1608,10 @@ simEachGeneration <- function(simulation, nbCtrl, nbCase, treatment,
     meth <- list()
     myDiff <- list()
     
-    for(i in 1:generation) {
+    for(i in seq_len(generation)) {
         outList <- list()
         outGR <- GRangesList() 
-        for(j in 1:(nbCtrl + nbCase)) {
+        for(j in seq_len((nbCtrl + nbCase))) {
             coverage <- rpois(length(stateInfo), meanCov) + 1
             
             testM <- GRanges(seqnames = seqnames(stateInfo), 
@@ -1646,10 +1647,25 @@ simEachGeneration <- function(simulation, nbCtrl, nbCase, treatment,
                                     lo.count = minReads, lo.perc = NULL, 
                                     hi.count = NULL, hi.perc = maxPercReads)
             filtered.myobj <- normalizeCoverage(filtered.myobj, "median")
-            meth[[i]]   <- unite(filtered.myobj, destrand = FALSE)
+            meth[[i]]   <- suppressWarnings(unite(filtered.myobj, 
+                                                    destrand = FALSE))
             
-            ## TODO : when meth[[i]] 0 row, methylkit throw error
-            myDiff[[i]] <- calculateDiffMeth(meth[[i]])
+            if (nrow(meth[[i]]) > 0) {
+                myDiff[[i]] <- calculateDiffMeth(meth[[i]])
+            } else {
+                ## calculateDiffMeth throws an error when meth is empty
+                ## Create an empty methylDiff
+                myDiff[[i]] <- new("methylDiff", data.frame(chr = character(), 
+                                start = integer(), end = integer(), 
+                                strand = strand(), pvalue = double(), 
+                                qvalue = double(), meth.diff = double()),
+                                sample.ids = getSampleID(meth[[i]]), 
+                                destranded = FALSE,
+                                assembly = getAssembly(meth[[i]]), 
+                                context = getContext(meth[[i]]), 
+                                treatment = getTreatment(meth[[i]]), 
+                                resolution = 'base')
+            }
         }
     }
     
@@ -1742,7 +1758,7 @@ saveData <- function(pathOut, extension, gRanges, methylData, methUnit,
 #' 
 #' ## Return TRUE when the specified simulation has already be done;
 #' ## otherwise, return FALSE.
-#' methylInheritanceSim:::testIfAlreadyDone(pathOut = ".", 
+#' methInheritSim:::testIfAlreadyDone(pathOut = ".", 
 #' preference = "S1_6_0.9_0.8_0.5", id = 33, 
 #' saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
 #' 
@@ -1940,7 +1956,7 @@ testIfAlreadyDone <- function(pathOut, preference, id, saveGRanges,
 #' data("samplesForChrSynthetic")
 #' 
 #' ## The function returns 0 when all paramaters are valid
-#' methylInheritanceSim:::validateRunSimParameters(vpDiff =0.2, 
+#' methInheritSim:::validateRunSimParameters(vpDiff =0.2, 
 #' vpDiffsd = 0.3, vDiff = 0.4, vInheritance = 0.2, propInherite = 0.5, 
 #' rateDiff = 0.2, minRate = 0.1, propHetero = 0.2, maxPercReads = 99.1, 
 #' nbSynCHR = 1, nbSimulation = 2, nbBlock = 10, nbCpG = 4, vNbSample = 10, 
@@ -2032,7 +2048,7 @@ validateRunSimParameters <- function(vpDiff, vpDiffsd, vDiff, vInheritance,
 #' @examples
 #' 
 #' ## The function returns 0 when all paramaters are valid
-#' methylInheritanceSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
+#' methInheritSim:::validateRunSimIntegerParameters(nbSynCHR = 1, 
 #' nbSimulation = 2, nbBlock = 10, nbCpG = 4, vNbSample = 10, 
 #' nbGeneration = 3, minReads = 10, meanCov = 80, 
 #' nbCores = 1, vSeed = -1)
@@ -2125,10 +2141,10 @@ validateRunSimIntegerParameters <- function(nbSynCHR, nbSimulation, nbBlock,
 #' @examples 
 #' 
 #' ## Return vSeed value when value is not -1
-#' methylInheritanceSim:::fixSeed(vSeed = 10)
+#' methInheritSim:::fixSeed(vSeed = 10)
 #' 
 #' ## Return new value when value is -1
-#' methylInheritanceSim:::fixSeed(vSeed = -1)
+#' methInheritSim:::fixSeed(vSeed = -1)
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
 #' @keywords internal
@@ -2186,7 +2202,7 @@ fixSeed <- function(vSeed) {
 #' @examples
 #'
 #' ## The function returns 0 when all paramaters are valid
-#' methylInheritanceSim:::validateRunSimDoubleParameters(vpDiff =0.2, 
+#' methInheritSim:::validateRunSimDoubleParameters(vpDiff =0.2, 
 #' vpDiffsd = 0.3, vDiff = 0.4, vInheritance = 0.2, propInherite = 0.5, 
 #' rateDiff = 0.2, minRate = 0.1, propHetero = 0.2, maxPercReads = 99.1)
 #' 
@@ -2317,7 +2333,7 @@ validateRunSimDoubleParameters <-function(vpDiff, vpDiffsd, vDiff,
 #' data("samplesForChrSynthetic")
 #'
 #' ## The function returns 0 when all paramaters are valid
-#' methylInheritanceSim:::validateRunSimLogicalParameters(keepDiff = FALSE, 
+#' methInheritSim:::validateRunSimLogicalParameters(keepDiff = FALSE, 
 #' saveGRanges = TRUE, saveMethylKit = FALSE, runAnalysis = FALSE)
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
@@ -2405,7 +2421,7 @@ validateRunSimLogicalParameters <-function(keepDiff, saveGRanges,
 #' data("samplesForChrSynthetic")
 #'
 #' ## The function returns 0 when all paramaters are valid
-#' methylInheritanceSim:::validateRunSimOtherParameters(
+#' methInheritSim:::validateRunSimOtherParameters(
 #' outputDir = "test", fileID = "test", methData = samplesForChrSynthetic, 
 #' context = "CpG", assembly = "Rnor_5.0")
 #' 
@@ -2441,4 +2457,47 @@ validateRunSimOtherParameters <-function(outputDir, fileID, methData,
     }
     
     return(0)
+}
+
+
+#' @title Generate the samples ID for the simulated dataset.
+#'
+#' @description Generate the samples ID for the simulated dataset. The
+#' standard format of the samples ID is : 
+#' "F[Number for the generation]_[Number for the sample]
+#' _[OC for case or C for control]"
+#'
+#' @param nbGeneration a positive \code{integer}, the number of generations
+#' simulated.
+#' 
+#' @param nbSample a positive \code{integer}, 
+#' the number of controls (CTRL) and cases in the simulated dataset.
+#'
+#' @examples
+#'
+#' ## Create sample ID 
+#' methInheritSim:::createSampleID(nbGeneration = 3, nbSample = 6)
+#' 
+#' @author Pascal Belleau, Astrid Deschenes
+#' @keywords internal
+createSampleID <- function(nbGeneration, nbSample) {
+    
+    sample.id <- list()
+    
+    for (i in seq_len(2 * nbSample)) {
+        if (i <= nbSample) {
+            for (j in seq_len(nbGeneration)) {
+                if(i == 1) {
+                    sample.id[[j]] <- list()
+                }
+                sample.id[[j]][[i]] <- paste0("F", j, "_", i, "_C")
+            }
+        } else {
+            for (j in seq_len(nbGeneration)) {
+                sample.id[[j]][[i]] <- paste0("F", j, "_", i, "_OC")
+            }
+        }
+    }
+    
+    return(sample.id)
 }

@@ -29,7 +29,7 @@ of a beta distribution.
 \examples{
 
 ## Estimate beta parameters with mean = 0.5, variance = 0.1
-methylInheritanceSim:::estBetaBetaNew(meanCtrl=0.5, varCtrl=0.1)
+methInheritSim:::estBetaBetaNew(meanCtrl=0.5, varCtrl=0.1)
 
 }
 \author{

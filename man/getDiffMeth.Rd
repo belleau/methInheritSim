@@ -73,12 +73,12 @@ methylated and, among those, the one that are inherited.
 \examples{
 
 ## Load dataset containing a list of objects used by 
-## methylInheritanceSim internal functions
+## methInheritSim internal functions
 data(dataSimExample)
 
 ## Identify differentially methylated sites and among those, the ones
 ## that are inherited
-methylInheritanceSim:::getDiffMeth(stateInfo = 
+methInheritSim:::getDiffMeth(stateInfo = 
     dataSimExample$stateInfo, rateDiff = 0.3, minRate = 0.3,
     propInherite = 0.3)
 

@@ -54,7 +54,7 @@ Validation of all parameters needed by the public
 \examples{
 
 ## The function returns 0 when all paramaters are valid
-methylInheritanceSim:::validateRunSimDoubleParameters(vpDiff =0.2, 
+methInheritSim:::validateRunSimDoubleParameters(vpDiff =0.2, 
 vpDiffsd = 0.3, vDiff = 0.4, vInheritance = 0.2, propInherite = 0.5, 
 rateDiff = 0.2, minRate = 0.1, propHetero = 0.2, maxPercReads = 99.1)
 
