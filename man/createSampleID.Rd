@@ -13,6 +13,10 @@ simulated.}
 \item{nbSample}{a positive \code{integer}, 
 the number of controls (CTRL) and cases in the simulated dataset.}
 }
+\value{
+a \code{list} containing  a \code{list} of sample ID for 
+each generation.
+}
 \description{
 Generate the samples ID for the simulated dataset. The
 standard format of the samples ID is : 

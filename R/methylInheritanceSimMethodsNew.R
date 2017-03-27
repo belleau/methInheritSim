@@ -257,16 +257,16 @@ runSim <- function(outputDir = NULL, fileID = "s",
     
     ## Validate all parameters
     validateRunSimParameters(vpDiff = vpDiff, vpDiffsd = vpDiffsd, 
-            vDiff = vDiff, vInheritance = vInheritance, 
-            propInherite = propInherite, rateDiff = rateDiff, minRate = minRate, 
-            propHetero = propHetero, maxPercReads = maxPercReads, 
-            nbSynCHR = nbSynCHR, nbSimulation = nbSimulation, nbBlock = nbBlock, 
-            nbCpG = nbCpG, vNbSample = vNbSample, nbGeneration = nbGeneration, 
-            minReads = minReads, meanCov = meanCov, nbCores = nbCores, 
-            vSeed = vSeed, keepDiff = keepDiff, saveGRanges = saveGRanges, 
-            saveMethylKit = saveMethylKit, runAnalysis = runAnalysis, 
-            outputDir = outputDir, fileID = fileID, methData = methData, 
-            context = context, assembly = assembly)
+        vDiff = vDiff, vInheritance = vInheritance, 
+        propInherite = propInherite, rateDiff = rateDiff, minRate = minRate, 
+        propHetero = propHetero, maxPercReads = maxPercReads, 
+        nbSynCHR = nbSynCHR, nbSimulation = nbSimulation, nbBlock = nbBlock, 
+        nbCpG = nbCpG, vNbSample = vNbSample, nbGeneration = nbGeneration, 
+        minReads = minReads, meanCov = meanCov, nbCores = nbCores, 
+        vSeed = vSeed, keepDiff = keepDiff, saveGRanges = saveGRanges, 
+        saveMethylKit = saveMethylKit, runAnalysis = runAnalysis, 
+        outputDir = outputDir, fileID = fileID, methData = methData, 
+        context = context, assembly = assembly)
     
     ## Fix seed
     RNGkind("L'Ecuyer-CMRG")

@@ -215,14 +215,14 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
 #' set.seed(2010)
 #' 
 #' ## Get the proportion of C/T for each case at a specific site.
-#' methInheritSim:::getDiffCaseNew(ctrlMean = 0.9814562, ctrlVar = 
+#' methInheritSim:::getDiffCase(ctrlMean = 0.9814562, ctrlVar = 
 #' 0.0003607153, selectedAsDM = 0, nbCase=6, sDiff = 0.8, 
 #' nbDiffCase = round(6 * 0.9))
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom stats rbeta
 #' @keywords internal
-getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nbCase, sDiff, 
+getDiffCase <- function(ctrlMean, ctrlVar, selectedAsDM, nbCase, sDiff, 
                             nbDiffCase) {
     
     meanDiff <- 0
@@ -355,7 +355,7 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
     
     case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
                 stateDiff), 1, function(x, nbCase, diffValue, diffCase) 
-                {getDiffCaseNew(x[1], x[2], x[3], nbCase, diffValue, 
+                {getDiffCase(x[1], x[2], x[3], nbCase, diffValue, 
                 diffCase)}, nbCase = nbCase, diffValue = diffValue, 
                 diffCase = diffCase))
     
@@ -388,12 +388,13 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
         
         case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
                 stateInherite), 1, function(x, nbCase, diffCur, diffCase) 
-                {getDiffCaseNew(x[1], x[2], x[3], nbCase, diffCur, diffCase)},
+                {getDiffCase(x[1], x[2], x[3], nbCase, diffCur, diffCase)},
                 nbCase = nbCase, diffCur = diffCur, diffCase = diffCase))
         
         res[[i]] <- GRanges(seqnames = seqnames(stateInfo),
-                        ranges = ranges(stateInfo), strand =  strand(stateInfo),
-                        meanDiff = case[, 1], meanCTRL = mcols(stateInfo)[3],
+                        ranges = ranges(stateInfo), 
+                        strand =  strand(stateInfo), meanDiff = case[, 1], 
+                        meanCTRL = mcols(stateInfo)[3],
                         partitionCase = case[, 2], partitionCtrl = case[, 3],
                         ctrl = ctrl, case = case[, 4:length(case[1,])])
     }
@@ -1863,6 +1864,9 @@ validateRunSimOtherParameters <-function(outputDir, fileID, methData,
 #' @param nbSample a positive \code{integer}, 
 #' the number of controls (CTRL) and cases in the simulated dataset.
 #'
+#' @return a \code{list} containing  a \code{list} of sample ID for 
+#' each generation.
+#' 
 #' @examples
 #'
 #' ## Create sample ID 

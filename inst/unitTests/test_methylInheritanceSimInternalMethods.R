@@ -82,50 +82,50 @@ test.estBetaBeta_good_03 <- function() {
 }
 
 ###################################################
-## getDiffCaseNew() function
+## getDiffCase() function
 ###################################################
 
-test.getDiffCaseNew_good_01 <- function() {
+test.getDiffCase_good_01 <- function() {
     set.seed(322)
     
-    obs <- methInheritSim:::getDiffCaseNew(ctrlMean = 0.14562,
+    obs <- methInheritSim:::getDiffCase(ctrlMean = 0.14562,
                 ctrlVar = 0.0003607153, selectedAsDM = 1, nbCase = 4, sDiff = 0.8,
                 nbDiffCase = 3)
     exp <- c(0.945620000000, 3.000000000000, 1.000000000000, 0.947694615429,
              0.965193968711, 0.906084052941, 0.122224066759)
     
-    message <- paste0("test.getDiffCaseNew_good_01() ",
+    message <- paste0("test.getDiffCase_good_01() ",
                       "- Valid parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
 
-test.getDiffCaseNew_good_no_DMS <- function() {
+test.getDiffCase_good_no_DMS <- function() {
     set.seed(22)
     
-    obs <- methInheritSim:::getDiffCaseNew(ctrlMean = 0.14562,
+    obs <- methInheritSim:::getDiffCase(ctrlMean = 0.14562,
                 ctrlVar = 0.0003607153, selectedAsDM = 0, nbCase = 4, sDiff = 0.8,
                 nbDiffCase = 3)
     exp <- c(0.1456200000, 0.000000000000, 4.000000000000, 0.1348148850,
              0.1698118247, 0.1520623197, 0.1411707002)
     
-    message <- paste0("test.getDiffCaseNew_good_no_DMS() ",
+    message <- paste0("test.getDiffCase_good_no_DMS() ",
                       "- Valid parameters with no DMS did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
 
-test.getDiffCaseNew_good_02 <- function() {
+test.getDiffCase_good_02 <- function() {
     
     set.seed(322)
     
-    obs <- methInheritSim:::getDiffCaseNew(ctrlMean = 0.14562,
+    obs <- methInheritSim:::getDiffCase(ctrlMean = 0.14562,
                 ctrlVar = 0.0003607153, selectedAsDM = 1, nbCase = 4, sDiff = 0.1,
                 nbDiffCase = 3)
     exp <- c(0.2456200000, 3.000000000000, 1.000000000000, 0.2435759950,
              0.2230879838, 0.2761777813, 0.1222240668)
     
-    message <- paste0("test.getDiffCaseNew_good_02() ",
+    message <- paste0("test.getDiffCase_good_02() ",
                       "- Valid parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
