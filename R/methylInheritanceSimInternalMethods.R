@@ -324,7 +324,7 @@ getDiffCase <- function(ctrlMean, ctrlVar, selectedAsDM, nbCase, sDiff,
 #' stateInherite <- c(1, 0, 0)
 #' 
 #' ## Create a simulation using stateInformation, stateDiff and stateInherite
-#' methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 2, generation = 3, 
+#' methInheritSim:::getSim(nbCtrl = 3, nbCase = 2, generation = 3, 
 #'     stateInfo = stateInformation, stateDiff = stateDiff, 
 #'     stateInherite = stateInherite, diffValue = 10, 
 #'     propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, 
@@ -338,7 +338,7 @@ getDiffCase <- function(ctrlMean, ctrlVar, selectedAsDM, nbCase, sDiff,
 #' @importFrom BiocGenerics strand
 #' @importFrom S4Vectors mcols
 #' @keywords internal
-getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff, 
+getSim <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff, 
                 stateInherite, diffValue, propDiff, propDiffsd, 
                 propInheritance, propHetero) {
 
@@ -816,7 +816,7 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
         
         ## Simulate multigenerational methylation experiment
         ## Premiere generation seulement ?
-        simV0.1 <- getSimNew(nbCtrl = nbCtrl, nbCase = nbCase, 
+        simV0.1 <- getSim(nbCtrl = nbCtrl, nbCase = nbCase, 
                         generation = generation, stateInfo = stateInfo, 
                         stateDiff = diffRes$stateDiff, 
                         stateInherite = diffRes$stateInherite,
@@ -965,7 +965,7 @@ simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
 #' stateInherite <- c(1, 0, 0)
 #' 
 #' ## Create simulation
-#' sim <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 2, 
+#' sim <- methInheritSim:::getSim(nbCtrl = 3, nbCase = 2, 
 #'     generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
 #'     stateInherite = stateInherite, diffValue = 10, 
 #'     propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, 

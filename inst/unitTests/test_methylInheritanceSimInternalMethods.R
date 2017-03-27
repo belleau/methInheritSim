@@ -133,10 +133,10 @@ test.getDiffCase_good_02 <- function() {
 
 
 ###################################################
-## getSimNew() function
+## getSim() function
 ###################################################
 
-test.getSimNew_good_01 <- function() {
+test.getSim_good_01 <- function() {
     
     set.seed(22212)
     
@@ -146,7 +146,7 @@ test.getSimNew_good_01 <- function() {
     stateDiff <- c(1, 0, 1)
     stateInherite <- c(1, 0, 0)
     
-    obs <- methInheritSim:::getSimNew(nbCtrl = 2, nbCase = 3, generation = 2, 
+    obs <- methInheritSim:::getSim(nbCtrl = 2, nbCase = 3, generation = 2, 
                                         stateInfo = stateInformation, stateDiff = stateDiff, 
                                         stateInherite = stateInherite, diffValue = 10, 
                                         propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
@@ -177,13 +177,13 @@ test.getSimNew_good_01 <- function() {
                         case.V2 = c(0.000000000000000, 0.140418843034454, 0.000824070856929141),
                         case.V3 = c(0.935659881913647, 0.282094425404783, 0.0143114682779736))
     
-    message <- paste0("test.getSimNew_good_01() ",
+    message <- paste0("test.getSim_good_01() ",
                       "- Valid parameters for getSim() did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
 
-test.getSimNew_good_02 <- function() {
+test.getSim_good_02 <- function() {
     
     set.seed(22212)
     
@@ -193,7 +193,7 @@ test.getSimNew_good_02 <- function() {
     stateDiff <- c(1, 1, 1)
     stateInherite <- c(0, 0, 1)
     
-    obs <- methInheritSim:::getSimNew(nbCtrl = 2, nbCase = 3, generation = 2, 
+    obs <- methInheritSim:::getSim(nbCtrl = 2, nbCase = 3, generation = 2, 
                                     stateInfo = stateInformation, stateDiff = stateDiff, 
                                     stateInherite = stateInherite, diffValue = 10, 
                                     propDiff = 0.6, propDiffsd = 0.3, propInheritance = 0.7, propHetero = 0.2)
@@ -224,14 +224,14 @@ test.getSimNew_good_02 <- function() {
                         case.V2 = c(0.935659881913647, 0.282094425404783, 0.0137838586380334),
                         case.V3 = c(0.495670278966184, 0.476562011603015, 0.00593249270592643))
     
-    message <- paste0("test.getSimNew_good_02() ",
+    message <- paste0("test.getSim_good_02() ",
                       "- Valid parameters for getSim() did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
 
 
-test.getSimNew_good_03 <- function() {
+test.getSim_good_03 <- function() {
     
     set.seed(25212)
     
@@ -242,7 +242,7 @@ test.getSimNew_good_03 <- function() {
     stateDiff <- c(1, 1, 1)
     stateInherite <- c(1, 1, 1)
     
-    obs <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 3, generation = 2, 
+    obs <- methInheritSim:::getSim(nbCtrl = 3, nbCase = 3, generation = 2, 
                 stateInfo = stateInformation, stateDiff = stateDiff, stateInherite = stateInherite, diffValue = 0.4, 
                 propDiff = 0.8, propDiffsd = 0.3, propInheritance = 0.7, propHetero = 0.2)
     
@@ -274,7 +274,7 @@ test.getSimNew_good_03 <- function() {
                         case.V2 = c(0.935273128088281, 0.204586530901366, 0.137162736236601),
                         case.V3 = c(0.958785951984364, 0.0640823013094492, 0.122777372842008))
     
-    message <- paste0("test.getSimNew_good_03() ",
+    message <- paste0("test.getSim_good_03() ",
                       "- Valid parameters for getSim() did not generated expected results.")
     
     checkEquals(obs, exp, message)
@@ -1667,7 +1667,7 @@ test.testIfAlreadyDone_false_003 <- function() {
 ## simEachGeneration() function
 ###################################################
 
-test.getSimNew_good_02 <- function() {
+test.simEachGeneration_good_01 <- function() {
     
     set.seed(22212)
     
@@ -1677,7 +1677,7 @@ test.getSimNew_good_02 <- function() {
     stateDiff <- c(1, 1, 1)
     stateInherite <- c(0, 0, 1)
     
-    obs <- methInheritSim:::getSimNew(nbCtrl = 2, nbCase = 3, generation = 2, 
+    obs <- methInheritSim:::getSim(nbCtrl = 2, nbCase = 3, generation = 2, 
                                             stateInfo = stateInformation, stateDiff = stateDiff, 
                                             stateInherite = stateInherite, diffValue = 10, 
                                             propDiff = 0.6, propDiffsd = 0.3, propInheritance = 0.7, propHetero = 0.2)
@@ -1708,8 +1708,8 @@ test.getSimNew_good_02 <- function() {
                         case.V2 = c(0.935659881913647, 0.282094425404783, 0.0137838586380334),
                         case.V3 = c(0.495670278966184, 0.476562011603015, 0.00593249270592643))
     
-    message <- paste0("test.getSimNew_good_02() ",
-                      "- Valid parameters for getSim() did not generated expected results.")
+    message <- paste0("test.simEachGeneration_good_01() ",
+                      "- Valid parameters for simEachGeneration() did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
@@ -2053,7 +2053,7 @@ test.simEachGeneration_all_save_false <- function() {
     stateDiff  <- c(1, 0, 1)
     stateInherite <- c(1, 0, 0)
     
-    sim <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 1, 
+    sim <- methInheritSim:::getSim(nbCtrl = 3, nbCase = 1, 
             generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
             stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
             propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
@@ -2079,7 +2079,7 @@ test.simEachGeneration_all_saveGRanges_true <- function() {
     stateDiff  <- c(1, 0, 1)
     stateInherite <- c(1, 0, 0)
     
-    sim <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 1, 
+    sim <- methInheritSim:::getSim(nbCtrl = 3, nbCase = 1, 
                                             generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
                                             stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
                                             propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
@@ -2113,7 +2113,7 @@ test.simEachGeneration_all_saveMethylKit_true <- function() {
     sampleID[[2]] <- list("F2_1_C", "F2_2_C", "F2_3_OC")
     sampleID[[3]] <- list("F3_1_C", "F3_2_C", "F3_3_OC")
     
-    sim <- methInheritSim:::getSimNew(nbCtrl = 2, nbCase = 1, 
+    sim <- methInheritSim:::getSim(nbCtrl = 2, nbCase = 1, 
                 generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
                 stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
                 propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
@@ -2201,7 +2201,7 @@ test.simEachGeneration_all_runAnalysis_true <- function() {
     sampleID[[2]] <- list("F2_1_C", "F2_2_C", "F2_3_C", "F2_1_OC", "F2_2_OC", "F2_3_OC")
     sampleID[[3]] <- list("F3_1_C", "F3_2_C", "F3_3_C", "F3_1_OC", "F3_2_OC", "F3_3_OC")
     
-    sim <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 3, 
+    sim <- methInheritSim:::getSim(nbCtrl = 3, nbCase = 3, 
                                             generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
                                             stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
                                             propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
@@ -2303,7 +2303,7 @@ test.simEachGeneration_empty_meth <- function() {
     sampleID[[2]] <- list("F2_1_C", "F2_2_C", "F2_3_C", "F2_1_OC", "F2_2_OC", "F2_3_OC")
     sampleID[[3]] <- list("F3_1_C", "F3_2_C", "F3_3_C", "F3_1_OC", "F3_2_OC", "F3_3_OC")
     
-    sim <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 3, 
+    sim <- methInheritSim:::getSim(nbCtrl = 3, nbCase = 3, 
                 generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
                 stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
                 propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
