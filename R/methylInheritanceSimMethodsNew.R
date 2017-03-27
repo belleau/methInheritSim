@@ -268,10 +268,6 @@ runSim <- function(outputDir = NULL, fileID = "s",
         outputDir = outputDir, fileID = fileID, methData = methData, 
         context = context, assembly = assembly)
     
-    ## Fix seed
-    RNGkind("L'Ecuyer-CMRG")
-    set.seed(fixSeed(vSeed))
-    
     if(is.null(outputDir)) {
         outputDir <- "outputDir"
     }
@@ -286,111 +282,19 @@ runSim <- function(outputDir = NULL, fileID = "s",
         dir.create(outputDir, showWarnings = TRUE)
     }
     
-    for(s in 1:nbSynCHR) {
-        
-        # Create synthetic chromosome
-        res <- getSyntheticChr(methInfo = methData, nbBlock = nbBlock, 
-                                    nbCpG = nbCpG)
-        
-        adPref <- paste0(fileID, "_", s)
-        saveRDS(res, file = paste0(outputDir, "/stateInfo_", adPref, ".rds"))
-        
-        for(nbSample in vNbSample) {
-            
-            adPrefSample <- paste0(adPref, "_", nbSample)
-            nbCtrl <- nbSample
-            nbCase <- nbSample
-            
-            # Define treatment and sample.id 
-            treatment <- c(rep(0,nbSample), rep(1,nbSample))
-            if(saveGRanges){
-                saveRDS(treatment, file = paste0(outputDir, "/treatment_", 
-                                                adPrefSample, ".rds"))
-            }
-            
-            # Define  sample.id 
-            sample.id <- createSampleID(nbGeneration = nbGeneration, 
-                                            nbSample = nbSample)
-            
-            ## Obtain the positions of the DMS when those have to be
-            ## the same in all generated simulation
-            if (keepDiff == TRUE) {
-                diffRes <- getDiffMeth(stateInfo = res, rateDiff = rateDiff, 
-                                minRate = minRate, propInherite = propInherite)
-            } else {
-                diffRes <- NULL
-            }
-            
-            for (i in seq_len(length(vInheritance))) {
-                for(j in seq_len(length(vpDiff))) {
-                    propDiff <- vpDiff[j]
-                    propDiffsd <- vpDiffsd[j]
-                    
-                    for (k in seq_len(length(vDiff))) {
-                        diffValue <- vDiff[k]
-                        
-                        propInheritance <- ifelse(vInheritance[i] >= 0, 
-                                                  vInheritance[i], vpDiff[j])
-                        
-                        prefBase <- paste0(adPrefSample , "_", propDiff, 
-                                        "_", diffValue, "_", propInheritance)
-                        
-                        if (nbCores > 1) {
-                            .Random.seed <- nextRNGSubStream(.Random.seed)
-                            a <- mclapply(seq_len(nbSimulation), 
-                                    FUN = simInheritance, 
-                                    pathOut = outputDir, pref = prefBase, 
-                                    nbCtrl = nbCtrl, nbCase = nbCase, 
-                                    treatment = treatment, 
-                                    sample.id = sample.id, 
-                                    generation = nbGeneration,
-                                    stateInfo = res, rateDiff = rateDiff,
-                                    minRate = minRate, 
-                                    propInherite = propInherite,
-                                    diffValue = diffValue, propDiff = propDiff,
-                                    propDiffsd = propDiffsd, 
-                                    propInheritance = propInheritance,
-                                    propHetero = propHetero, 
-                                    minReads = minReads, 
-                                    maxPercReads = maxPercReads,
-                                    context = context, assembly = assembly,
-                                    meanCov = meanCov, diffRes = diffRes,
-                                    saveGRanges = saveGRanges,
-                                    saveMethylKit = saveMethylKit,
-                                    runAnalysis = runAnalysis)
-                        } else {
-                            ## Manage special case where mclapply is 
-                            ## transformed on lapply on Windows. This case
-                            ## created unrepoducible results between Windows
-                            ## and other OS.
-                            a <- lapply(seq_len(nbSimulation), 
-                                    FUN = simInheritance, 
-                                    pathOut = outputDir, pref = prefBase, 
-                                    nbCtrl = nbCtrl, nbCase = nbCase, 
-                                    treatment = treatment, 
-                                    sample.id = sample.id, 
-                                    generation = nbGeneration,
-                                    stateInfo = res, rateDiff = rateDiff,
-                                    minRate = minRate, 
-                                    propInherite = propInherite,
-                                    diffValue = diffValue, 
-                                    propDiff = propDiff,
-                                    propDiffsd = propDiffsd, 
-                                    propInheritance = propInheritance,
-                                    propHetero = propHetero, 
-                                    minReads = minReads, 
-                                    maxPercReads = maxPercReads,
-                                    context = context, assembly = assembly,
-                                    meanCov = meanCov, diffRes = diffRes,
-                                    saveGRanges = saveGRanges,
-                                    saveMethylKit = saveMethylKit,
-                                    runAnalysis = runAnalysis)
-                        }
-                    }
-                }
-            }
-        }
-    }
+    result <- runOnEachSynCHR(outputDir = outputDir, fileID = fileID, 
+                nbSynCHR = nbSynCHR, methData = methData, 
+                nbSimulation = nbSimulation, nbBlock = nbBlock, nbCpG = nbCpG, 
+                nbGeneration = nbGeneration, vNbSample = vNbSample, 
+                vpDiff = vpDiff, vpDiffsd = vpDiffsd, vDiff = vDiff, 
+                vInheritance = vInheritance, rateDiff = rateDiff, 
+                minRate = minRate, propInherite = propInherite, 
+                propHetero = propHetero, minReads = minReads, 
+                maxPercReads = maxPercReads, meanCov = meanCov, 
+                context = context, assembly = assembly, keepDiff = keepDiff, 
+                saveGRanges = saveGRanges, saveMethylKit = saveMethylKit, 
+                runAnalysis = runAnalysis, nbCores = nbCores, 
+                vSeed = vSeed)
     
-    return(0)
+    return(result)
 }
