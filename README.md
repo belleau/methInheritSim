@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/belleau/methInheritSim.svg?branch=master)](https://travis-ci.org/belleau/methInheritSim)
-[![codecov](https://codecov.io/gh/belleau/methylInheritanceSim/branch/master/graph/badge.svg)](https://codecov.io/gh/belleau/methylInheritanceSim)
+[![codecov](https://codecov.io/gh/belleau/methInheritSim/branch/master/graph/badge.svg)](https://codecov.io/gh/belleau/methInheritSim)
 
-# methylInheritanceSim
+# methInheritSim
 
 Whole-Genome Inherited Bisulphite Sequencing Data Simulation
 
@@ -28,6 +28,6 @@ For more information on Artistic 2.0 License see
 ## Bugs/Feature requests ##
 
 If you have any bugs or feature requests, 
-[let us know](https://github.com/belleau/methylInheritanceSim/issues). 
+[let us know](https://github.com/belleau/methInheritSim/issues). 
 
 Thanks!
