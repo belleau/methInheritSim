@@ -225,7 +225,7 @@
 #' ## over 3 generations (nbGenration = 3) with
 #' ## 6 cases and 6 controls (nNbsample = 6) using only one set
 #' ## of parameters (vpDiff = 0.9, vpDiffsd = 0.1, vDiff = 0.8)
-#' runSimNew(outputDir = temp_dir, fileID = "F1", nbSynCHR = 1, 
+#' runSim(outputDir = temp_dir, fileID = "F1", nbSynCHR = 1, 
 #'     methData = samplesForChrSynthetic, nbSimulation = 2, 
 #'     nbBlock = 10, nbCpG = 20,
 #'     nbGeneration = 3, vNbSample = c(6), vpDiff = c(0.9), 
@@ -239,10 +239,10 @@
 #'     unlink(temp_dir, recursive = TRUE, force = FALSE)
 #' }
 #' 
-#' @author Pascal Belleau
+#' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom parallel mclapply nextRNGSubStream
 #' @export
-runSimNew <- function(outputDir = NULL, fileID = "s", 
+runSim <- function(outputDir = NULL, fileID = "s", 
                     nbSynCHR = 1, methData, 
                     nbSimulation = 10, nbBlock = 100, nbCpG = 50,
                     nbGeneration = 3, vNbSample = c(3, 6), vpDiff = c(0.9), 
