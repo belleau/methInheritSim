@@ -768,7 +768,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' stateDiff[["stateInherite"]] <- c(1, 0, 0)
 #' 
 #' ## Simulate multigenerational methylation experiment with inheritance
-#' methInheritSim:::simInheritanceNew(pathOut = temp_dir,
+#' methInheritSim:::simInheritance(pathOut = temp_dir,
 #'     pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
 #'     treatment = dataSimExample$treatment, 
 #'     sample.id = dataSimExample$sample.id,
@@ -786,7 +786,7 @@ getDiffMeth <- function(stateInfo, rateDiff, minRate, propInherite,
 #' 
 #' @author Pascal Belleau, Astrid Deschenes
 #' @keywords internal
-simInheritanceNew <- function(pathOut, pref, k, nbCtrl, nbCase, treatment, 
+simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment, 
                         sample.id, generation, stateInfo, propDiff, propDiffsd, 
                         diffValue, propInheritance, rateDiff, minRate, 
                         propInherite, propHetero, minReads, maxPercReads,

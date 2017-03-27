@@ -1789,12 +1789,12 @@ test.createSampleID_good_01 <-function() {
 
 
 ###################################################
-## simInheritanceNew() function
+## simInheritance() function
 ###################################################
 
-test.simInheritanceNew_001 <- function() {
+test.simInheritance_001 <- function() {
     
-    temp_dir <- "simInheritanceNew_001"
+    temp_dir <- "simInheritance_001"
     
     stateDiff <- list()
     stateDiff[["stateDiff"]] <- c(1, 0, 1)
@@ -1804,7 +1804,7 @@ test.simInheritanceNew_001 <- function() {
     
     set.seed(1022211)
     
-    methInheritSim:::simInheritanceNew(pathOut = temp_dir,
+    methInheritSim:::simInheritance(pathOut = temp_dir,
         pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
         treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
                         generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
@@ -1861,7 +1861,7 @@ test.simInheritanceNew_001 <- function() {
     )
     
     
-    message <- paste0("test.simInheritanceNew_001() ",
+    message <- paste0("test.simInheritance_001() ",
                       "- Valid parameters did not generated expected results.")
     
     expA <- GRangesList(list(expA_01, expA_02, expA_03))
@@ -1875,15 +1875,15 @@ test.simInheritanceNew_001 <- function() {
     }
 }
 
-test.simInheritanceNew_diffRes_NULL <- function() {
+test.simInheritance_diffRes_NULL <- function() {
     
-    temp_dir <- "simInheritanceNew_diffRes_NULL"
+    temp_dir <- "simInheritance_diffRes_NULL"
     
     pref = "S1_6_0.9_0.8_0.3"
     
     set.seed(10211211)
     
-    methInheritSim:::simInheritanceNew(pathOut = temp_dir,
+    methInheritSim:::simInheritance(pathOut = temp_dir,
                                              pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
                                              treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
                                              generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
@@ -1940,7 +1940,7 @@ test.simInheritanceNew_diffRes_NULL <- function() {
     )
     
     
-    message <- paste0("test.simInheritanceNew_diffRes_NULL() ",
+    message <- paste0("test.simInheritance_diffRes_NULL() ",
                       "- Valid parameters did not generated expected results.")
     
     expA <- GRangesList(list(expA_01, expA_02, expA_03))
@@ -1954,9 +1954,9 @@ test.simInheritanceNew_diffRes_NULL <- function() {
     }
 }
  
-test.simInheritanceNew_saveGRanges_TRUE <- function() {
+test.simInheritance_saveGRanges_TRUE <- function() {
     
-    temp_dir <- "simInheritanceNew_saveGRanges_TRUE"
+    temp_dir <- "simInheritance_saveGRanges_TRUE"
     
     pref = "S1_6_0.9_0.8_0.3"
     
@@ -1967,7 +1967,7 @@ test.simInheritanceNew_saveGRanges_TRUE <- function() {
     sampleID[[2]] <- list("2_1", "2_2", "2_3", "2_4")
     sampleID[[3]] <- list("3_1", "3_2", "3_3", "3_4")
     
-    methInheritSim:::simInheritanceNew(pathOut = temp_dir,
+    methInheritSim:::simInheritance(pathOut = temp_dir,
                                 pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
                                 treatment = c(0,0,1,1), sample.id = sampleID,
                                 generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
@@ -2026,7 +2026,7 @@ test.simInheritanceNew_saveGRanges_TRUE <- function() {
     )
 
 
-    message <- paste0("test.simInheritanceNew_saveGRanges_TRUE() ",
+    message <- paste0("test.simInheritance_saveGRanges_TRUE() ",
                       "- Valid parameters did not generated expected results.")
 
     expA <- GRangesList(list(expA_01, expA_02, expA_03))
@@ -2048,7 +2048,7 @@ test.simInheritanceNew_saveGRanges_TRUE <- function() {
 test.simEachGeneration_all_save_false <- function() {
     
     stateInformation <- methInheritSim:::getSyntheticChr(methInfo = samplesForChrSynthetic, 
-                                                               nbBlock = 1, nbCpG = 3)
+                                                    nbBlock = 1, nbCpG = 3)
     
     stateDiff  <- c(1, 0, 1)
     stateInherite <- c(1, 0, 0)

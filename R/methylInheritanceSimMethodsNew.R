@@ -338,7 +338,7 @@ runSim <- function(outputDir = NULL, fileID = "s",
                         if (nbCores > 1) {
                             .Random.seed <- nextRNGSubStream(.Random.seed)
                             a <- mclapply(seq_len(nbSimulation), 
-                                    FUN = simInheritanceNew, 
+                                    FUN = simInheritance, 
                                     pathOut = outputDir, pref = prefBase, 
                                     nbCtrl = nbCtrl, nbCase = nbCase, 
                                     treatment = treatment, 
@@ -364,7 +364,7 @@ runSim <- function(outputDir = NULL, fileID = "s",
                             ## created unrepoducible results between Windows
                             ## and other OS.
                             a <- lapply(seq_len(nbSimulation), 
-                                    FUN = simInheritanceNew, 
+                                    FUN = simInheritance, 
                                     pathOut = outputDir, pref = prefBase, 
                                     nbCtrl = nbCtrl, nbCase = nbCase, 
                                     treatment = treatment, 
