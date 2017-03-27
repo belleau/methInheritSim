@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/belleau/methInheritSim.svg?branch=master)](https://travis-ci.org/belleau/methInheritSim)
+n[![Build Status](https://travis-ci.org/belleau/methInheritSim.svg?branch=master)](https://travis-ci.org/belleau/methInheritSim)
 [![codecov](https://codecov.io/gh/belleau/methIheritSim/branch/master/graph/badge.svg)](https://codecov.io/gh/belleau/methInheritSim)
 
 # methInheritSim
