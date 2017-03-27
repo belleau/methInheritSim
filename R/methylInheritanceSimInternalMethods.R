@@ -1,40 +1,3 @@
-#' @title Estimate the alpha parameter of a Beta distribution 
-#' 
-#' @description Estimate the alpha parameter from the mean and the variance 
-#' of a Beta distribution. 
-#' 
-#' @param valCtrl a \code{vector} with 2 entries, the first value is the mean 
-#' and the second value is the variance of the controls (CTRL) at a specific  
-#' CpG site. 
-#' 
-#' @param minVal a \code{double}, the minimum value accepted for the mean 
-#' value. If the first entry of \code{valCrtl} is smaller than  
-#' \code{minVal}, then \code{minVal} is used in the calculation of the alpha 
-#' parameter.  
-#' Default: \code{1e-06}. 
-#' 
-#' @return a \code{double}, the alpha parameter of a Beta distribution. 
-#' 
-#' @examples 
-#' 
-#' ## Estimate alpha parameters with mean = 0.5 and variance = 0.1 
-#' methInheritSim:::estBetaAlpha(c(0.5,0.1)) 
-#' 
-#' @author Pascal Belleau 
-#' @keywords internal 
-estBetaAlpha <- function(valCtrl, minVal = 1e-06){ 
-      
-    mu <- max(valCtrl[1], minVal) 
-        
-    sigma2 <- max(valCtrl[2], ifelse(mu < 0.01, min(minVal, mu/1000), minVal)) 
-         
-    # mu must be smaller than 1  
-    mu <- min(mu, 1 - min(0.001, sigma2 * 10^(-log10(minVal)/2))) 
-      
-    return(max(0, -mu * (sigma2 + mu^2 - mu) / sigma2)) 
-} 
-
-
 #' @title Estimate the alpha parameter of a Beta distribution
 #'
 #' @description Estimate the alpha parameter from the mean and the variance
@@ -57,11 +20,11 @@ estBetaAlpha <- function(valCtrl, minVal = 1e-06){
 #' @examples
 #'
 #' ## Estimate alpha parameters with mean = 0.5 and variance = 0.1
-#' methInheritSim:::estBetaAlphaNew(meanCtrl = 0.5, varCtrl = 0.1)
+#' methInheritSim:::estBetaAlpha(meanCtrl = 0.5, varCtrl = 0.1)
 #'
 #' @author Pascal Belleau, Astrid Deschenes
 #' @keywords internal
-estBetaAlphaNew <- function(meanCtrl, varCtrl, minVal = 1e-06){
+estBetaAlpha <- function(meanCtrl, varCtrl, minVal = 1e-06){
     
     mu <- max(meanCtrl, minVal)
     
@@ -96,11 +59,11 @@ estBetaAlphaNew <- function(meanCtrl, varCtrl, minVal = 1e-06){
 #' @examples
 #'
 #' ## Estimate beta parameters with mean = 0.5, variance = 0.1
-#' methInheritSim:::estBetaBetaNew(meanCtrl=0.5, varCtrl=0.1)
+#' methInheritSim:::estBetaBeta(meanCtrl=0.5, varCtrl=0.1)
 #'
 #' @author Pascal Belleau, Astrid Deschenes
 #' @keywords internal
-estBetaBetaNew <- function(meanCtrl, varCtrl, minVal = 1e-06) {
+estBetaBeta <- function(meanCtrl, varCtrl, minVal = 1e-06) {
     
     mu <- max(meanCtrl, minVal)
     
@@ -163,12 +126,9 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
     # Init the data.frame
     total <- nbBlock * nbCpG
     res <- data.frame(chr = rep("S", total), start=rep(0, total), 
-                        end = rep(0, total),
-                        meanCTRL = rep(0, total), 
-                        varCTRL = rep(0, total),
-                        alphaCTRL = rep(0, total), 
-                        betaCTRL = rep(0, total),
-                        chrOri = rep(0, total), 
+                        end = rep(0, total), meanCTRL = rep(0, total), 
+                        varCTRL = rep(0, total), alphaCTRL = rep(0, total), 
+                        betaCTRL = rep(0, total), chrOri = rep(0, total), 
                         startOri = rep(0, total))
     
     # First position
@@ -201,9 +161,9 @@ getSyntheticChr <- function(methInfo, nbBlock, nbCpG) {
     }
     
     res$alphaCTRL <- apply(res[, c(4,5)], 1, FUN = function(x) {
-                            estBetaAlphaNew(x[1], x[2])})
+                            estBetaAlpha(x[1], x[2])})
     res$betaCTRL  <- apply(res[, c(4,5)], 1, FUN = function(x) {
-                            estBetaBetaNew(x[1], x[2])})
+                            estBetaBeta(x[1], x[2])})
     
     ## Create returned value
     res <- GRanges(seqnames = res$chr, 
@@ -269,8 +229,8 @@ getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nbCase, sDiff,
     
     if(selectedAsDM == 0) {
         ## Site selected as not differentially methylated
-        val <- rbeta(nbCase, estBetaAlphaNew(ctrlMean, ctrlVar), 
-                        estBetaBetaNew(ctrlMean, ctrlVar))
+        val <- rbeta(nbCase, estBetaAlpha(ctrlMean, ctrlVar), 
+                        estBetaBeta(ctrlMean, ctrlVar))
         meanDiff <- ctrlMean
         partitionDiff <- c(0, nbCase)
     } else {
@@ -280,10 +240,10 @@ getDiffCaseNew <- function(ctrlMean, ctrlVar, selectedAsDM, nbCase, sDiff,
         
         partitionDiff <- c(nbDiffCase, nbCase - nbDiffCase)
         
-        val <- c(rbeta(partitionDiff[1], estBetaAlphaNew(meanDiff, ctrlVar), 
-                    estBetaBetaNew(meanDiff, ctrlVar)),
-                    rbeta(partitionDiff[2], estBetaAlphaNew(ctrlMean, ctrlVar), 
-                    estBetaBetaNew(ctrlMean, ctrlVar)))
+        val <- c(rbeta(partitionDiff[1], estBetaAlpha(meanDiff, ctrlVar), 
+                    estBetaBeta(meanDiff, ctrlVar)),
+                    rbeta(partitionDiff[2], estBetaAlpha(ctrlMean, ctrlVar), 
+                    estBetaBeta(ctrlMean, ctrlVar)))
     }
     
     return(c(meanDiff, partitionDiff, val))
@@ -390,7 +350,7 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
                                         propDiffSd = propDiffsd)
     
     ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x, nb){
-        rbeta(nb, estBetaAlphaNew(x[1], x[2]), estBetaBetaNew(x[1], x[2]))},
+        rbeta(nb, estBetaAlpha(x[1], x[2]), estBetaBeta(x[1], x[2]))},
         nb = nbCtrl))
     
     case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 
@@ -423,7 +383,7 @@ getSimNew <- function(nbCtrl, nbCase, generation, stateInfo, stateDiff,
         # Note mcols(stateInfo)[3:4] is a matrix with foreach position a row 
         # meanCTRL, varianceCTRL
         ctrl <- t(apply(mcols(stateInfo)[3:4], 1, function(x, nb) {
-            rbeta(nb, estBetaAlphaNew(x[1], x[2]), estBetaBetaNew(x[1], x[2]))},
+            rbeta(nb, estBetaAlpha(x[1], x[2]), estBetaBeta(x[1], x[2]))},
             nb = nbCtrl))
         
         case <- t(apply(cbind(matrix(unlist(mcols(stateInfo)[3:4]) , ncol = 2), 

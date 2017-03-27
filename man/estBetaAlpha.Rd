@@ -4,33 +4,35 @@
 \alias{estBetaAlpha}
 \title{Estimate the alpha parameter of a Beta distribution}
 \usage{
-estBetaAlpha(valCtrl, minVal = 1e-06)
+estBetaAlpha(meanCtrl, varCtrl, minVal = 1e-06)
 }
 \arguments{
-\item{valCtrl}{a \code{vector} with 2 entries, the first value is the mean 
-and the second value is the variance of the controls (CTRL) at a specific  
-CpG site.}
+\item{meanCtrl}{a \code{double}, the mean of the controls (CTRL) at a 
+specific CpG site.}
 
-\item{minVal}{a \code{double}, the minimum value accepted for the mean 
-value. If the first entry of \code{valCrtl} is smaller than  
-\code{minVal}, then \code{minVal} is used in the calculation of the alpha 
-parameter.  
+\item{varCtrl}{a \code{double}, the variance of the controls 
+(CTRL) at a specific CpG site.}
+
+\item{minVal}{a \code{double}, the minimum value accepted for the mean
+value. If \code{meanCtrl} is smaller than 
+\code{minVal}, then \code{minVal} is used in the calculation of the alpha
+parameter. 
 Default: \code{1e-06}.}
 }
 \value{
 a \code{double}, the alpha parameter of a Beta distribution.
 }
 \description{
-Estimate the alpha parameter from the mean and the variance 
+Estimate the alpha parameter from the mean and the variance
 of a Beta distribution.
 }
 \examples{
 
-## Estimate alpha parameters with mean = 0.5 and variance = 0.1 
-methInheritSim:::estBetaAlpha(c(0.5,0.1)) 
+## Estimate alpha parameters with mean = 0.5 and variance = 0.1
+methInheritSim:::estBetaAlpha(meanCtrl = 0.5, varCtrl = 0.1)
 
 }
 \author{
-Pascal Belleau
+Pascal Belleau, Astrid Deschenes
 }
 \keyword{internal}

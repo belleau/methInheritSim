@@ -13,28 +13,28 @@ data(dataSimExample)
 
 
 ###################################################
-## estBetaAlphaNew() function
+## estBetaAlpha() function
 ###################################################
 
-test.estBetaAlphaNew_good_01 <- function() {
+test.estBetaAlpha_good_01 <- function() {
     
-    obs <- methInheritSim:::estBetaAlphaNew(0.5, 0.2, 0.00001)
+    obs <- methInheritSim:::estBetaAlpha(0.5, 0.2, 0.00001)
     
     exp <- 0.125
     
-    message <- paste0("test.estBetaAlphaNew_good_01() ",
+    message <- paste0("test.estBetaAlpha_good_01() ",
                       "- Valid parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
 
-test.estBetaAlphaNew_good_02 <- function() {
+test.estBetaAlpha_good_02 <- function() {
     
-    obs <- methInheritSim:::estBetaAlphaNew(0.5, 0.2, 0.4)
+    obs <- methInheritSim:::estBetaAlpha(0.5, 0.2, 0.4)
     
     exp <- 0
     
-    message <- paste0("test.estBetaAlphaNew_good_02() ",
+    message <- paste0("test.estBetaAlpha_good_02() ",
                       "- Valid parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
@@ -42,36 +42,36 @@ test.estBetaAlphaNew_good_02 <- function() {
 
 
 ###################################################
-## estBetaBetaNew() function
+## estBetaBeta() function
 ###################################################
 
-test.estBetaBetaNew_good_01 <- function() {
+test.estBetaBeta_good_01 <- function() {
     
-    obs <- methInheritSim:::estBetaBetaNew(meanCtrl=0.3, varCtrl=0.2, 0.00001)
+    obs <- methInheritSim:::estBetaBeta(meanCtrl=0.3, varCtrl=0.2, 0.00001)
     
     exp <- 0.035
     
-    message <- paste0("test.estBetaBetaNew_good_01() ",
+    message <- paste0("test.estBetaBeta_good_01() ",
                       "- Valid parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
 
-test.estBetaBetaNew_good_02 <- function() {
+test.estBetaBeta_good_02 <- function() {
     
-    obs <- methInheritSim:::estBetaBetaNew(meanCtrl=0.3, varCtrl=0.2, 0.35)
+    obs <- methInheritSim:::estBetaBeta(meanCtrl=0.3, varCtrl=0.2, 0.35)
     
     exp <- 0
     
-    message <- paste0("test.estBetaBetaNew_good_02() ",
+    message <- paste0("test.estBetaBeta_good_02() ",
                       "- Valid parameters did not generated expected results.")
     
     checkEquals(obs, exp, message)
 }
 
-test.estBetaBetaNew_good_03 <- function() {
+test.estBetaBeta_good_03 <- function() {
     
-    obs <- methInheritSim:::estBetaBetaNew(meanCtrl=0.2, varCtrl=0.002, 0.00001)
+    obs <- methInheritSim:::estBetaBeta(meanCtrl=0.2, varCtrl=0.002, 0.00001)
     
     exp <- 63.2
     
