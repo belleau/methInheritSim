@@ -5,49 +5,20 @@
 \title{Simulate a multigeneration methylation experiment with inheritance on
 each synthetic chromosome.}
 \usage{
-runOnEachSynCHR(outputDir, fileID, nbSynCHR, methData, nbSimulation, nbBlock,
-  nbCpG, nbGeneration, vNbSample, vpDiff, vpDiffsd, vDiff, vInheritance,
-  rateDiff, minRate, propInherite, propHetero, minReads, maxPercReads, meanCov,
-  context, assembly, keepDiff, saveGRanges, saveMethylKit, runAnalysis, nbCores,
+runOnEachSynCHR(methData, nbSynCHR, nbSimulation, nbBlock, nbCpG, nbGeneration,
+  vNbSample, vpDiff, vpDiffsd, vDiff, vInheritance, rateDiff, minRate,
+  propInherite, propHetero, keepDiff, outputDir, fileID, minReads, maxPercReads,
+  meanCov, context, assembly, saveGRanges, saveMethylKit, runAnalysis, nbCores,
   vSeed)
 }
 \arguments{
-\item{outputDir}{a string of \code{character} or \code{NULL}, the path 
-where the files created by the function will be saved. When \code{NULL}, 
-the files are saved in a directory called "outputDir" that is located in 
-the current directory.}
-
-\item{fileID}{a string of \code{character}, a identifiant that will be 
-included in each output file name. Each output 
-file name is 
-composed of those elements, separated by "_":
-\itemize{ 
-\item a type name, ex: methylGR, methylObj, etc..
-\item a \code{fileID}
-\item the chromosome number, a number between 1 and \code{nbSynCHR}
-\item the number of samples, a number in the \code{vNbSample} \code{vector}
-\item the mean proportion of samples that has,
-for a specific position, differentially methylated values, a 
-number in the \code{vpDiff} \code{vector}
-\item the proportion of 
-C/T for a case differentially methylated that follows a shifted beta 
-distribution, a
-number in the \code{vDiff} \code{vector}
-\item the 
-proportion of cases that inherits differentially sites, a number in the
-\code{vInheritance} \code{vector}
-\item the identifiant for the simulation, a number 
-between 1 and \code{nbSimulation}
-\item the file extension ".rds"
-}}
-
-\item{nbSynCHR}{a positive \code{integer}, the number of distinct synthetic 
-chromosomes that will be generated.}
-
 \item{methData}{an object of class \code{methylBase}, the CpG information
 from controls (CTRL) that will be used to create the synthetic chromosome. 
 The \code{methData} object can also contain information from cases but 
 only the controls are used.}
+
+\item{nbSynCHR}{a positive \code{integer}, the number of distinct synthetic 
+chromosomes that will be generated.}
 
 \item{nbSimulation}{a positive \code{integer}, the number of simulations 
 generated 
@@ -107,6 +78,41 @@ are inherated.}
 \item{propHetero}{a non-negative \code{double} between [0,1], the 
 reduction of \code{vDiff} for the second and following generations.}
 
+\item{keepDiff}{a \code{logical}, when \code{TRUE}, the 
+differentially methylated sites
+will be the same for all simulated datasets. Datasets generated using 
+differents parameter values from vector parameters (\code{vpDiff}, 
+\code{vDiff} and \code{vInheritance}) wil all have the same differentially
+methylated sites.}
+
+\item{outputDir}{a string of \code{character} or \code{NULL}, the path 
+where the files created by the function will be saved. When \code{NULL}, 
+the files are saved in a directory called "outputDir" that is located in 
+the current directory.}
+
+\item{fileID}{a string of \code{character}, a identifiant that will be 
+included in each output file name. Each output file name is 
+composed of those elements, separated by "_":
+\itemize{ 
+\item a type name, ex: methylGR, methylObj, etc..
+\item a \code{fileID}
+\item the chromosome number, a number between 1 and \code{nbSynCHR}
+\item the number of samples, a number in the \code{vNbSample} \code{vector}
+\item the mean proportion of samples that has,
+for a specific position, differentially methylated values, a 
+number in the \code{vpDiff} \code{vector}
+\item the proportion of 
+C/T for a case differentially methylated that follows a shifted beta 
+distribution, a
+number in the \code{vDiff} \code{vector}
+\item the 
+proportion of cases that inherits differentially sites, a number in the
+\code{vInheritance} \code{vector}
+\item the identifiant for the simulation, a number 
+between 1 and \code{nbSimulation}
+\item the file extension ".rds"
+}}
+
 \item{minReads}{a positive \code{integer}, sites and regions having lower
 coverage than this count are discarded. The parameter
 corresponds to the \code{lo.count} parameter in 
@@ -127,13 +133,6 @@ methylation context, such as "CpG", "CpH", "CHH", etc..}
 
 \item{assembly}{a string of \code{character}, the short description of the 
 genome assembly, such as "mm9", "hg18", etc..}
-
-\item{keepDiff}{a \code{logical}, when \code{TRUE}, the 
-differentially methylated sites
-will be the same for all simulated datasets. Datasets generated using 
-differents parameter values from vector parameters (\code{vpDiff}, 
-\code{vDiff} and \code{vInheritance}) wil all have the same differentially
-methylated sites.}
 
 \item{saveGRanges}{a \code{logical}, when \code{true}, the package save two 
 files type. The first generate for each simulation contains a \code{list}. 
@@ -205,14 +204,14 @@ if(!dir.exists(temp_dir)) {
 ## over 3 generations (nbGenration = 3) with
 ## 6 cases and 6 controls (nNbsample = 6) using only one set
 ## of parameters (vpDiff = 0.9, vpDiffsd = 0.1, vDiff = 0.8)
-methInheritSim:::runOnEachSynCHR(outputDir = temp_dir, fileID = "F1", 
-    nbSynCHR = 1, methData = samplesForChrSynthetic, nbSimulation = 2, 
-    nbBlock = 10, nbCpG = 20, nbGeneration = 3, vNbSample = c(6), 
-    vpDiff = c(0.9), vpDiffsd = c(0.1), vDiff = c(0.8), 
-    vInheritance = c(0.5), propInherite = 0.3,
-    rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, minReads = 10, 
+methInheritSim:::runOnEachSynCHR(methData = samplesForChrSynthetic, 
+    nbSynCHR = 1, nbSimulation = 2, nbBlock = 10, nbCpG = 20, 
+    nbGeneration = 3, vNbSample = c(6), vpDiff = c(0.9), vpDiffsd = c(0.1), 
+    vDiff = c(0.8), vInheritance = c(0.5), propInherite = 0.3, 
+    rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, keepDiff = FALSE, 
+    outputDir = temp_dir, fileID = "F1",  minReads = 10, 
     maxPercReads = 99.9, meanCov = 80, context = "CpG", assembly="Rnor_5.0",
-    keepDiff = FALSE, saveGRanges = FALSE, saveMethylKit = FALSE,
+    saveGRanges = FALSE, saveMethylKit = FALSE,
     runAnalysis = FALSE, nbCores = 1, vSeed = 32)
 
 ## Delete the output directory and its content

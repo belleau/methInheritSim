@@ -281,7 +281,7 @@ test.runSim_good_001 <- function() {
 
 test.runSim_NULL_outputDir <- function() {
     
-    ## Create 1simulated dataset (nbSimulation = 1)
+    ## Create 1 simulated dataset (nbSimulation = 1)
     ## over 2 generations (nbGeneration = 2) with
     ## 2 cases and 2 controls (vNbsample = 2) using only one set
     ## of parameters (vpDiff = 0.9, vpDiffsd = 0.1, vDiff = 0.8)
