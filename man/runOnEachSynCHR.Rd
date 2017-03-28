@@ -13,9 +13,8 @@ runOnEachSynCHR(outputDir, fileID, nbSynCHR, methData, nbSimulation, nbBlock,
 }
 \arguments{
 \item{outputDir}{a string of \code{character} or \code{NULL}, the path 
-where the 
-files created by the function will be saved. When \code{NULL}, the files
-are saved in a directory called "outputDir" that is located in 
+where the files created by the function will be saved. When \code{NULL}, 
+the files are saved in a directory called "outputDir" that is located in 
 the current directory.}
 
 \item{fileID}{a string of \code{character}, a identifiant that will be 
@@ -102,8 +101,7 @@ methylated.}
 minimum rate for differentially methylated sites.}
 
 \item{propInherite}{a non-negative \code{double} inferior or equal 
-to \code{1}, 
-the proportion of differentially methylated regions that 
+to \code{1}, the proportion of differentially methylated regions that 
 are inherated.}
 
 \item{propHetero}{a non-negative \code{double} between [0,1], the 

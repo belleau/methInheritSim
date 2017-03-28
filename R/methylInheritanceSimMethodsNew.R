@@ -1,6 +1,5 @@
 #' @title Simulate a multigeneration methylation experiment with inheritance 
 #' 
-#'
 #' @description Simulate a multigeneration methylation case versus control 
 #' experiment 
 #' with inheritance relation using a real control dataset. 

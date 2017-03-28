@@ -1897,7 +1897,6 @@ createSampleID <- function(nbGeneration, nbSample) {
 }
 
 
-
 #' @title Simulate a multigeneration methylation experiment with inheritance on
 #' each synthetic chromosome.
 #' 
@@ -1905,9 +1904,8 @@ createSampleID <- function(nbGeneration, nbSample) {
 #' experiment with inheritance relation using a real control dataset. 
 #' 
 #' @param outputDir a string of \code{character} or \code{NULL}, the path 
-#' where the 
-#' files created by the function will be saved. When \code{NULL}, the files
-#' are saved in a directory called "outputDir" that is located in 
+#' where the files created by the function will be saved. When \code{NULL}, 
+#' the files are saved in a directory called "outputDir" that is located in 
 #' the current directory. 
 #'
 #' @param fileID a string of \code{character}, a identifiant that will be 
@@ -1994,8 +1992,7 @@ createSampleID <- function(nbGeneration, nbSample) {
 #' minimum rate for differentially methylated sites.
 #'
 #' @param propInherite a non-negative \code{double} inferior or equal 
-#' to \code{1}, 
-#' the proportion of differentially methylated regions that 
+#' to \code{1}, the proportion of differentially methylated regions that 
 #' are inherated.
 #'
 #' @param propHetero a non-negative \code{double} between [0,1], the 
@@ -2112,14 +2109,13 @@ createSampleID <- function(nbGeneration, nbSample) {
 #' @author Pascal Belleau, Astrid Deschenes
 #' @keywords internal
 runOnEachSynCHR <- function(outputDir, fileID, nbSynCHR, methData, 
-                        nbSimulation, nbBlock, nbCpG, nbGeneration, 
-                        vNbSample, vpDiff, vpDiffsd, vDiff, vInheritance, 
-                        rateDiff, minRate, propInherite, propHetero, minReads, 
+                        nbSimulation, nbBlock, nbCpG, nbGeneration, vNbSample, 
+                        vpDiff, vpDiffsd, vDiff, vInheritance, rateDiff, 
+                        minRate, propInherite, propHetero, minReads, 
                         maxPercReads, meanCov, context, assembly, keepDiff, 
                         saveGRanges, saveMethylKit, runAnalysis, nbCores, 
                         vSeed)
 {
-    
     ## Fix seed
     RNGkind("L'Ecuyer-CMRG")
     set.seed(fixSeed(vSeed))
@@ -2127,8 +2123,7 @@ runOnEachSynCHR <- function(outputDir, fileID, nbSynCHR, methData,
     for(s in 1:nbSynCHR) {
         # Create synthetic chromosome
         res <- getSyntheticChr(methInfo = methData, nbBlock = nbBlock, 
-                               nbCpG = nbCpG)
-        
+                                nbCpG = nbCpG)
         adPref <- paste0(fileID, "_", s)
         saveRDS(res, file = paste0(outputDir, "/stateInfo_", adPref, ".rds"))
         
@@ -2142,7 +2137,7 @@ runOnEachSynCHR <- function(outputDir, fileID, nbSynCHR, methData,
             
             if(saveGRanges){
                 saveRDS(treatment, file = paste0(outputDir, "/treatment_", 
-                                                 adPrefSample, ".rds"))
+                                                    adPrefSample, ".rds"))
             }
             
             # Define  sample.id 
@@ -2165,7 +2160,6 @@ runOnEachSynCHR <- function(outputDir, fileID, nbSynCHR, methData,
                     
                     for (k in seq_len(length(vDiff))) {
                         diffValue <- vDiff[k]
-                        
                         propInheritance <- ifelse(vInheritance[i] >= 0, 
                                                 vInheritance[i], vpDiff[j])
                         
@@ -2178,17 +2172,15 @@ runOnEachSynCHR <- function(outputDir, fileID, nbSynCHR, methData,
                                     FUN = simInheritance, pathOut = outputDir, 
                                     pref = prefBase, nbCtrl = nbCtrl, 
                                     nbCase = nbCase, treatment = treatment, 
-                                    sample.id = sample.id, 
-                                    generation = nbGeneration,
-                                    stateInfo = res, rateDiff = rateDiff,
-                                    minRate = minRate, 
+                                    sample.id = sample.id, generation = 
+                                    nbGeneration, stateInfo = res, rateDiff = 
+                                    rateDiff, minRate = minRate, 
                                     propInherite = propInherite,
                                     diffValue = diffValue, propDiff = propDiff,
                                     propDiffsd = propDiffsd, 
                                     propInheritance = propInheritance,
-                                    propHetero = propHetero, 
-                                    minReads = minReads, 
-                                    maxPercReads = maxPercReads,
+                                    propHetero = propHetero, minReads = 
+                                    minReads, maxPercReads = maxPercReads,
                                     context = context, assembly = assembly,
                                     meanCov = meanCov, diffRes = diffRes,
                                     saveGRanges = saveGRanges,
@@ -2199,24 +2191,20 @@ runOnEachSynCHR <- function(outputDir, fileID, nbSynCHR, methData,
                             ## lapply on Windows. This case created
                             ## unrepoducible results on Windows and other OS.
                             a <- lapply(seq_len(nbSimulation), 
-                                    FUN = simInheritance, 
-                                    pathOut = outputDir, pref = prefBase, 
-                                    nbCtrl = nbCtrl, nbCase = nbCase, 
-                                    treatment = treatment, 
-                                    sample.id = sample.id, 
-                                    generation = nbGeneration,
-                                    stateInfo = res, rateDiff = rateDiff,
-                                    minRate = minRate, 
-                                    propInherite = propInherite,
-                                    diffValue = diffValue, propDiff = propDiff,
-                                    propDiffsd = propDiffsd, 
-                                    propInheritance = propInheritance,
-                                    propHetero = propHetero, 
-                                    minReads = minReads, 
-                                    maxPercReads = maxPercReads,
-                                    context = context, assembly = assembly,
-                                    meanCov = meanCov, diffRes = diffRes,
-                                    saveGRanges = saveGRanges,
+                                    FUN = simInheritance, pathOut = outputDir, 
+                                    pref = prefBase, nbCtrl = nbCtrl, 
+                                    nbCase = nbCase, treatment = treatment, 
+                                    sample.id = sample.id, generation = 
+                                    nbGeneration, stateInfo = res, rateDiff = 
+                                    rateDiff, minRate = minRate, 
+                                    propInherite = propInherite, diffValue = 
+                                    diffValue, propDiff = propDiff, 
+                                    propDiffsd = propDiffsd, propInheritance = 
+                                    propInheritance, propHetero = propHetero, 
+                                    minReads = minReads, maxPercReads = 
+                                    maxPercReads, context = context, assembly = 
+                                    assembly, meanCov = meanCov, diffRes = 
+                                    diffRes, saveGRanges = saveGRanges,
                                     saveMethylKit = saveMethylKit,
                                     runAnalysis = runAnalysis)
                         }
@@ -2225,5 +2213,5 @@ runOnEachSynCHR <- function(outputDir, fileID, nbSynCHR, methData,
             }
         }
     }
-    return(0)
+    return(a)
 }
