@@ -122,157 +122,126 @@ test.runSim_good_001 <- function() {
     obsMethylGR_1 <- readRDS(paste0(temp_dir, "/methylGR_F1_1_6_0.9_0.8_0.5_1.rds"))
     obsMethylGR_2 <- readRDS(paste0(temp_dir, "/methylGR_F1_1_6_0.9_0.8_0.5_2.rds"))
     
-    methylGR_1_1_1 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"), coverage = c(89, 77, 71, 72, 83, 94, 92, 70), 
-                                                  numCs = c(88, 75,  0,  2,  0,  0,  0,  1),
-                                                  numTs = c(1, 2, 71, 70, 83, 94, 92, 69)),
-                          sample.id = "F1_1_C", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+    methylGR_1_1_1 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(89, 77, 71, 72, 83, 94, 92, 70), 
+                            numCs = unlist(list(ctrl.V1=88, ctrl.V1=75, ctrl.V1=0, ctrl.V1=2, ctrl.V1=0, ctrl.V1=0, 
+                                                ctrl.V1=0, ctrl.V1=1)))
     
-    methylGR_1_1_4 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"), coverage = c(90, 87, 79, 78, 90, 82, 78, 87), 
-                                                  numCs = c(84, 82, 0, 1, 0, 1, 2, 1),
-                                                  numTs = c(6, 5, 79, 77, 90, 81, 76, 86)),
-                          sample.id = "F1_4_C", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+    methylGR_1_1_4 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                    end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(90, 87, 79, 78, 90, 82, 78, 87), 
+                            numCs = unlist(list(ctrl.V4=84, ctrl.V4=82, ctrl.V4=0, ctrl.V4=1, ctrl.V4=0, ctrl.V4=1, 
+                                                ctrl.V4=2, ctrl.V4=1)))
     
-    methylGR_1_1_7 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"), coverage = c(74, 79, 80, 92, 82, 106, 87, 84), 
-                                                  numCs = c(73, 15, 1, 0, 0, 84, 71, 68),
-                                                  numTs = c(1, 64, 79, 92, 82, 22, 16, 16)),
-                          sample.id = "F1_7_OC", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+    methylGR_1_1_7 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                    end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(74, 79, 80, 92, 82, 106, 87, 84), 
+                            numCs = unlist(list(case.V1=73, case.V1=15, case.V1=1, case.V1=0, case.V1=0, case.V1=84, 
+                                                case.V1=71, case.V1=68)))
     
-    methylGR_1_1_9 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"), coverage = c(81, 84, 86, 84, 72, 72, 86, 72), 
-                                                  numCs = c(76, 15, 0, 1, 0, 58, 70, 58),
-                                                  numTs = c(5, 69, 86, 83, 72, 14, 16, 14)),
-                          sample.id = "F1_9_OC", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+    methylGR_1_1_9 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                    end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(81, 84, 86, 84, 72, 72, 86, 72), 
+                            numCs = unlist(list(case.V3=76, case.V3=15, case.V3=0, case.V3=1, case.V3=0, case.V3=58, 
+                                        case.V3=70, case.V3=58)))
     
-    methylGR_1_2_2 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"), coverage = c(80, 91, 77, 92, 79, 74, 72, 83), 
-                                                  numCs = c(79, 84, 22,  5,  0,  0,  1,  2),
-                                                  numTs = c(1, 7, 55, 87, 79, 74, 71, 81)),
-                          sample.id = "F2_2_C", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+    methylGR_1_2_2 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(80, 91, 77, 92, 79, 74, 72, 83), 
+                            numCs = unlist(list(ctrl.V2=79, ctrl.V2=84, ctrl.V2=22, ctrl.V2=5, ctrl.V2=0, ctrl.V2=0, 
+                                        ctrl.V2=1, ctrl.V2=2)))
     
-    methylGR_1_2_5 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"), coverage = c(85, 69, 72, 105, 67, 61, 74, 96), 
-                                                  numCs = c(73, 67, 8, 1, 0, 1, 4, 1),
-                                                  numTs = c(12, 2, 64, 104, 67, 60, 70, 95)),
-                          sample.id = "F2_5_C", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+    methylGR_1_2_5 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(85, 69, 72, 105, 67, 61, 74, 96), 
+                            numCs = unlist(list(ctrl.V5=73, ctrl.V5=67, ctrl.V5=8, ctrl.V5=1, ctrl.V5=0, ctrl.V5=1, 
+                                                ctrl.V5=4, ctrl.V5=1)))
     
-    methylGR_1_2_8 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"), coverage = c(84, 98, 79, 70, 93, 86, 92, 77), 
-                                                  numCs = c(84, 91, 2, 8, 1, 0, 6, 1),
-                                                  numTs = c(0, 7, 77, 62, 92, 86, 86, 76)),
-                          sample.id = "F2_8_OC", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+    methylGR_1_2_8 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(84, 98, 79, 70, 93, 86, 92, 77), 
+                            numCs = unlist(list(case.V2=84, case.V2=91, case.V2=2, case.V2=8, case.V2=1, case.V2=0, 
+                                                case.V2=6, case.V2=1)))
     
-    methylGR_1_3_3 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"), coverage = c(90, 90, 97, 83, 76, 82, 87, 85), 
-                                                  numCs = c(86, 87, 10, 4, 4, 0, 1, 1),
-                                                  numTs = c(4, 3, 87, 79, 72, 82, 86, 84)),
-                          sample.id = "F3_3_C", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+    methylGR_1_3_3 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(90, 90, 97, 83, 76, 82, 87, 85), 
+                            numCs = unlist(list(ctrl.V3=86, ctrl.V3=87, ctrl.V3=10, ctrl.V3=4, ctrl.V3=4, ctrl.V3=0, 
+                                                ctrl.V3=1, ctrl.V3=1)))
     
-    methylGR_1_3_11 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                   start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                   end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                   strand = strand("+"), coverage = c(92, 81, 74, 79, 80, 98, 65, 75), 
-                                                   numCs = c(89, 79, 8, 2, 1, 0, 1, 1),
-                                                   numTs = c(3, 2, 66, 77, 79, 98, 64, 74)),
-                           sample.id = "F3_11_OC", assembly = "Rnor_5.0",
-                           context = "CpG", resolution = 'base')
+    methylGR_1_3_11 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                                   end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(92, 81, 74, 79, 80, 98, 65, 75), 
+                            numCs = unlist(list(case.V5=89, case.V5=79, case.V5=8, case.V5=2, case.V5=1, case.V5=0, 
+                                                case.V5=1, case.V5=1)))
     
-    methylGR_2_1_3 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"), coverage = c(75, 79, 80, 81, 87, 83, 67, 66), 
-                                                  numCs = c(63, 77, 14, 0, 0, 0, 2, 1),
-                                                  numTs = c(12, 2, 66, 81, 87, 83, 65, 65)),
-                          sample.id = "F1_3_C", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+    methylGR_2_1_3 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                            end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(75, 79, 80, 81, 87, 83, 67, 66), 
+                            numCs = unlist(list(ctrl.V3=63, ctrl.V3=77, ctrl.V3=14, ctrl.V3=0, ctrl.V3=0, ctrl.V3=0, 
+                                                 ctrl.V3=2, ctrl.V3=1)))
     
-    methylGR_2_1_10 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                   start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                   end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                   strand = strand("+"), coverage = c(81, 86, 88, 87, 91, 95, 79, 81), 
-                                                   numCs = c(14, 16, 74,  5, 73,  0, 65, 67),
-                                                   numTs = c(67, 70, 14, 82, 18, 95, 14, 14)),
-                           sample.id = "F1_10_OC", assembly = "Rnor_5.0",
-                           context = "CpG", resolution = 'base')
+    methylGR_2_1_10 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                                   end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(81, 86, 88, 87, 91, 95, 79, 81), 
+                            numCs = unlist(list(case.V4=14, case.V4=16, case.V4=74, case.V4=5, case.V4=73, 
+                                                    case.V4=0, case.V4=65, case.V4=67)))
     
-    methylGR_2_2_2 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"), coverage = c(77, 93, 75, 83, 102, 72, 89, 88), 
-                                                  numCs = c(77, 92, 3, 4, 1, 0, 2, 1),
-                                                  numTs = c(0, 1, 72, 79, 101, 72, 87, 87)),
-                          sample.id = "F2_2_C", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+    methylGR_2_2_2 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                                end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(77, 93, 75, 83, 102, 72, 89, 88), 
+                            numCs = unlist(list(ctrl.V2=77, ctrl.V2=92, ctrl.V2=3, ctrl.V2=4, ctrl.V2=1, ctrl.V2=0, 
+                                                ctrl.V2=2, ctrl.V2=1)))
     
-    methylGR_2_2_7 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"), coverage = c(90, 78, 82, 79, 82, 80, 89, 73), 
-                                                  numCs = c(79, 76, 3, 1, 33, 3, 38, 30),
-                                                  numTs = c(11, 2, 79, 78, 49, 77, 51, 43)),
-                          sample.id = "F2_7_OC", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+    methylGR_2_2_7 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(90, 78, 82, 79, 82, 80, 89, 73), 
+                            numCs = unlist(list(case.V1=79, case.V1=76, case.V1=3, case.V1=1, case.V1=33, case.V1=3, 
+                                                case.V1=38, case.V1=30)))
     
-    methylGR_2_3_4 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                  start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                  end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                  strand = strand("+"), coverage = c(90, 80, 87, 71, 89, 73, 73, 66), 
-                                                  numCs = c(88, 74, 1, 5, 0, 1, 5, 0),
-                                                  numTs = c(2, 6, 86, 66, 89, 72, 68, 66)),
-                          sample.id = "F3_4_C", assembly = "Rnor_5.0",
-                          context = "CpG", resolution = 'base')
+    methylGR_2_3_4 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                        end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(90, 80, 87, 71, 89, 73, 73, 66), 
+                            numCs = unlist(list(ctrl.V4=88, ctrl.V4=74, ctrl.V4=1, ctrl.V4=5, ctrl.V4=0, ctrl.V4=1, 
+                                                ctrl.V4=5, ctrl.V4=0)))
     
-    methylGR_2_3_12 <- new("methylRaw", data.frame(chr = rep("S", 8), 
-                                                   start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
-                                                   end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344),
-                                                   strand = strand("+"), coverage = c(84, 79, 77, 83, 65, 85, 81, 77), 
-                                                   numCs = c(83, 74, 9, 1, 0, 0, 2, 1),
-                                                   numTs = c(1, 5, 68, 82, 65, 85, 79, 76)),
-                           sample.id = "F3_12_OC", assembly = "Rnor_5.0",
-                           context = "CpG", resolution = 'base')
+    methylGR_2_3_12 <- GenomicRanges::GRanges(seqnames = rep("S", 8),
+                            ranges = IRanges::IRanges(start = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344), 
+                                                   end = c(1000, 1009, 1021, 42325, 52325, 52340, 52342, 52344)),
+                            strand = strand("+"), coverage = c(84, 79, 77, 83, 65, 85, 81, 77), 
+                            numCs = unlist(list(case.V6=83, case.V6=74, case.V6=9, case.V6=1, case.V6=0, case.V6=0, 
+                                                case.V6=2, case.V6=1)))
     
-    
-    checkEquals(obsMethylGR_1[[1]][[1]], methylGR_1_1_1)
-    checkEquals(obsMethylGR_1[[1]][[4]], methylGR_1_1_4)
-    checkEquals(obsMethylGR_1[[1]][[7]], methylGR_1_1_7)
-    checkEquals(obsMethylGR_1[[1]][[9]], methylGR_1_1_9)
-    checkEquals(obsMethylGR_1[[2]][[2]], methylGR_1_2_2)
-    checkEquals(obsMethylGR_1[[2]][[5]], methylGR_1_2_5)
-    checkEquals(obsMethylGR_1[[2]][[8]], methylGR_1_2_8)
-    checkEquals(obsMethylGR_1[[3]][[3]], methylGR_1_3_3)
-    checkEquals(obsMethylGR_1[[3]][[11]], methylGR_1_3_11)
-    checkEquals(obsMethylGR_2[[1]][[3]], methylGR_2_1_3)
-    checkEquals(obsMethylGR_2[[1]][[10]], methylGR_2_1_10)
-    checkEquals(obsMethylGR_2[[2]][[2]], methylGR_2_2_2)
-    checkEquals(obsMethylGR_2[[2]][[7]], methylGR_2_2_7)
-    checkEquals(obsMethylGR_2[[3]][[4]], methylGR_2_3_4)
-    checkEquals(obsMethylGR_2[[3]][[12]], methylGR_2_3_12)
+    checkEquals(obsMethylGR_1[[1]][[1]], methylGR_1_1_1, message)
+    checkEquals(obsMethylGR_1[[1]][[4]], methylGR_1_1_4, message)
+    checkEquals(obsMethylGR_1[[1]][[7]], methylGR_1_1_7, message)
+    checkEquals(obsMethylGR_1[[1]][[9]], methylGR_1_1_9, message)
+    checkEquals(obsMethylGR_1[[2]][[2]], methylGR_1_2_2, message)
+    checkEquals(obsMethylGR_1[[2]][[5]], methylGR_1_2_5, message)
+    checkEquals(obsMethylGR_1[[2]][[8]], methylGR_1_2_8, message)
+    checkEquals(obsMethylGR_1[[3]][[3]], methylGR_1_3_3, message)
+    checkEquals(obsMethylGR_1[[3]][[11]], methylGR_1_3_11, message)
+    checkEquals(obsMethylGR_2[[1]][[3]], methylGR_2_1_3, message)
+    checkEquals(obsMethylGR_2[[1]][[10]], methylGR_2_1_10, message)
+    checkEquals(obsMethylGR_2[[2]][[2]], methylGR_2_2_2, message)
+    checkEquals(obsMethylGR_2[[2]][[7]], methylGR_2_2_7, message)
+    checkEquals(obsMethylGR_2[[3]][[4]], methylGR_2_3_4, message)
+    checkEquals(obsMethylGR_2[[3]][[12]], methylGR_2_3_12, message)
     
     if (dir.exists(temp_dir)) {
         unlink(temp_dir, recursive = TRUE, force = FALSE)

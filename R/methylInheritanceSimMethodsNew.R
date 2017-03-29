@@ -285,8 +285,7 @@ runSim <- function(methData, nbSynCHR = 1, nbSimulation = 10, nbBlock = 100,
                 maxPercReads = maxPercReads, meanCov = meanCov, 
                 context = context, assembly = assembly, keepDiff = keepDiff, 
                 saveGRanges = saveGRanges, saveMethylKit = saveMethylKit, 
-                runAnalysis = runAnalysis, nbCores = nbCores, 
-                vSeed = vSeed)
+                runAnalysis = runAnalysis, nbCores = nbCores, vSeed = vSeed)
     
     return(result)
 }

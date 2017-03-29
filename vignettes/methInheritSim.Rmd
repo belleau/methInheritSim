@@ -313,10 +313,10 @@ An example of a valid file name: stateDiff_S1_1_3_0.9_0.8_0.5_1.rds
 When **saveGRanges** parameter is **TRUE**, the package saves two extra types 
 of files:
 
-1. Raw methylation data for all samples in **GRanges** format ()
+1. Raw methylation data for all samples in **GRanges** format ("methylGR" prefix)
 2. Information about controls and cases ("treatment" prefix)
 
-### Raw methylation data for all samples
+### Raw methylation data for all samples in **GRanges** format ("methylGR" prefix)
 
 The first type of files is generated for each simulation and contains 
 a **list** of **GRangesList**. The length of the **list** corresponds to 
@@ -326,6 +326,23 @@ entry = second generation, etc..). All samples related to one generations are
 stored in a **GRangesList** object. The **GRangesList** object contains 
 a **list** of **GRanges**. Each **GRanges** stores the raw methylation data 
 of one sample. 
+
+
+There is one file per simulation. The file name is composed of those 
+elements, separated by "_": 
+
+1. The string "methylGR"
+2. The code of the simulation (the **fileID** parameter, ex: "S1"") 
+3. The chromosome number (between 1 and the value of the **nbSynCHR**)
+4. The number of controls as specified by the **vNBSample** parameter
+5. The value of the **vpDiff** parameter
+6. The value of the **vDiff** parameter 
+7. The value of the **vInheritance** parameter
+8. The ID of the simulation (between 1 and the value of the **nbSimulation**)
+9. The file extension ".rds"
+
+An example of a valid file name: methylGR_S1_1_3_0.9_0.8_0.5_1.rds
+
 
 ### Information about controls and cases ("treatment" prefix)
 
@@ -341,19 +358,45 @@ The file name is composed of those elements, separated by "_":
 4. The number of controls as specified by the **vNBSample** parameter
 5. The file extension ".rds"
 
+An example of a valid file name: treatment_S1_1_3.rds
+
 
 ## Files related to **saveMethylKit** parameter
 
-When **saveMethylKit** is **TRUE**, for each simulation save a file contains 
-a list.The length of the list corresponds to the number of generations. 
-The generations 
+When **saveMethylKit** is **TRUE**, one extra file is saved for each 
+generation:
+
+1. Raw methylation data in **methylRaw** format ("methylObj" prefix)
+
+### Raw methylation data in **methylRaw** format ("methylObj" prefix)
+
+The file contains the raw methylation information from the simulated dataset
+formated into **S4 methylRaw** objects using `r Biocpkg("methylKit")` package.
+All samples related to the same generation are contained in a 
+**S4 methylRawList** object that is present inside a **list**. The length of 
+the **list** corresponds to the number of generations. The generations 
 are stored in order (first entry = first generation, second entry = second 
-generation, etc..). All samples related to one generation are contained in a 
-S4 methylRawList object. The methylRawList object contains two Slots:
+generation, etc..). The **S4 methylRawList** object contains two Slots:
 
 1. **treatment**: A numeric vector denoting controls and cases.
-2. **.Data**: A list of methylRaw objects. Each object stores the raw 
+2. **.Data**: A list of **methylRaw** objects. Each object stores the raw 
 methylation data of one sample.
+
+
+There is one file per simulation. The file name is composed of those 
+elements, separated by "_": 
+
+1. The string "methylObj"
+2. The code of the simulation (the **fileID** parameter, ex: "S1"") 
+3. The chromosome number (between 1 and the value of the **nbSynCHR**)
+4. The number of controls as specified by the **vNBSample** parameter
+5. The value of the **vpDiff** parameter
+6. The value of the **vDiff** parameter 
+7. The value of the **vInheritance** parameter
+8. The ID of the simulation (between 1 and the value of the **nbSimulation**)
+9. The file extension ".rds"
+
+An example of a valid file name: methylObj_S1_1_3_0.9_0.8_0.5_1.rds
 
 
 ## Files related to **runAnalysis** parameter
@@ -361,14 +404,57 @@ methylation data of one sample.
 When **runAnalysis** is **TRUE**, two extra files are saved for each 
 simulation:
 
-1. Raw methylation data for each sample in **methylRaw** format ("methylObj" prefix)
-2. Differential methylation statistics in **methylDiff** format ("methDiff" prefix)
+1. Methylation events present in multiple samples in **methylBase** format 
+("meth" prefix)
+2. Differential methylation statistics in **methylDiff** format 
+("methDiff" prefix)
 
-* The first file is the methylObj... file formated with 
-the `r Biocpkg("methylKit")` package in a **S4 methylBase** object 
-(with the methylKit functions: filterByCoverage, normalizeCoverage and unite).
-* The second file contains a **S4 calculateDiffMeth** object generates with 
-the `r Biocpkg("methylKit")` functions calculateDiffMeth on the first file.
+### Methylation events present in multiple samples in **methylBase** format ("meth" prefix) 
+
+The first file contains the simulated dataset formated with 
+the `r Biocpkg("methylKit")` package into a **S4 methylBase** object. The
+transformation is made using the `r Biocpkg("methylKit")` functions: 
+filterByCoverage(), normalizeCoverage() and unite(). Each simulation
+has it own file. Only sites having minimum reads alignment in all
+samples are present in the file.
+
+The file name is composed of those elements, separated by "_": 
+
+1. The string "meth"
+2. The code of the simulation (the **fileID** parameter, ex: "S1"") 
+3. The chromosome number (between 1 and the value of the **nbSynCHR**)
+4. The number of controls as specified by the **vNBSample** parameter
+5. The value of the **vpDiff** parameter
+6. The value of the **vDiff** parameter 
+7. The value of the **vInheritance** parameter
+8. The ID of the simulation (between 1 and the value of the **nbSimulation**)
+9. The file extension ".rds"
+
+An example of a valid file name: meth_S1_1_3_0.9_0.8_0.5_1.rds
+
+
+### Differential methylation statistics in **methylDiff** format ("methDiff" prefix)
+
+The second file contains the result of the differential methylation calculation
+done on the simulated dataset. Each generation of the dataset is analysed 
+separately using the calculateDiffMeth() function of the 
+`r Biocpkg("methylKit")` package. A **S4 methylDiff** object is created for 
+each generation and is stored in the file inside a **list** (first entry = 
+first generation, second entry = second generation, etc...).
+
+The file name is composed of those elements, separated by "_": 
+
+1. The string "methDiff"
+2. The code of the simulation (the **fileID** parameter, ex: "S1"") 
+3. The chromosome number (between 1 and the value of the **nbSynCHR**)
+4. The number of controls as specified by the **vNBSample** parameter
+5. The value of the **vpDiff** parameter
+6. The value of the **vDiff** parameter 
+7. The value of the **vInheritance** parameter
+8. The ID of the simulation (between 1 and the value of the **nbSimulation**)
+9. The file extension ".rds"
+
+An example of a valid file name: methDiff_S1_1_3_0.9_0.8_0.5_1.rds
 
 
 # Conclusion

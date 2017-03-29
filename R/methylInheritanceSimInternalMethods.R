@@ -1012,13 +1012,12 @@ simEachGeneration <- function(simulation, nbCtrl, nbCase, treatment,
             
             if(saveMethylKit || runAnalysis || saveGRanges) {
                 outList[[j]] <- new("methylRaw", 
-                        data.frame(chr = seqnames(testM), 
-                        start = start(testM), end = end(testM), 
-                        strand = strand(testM), coverage = testM$coverage, 
-                        numCs = testM$numCs, numTs = testM$coverage - 
-                        testM$numCs), sample.id = sample.id[[i]][[j]], 
-                        assembly = assembly, context = context, 
-                        resolution = 'base')
+                    data.frame(chr = seqnames(testM), start = start(testM), 
+                    end = end(testM), strand = strand(testM), 
+                    coverage = testM$coverage, numCs = testM$numCs, 
+                    numTs = testM$coverage - testM$numCs), 
+                    sample.id = sample.id[[i]][[j]], assembly = assembly, 
+                    context = context, resolution = 'base')
             }
             if (saveGRanges) {
                 outGR[[j]] <- testM
@@ -1030,7 +1029,7 @@ simEachGeneration <- function(simulation, nbCtrl, nbCase, treatment,
         }
         
         if (saveGRanges) {
-            myGR[[i]] <- outList
+            myGR[[i]] <- outGR
         }
         
         if (runAnalysis) {
