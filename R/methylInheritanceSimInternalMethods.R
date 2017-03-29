@@ -2133,7 +2133,7 @@ runOnEachSynCHR <- function(methData, nbSynCHR, nbSimulation, nbBlock, nbCpG,
             # Define treatment and sample.id 
             treatment <- c(rep(0,nbSample), rep(1,nbSample))
             
-            if(saveGRanges){
+            if (saveGRanges) {
                 saveRDS(treatment, file = paste0(outputDir, "/treatment_", 
                                                     adPrefSample, ".rds"))
             }

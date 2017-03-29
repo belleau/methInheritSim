@@ -85,8 +85,7 @@ Default: \code{0.01}.}
 
 \item{propInherite}{a non-negative \code{double} inferior or equal 
 to \code{1}, 
-the proportion of differentially methylated regions that 
-are inherited.
+the proportion of differentially methylated regions that is inherited.
 Default: \code{0.3}.}
 
 \item{propHetero}{a non-negative \code{double} between [0,1], the 
@@ -97,7 +96,7 @@ Default: \code{0.5}.}
 differentially methylated sites
 will be the same for all simulated datasets. Datasets generated using 
 differents parameter values from vector parameters (\code{vpDiff}, 
-\code{vDiff} and \code{vInheritance}) wil all have the same differentially
+\code{vDiff} and \code{vInheritance}) wil all have the same differentially 
 methylated sites.
 Default: \code{FALSE}.}
 

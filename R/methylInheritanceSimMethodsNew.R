@@ -87,8 +87,7 @@
 #'
 #' @param propInherite a non-negative \code{double} inferior or equal 
 #' to \code{1}, 
-#' the proportion of differentially methylated regions that 
-#' are inherited.
+#' the proportion of differentially methylated regions that is inherited.
 #' Default: \code{0.3}.
 #'
 #' @param propHetero a non-negative \code{double} between [0,1], the 
@@ -99,7 +98,7 @@
 #' differentially methylated sites
 #' will be the same for all simulated datasets. Datasets generated using 
 #' differents parameter values from vector parameters (\code{vpDiff}, 
-#' \code{vDiff} and \code{vInheritance}) wil all have the same differentially
+#' \code{vDiff} and \code{vInheritance}) wil all have the same differentially 
 #' methylated sites.
 #' Default: \code{FALSE}.
 #' 
@@ -261,17 +260,17 @@ runSim <- function(methData, nbSynCHR = 1, nbSimulation = 10, nbBlock = 100,
         outputDir = outputDir, fileID = fileID, methData = methData, 
         context = context, assembly = assembly)
     
-    if(is.null(outputDir)) {
+    if (is.null(outputDir)) {
         outputDir <- "outputDir"
     }
     
     ## Remove ending slash
-    if(substring(outputDir, nchar(outputDir), nchar(outputDir)) == "/") {
+    if (substring(outputDir, nchar(outputDir), nchar(outputDir)) == "/") {
         outputDir <- substring(outputDir, 1, nchar(outputDir) - 1)
     }
     
     ## Create directory
-    if(!dir.exists(outputDir)) {
+    if (!dir.exists(outputDir)) {
         dir.create(outputDir, showWarnings = TRUE)
     }
     
