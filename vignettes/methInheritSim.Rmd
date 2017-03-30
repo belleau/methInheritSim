@@ -207,7 +207,7 @@ runSim(methData = samplesForChrSynthetic,  # The dataset use for generate
         keepDiff = FALSE,  # When FALSE, the differentially methylated
                            # sites are the same in all simulations
         outputDir = temp_dir, # Directory where files are saved
-        fileID = "S1", 
+        fileID = "S1",
         runAnalysis = TRUE, 
         nbCores = 1, 
         vSeed = 32)        # Fix seed to unable reproductive results
