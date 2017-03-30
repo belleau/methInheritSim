@@ -88,7 +88,7 @@ Two parameters are critical during this process:
 
 * **nbBlock**: The number of blocks randomly selected in the 
 real dataset genome. 
-* **lBlock**:  The number of consecutive methylated sites that must contain 
+* **nbCpG**:  The number of consecutive methylated sites that must contain 
 each selected block. 
 
 Those two parameters unable to reproduce CpG islands of customizable size. 
