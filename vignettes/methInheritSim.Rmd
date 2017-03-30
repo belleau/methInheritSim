@@ -176,9 +176,10 @@ The **outputDir** parameter fixes the directory where the results are stored.
 
 
 ```{r runSim01, warning=FALSE, message=FALSE, collapse=TRUE, cache=TRUE}
-
+## Directory where the files related to the simulation will be saved
 temp_dir <- "test_runSim"
 
+## Run the simulation
 runSim(methData = samplesForChrSynthetic,  # The dataset use for generate 
                                            # the synthetic chr.
         nbSynCHR = 1,       # The number of synthetic chromosome
@@ -206,7 +207,7 @@ runSim(methData = samplesForChrSynthetic,  # The dataset use for generate
         keepDiff = FALSE,  # When FALSE, the differentially methylated
                            # sites are the same in all simulations
         outputDir = temp_dir, # Directory where files are saved
-        fileID = "S1", 
+        fileID = "S1",
         runAnalysis = TRUE, 
         nbCores = 1, 
         vSeed = 32)        # Fix seed to unable reproductive results
@@ -240,17 +241,26 @@ real dataset:
 
 * **chrOri**, the chromosome from the real dataset
 * **startOri**, the position of the site in the real dataset
-* **meanCTRL**, the mean of the control in the real dataset
-* **varCTRL**, the variance of the control in the real dataset
+* **meanCTRL**, the mean of the C/T proportion of the control in the real dataset
+* **varCTRL**, the variance of the C/T proportion of the control in the real dataset
 
 The file name is composed of those elements, separated by "_":
 
-1. The string "stateInfo"
+1. The string "syntheticChr"
 2. The code of the simulation (the **fileID** parameter, ex: "S1"") 
 3. The chromosome number 
 4. The file extension ".rds"
 
 An example of a valid file name: syntheticChr_S1_1.rds
+
+```{r syntheticChr, warning=FALSE, message=FALSE, collapse=TRUE, cache=TRUE}  
+## The synthetic chromosome
+syntheticChr <- readRDS("demo_runSim/syntheticChr_S1_1.rds")
+
+## In GRanges format, only Cpg present
+head(syntheticChr, n=3)
+```
+
 
 ## Simulation information in GRanges format ("simData" prefix)
 
@@ -258,8 +268,8 @@ The second type of files contains information about the simulation
 stored in a **GRanges** format. The **GRanges** object has four metadata 
 related to real dataset:
 
-* **meanDiff**, the mean of the shifted distribution
-* **meanCTRL.meanCTRL**, the mean of the control distribution
+* **meanDiff**, the mean of the C/T proportion for the shifted distribution
+* **meanCTRL.meanCTRL**, the mean of the C/T proportion for the control distribution
 * **partitionCase**, the number of cases simulated with the shifted distribution
 * **partitionCtrl**, the number of cases simulated with the control distribution
 
@@ -281,6 +291,16 @@ The file name is composed of those elements, separated by "_":
 
 An example of a valid file name: simData_S1_1_3_0.9_0.8_0.5_1.rds
 
+```{r simData, warning=FALSE, message=FALSE, collapse=TRUE, cache=TRUE}  
+#### The simulation dataset
+simData <- readRDS("demo_runSim/simData_S1_1_3_0.9_0.8_0.5_1.rds")
+
+#### Information for the first generation F1
+head(simData[[1]], n=3)
+
+#### Information for the second generation F2
+head(simData[[2]], n=3)
+```
 
 ## Information about DMS state ("stateDiff" prefix)
 
@@ -306,6 +326,15 @@ The file name is composed of those elements, separated by "_":
 9. The file extension ".rds"
 
 An example of a valid file name: stateDiff_S1_1_3_0.9_0.8_0.5_1.rds
+
+```{r stateDiff, warning=FALSE, message=FALSE, collapse=TRUE, cache=TRUE}  
+#### The DMS state information
+stateDiff <- readRDS("demo_runSim/stateDiff_S1_1_3_0.9_0.8_0.5_1.rds")
+
+#### In stateDiff, the position of DMS is indicated by 1
+#### in stateInherite, the position of inherited DMS is indicated by 1
+head(stateDiff)
+```
 
 
 ## Files related to **saveGRanges** parameter
@@ -343,6 +372,17 @@ elements, separated by "_":
 
 An example of a valid file name: methylGR_S1_1_3_0.9_0.8_0.5_1.rds
 
+```{r methylGR, warning=FALSE, message=FALSE, collapse=TRUE, cache=TRUE}  
+#### The raw methylation data in GRanges
+methylGR <- readRDS("demo_runSim/methylGR_S1_1_3_0.9_0.8_0.5_1.rds")
+
+#### The third sample of the first generation
+head(methylGR[[1]][[3]], n = 3)
+
+#### The fourth sample of the third generation
+head(methylGR[[3]][[4]], n = 3)
+```
+
 
 ### Information about controls and cases ("treatment" prefix)
 
@@ -359,6 +399,14 @@ The file name is composed of those elements, separated by "_":
 5. The file extension ".rds"
 
 An example of a valid file name: treatment_S1_1_3.rds
+
+```{r treatment, warning=FALSE, message=FALSE, collapse=TRUE, cache=TRUE}  
+#### The information about controls and cases 
+treatment <- readRDS("demo_runSim/treatment_S1_1_3.rds")
+
+#### 0 = control, 1 = case, length = number of samples
+head(treatment)
+```
 
 
 ## Files related to **saveMethylKit** parameter
@@ -398,6 +446,17 @@ elements, separated by "_":
 
 An example of a valid file name: methylObj_S1_1_3_0.9_0.8_0.5_1.rds
 
+```{r methylObj, warning=FALSE, message=FALSE, collapse=TRUE, cache=TRUE}  
+## The raw methylation data
+methylObj <- readRDS("demo_runSim/methylObj_S1_1_3_0.9_0.8_0.5_1.rds")
+
+#### The third sample of the first generation
+head(methylObj[[1]][[3]], n = 3)
+
+#### The fourth sample of the third generation
+head(methylObj[[3]][[4]], n = 3)
+```
+
 
 ## Files related to **runAnalysis** parameter
 
@@ -432,6 +491,14 @@ The file name is composed of those elements, separated by "_":
 
 An example of a valid file name: meth_S1_1_3_0.9_0.8_0.5_1.rds
 
+```{r meth, warning=FALSE, message=FALSE, collapse=TRUE, cache=TRUE}  
+#### The methylation events present in multiple samples
+meth <- readRDS("demo_runSim/meth_S1_1_3_0.9_0.8_0.5_1.rds")
+
+#### Information for all samples in the first generation
+head(meth[[1]], n = 3)
+```
+
 
 ### Differential methylation statistics in **methylDiff** format ("methDiff" prefix)
 
@@ -455,6 +522,13 @@ The file name is composed of those elements, separated by "_":
 9. The file extension ".rds"
 
 An example of a valid file name: methDiff_S1_1_3_0.9_0.8_0.5_1.rds
+
+```{r methDiff, warning=FALSE, message=FALSE, collapse=TRUE, cache=TRUE}  
+#### The differential methylation statistics
+methDiff <- readRDS("demo_runSim/methDiff_S1_1_3_0.9_0.8_0.5_1.rds")
+#### Information for the first generation
+head(methDiff[[1]], n = 3)
+```
 
 
 # Conclusion
