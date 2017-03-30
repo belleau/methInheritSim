@@ -1814,10 +1814,10 @@ test.simInheritance_001 <- function() {
                         assembly="RNOR_5.0", context="Cpg", meanCov = 40, diffRes = stateDiff,
                         saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
     
-    checkTrue(file.exists(paste0(temp_dir, "/simV0.1_", pref, "_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/simData_", pref, "_1.rds")))
     checkTrue(file.exists(paste0(temp_dir, "/stateDiff_", pref, "_1.rds")))
     
-    obsA <- readRDS(paste0(temp_dir, "/simV0.1_", pref, "_1.rds"))
+    obsA <- readRDS(paste0(temp_dir, "/simData_", pref, "_1.rds"))
     
     obsB <- readRDS(paste0(temp_dir, "/stateDiff_", pref, "_1.rds"))
     
@@ -1884,19 +1884,19 @@ test.simInheritance_diffRes_NULL <- function() {
     set.seed(10211211)
     
     methInheritSim:::simInheritance(pathOut = temp_dir,
-                                             pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
-                                             treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
-                                             generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
-                                             propDiff = 0.4, propDiffsd = 0.1, diffValue = 0.3, 
-                                             propInheritance = 0.5, rateDiff = 0.3, minRate = 0.3,
-                                             propInherite = 0.6, propHetero = 0.6, minReads = 10, maxPercReads = 99, 
-                                             assembly="RNOR_5.0", context="Cpg", meanCov = 40, diffRes = NULL,
-                                             saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
+            pref = pref, k = 1, nbCtrl = 2, nbCase = 2, 
+            treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
+            generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
+            propDiff = 0.4, propDiffsd = 0.1, diffValue = 0.3, 
+            propInheritance = 0.5, rateDiff = 0.3, minRate = 0.3,
+            propInherite = 0.6, propHetero = 0.6, minReads = 10, maxPercReads = 99, 
+            assembly="RNOR_5.0", context="Cpg", meanCov = 40, diffRes = NULL,
+            saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
     
-    checkTrue(file.exists(paste0(temp_dir, "/simV0.1_", pref, "_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/simData_", pref, "_1.rds")))
     checkTrue(file.exists(paste0(temp_dir, "/stateDiff_", pref, "_1.rds")))
     
-    obsA <- readRDS(paste0(temp_dir, "/simV0.1_", pref, "_1.rds"))
+    obsA <- readRDS(paste0(temp_dir, "/simData_", pref, "_1.rds"))
     
     obsB <- readRDS(paste0(temp_dir, "/stateDiff_", pref, "_1.rds"))
     
@@ -1977,15 +1977,13 @@ test.simInheritance_saveGRanges_TRUE <- function() {
                                 assembly="RNOR_5.0", context="Cpg", meanCov = 50, diffRes = NULL,
                                 saveGRanges = TRUE, saveMethylKit = FALSE, runAnalysis = FALSE)
     
-    checkTrue(file.exists(paste0(temp_dir, "/simV0.1_", pref, "_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/simData_", pref, "_1.rds")))
     checkTrue(file.exists(paste0(temp_dir, "/stateDiff_", pref, "_1.rds")))
     
-    obsA <- readRDS(paste0(temp_dir, "/simV0.1_", pref, "_1.rds"))
+    obsA <- readRDS(paste0(temp_dir, "/simData_", pref, "_1.rds"))
     
     obsB <- readRDS(paste0(temp_dir, "/stateDiff_", pref, "_1.rds"))
     
-
-
     expA_01 <- GenomicRanges::GRanges(seqnames = rep("S", 3),
                                       ranges = IRanges::IRanges(start = c(1000, 1038, 1061),
                                                                 end = c(1000, 1038, 1061)),

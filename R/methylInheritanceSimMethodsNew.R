@@ -14,7 +14,8 @@
 #' 
 #' The function simulates a multigeneration dataset like a bisulfite 
 #' sequencing experiment. The simulation includes the information about 
-#' control and case for each generation.
+#' control and case for each generation. Simulation dataset are saved in
+#' multiple files created in the directory specified by the user.
 #' 
 #' @param methData an object of class \code{methylBase}, the CpG information
 #' from controls (CTRL) that will be used to create the synthetic chromosome. 
@@ -209,6 +210,9 @@
 #'
 #' @return \code{0} indicating that the function have been
 #' successful.
+#' 
+#' @seealso the vignette for detail description of the files created
+#' by the simulation.
 #' 
 #' @examples
 #'

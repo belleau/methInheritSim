@@ -826,11 +826,10 @@ simInheritance <- function(pathOut, pref, k, nbCtrl, nbCase, treatment,
                         propHetero = propHetero)
         
         saveRDS(diffRes, file = paste0(pathOut, "/stateDiff_", extension))
-        saveRDS(simV0.1, file = paste0(pathOut, "/simV0.1_", extension))
+        saveRDS(simV0.1, file = paste0(pathOut, "/simData_", extension))
         
         ## Generate data formatted for methylKit
         ## TODO : decrire ce que ca fait
-        ## TODO : solve bug
         simData <- simEachGeneration(simulation = simV0.1, 
                         nbCtrl = nbCtrl, nbCase = nbCase,
                         treatment = treatment, sample.id = sample.id,
@@ -1162,7 +1161,7 @@ testIfAlreadyDone <- function(pathOut, preference, id, saveGRanges,
     alreadyDone <- TRUE
     
     if(! (file.exists(paste0(pathOut, "/stateDiff_", extension))) 
-        || ! (file.exists(paste0(pathOut, "/simV0.1_", extension)))) {
+        || ! (file.exists(paste0(pathOut, "/simData_", extension)))) {
         alreadyDone <- FALSE
     }
     if(saveGRanges && 
@@ -2122,7 +2121,7 @@ runOnEachSynCHR <- function(methData, nbSynCHR, nbSimulation, nbBlock, nbCpG,
         res <- getSyntheticChr(methInfo = methData, nbBlock = nbBlock, 
                                 nbCpG = nbCpG)
         adPref <- paste0(fileID, "_", s)
-        saveRDS(res, file = paste0(outputDir, "/stateInfo_", adPref, ".rds"))
+        saveRDS(res, file = paste0(outputDir, "/syntheticChr_", adPref, ".rds"))
         
         for(nbSample in vNbSample) {
             adPrefSample <- paste0(adPref, "_", nbSample)

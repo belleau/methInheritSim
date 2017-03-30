@@ -45,11 +45,11 @@ test.runSim_good_001 <- function() {
     checkTrue(file.exists(paste0(temp_dir, "/methylGR_F1_1_6_0.9_0.8_0.5_2.rds")))
     checkTrue(file.exists(paste0(temp_dir, "/methylObj_F1_1_6_0.9_0.8_0.5_1.rds")))
     checkTrue(file.exists(paste0(temp_dir, "/methylObj_F1_1_6_0.9_0.8_0.5_2.rds")))
-    checkTrue(file.exists(paste0(temp_dir, "/simV0.1_F1_1_6_0.9_0.8_0.5_1.rds")))
-    checkTrue(file.exists(paste0(temp_dir, "/simV0.1_F1_1_6_0.9_0.8_0.5_2.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/simData_F1_1_6_0.9_0.8_0.5_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/simData_F1_1_6_0.9_0.8_0.5_2.rds")))
     checkTrue(file.exists(paste0(temp_dir, "/stateDiff_F1_1_6_0.9_0.8_0.5_1.rds")))
     checkTrue(file.exists(paste0(temp_dir, "/stateDiff_F1_1_6_0.9_0.8_0.5_2.rds")))
-    checkTrue(file.exists(paste0(temp_dir, "/stateInfo_F1_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/syntheticChr_F1_1.rds")))
     checkTrue(file.exists(paste0(temp_dir, "/treatment_F1_1_6.rds")))
     
     ## Check treatment file
@@ -71,7 +71,7 @@ test.runSim_good_001 <- function() {
                                            varCTRL = c(5.74940270224117e-05, 6.0841609497317e-05, 6.45952177849217e-05,
                                                        3.71976397677139e-05, 0.000279443013167746, 3.5149491082417e-05,
                                                        0.000109774742295572, 8.53562292547186e-05))
-    obsStateInfo <- readRDS(paste0(temp_dir, "/stateInfo_F1_1.rds"))
+    obsStateInfo <- readRDS(paste0(temp_dir, "/syntheticChr_F1_1.rds"))
     
     checkEquals(obsTreatment, expTreatment)
     
@@ -294,16 +294,16 @@ test.runSim_keepDiff_true <- function() {
     
     checkEquals(result, 0, message)
     checkTrue(file.exists(temp_dir))
-    checkTrue(file.exists(paste0(temp_dir, "/simV0.1_F1_1_2_0.85_0.8_0.5_1.rds")))
-    checkTrue(file.exists(paste0(temp_dir, "/simV0.1_F1_2_2_0.85_0.8_0.5_1.rds")))
-    checkTrue(file.exists(paste0(temp_dir, "/stateInfo_F1_1.rds")))
-    checkTrue(file.exists(paste0(temp_dir, "/stateInfo_F1_2.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/simData_F1_1_2_0.85_0.8_0.5_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/simData_F1_2_2_0.85_0.8_0.5_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/syntheticChr_F1_1.rds")))
+    checkTrue(file.exists(paste0(temp_dir, "/syntheticChr_F1_2.rds")))
     checkTrue(file.exists(paste0(temp_dir, "/stateDiff_F1_1_2_0.85_0.8_0.5_1.rds")))
     checkTrue(file.exists(paste0(temp_dir, "/stateDiff_F1_2_2_0.85_0.8_0.5_1.rds")))
     
     ## check MethylGR files
-    sim_1 <- readRDS(paste0(temp_dir, "/simV0.1_F1_1_2_0.85_0.8_0.5_1.rds"))
-    sim_2 <- readRDS(paste0(temp_dir, "/simV0.1_F1_2_2_0.85_0.8_0.5_1.rds"))
+    sim_1 <- readRDS(paste0(temp_dir, "/simData_F1_1_2_0.85_0.8_0.5_1.rds"))
+    sim_2 <- readRDS(paste0(temp_dir, "/simData_F1_2_2_0.85_0.8_0.5_1.rds"))
     
     checkTrue(any(IRanges::start(sim_1[[1]]) != IRanges::start(sim_2[[1]])))
     

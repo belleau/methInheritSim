@@ -224,7 +224,8 @@ etc..
 
 The function simulates a multigeneration dataset like a bisulfite 
 sequencing experiment. The simulation includes the information about 
-control and case for each generation.
+control and case for each generation. Simulation dataset are saved in
+multiple files created in the directory specified by the user.
 }
 \examples{
 
@@ -250,6 +251,10 @@ if (dir.exists(temp_dir)) {
     unlink(temp_dir, recursive = TRUE, force = FALSE)
 }
 
+}
+\seealso{
+the vignette for detail description of the files created
+by the simulation.
 }
 \author{
 Pascal Belleau, Astrid Deschenes
