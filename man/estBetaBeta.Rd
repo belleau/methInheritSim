@@ -4,15 +4,17 @@
 \alias{estBetaBeta}
 \title{Estimate the beta parameter of a beta distribution}
 \usage{
-estBetaBeta(valCtrl, minVal = 1e-06)
+estBetaBeta(meanCtrl, varCtrl, minVal = 1e-06)
 }
 \arguments{
-\item{valCtrl}{a \code{vector} with 2 entries, the first value is the mean
-and the second value is the variance of the controls (CTRL) at a specific 
-CpG site.}
+\item{meanCtrl}{a \code{double}, the mean of the controls (CTRL) at a 
+specific CpG site.}
+
+\item{varCtrl}{a \code{double}, the variance of the controls (CTRL) at a 
+specific CpG site.}
 
 \item{minVal}{a \code{double}, the minimum value accepted for the mean
-value. If the first entry of \code{valCrtl} is smaller than 
+value. If \code{meanCtrl} is smaller than 
 \code{minVal}, then \code{minVal} is used in the calculation of the beta
 paramter. 
 Default: \code{1e-06}.}
@@ -27,10 +29,10 @@ of a beta distribution.
 \examples{
 
 ## Estimate beta parameters with mean = 0.5, variance = 0.1
-methInheritSim:::estBetaBeta(c(0.5,0.1))
+methInheritSim:::estBetaBeta(meanCtrl=0.5, varCtrl=0.1)
 
 }
 \author{
-Pascal Belleau
+Pascal Belleau, Astrid Deschenes
 }
 \keyword{internal}

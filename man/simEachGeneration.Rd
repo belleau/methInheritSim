@@ -122,7 +122,7 @@ stateDiff  <- c(1, 0, 1)
 stateInherite <- c(1, 0, 0)
 
 ## Create simulation
-sim <- methInheritSim:::getSimNew(nbCtrl = 3, nbCase = 2, 
+sim <- methInheritSim:::getSim(nbCtrl = 3, nbCase = 2, 
     generation = 3, stateInfo = stateInformation, stateDiff = stateDiff, 
     stateInherite = stateInherite, diffValue = 10, 
     propDiff = 0.8, propDiffsd = 0.2, propInheritance = 0.8, 

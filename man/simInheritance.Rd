@@ -2,7 +2,7 @@
 % Please edit documentation in R/methylInheritanceSimInternalMethods.R
 \name{simInheritance}
 \alias{simInheritance}
-\title{Simulate a multigeneration methylation experiment with inheritance}
+\title{Simulate a multigenerational methylation experiment with inheritance}
 \usage{
 simInheritance(pathOut, pref, k, nbCtrl, nbCase, treatment, sample.id,
   generation, stateInfo, propDiff, propDiffsd, diffValue, propInheritance,
@@ -40,7 +40,8 @@ proportion of cases that inherits differentially sites, a number in the
 
 \item{nbCase}{a positive \code{integer}, the number of cases.}
 
-\item{treatment}{a numeric vector denoting controls and cases}
+\item{treatment}{a \code{vector} of integer denoting controls and cases. The
+\code{vector} length must correspond to the sum of cases and controls.}
 
 \item{sample.id}{a matrix the name of each samples for each generation (row)
 and each case and control (column).}
@@ -169,10 +170,10 @@ using the first file.
 \code{0} indicating that the function has been successful.
 }
 \description{
-Simulate a multigeneration methylation case versus control 
+Simulate a multigenerational methylation case versus control 
 experiment with inheritance relation using a real control dataset. 
 
-The simulation can  be parametrized to fit different models. The number of 
+The simulation can be parametrized to fit different models. The number of 
 cases and controls, the proportion of the case affected 
 by the treatment (penetrance), the effect of the treatment on the mean of 
 the distribution, the proportion of sites inherited, the proportion of the 
@@ -185,8 +186,10 @@ control and case for each generation.
 }
 \examples{
 
-## Create a temporaty directory to hold the generated files
+## Name of the directory that will contained the generated files
 temp_dir <- "test_simInheritance"
+
+## Load dataset
 data(dataSimExample)
 
 ## Generate a stateDiff object with length corresponding to
@@ -195,20 +198,22 @@ stateDiff <- list()
 stateDiff[["stateDiff"]] <- c(1, 0, 1)
 stateDiff[["stateInherite"]] <- c(1, 0, 0)
 
-\dontrun{methInheritSim:::simInheritance(pathOut = temp_dir,
-pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
-treatment = dataSimExample$treatment, sample.id = dataSimExample$sample.id,
-generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
-propDiff = 0.9, propDiffsd = 0.1, diffRes = stateDiff,
-diffValue = 0.8, propInheritance = 0.5, rateDiff = 0.3, minRate = 0.3,
-propInherite = 0.3, propHetero = 0.5, meanCov = 30, 
-assembly = "RNOR_5.0", context = "CPG", minReads = 10, maxPercReads = 99,
-saveGRanges = TRUE, saveMethylKit = TRUE, runAnalysis = TRUE)}
+## Simulate multigenerational methylation experiment with inheritance
+methInheritSim:::simInheritance(pathOut = temp_dir,
+    pref = "S1_6_0.9_0.8_0.5", k = 1, nbCtrl = 6, nbCase = 6, 
+    treatment = dataSimExample$treatment, 
+    sample.id = dataSimExample$sample.id,
+    generation = 3, stateInfo = dataSimExample$stateInfo[1:3],
+    propDiff = 0.9, propDiffsd = 0.1, diffValue = 0.8, 
+    propInheritance = 0.5, rateDiff = 0.3, minRate = 0.3,
+    propInherite = 0.3, propHetero = 0.5, minReads = 10, maxPercReads = 99, 
+    assembly="RNOR_5.0", context="Cpg", meanCov = 40, diffRes = stateDiff,
+    saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = FALSE)
 
-## Delete temp_dir
-\dontrun{if (dir.exists(temp_dir)) {
-unlink(temp_dir, recursive = TRUE, force = FALSE)
-}}
+## Delete directory
+if (dir.exists(temp_dir)) {
+    unlink(temp_dir, recursive = TRUE, force = FALSE)
+}
 
 }
 \author{

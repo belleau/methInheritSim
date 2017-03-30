@@ -1,6 +1,5 @@
 #' @title Simulate a multigeneration methylation experiment with inheritance 
 #' 
-#'
 #' @description Simulate a multigeneration methylation case versus control 
 #' experiment 
 #' with inheritance relation using a real control dataset. 
@@ -15,51 +14,20 @@
 #' 
 #' The function simulates a multigeneration dataset like a bisulfite 
 #' sequencing experiment. The simulation includes the information about 
-#' control and case for each generation.
+#' control and case for each generation. Simulation dataset are saved in
+#' multiple files created in the directory specified by the user.
 #' 
-#' @param outputDir a string of \code{character} or \code{NULL}, the path 
-#' where the 
-#' files created by the function will be saved. When \code{NULL}, the files
-#' are saved in a directory called "outputDir" that is located in 
-#' the current directory. Default: \code{NULL}.
-#'
-#' @param fileID a string of \code{character}, a identifiant that will be 
-#' included in each output file name. Each output 
-#' file name is 
-#' composed of those elements, separated by "_":
-#' \itemize{ 
-#' \item a type name, ex: methylGR, methylObj, etc..
-#' \item a \code{fileID}
-#' \item the chromosome number, a number between 1 and \code{nbSynCHR}
-#' \item the number of samples, a number in the \code{vNbSample} \code{vector}
-#' \item the mean proportion of samples that has,
-#' for a specific position, differentially methylated values, a 
-#' number in the \code{vpDiff} \code{vector}
-#' \item the proportion of 
-#' C/T for a case differentially methylated that follows a shifted beta 
-#' distribution, a
-#' number in the \code{vDiff} \code{vector}
-#' \item the 
-#' proportion of cases that inherits differentially sites, a number in the
-#' \code{vInheritance} \code{vector}
-#' \item the identifiant for the simulation, a number 
-#' between 1 and \code{nbSimulation}
-#' \item the file extension ".rds"
-#' }
-#' Default: \code{"s"}.
-#' 
-#' @param nbSynCHR a positive \code{integer}, the number of distinct synthetic 
-#' chromosomes that will be generated. Default: \code{1}.
-#'
 #' @param methData an object of class \code{methylBase}, the CpG information
 #' from controls (CTRL) that will be used to create the synthetic chromosome. 
 #' The \code{methData} object can also contain information from cases but 
 #' only the controls are used.
 #' 
+#' @param nbSynCHR a positive \code{integer}, the number of distinct synthetic 
+#' chromosomes that will be generated. Default: \code{1}.
+#' 
 #' @param nbSimulation a positive \code{integer}, the number of simulations 
-#' generated 
-#' for each parameter (\code{vNbSample}, \code{vpDiff}, \code{vDiff} and
-#' \code{vInheritance}). 
+#' generated for each parameter (\code{vNbSample}, \code{vpDiff}, 
+#' \code{vDiff} and \code{vInheritance}). 
 #' The total number of simulation is 
 #' nbSimulation * \code{length(vNbSample)} * \code{length(vpDiff)} *
 #' \code{length(vInheritance)})
@@ -76,7 +44,7 @@
 #' @param nbGeneration a positive \code{integer}, the number of generations
 #' simulated.
 #' Default: \code{3}.
-#'
+#' 
 #' @param vNbSample a \code{vector} of distinct positive \code{integer}, 
 #' the number of controls (CTRL) and cases in the simulated dataset. In 
 #' the simulated dataset, the number of CTRL equals the number of cases. 
@@ -120,13 +88,51 @@
 #'
 #' @param propInherite a non-negative \code{double} inferior or equal 
 #' to \code{1}, 
-#' the proportion of differentially methylated regions that 
-#' are inherated.
+#' the proportion of differentially methylated regions that is inherited.
 #' Default: \code{0.3}.
 #'
 #' @param propHetero a non-negative \code{double} between [0,1], the 
 #' reduction of \code{vDiff} for the second and following generations.
 #' Default: \code{0.5}.
+#' 
+#' @param keepDiff a \code{logical}, when \code{TRUE}, the 
+#' differentially methylated sites
+#' will be the same for all simulated datasets. Datasets generated using 
+#' differents parameter values from vector parameters (\code{vpDiff}, 
+#' \code{vDiff} and \code{vInheritance}) wil all have the same differentially 
+#' methylated sites.
+#' Default: \code{FALSE}.
+#' 
+#' @param outputDir a string of \code{character} or \code{NULL}, the path 
+#' where the 
+#' files created by the function will be saved. When \code{NULL}, the files
+#' are saved in a directory called "outputDir" that is located in 
+#' the current directory. Default: \code{NULL}.
+#'
+#' @param fileID a string of \code{character}, a identifiant that will be 
+#' included in each output file name. Each output 
+#' file name is 
+#' composed of those elements, separated by "_":
+#' \itemize{ 
+#' \item a type name, ex: methylGR, methylObj, etc..
+#' \item a \code{fileID}
+#' \item the chromosome number, a number between 1 and \code{nbSynCHR}
+#' \item the number of samples, a number in the \code{vNbSample} \code{vector}
+#' \item the mean proportion of samples that has,
+#' for a specific position, differentially methylated values, a 
+#' number in the \code{vpDiff} \code{vector}
+#' \item the proportion of 
+#' C/T for a case differentially methylated that follows a shifted beta 
+#' distribution, a
+#' number in the \code{vDiff} \code{vector}
+#' \item the 
+#' proportion of cases that inherits differentially sites, a number in the
+#' \code{vInheritance} \code{vector}
+#' \item the identifiant for the simulation, a number 
+#' between 1 and \code{nbSimulation}
+#' \item the file extension ".rds"
+#' }
+#' Default: \code{"s"}.
 #' 
 #' @param minReads a positive \code{integer}, sites and regions having lower
 #' coverage than this count are discarded. The parameter
@@ -153,14 +159,6 @@
 #' @param assembly a string of \code{character}, the short description of the 
 #' genome assembly, such as "mm9", "hg18", etc..
 #' Default: \code{"Rnor_5.0"}.
-#' 
-#' @param keepDiff a \code{logical}, when \code{TRUE}, the 
-#' differentially methylated sites
-#' will be the same for all simulated datasets. Datasets generated using 
-#' differents parameter values from vector parameters (\code{vpDiff}, 
-#' \code{vDiff} and \code{vInheritance}) wil all have the same differentially
-#' methylated sites.
-#' Default: \code{FALSE}.
 #' 
 #' @param saveGRanges a \code{logical}, when \code{true}, the package save two 
 #' files type. The first generate for each simulation contains a \code{list}. 
@@ -213,6 +211,9 @@
 #' @return \code{0} indicating that the function have been
 #' successful.
 #' 
+#' @seealso the vignette for detail description of the files created
+#' by the simulation.
+#' 
 #' @examples
 #'
 #' ## Load dataset containing methyl information
@@ -225,172 +226,70 @@
 #' ## over 3 generations (nbGenration = 3) with
 #' ## 6 cases and 6 controls (nNbsample = 6) using only one set
 #' ## of parameters (vpDiff = 0.9, vpDiffsd = 0.1, vDiff = 0.8)
-#' runSimNew(outputDir = temp_dir, fileID = "F1", nbSynCHR = 1, 
-#'     methData = samplesForChrSynthetic, nbSimulation = 2, 
-#'     nbBlock = 10, nbCpG = 20,
-#'     nbGeneration = 3, vNbSample = c(6), vpDiff = c(0.9), 
-#'     vpDiffsd = c(0.1), vDiff = c(0.8), 
-#'     vInheritance = c(0.5), propInherite = 0.3,
-#'     rateDiff = 0.3, minRate = 0.2, propHetero = 0.5, 
-#'     nbCores = 1, vSeed = 32)
+#' runSim(methData = samplesForChrSynthetic, nbSynCHR = 1, nbSimulation = 2, 
+#'     nbGeneration = 3, nbBlock = 10, nbCpG = 20, vNbSample = c(6), 
+#'     vpDiff = c(0.9), vpDiffsd = c(0.1), vDiff = c(0.8), 
+#'     vInheritance = c(0.5), rateDiff = 0.3, minRate = 0.2,
+#'     propInherite = 0.3, propHetero = 0.5, outputDir = temp_dir, 
+#'     fileID = "F", nbCores = 1, vSeed = 32)
 #' 
 #' ## Delete the output directory and its content
 #' if (dir.exists(temp_dir)) {
 #'     unlink(temp_dir, recursive = TRUE, force = FALSE)
 #' }
 #' 
-#' @author Pascal Belleau
+#' @author Pascal Belleau, Astrid Deschenes
 #' @importFrom parallel mclapply nextRNGSubStream
 #' @export
-runSimNew <- function(outputDir = NULL, fileID = "s", 
-                    nbSynCHR = 1, methData, 
-                    nbSimulation = 10, nbBlock = 100, nbCpG = 50,
-                    nbGeneration = 3, vNbSample = c(3, 6), vpDiff = c(0.9), 
-                    vpDiffsd = c(0.1), vDiff = c(0.8), 
-                    vInheritance = c(0.5),
-                    rateDiff = 0.01, minRate = 0.01, propInherite = 0.3,
-                    propHetero = 0.5, minReads = 10, 
-                    maxPercReads = 99.9, meanCov = 80,
-                    context = "CpG", assembly="Rnor_5.0",
-                    keepDiff = FALSE, saveGRanges = TRUE, saveMethylKit = TRUE,
-                    runAnalysis = FALSE, nbCores = 1, vSeed = -1) {
+runSim <- function(methData, nbSynCHR = 1, nbSimulation = 10, nbBlock = 100, 
+                nbCpG = 50, nbGeneration = 3, vNbSample = c(3, 6), 
+                vpDiff = c(0.9), vpDiffsd = c(0.1), vDiff = c(0.8), 
+                vInheritance = c(0.5), rateDiff = 0.01, minRate = 0.01, 
+                propInherite = 0.3, propHetero = 0.5, keepDiff = FALSE, 
+                outputDir = NULL, fileID = "s", minReads = 10, 
+                maxPercReads = 99.9, meanCov = 80, context = "CpG", 
+                assembly="Rnor_5.0", saveGRanges = TRUE, saveMethylKit = TRUE, 
+                runAnalysis = FALSE, nbCores = 1, vSeed = -1) {
     
     ## Validate all parameters
     validateRunSimParameters(vpDiff = vpDiff, vpDiffsd = vpDiffsd, 
-            vDiff = vDiff, vInheritance = vInheritance, 
-            propInherite = propInherite, rateDiff = rateDiff, minRate = minRate, 
-            propHetero = propHetero, maxPercReads = maxPercReads, 
-            nbSynCHR = nbSynCHR, nbSimulation = nbSimulation, nbBlock = nbBlock, 
-            nbCpG = nbCpG, vNbSample = vNbSample, nbGeneration = nbGeneration, 
-            minReads = minReads, meanCov = meanCov, nbCores = nbCores, 
-            vSeed = vSeed, keepDiff = keepDiff, saveGRanges = saveGRanges, 
-            saveMethylKit = saveMethylKit, runAnalysis = runAnalysis, 
-            outputDir = outputDir, fileID = fileID, methData = methData, 
-            context = context, assembly = assembly)
+        vDiff = vDiff, vInheritance = vInheritance, 
+        propInherite = propInherite, rateDiff = rateDiff, minRate = minRate, 
+        propHetero = propHetero, maxPercReads = maxPercReads, 
+        nbSynCHR = nbSynCHR, nbSimulation = nbSimulation, nbBlock = nbBlock, 
+        nbCpG = nbCpG, vNbSample = vNbSample, nbGeneration = nbGeneration, 
+        minReads = minReads, meanCov = meanCov, nbCores = nbCores, 
+        vSeed = vSeed, keepDiff = keepDiff, saveGRanges = saveGRanges, 
+        saveMethylKit = saveMethylKit, runAnalysis = runAnalysis, 
+        outputDir = outputDir, fileID = fileID, methData = methData, 
+        context = context, assembly = assembly)
     
-    ## Fix seed
-    RNGkind("L'Ecuyer-CMRG")
-    set.seed(fixSeed(vSeed))
-    
-    if(is.null(outputDir)) {
+    if (is.null(outputDir)) {
         outputDir <- "outputDir"
     }
     
     ## Remove ending slash
-    if(substring(outputDir, nchar(outputDir), nchar(outputDir)) == "/") {
+    if (substring(outputDir, nchar(outputDir), nchar(outputDir)) == "/") {
         outputDir <- substring(outputDir, 1, nchar(outputDir) - 1)
     }
     
     ## Create directory
-    if(!dir.exists(outputDir)) {
+    if (!dir.exists(outputDir)) {
         dir.create(outputDir, showWarnings = TRUE)
     }
     
-    for(s in 1:nbSynCHR) {
-        
-        # Create synthetic chromosome
-        res <- getSyntheticChr(methInfo = methData, nbBlock = nbBlock, 
-                                    nbCpG = nbCpG)
-        
-        adPref <- paste0(fileID, "_", s)
-        saveRDS(res, file = paste0(outputDir, "/stateInfo_", adPref, ".rds"))
-        
-        for(nbSample in vNbSample) {
-            
-            adPrefSample <- paste0(adPref, "_", nbSample)
-            nbCtrl <- nbSample
-            nbCase <- nbSample
-            
-            # Define treatment and sample.id 
-            treatment <- c(rep(0,nbSample), rep(1,nbSample))
-            if(saveGRanges){
-                saveRDS(treatment, file = paste0(outputDir, "/treatment_", 
-                                                adPrefSample, ".rds"))
-            }
-            
-            # Define  sample.id 
-            sample.id <- createSampleID(nbGeneration = nbGeneration, 
-                                            nbSample = nbSample)
-            
-            ## Obtain the positions of the DMS when those have to be
-            ## the same in all generated simulation
-            if (keepDiff == TRUE) {
-                diffRes <- getDiffMeth(stateInfo = res, rateDiff = rateDiff, 
-                                minRate = minRate, propInherite = propInherite)
-            } else {
-                diffRes <- NULL
-            }
-            
-            for (i in seq_len(length(vInheritance))) {
-                for(j in seq_len(length(vpDiff))) {
-                    propDiff <- vpDiff[j]
-                    propDiffsd <- vpDiffsd[j]
-                    
-                    for (k in seq_len(length(vDiff))) {
-                        diffValue <- vDiff[k]
-                        
-                        propInheritance <- ifelse(vInheritance[i] >= 0, 
-                                                  vInheritance[i], vpDiff[j])
-                        
-                        prefBase <- paste0(adPrefSample , "_", propDiff, 
-                                        "_", diffValue, "_", propInheritance)
-                        
-                        if (nbCores > 1) {
-                            .Random.seed <- nextRNGSubStream(.Random.seed)
-                            a <- mclapply(seq_len(nbSimulation), 
-                                    FUN = simInheritanceNew, 
-                                    pathOut = outputDir, pref = prefBase, 
-                                    nbCtrl = nbCtrl, nbCase = nbCase, 
-                                    treatment = treatment, 
-                                    sample.id = sample.id, 
-                                    generation = nbGeneration,
-                                    stateInfo = res, rateDiff = rateDiff,
-                                    minRate = minRate, 
-                                    propInherite = propInherite,
-                                    diffValue = diffValue, propDiff = propDiff,
-                                    propDiffsd = propDiffsd, 
-                                    propInheritance = propInheritance,
-                                    propHetero = propHetero, 
-                                    minReads = minReads, 
-                                    maxPercReads = maxPercReads,
-                                    context = context, assembly = assembly,
-                                    meanCov = meanCov, diffRes = diffRes,
-                                    saveGRanges = saveGRanges,
-                                    saveMethylKit = saveMethylKit,
-                                    runAnalysis = runAnalysis)
-                        } else {
-                            ## Manage special case where mclapply is 
-                            ## transformed on lapply on Windows. This case
-                            ## created unrepoducible results between Windows
-                            ## and other OS.
-                            a <- lapply(seq_len(nbSimulation), 
-                                    FUN = simInheritanceNew, 
-                                    pathOut = outputDir, pref = prefBase, 
-                                    nbCtrl = nbCtrl, nbCase = nbCase, 
-                                    treatment = treatment, 
-                                    sample.id = sample.id, 
-                                    generation = nbGeneration,
-                                    stateInfo = res, rateDiff = rateDiff,
-                                    minRate = minRate, 
-                                    propInherite = propInherite,
-                                    diffValue = diffValue, 
-                                    propDiff = propDiff,
-                                    propDiffsd = propDiffsd, 
-                                    propInheritance = propInheritance,
-                                    propHetero = propHetero, 
-                                    minReads = minReads, 
-                                    maxPercReads = maxPercReads,
-                                    context = context, assembly = assembly,
-                                    meanCov = meanCov, diffRes = diffRes,
-                                    saveGRanges = saveGRanges,
-                                    saveMethylKit = saveMethylKit,
-                                    runAnalysis = runAnalysis)
-                        }
-                    }
-                }
-            }
-        }
-    }
+    result <- runOnEachSynCHR(methData = methData, nbSynCHR = nbSynCHR, 
+                nbSimulation = nbSimulation, nbBlock = nbBlock, nbCpG = nbCpG, 
+                nbGeneration = nbGeneration, vNbSample = vNbSample, 
+                vpDiff = vpDiff, vpDiffsd = vpDiffsd, vDiff = vDiff, 
+                vInheritance = vInheritance, rateDiff = rateDiff, 
+                minRate = minRate, propInherite = propInherite, 
+                propHetero = propHetero, outputDir = outputDir, 
+                fileID = fileID, minReads = minReads, 
+                maxPercReads = maxPercReads, meanCov = meanCov, 
+                context = context, assembly = assembly, keepDiff = keepDiff, 
+                saveGRanges = saveGRanges, saveMethylKit = saveMethylKit, 
+                runAnalysis = runAnalysis, nbCores = nbCores, vSeed = vSeed)
     
-    return(0)
+    return(result)
 }
