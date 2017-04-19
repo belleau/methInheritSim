@@ -2181,7 +2181,9 @@ runOnEachSynCHR <- function(methData, nbSynCHR, nbSimulation, nbBlock, nbCpG,
                                     meanCov = meanCov, diffRes = diffRes,
                                     saveGRanges = saveGRanges,
                                     saveMethylKit = saveMethylKit,
-                                    runAnalysis = runAnalysis)
+                                    runAnalysis = runAnalysis,
+                                    mc.cores=nbCores,
+                                    mc.preschedule = FALSE)
                         } else {
                             ## Manage case where mclapply is transformed into
                             ## lapply on Windows. This case created
