@@ -1,0 +1,26 @@
+Package: methInheritSim
+Type: Package
+Title: Simulating Whole-Genome Inherited Bisulphite Sequencing Data
+Description: Simulate a multigeneration methylation case versus control
+        experiment with inheritance relation using a real control
+        dataset.
+Version: 0.99.11
+Date: 2016-09-09
+Author: Pascal Belleau, Astrid Deschênes and Arnaud Droit
+Author@R: c(person("Pascal", "Belleau",
+        email="pascal_belleau@hotmail.com", role=c("cre", "aut")),
+        person("Astrid", "Deschênes", email="adeschen@hotmail.com",
+        role=c("aut")), person("Arnaud", "Droit",
+        email="arnaud.droit@crchuq.ulaval.ca", role=c("aut")))
+Depends: R (>= 3.4)
+Imports: methylKit, GenomicRanges, GenomeInfoDb, parallel,
+        BiocGenerics, S4Vectors, methods, stats, IRanges, msm
+Suggests: BiocStyle, knitr, rmarkdown, RUnit
+Encoding: UTF-8
+License: Artistic-2.0
+VignetteBuilder: knitr
+biocViews: BiologicalQuestion, Epigenetics, DNAMethylation,
+        DifferentialMethylation, MethylSeq, Software,
+        StatisticalMethod, WholeGenome, Sequencing
+Maintainer: Pascal Belleau <pascal_belleau@hotmail.com>
+RoxygenNote: 6.0.1
