@@ -1,0 +1,66 @@
+Whole-Genome Inherited Bisulphite Sequencing Data Simulation
+============================================================
+
+Authors
+-------
+
+Pascal Belleau, Astrid Deschenes and Arnaud Droit
+
+
+Description
+-----------
+
+The methInheritSim package simulates a multigenerational 
+methylation case versus control experiment (2 or more 
+generations) with inheritance relation using a real 
+control dataset.
+
+The methInheritSim package is an official package of
+Bioconductor.
+
+
+Installation
+------------
+
+We strongly suggest to install the methInheritSim package
+through Bioconductor:
+
+http://bioconductor.org/packages/methInheritSim/
+
+However, it is also possible to install the current github
+version, through the help of the CRAN devtools package.
+
+library(devtools)
+install_github("belleau/methInheritSim")
+
+In addition, older versions of the package are available on
+GitHub:
+
+https://github.com/belleau/methInheritSim/releases
+
+
+Description of Package Functionality
+------------------------------------
+
+The vignette of the methInheritSim package, which is a
+document that provides a task-oriented description of the package
+functionality, is available on Bioconductor website:
+https://bioconductor.org/packages/release/bioc/vignettes/methInheritSim/inst/doc/methInheritSim.html
+
+
+License
+-------
+
+This package and the underlying methInheritSim code are 
+distributed under the Artistic license 2.0. You are free to 
+use and redistribute this software. 
+
+For more information on Artistic 2.0 License see:
+http://opensource.org/licenses/Artistic-2.0
+
+
+Bugs/Feature requests
+---------------------
+
+If you have any bugs or feature requests:
+https://github.com/belleau/methInheritSim/issues
