@@ -1,6 +1,6 @@
 language: r
-dist: trusty
-sudo: required
+#dist: trusty
+#sudo: required
 
 # R version
 r: bioc-devel
