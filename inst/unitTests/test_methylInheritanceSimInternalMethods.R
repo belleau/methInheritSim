@@ -2306,10 +2306,10 @@ test.simEachGeneration_empty_meth <- function() {
                 stateInherite = stateInherite, diffValue = 10, propDiff = 0.8, 
                 propDiffsd = 0.2, propInheritance = 0.8, propHetero = 0.1)
     
-    obs <- methInheritSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 3, treatment = c(0,0,0, 1, 1,1), 
-                sample.id = sampleID, generation = 3, stateInfo = stateInformation, minReads = 3, 
-                maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
-                saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = TRUE)
+    #obs <- methInheritSim:::simEachGeneration(simulation = sim, nbCtrl = 3, nbCase = 3, treatment = c(0,0,0, 1, 1,1), 
+    #            sample.id = sampleID, generation = 3, stateInfo = stateInformation, minReads = 3, 
+    #            maxPercReads = 99, context = "Cpg", assembly = "RNOR_5.0", meanCov = 80, 
+    #            saveGRanges = FALSE, saveMethylKit = FALSE, runAnalysis = TRUE)
     
     
     expDiff <- list()
