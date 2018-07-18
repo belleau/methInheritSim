@@ -95,7 +95,7 @@ Those two parameters unable to reproduce CpG islands of customizable size.
 It also reproduces the relation between the methylation level and the
 distance associated to adjacent methylated sites.
 
-![alt text](syntheticChr.png "Synthetic Chr")
+![Figure 1. Creation of a synthetic chromosome](syntheticChr.png "Synthetic Chr")
 
 For each methylated site of the synthetic chromosome, the 
 alpha and beta parameters of a Beta distribution are estimated 
