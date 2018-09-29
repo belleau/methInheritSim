@@ -14,6 +14,14 @@ following:
 > Pascal Belleau, Astrid Deschênes, Marie-Pier Scott-Boyer, Romain Lambrot, Mathieu Dalvai, Sarah Kimmins, Janice Bailey, Arnaud Droit; Inferring and modeling inheritance of differentially methylated changes across multiple generations, Nucleic Acids Research, Volume 46, Issue 14, 21 August 2018, Pages e85. DOI: https://doi.org/10.1093/nar/gky362
 
 
+## Bioconductor Package ##
+
+[![Bioconductor Time](http://bioconductor.org/shields/years-in-bioc/methInheritSim.svg)](http://bioconductor.org/packages/release/bioc/html/methInheritSim.html "Bioconductor status")
+
+*methInheritSim* is now an official package of [Bioconductor](http://bioconductor.org/). The current release can be directly downloaded from their website:
+[Current release](http://bioconductor.org/packages/methInheritSim)
+
+
 ## Authors ##
 
 [Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau "Pascal Belleau"),
