@@ -6,6 +6,14 @@
 Whole-Genome Inherited Bisulphite Sequencing Data Simulation
 
 
+## Citing ##
+
+If you use this package for a publication, we would ask you to cite the 
+following:
+
+> Pascal Belleau, Astrid Deschênes, Marie-Pier Scott-Boyer, Romain Lambrot, Mathieu Dalvai, Sarah Kimmins, Janice Bailey, Arnaud Droit; Inferring and modeling inheritance of differentially methylated changes across multiple generations, Nucleic Acids Research, Volume 46, Issue 14, 21 August 2018, Pages e85. DOI: https://doi.org/10.1093/nar/gky362
+
+
 ## Authors ##
 
 [Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau "Pascal Belleau"),
