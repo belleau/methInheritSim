@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/belleau/methInheritSim.svg?branch=master)](https://travis-ci.org/belleau/methInheritSim)
 [![codecov](https://codecov.io/gh/belleau/methInheritSim/branch/master/graph/badge.svg)](https://codecov.io/gh/belleau/methInheritSim)
+[![License: Artistic-2.0](https://img.shields.io/badge/License-Artistic%202.0-0298c3.svg)](https://opensource.org/licenses/Artistic-2.0)
 
 # Whole-Genome Inherited Bisulphite Sequencing Data Simulation #
 
