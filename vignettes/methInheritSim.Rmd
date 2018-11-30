@@ -17,7 +17,7 @@ library(knitr)
 ```
 
 <br />
-**Package**: `r Rpackage("methInheritSim")`<br />
+**Package**: `r Biocpkg("methInheritSim")`<br />
 **Authors**: `r packageDescription("methInheritSim")[["Author"]]`<br />
 **Version**: `r packageDescription("methInheritSim")$Version`<br />
 **Compiled date**: `r Sys.Date()`<br />
@@ -26,11 +26,17 @@ library(knitr)
 
 # Licensing 
 
-The `r Rpackage("methInheritSim")` package and the underlying 
-`r Rpackage("methInheritSim")` code 
+The `r Biocpkg("methInheritSim")` package and the underlying 
+`r Biocpkg("methInheritSim")` code 
 are distributed under the Artistic license 2.0. You are free to use and 
 redistribute this software. 
 
+
+# Citing
+
+If you use this package for a publication, we would ask you to cite the following:
+
+> Pascal Belleau, Astrid Deschênes, Marie-Pier Scott-Boyer, Romain Lambrot, Mathieu Dalvai, Sarah Kimmins, Janice Bailey, Arnaud Droit; Inferring and modeling inheritance of differentially methylated changes across multiple generations, Nucleic Acids Research, Volume 46, Issue 14, 21 August 2018, Pages e85. DOI: https://doi.org/10.1093/nar/gky362
 
 # Introduction
 
@@ -57,17 +63,17 @@ offers the option to select the proportion of sites randomly fixed as DMS,
 as well as, the fraction of the cases that inherited the DMS in the 
 subsequent generations. 
 
-The `r Rpackage("methInheritSim")` package generates simulated 
+The `r Biocpkg("methInheritSim")` package generates simulated 
 multigenerational DMS datasets that are useful to evaluate the power and the 
 false discovery rate of experiment design analysis, such as the
-`r Rpackage("methylInheritance")` package does.The multigenerational DMS 
+`r Biocpkg("methylInheritance")` package does.The multigenerational DMS 
 datasets can also be used to compare the efficiency of different inheritance
 detection software.
 
 
 # Loading methInheritSim package
 
-As with any R package, the `r Rpackage("methInheritSim")` package should 
+As with any R package, the `r Biocpkg("methInheritSim")` package should 
 first be loaded with the following command:
 
 ```{r loadingPackage, warning=FALSE, message=FALSE}
@@ -153,11 +159,11 @@ The **propHetero** is 0.5 if one of the parent is a control.
 ## The simulated dataset
 
 A dataset containing methylation data (6 cases and 6 controls) has been 
-generated using the `r Rpackage("methInheritSim")` package using a real 
+generated using the `r  Biocpkg("methInheritSim")` package using a real 
 dataset from Rat experiment (the real dataset is not public yet, so we used a 
 simulation based on it). The data have been formated, using  
-the `r Rpackage("methylkit")` package, into a *methylBase* object 
-(using the `r Rpackage("methylkit")` functions: *filterByCoverage*, 
+the `r  Biocpkg("methylkit")` package, into a *methylBase* object 
+(using the `r  Biocpkg("methylkit")` functions: *filterByCoverage*, 
 *normalizeCoverage* and *unite*).
 
 ```{r caseStudy01, warning=FALSE, message=FALSE, collapse=TRUE}
@@ -533,13 +539,13 @@ head(methDiff[[1]], n = 3)
 
 # Conclusion
 
-The `r Rpackage("methInheritSim")` package generates simulated 
+The `r Biocpkg("methInheritSim")` package generates simulated 
 multigenerational DMS datasets. Several simulator parameters can be derived 
 from real dataset provided by the user in order to replicate realistic 
 case-control scenarios. 
 
 The results of a simulation could be analysed, using the 
-`r Rpackage("methylInheritance")` package, to evaluate the power and the 
+`r Biocpkg("methylInheritance")` package, to evaluate the power and the 
 false discovery rate of an experiment design.
 
 

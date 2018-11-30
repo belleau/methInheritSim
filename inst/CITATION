@@ -1,0 +1,20 @@
+citEntry(entry="article",
+        title = "Inferring and modeling inheritance of differentially methylated changes across multiple generations",
+        author = personList( as.person("Pascal Belleau" ),
+           as.person("Astrid Desch{\\^{e}}nes" ),
+           as.person("Marie-Pier Scott-Boyer" ),
+           as.person("Romain Lambrot"),
+           as.person("Mathieu Dalvai" ),
+           as.person("Sarah Kimmins"),
+           as.person("Janice Bailey" ),
+           as.person("Arnaud Droit" )),
+        year = 2018,
+        journal = "Nucleic Acids Research",
+        volume = "46",
+        issue = "14",
+        pages   = "e85",
+        doi = "10.1093/nar/gky362",
+        url = "https://doi.org/10.1093/nar/gky362",
+        textVersion =
+            "Belleau P, Deschênes A, Scott-Boyer M-P, Lambrot R, Dalvai, M, Kimmins S, Bailey J et Droit A. Inferring and modeling inheritance of differentially methylated changes across multiple generations. Nucleic Acids Research. Volume 46, Issue 14, 21 August 2018, Pages e85. DOI: https://doi.org/10.1093/nar/gky362"
+)
