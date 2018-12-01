@@ -22,7 +22,7 @@ URL: https://github.com/belleau/methInheritSim
 BugReports: https://github.com/belleau/methInheritSim/issues
 VignetteBuilder: knitr
 biocViews: BiologicalQuestion, Epigenetics, DNAMethylation,
-        DifferentialMethylation, MethylSeq, Software,
+        DifferentialMethylation, MethylSeq, Software, ImmunoOncology,
         StatisticalMethod, WholeGenome, Sequencing
 Maintainer: Pascal Belleau <pascal_belleau@hotmail.com>
 RoxygenNote: 6.0.1
