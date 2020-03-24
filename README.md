@@ -37,6 +37,11 @@ See [Arnaud Droit Lab](http://bioinformatique.ulaval.ca "Arnaud Droit Lab")
 website.
 
 
+## Maintainer ##
+
+[Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau "Pascal Belleau")
+
+
 ## License ##
 
 This package and the underlying **methInheritSim** code are distributed under the 
